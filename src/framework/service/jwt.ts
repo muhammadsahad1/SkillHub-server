@@ -1,0 +1,51 @@
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { Ijwt, IToken } from "../../usecases/interface/service/jwt";
+import { Iuser } from "../../entities/user";
+import dotenv from "dotenv";
+dotenv.config();
+
+export interface CustomJwtPayload extends JwtPayload {
+  id: string;
+}
+
+
+export class JWTtoken implements Ijwt {
+
+  JWT_VERICATION_KEY = process.env.JWT_VERIFICATION_KEY || "";
+  JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY || "";
+  JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || "";
+
+  //  creating verification JWT Token
+  // async createVerificationJWT(Payload: Iuser): Promise<string> {
+  //   const verifyToken = await jwt.sign(Payload, this.JWT_VERICATION_KEY, {
+  //     expiresIn: "15m",
+  //   });
+  //   console.log("verification token in service side",verifyToken)
+  //   return verifyToken;
+  // }
+  
+  // creating Access Token and Refresh Token
+  async createAccessAndRefreshToken(id: string): Promise<IToken> {
+    console.log("token fn invoked ")
+  const Payload = {id}
+
+  const accessToken = await jwt.sign(Payload,process.env.JWT_ACCESS_KEY,{
+    expiresIn : '5h'
+  })
+
+  const refreshToken = await jwt.sign(Payload,process.env.JWT_REFRESH_KEY,{
+    expiresIn : '3d'
+  })
+  console.log("acc", accessToken,"ref",refreshToken)
+  return {accessToken,refreshToken,role:''}
+  }
+
+  // Verifying the Token of users
+async verifyJWT(token: string , secret : string): Promise<CustomJwtPayload>  {
+    return await jwt.verify(token,secret) as CustomJwtPayload
+}
+
+  forgotPasswordToken(id: string, email: string): Promise<string> {
+    throw new Error("Method not implemented.");
+  }
+}
