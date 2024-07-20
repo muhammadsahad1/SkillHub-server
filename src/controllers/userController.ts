@@ -68,6 +68,19 @@ export class UserController {
       return next(new ErrorHandler(error.status,error.message))
     }
   }
+  // forgetPassword update
+  async forgotPassword(req : Req , res : Res , next :Next){
+    try {
+      const result = await this.userUseCase.forgotPassword(req.body.email,next)
+      console.log("user controller ",result)
+      if(result){
+        res.json(result)
+      }
+      console.log( "result after updated of resetPass",result )
+    } catch (error :any) {
+      return next(new ErrorHandler(error.status,error.message))
+    }
+  }
   // create profile
   async createProfile(req: Req, res: Res, next: Next) {
     try {

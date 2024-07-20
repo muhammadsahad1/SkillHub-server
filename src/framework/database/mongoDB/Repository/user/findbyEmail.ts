@@ -11,6 +11,7 @@ export const findByEmail = async (userModels: typeof userModel,email: string): P
       return;
     }
   } catch (error) {
-    console.log(error);
+    console.error("Error updating profile:", error);
+    return undefined; 
   }
 };

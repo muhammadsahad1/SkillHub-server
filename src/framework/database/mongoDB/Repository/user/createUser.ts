@@ -7,6 +7,7 @@ export const createUser = async ( newUser : Iuser ,userModels: typeof userModel)
       console.log("user create avoo ....")
       return user
   } catch (error) {
-    console.log(error)
+    console.error("Error updating profile:", error);
+    return undefined; 
   }
 }

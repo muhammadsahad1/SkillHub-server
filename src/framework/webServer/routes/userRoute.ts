@@ -5,8 +5,6 @@ import { isAuthenticate } from "../middleware/auth";
 
 export function userRoute(route: Route) {
 
-
-
   route.post("/register", (req: Req, res: Res, next: Next) => {
     console.log("register route");
     userController.userSignup(req, res, next);
@@ -25,9 +23,14 @@ export function userRoute(route: Route) {
   })
 
   route.post('/googleLogin',(req : Req , res : Res , next : Next) => {
-    console.log("req.body ===>",req.body)
     userController.googleLogin(req,res,next)
   })
+
+  route.post('/forgotPassword',(req : Req , res : Res , next : Next)=> {
+    console.log("comming in forgotpass route")
+    userController.forgotPassword(req,res,next)
+  })
+
   route.post('/createProfile',upload.single('profileImage'),(req :Req,res : Res , next :Next) =>{
     userController.createProfile(req,res,next)
   })

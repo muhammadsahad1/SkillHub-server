@@ -22,7 +22,7 @@ export const login = async (
     if (picture) {
       fetchUser = await userRepository.findByEmailUpdateOne(email, picture);
       console.log("fetched User =>",fetchUser)
-      const tokens = await jwt.createAccessAndRefreshToken(fetchUser.id as string);
+      const tokens = await jwt.createAccessAndRefreshToken(fetchUser?.id as string);
     console.log("tokenn after googleLogin  ===>",tokens)
     return { fetchUser, tokens };
     }

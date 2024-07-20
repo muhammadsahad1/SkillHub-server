@@ -35,7 +35,7 @@
 
 // Define the main User interface
 export interface Iuser {
-  id?: string;
+  id: string ;
   role?: string;
   name: string;
   email: string;
@@ -56,6 +56,7 @@ export interface Iuser {
   profile?: boolean
   googleId? : string;
   googleAvatar? : string;
+  resetPasswordToken? : string;
   // account_settings?: AccountSettings;
   email_notification?: boolean;
   sms_notification?: boolean;

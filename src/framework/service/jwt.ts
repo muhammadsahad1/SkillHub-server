@@ -15,20 +15,10 @@ export class JWTtoken implements Ijwt {
   JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY || "";
   JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || "";
 
-  //  creating verification JWT Token
-  // async createVerificationJWT(Payload: Iuser): Promise<string> {
-  //   const verifyToken = await jwt.sign(Payload, this.JWT_VERICATION_KEY, {
-  //     expiresIn: "15m",
-  //   });
-  //   console.log("verification token in service side",verifyToken)
-  //   return verifyToken;
-  // }
-  
-  // creating Access Token and Refresh Token
   async createAccessAndRefreshToken(id: string): Promise<IToken> {
     console.log("token fn invoked ")
-  const Payload = {id}
 
+  const Payload = {id}
   const accessToken = await jwt.sign(Payload,process.env.JWT_ACCESS_KEY,{
     expiresIn : '5h'
   })
@@ -45,7 +35,9 @@ async verifyJWT(token: string , secret : string): Promise<CustomJwtPayload>  {
     return await jwt.verify(token,secret) as CustomJwtPayload
 }
 
-  forgotPasswordToken(id: string, email: string): Promise<string> {
-    throw new Error("Method not implemented.");
+async forgotPasswordToken(id: string, email: string): Promise<string> {
+  const Payload = { id }
+    const resetPasswordToken = await jwt.sign(Payload,process.env.JWT_SECRET,{expiresIn : '15m'})
+    return resetPasswordToken
   }
 }

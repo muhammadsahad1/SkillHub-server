@@ -1,4 +1,4 @@
-import { userSignup, createUser, login ,createProfile} from "./user/index";
+import { userSignup, createUser, login ,createProfile, forgotPassword} from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
 import { Ijwt, IToken } from "../interface/service/jwt";
@@ -22,33 +22,33 @@ export class UserUseCase implements IuserUseCase {
     private sendEmail: IsendEmail,
     private s3upload :IS3Operations
   ) {}
+  
 
-
-  async userSignup( user: Iuser,next: Next ): Promise<string | void | { success: boolean; message: string }> {
-    try {
-      let token = await userSignup(
-        this.Jwt,
-        this.otpRepository,
-        this.userRepostory,
-        this.otpGenerate,
-        this.hashPassword,
-        user,
-        this.sendEmail,
-        next
-      );
-      return token;
-    } catch (error) {
-      console.log(error);
-    }
+async userSignup( user: Iuser,next: Next ): Promise<string | void | { success: boolean; message: string }> {
+  try {
+    let token = await userSignup(
+      this.Jwt,
+      this.otpRepository,
+      this.userRepostory,
+      this.otpGenerate,
+      this.hashPassword,
+      user,
+      this.sendEmail,
+      next
+    );
+    return token;
+  } catch (error) {
+    console.log(error);
   }
+}
 
-  async createUser(
-    email: string,
-    otp: string,
-    next: Next
-  ): Promise<Iuser | void | { success: boolean; user?: Iuser; message?: string }> {
-    const newuser = await createUser(
-      email,
+async createUser(
+  email: string,
+  otp: string,
+  next: Next
+): Promise<Iuser | void | { success: boolean; user?: Iuser; message?: string }> {
+  const newuser = await createUser(
+    email,
       otp,
       this.otpRepository,
       this.userRepostory,
@@ -57,7 +57,7 @@ export class UserUseCase implements IuserUseCase {
     );
     return newuser;
   }
-
+  
   async resendOtp(email: string, next: Next): Promise<void> {
     await resentOtp(
       this.otpGenerate,
@@ -67,8 +67,8 @@ export class UserUseCase implements IuserUseCase {
       next
     );
   }
-
-  async login(user: Iuser, next: Next): Promise<{ fetchUser: Iuser; tokens: IToken } | void>  {
+  
+  async login(user: Iuser, next: Next): Promise<{ fetchUser: Iuser ; tokens: IToken }>  {
     const tokens = await login(
       this.userRepostory,
       this.Jwt,
@@ -81,7 +81,16 @@ export class UserUseCase implements IuserUseCase {
     console.log("useruseCase ========",tokens)
     return tokens;
   }
-
+  
+  async forgotPassword(email: string,next : Next): Promise<void |Iuser| { user : Iuser, message: string, success: boolean , token : string}>{
+    const result = await forgotPassword(this.Jwt,this.userRepostory,this.sendEmail,email,next)
+    if(!result){
+      return next(new ErrorHandler(400,"user reset password updated failed"))
+    }
+    console.log("status of result ===> ",result)
+    return result
+  }
+  
   async createProfile(user: Iuser, file : Express.Multer.File, next: Next): Promise<void | { success: boolean; user?: Iuser;token :IToken; message?: string; }> {
     console.log("user details in creating===>",user,"file ===>",file)
        const result = await createProfile(user,file,this.userRepostory,this.Jwt,this.s3upload,next)

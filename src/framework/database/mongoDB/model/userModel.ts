@@ -19,6 +19,7 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   picture : { type : String},
   googleId: { type: String }, 
   googleAvatar :{ type : String },
+  resetPasswordToken : { type :String},
   email_notification : { type : Boolean , default : false},
   sms_notification : { type : Boolean , default : false} ,
 });
