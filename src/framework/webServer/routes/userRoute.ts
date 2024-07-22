@@ -6,7 +6,6 @@ import { isAuthenticate } from "../middleware/auth";
 export function userRoute(route: Route) {
 
   route.post("/register", (req: Req, res: Res, next: Next) => {
-    console.log("register route");
     userController.userSignup(req, res, next);
   });
 
@@ -27,12 +26,20 @@ export function userRoute(route: Route) {
   })
 
   route.post('/forgotPassword',(req : Req , res : Res , next : Next)=> {
-    console.log("comming in forgotpass route")
     userController.forgotPassword(req,res,next)
+  })
+
+  route.post('/resetPassword',(req : Req , res : Res ,next : Next)=>{
+    userController.resetPassword(req,res,next)
   })
 
   route.post('/createProfile',upload.single('profileImage'),(req :Req,res : Res , next :Next) =>{
     userController.createProfile(req,res,next)
+  })
+
+  route.get('/profileImage',(req : Req , res :Res , next : Next) => {
+    
+    userController.getProfileImage(req,res,next)
   })
 
   route.post('/logout',(req :Req,res : Res , next :Next)=>{

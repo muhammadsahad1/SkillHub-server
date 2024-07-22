@@ -3,27 +3,27 @@ import { IToken, Ijwt } from "../../interface/service/jwt";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IhashPassword } from "../../interface/service/hashPassword";
 import ErrorHandler from "../../middlewares/errorHandler";
+import { Iuser } from "../../../entities/user";
 
 export const login = async (
   userRepository: IuserRepository,
   jwt: Ijwt,
   hashedPassword: IhashPassword,
   email: string,
-  password: string,
+  password: string, 
   picture: string | undefined,
   next: Next,
-) => {
+):Promise<{ fetchUser?: Iuser | void; token : {accessToken : string ,refreshToken : string} }| void> => {
   try {
     let fetchUser = await userRepository.findByEmail(email);
     if (!fetchUser) {
       return next(new ErrorHandler(400, "User does not exist"));
-    }
+    } 
+    console.log("fetchUser ",fetchUser)
 
     if (picture) {
       fetchUser = await userRepository.findByEmailUpdateOne(email, picture);
-      console.log("fetched User =>",fetchUser)
       const tokens = await jwt.createAccessAndRefreshToken(fetchUser?.id as string);
-    console.log("tokenn after googleLogin  ===>",tokens)
     return { fetchUser, tokens };
     }
 

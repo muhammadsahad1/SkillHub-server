@@ -37,7 +37,7 @@ async verifyJWT(token: string , secret : string): Promise<CustomJwtPayload>  {
 
 async forgotPasswordToken(id: string, email: string): Promise<string> {
   const Payload = { id }
-    const resetPasswordToken = await jwt.sign(Payload,process.env.JWT_SECRET,{expiresIn : '15m'})
+    const resetPasswordToken = await jwt.sign(Payload,process.env.JWT_SECRET,{expiresIn : '20m'})
     return resetPasswordToken
   }
 }

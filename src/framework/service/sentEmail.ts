@@ -79,7 +79,7 @@ The SkillHub Team`,
       }
 
         await transpoter.sendMail(mailOptions)
-        
+        console.log(`url =>",http://localhost:5173/auth/resetpassword?resetToken=${encodeURIComponent(resetToken)}`)
       } catch (error) {
         console.log("ERROR in sending mail", error);
         return error;

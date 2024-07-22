@@ -16,11 +16,12 @@ export const forgotPassword = async (
   try {
     console.log("forgot passs ethi ....")
     const user = await userRepository.findByEmail(email)
+    console.log("fech user ",user)
     if(!user){
       return { message : "User not found",success : false}
     }
     // forgotToken generating FN
-    const resetPassToken = await jwt.forgotPasswordToken(user.id,user.email)
+    const resetPassToken = await jwt.forgotPasswordToken(user?.id,user.email)
     
     // passing the user email and resetToken for update
     const fetechedUser = await userRepository.findOneUpdateResetToken(email,resetPassToken)

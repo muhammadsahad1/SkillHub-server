@@ -1,4 +1,12 @@
-import { userSignup, createUser, login ,createProfile, forgotPassword} from "./user/index";
+import {
+  userSignup,
+  createUser,
+  login,
+  createProfile,
+  resetPassword,
+  forgotPassword,
+  getProfileImage,
+} from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
 import { Ijwt, IToken } from "../interface/service/jwt";
@@ -12,6 +20,8 @@ import { resentOtp } from "./user/resentOtp";
 import ErrorHandler from "../middlewares/errorHandler";
 import { IS3Operations } from "../../framework/service/s3Bucket";
 
+// ================================= User user cases ================================= \\
+
 export class UserUseCase implements IuserUseCase {
   constructor(
     private userRepostory: IuserRepository,
@@ -20,35 +30,39 @@ export class UserUseCase implements IuserUseCase {
     private hashPassword: IhashPassword,
     private otpGenerate: IotpGenerate,
     private sendEmail: IsendEmail,
-    private s3upload :IS3Operations
+    private s3: IS3Operations
   ) {}
-  
-
-async userSignup( user: Iuser,next: Next ): Promise<string | void | { success: boolean; message: string }> {
-  try {
-    let token = await userSignup(
-      this.Jwt,
-      this.otpRepository,
-      this.userRepostory,
-      this.otpGenerate,
-      this.hashPassword,
-      user,
-      this.sendEmail,
-      next
-    );
-    return token;
-  } catch (error) {
-    console.log(error);
+// ===================================================================>
+  async userSignup(
+    user: Iuser,
+    next: Next
+  ): Promise<string | void | { success: boolean; message: string }> {
+    try {
+      let token = await userSignup(
+        this.Jwt,
+        this.otpRepository,
+        this.userRepostory,
+        this.otpGenerate,
+        this.hashPassword,
+        user,
+        this.sendEmail,
+        next
+      );
+      return token;
+    } catch (error) {
+      console.log(error);
+    }
   }
-}
-
-async createUser(
-  email: string,
-  otp: string,
-  next: Next
-): Promise<Iuser | void | { success: boolean; user?: Iuser; message?: string }> {
-  const newuser = await createUser(
-    email,
+// ===================================================================>
+  async createUser(
+    email: string,
+    otp: string,
+    next: Next
+  ): Promise<
+    Iuser | void | { success: boolean; user?: Iuser; message?: string }
+  > {
+    const newuser = await createUser(
+      email,
       otp,
       this.otpRepository,
       this.userRepostory,
@@ -57,7 +71,7 @@ async createUser(
     );
     return newuser;
   }
-  
+// ===================================================================>
   async resendOtp(email: string, next: Next): Promise<void> {
     await resentOtp(
       this.otpGenerate,
@@ -67,8 +81,11 @@ async createUser(
       next
     );
   }
-  
-  async login(user: Iuser, next: Next): Promise<{ fetchUser: Iuser ; tokens: IToken }>  {
+// ===================================================================>
+  async login(
+    user: Iuser,
+    next: Next
+  ): Promise<{ fetchUser: Iuser; tokens: IToken }> {
     const tokens = await login(
       this.userRepostory,
       this.Jwt,
@@ -78,31 +95,93 @@ async createUser(
       user.picture,
       next
     );
-    console.log("useruseCase ========",tokens)
     return tokens;
   }
-  
-  async forgotPassword(email: string,next : Next): Promise<void |Iuser| { user : Iuser, message: string, success: boolean , token : string}>{
-    const result = await forgotPassword(this.Jwt,this.userRepostory,this.sendEmail,email,next)
-    if(!result){
-      return next(new ErrorHandler(400,"user reset password updated failed"))
+// ===================================================================>
+  async forgotPassword(
+    email: string,
+    next: Next
+  ): Promise<
+    | void
+    | Iuser
+    | { success: boolean; token: string; user: Iuser; message: string }
+  > {
+    const result = await forgotPassword(
+      this.Jwt,
+      this.userRepostory,
+      this.sendEmail,
+      email,
+      next
+    );
+    if (!result) {
+      return next(new ErrorHandler(400, "user reset password updated failed"));
     }
-    console.log("status of result ===> ",result)
-    return result
+    return result;
   }
-  
-  async createProfile(user: Iuser, file : Express.Multer.File, next: Next): Promise<void | { success: boolean; user?: Iuser;token :IToken; message?: string; }> {
-    console.log("user details in creating===>",user,"file ===>",file)
-       const result = await createProfile(user,file,this.userRepostory,this.Jwt,this.s3upload,next)
-       if (!result) {
-        return next(new ErrorHandler(400, "Profile update failed"));
-      }
-    
-      console.log("result after creation ===> ", result);
-      return result;
+// ===================================================================>
+  async resetPassword(
+    password: string,
+    resetToken: string,
+    next: Next
+  ): Promise<{ success: boolean; user?: Iuser; message?: string } | void> {
+    const result = await resetPassword(
+      password,
+      resetToken,
+      this.userRepostory,
+      this.hashPassword,
+      next
+    );
+    if (!result) {
+      return next(new ErrorHandler(400, "User is founded"));
+    }
+    return result;
   }
-
-
+// ===================================================================>
+  async createProfile(
+    user: Iuser,
+    file: Express.Multer.File,
+    next: Next
+  ): Promise<void | {
+    success: boolean;
+    user?: Iuser;
+    token: IToken;
+    message?: string;
+  }> {
+    console.log("user details in creating===>", user, "  file ===>", file);
+    const result = await createProfile(
+      user,
+      file,
+      this.userRepostory,
+      this.Jwt,
+      this.s3,
+      next
+    );
+    if (!result) {
+      return next(new ErrorHandler(400, "Profile update failed"));
+    }
+    return result;
+  }
+// ===================================================================>
+  async getProfileImage(
+    userId: string,
+    next: Next
+  ): Promise<{
+    success: boolean;
+    imageUrl: string | void;
+    message?: string;
+  } | void> {
+    const result = await getProfileImage(
+      userId,
+      this.userRepostory,
+      this.s3,
+      next
+    );
+    if (!result) {
+      return next(new ErrorHandler(400, "User is founded"));
+    }
+    return result;
+  }
+// ===================================================================>
   getUser(id: string, next: Next): Promise<Iuser | undefined> {
     throw new Error("Method not implemented.");
   }

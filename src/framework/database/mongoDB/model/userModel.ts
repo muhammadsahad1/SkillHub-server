@@ -10,6 +10,7 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   blocked: { type: Boolean, default :false },
   phoneNumber : { type : String },
   profileImage : { type : String},
+  imageKey : { type : String},
   bio : { type : String},
   created_at : { type : Date },
   city : { type :String},

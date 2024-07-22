@@ -21,31 +21,31 @@ export const createProfile = async (
       mimetype
     }
 
+    console.log("FILE in DB ===>",file.originalname )
+
   console.log("data ethiyooo =>",PutObjectParams)    
 
-    await S3Operations.putObjectUrl(PutObjectParams)
+    const imageName = await S3Operations.putObjectUrl(PutObjectParams)
     
-    const profileImageUrl = `https://${process.env.C3_BUCKET_NAME}.s3.${process.env.C3_BUCKET_REGION}.amazonaws.com/${originalname}`;
-    console.log("ProfileUrl DB",profileImageUrl)
-
+    console.log("ProfileImage Name ==>",imageName)
     const updatedUser = await userModels.findOneAndUpdate(
       { email: userProfile.email },
       {
         $set: {
           name: userProfile.name,
-          profileImage : profileImageUrl,
+          profileImage : imageName,
           bio: userProfile.bio,
           country: userProfile.country,
           city: userProfile.city,
           skill: userProfile.skill,
           picture : userProfile.picture,
+          imageKey : file.originalname,
           profile : true 
         },
       },
       { new: true } 
     );
 
-    console.log("Updated user is ==>", updatedUser);
     return updatedUser
   } catch (error) {
     console.error("Error updating profile:", error);

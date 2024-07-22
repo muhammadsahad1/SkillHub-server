@@ -35,7 +35,7 @@
 
 // Define the main User interface
 export interface Iuser {
-  id: string ;
+  id?: string ;
   role?: string;
   name: string;
   email: string;
@@ -44,6 +44,7 @@ export interface Iuser {
   approve? :boolean
   phoneNumber?: string;
   profileImage?: string;
+  imageKey? : string;
   picture?:string | undefined;
   // followers: Follower[];
   // following?: Following[];

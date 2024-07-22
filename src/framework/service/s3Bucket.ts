@@ -13,11 +13,12 @@ export type PutObjectParams = {
 
 export type getObjectParams = {
   bucket : string,
-  key : string
+  key : string | undefined
 }
 
 export interface IS3Operations {
-  putObjectUrl(params: PutObjectParams): Promise<void>;
+  putObjectUrl(params: PutObjectParams): Promise<string>;
+  getObjectUrl( params :getObjectParams ) : Promise<any>;
 }
 
 export class S3Operations implements IS3Operations {
@@ -36,12 +37,12 @@ export class S3Operations implements IS3Operations {
   }
 
   // uploading bolb data
-  async putObjectUrl({ originalname, buffer, mimetype }: PutObjectParams): Promise<void> {
+  async putObjectUrl({ originalname, buffer, mimetype }: PutObjectParams): Promise<string> {
     const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
     const imageName = randomImageName()
     const params = {
       Bucket: this.bucketName,
-      Key: imageName, // Ensure Key is capitalized correctly
+      Key: imageName, 
       Body: buffer,
       ContentType: mimetype,
     };
@@ -52,6 +53,7 @@ export class S3Operations implements IS3Operations {
       const data = await this.s3Client.send(command);
       console.log(`Uploaded ${originalname} to S3 bucket ${this.bucketName}`);
       console.log('Upload response:', data);
+      return imageName
     } catch (error) {
       console.error(`Error uploading ${originalname} to S3 bucket ${this.bucketName}:`, error);
       throw error;
@@ -59,16 +61,18 @@ export class S3Operations implements IS3Operations {
   }
 
   //getImage from s3 Bucket
- async getObjectUrl({bucket ,key} : getObjectParams) : Promise<string | undefined>{
+ async getObjectUrl({bucket,key} : getObjectParams) : Promise<string | undefined>{
   const params = {
     Bucket : bucket,
     Key : key
   }
+  console.log("paeamsss",params)
 
   const command = new GetObjectCommand(params)
   try {
     const url = await getSignedUrl(this.s3Client,command,{expiresIn : 3600})
-    return url
+    console.log("url in presigned URL ==>",url)
+    return url  
   } catch (error) {
     console.log(error)
   }

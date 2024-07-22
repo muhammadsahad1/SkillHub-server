@@ -14,9 +14,7 @@ export const createProfile = async (
   next : Next 
 ) : Promise<{ success: boolean;token : {accessToken: string;refreshToken: string;role: string;}, user?: Iuser; message?: string }| void> => {
   try {
-    console.log("throught this")
     const updatedUser = await userRepository.createProfile(user,file,s3upload)
-    console.log("updatedUser",updatedUser)
     if(!updatedUser){
       return next(new ErrorHandler(400,"Profile creation failed"))
     }
