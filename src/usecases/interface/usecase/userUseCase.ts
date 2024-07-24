@@ -49,9 +49,11 @@ export interface IuserUseCase {
     resetToken: string,
     next: Next
   ): Promise<{ success: boolean; user?: Iuser; message?: string } | void>;
-  
+  // ===================================================================>
+  changePassword(userId : string , currentPassword : string , newPassword : string) :Promise<{ success : boolean ; message :string}>
+
   resendOtp(email: string, next: Next): Promise<void>;
   
-  getUser(id: string, next: Next): Promise<Iuser | undefined>;
+  getUser(id: string, next: Next): Promise<Iuser | undefined | void>;
 }
 

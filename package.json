@@ -54,6 +54,8 @@
 
     "multer": "^1.4.5-lts.1",
 
+    "node-cache": "^5.1.2",
+
     "nodemailer": "^6.9.14",
 
     "nodemon": "^3.1.4",
@@ -85,6 +87,8 @@
     "@types/multer": "^1.4.11",
 
     "@types/node": "^20.14.10",
+
+    "@types/node-cache": "^4.2.5",
 
     "@types/nodemailer": "^6.4.15",
 

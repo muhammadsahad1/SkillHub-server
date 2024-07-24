@@ -7,11 +7,13 @@ import { refreshTokenOption, accessTokenOption } from './jwt';
 const jwt = new JWTtoken();
 
 export const isAuthenticate = async (req: CustomRequest, res: Response, next: NextFunction) => {
-  const accessToken = req.cookies.accessToken;
-  const refreshToken = req.cookies.refreshToken;
-
+  const customReq = req as CustomRequest;
+  const accessToken = customReq.cookies.accessToken;
+  const refreshToken = customReq.cookies.refreshToken;
+  console.log("verifying..")
   // Check for access token
   if (!accessToken) {
+    console.log("not accesstoken")
     return res.status(401).json({ message: "Not authorized, no access token" });
   }
 
@@ -33,10 +35,11 @@ export const isAuthenticate = async (req: CustomRequest, res: Response, next: Ne
     if (refreshToken) {
       try {
         const reDecoded = await jwt.verifyJWT(refreshToken, process.env.JWT_REFRESH_KEY);
-        const newAccessToken = (await jwt.createAccessAndRefreshToken(reDecoded.id)).accessToken;
+        const newTokens = await jwt.createAccessAndRefreshToken(reDecoded.id);
 
-        // Set new access token as a cookie
-        res.cookie('accessToken', newAccessToken, accessTokenOption);
+        // Set new access token and refresh token in cookie
+        res.cookie('accessToken', newTokens.accessToken, accessTokenOption);
+        res.cookie('refreashToken',newTokens.refreshToken,refreshTokenOption)
         const user = await userModel.findById(reDecoded.id).select("-password");
         if (!user) {
           return res.status(401).json({ message: 'User not found' });

@@ -26,8 +26,6 @@ export class UserController {
   // Creating user
   async createUser(req: Req, res: Res, next: Next) {
     try {
-      console.log("req.body===>", req.body);
-      console.log("req.bodyOTP", req.body.verifyCode);
       const newUser = await this.userUseCase.createUser(
         req.body.email,
         req.body.verifyCode,
@@ -55,6 +53,7 @@ export class UserController {
   async login(req: Req, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.login(req.body, next);
+      console.log("result Token ==>", result);
       if (result) {
         const { accessToken, refreshToken } = result.tokens;
         res.cookie("accessToken", accessToken, accessTokenOption);
@@ -123,6 +122,21 @@ export class UserController {
   }
   // ===================================================================>
   // create profile
+  async changePassword(req: Req, res: Res, next: Next) {
+    try {
+      console.log("body changepassword =>", req.body);
+      const result = await this.userUseCase.changePassword(
+        req.user?.id,
+        req.body.currentPassword,
+        req.body.newPassword
+      );
+      console.log(" result =====" ,result)
+      res.status(200).json(result)
+    } catch (error) {}
+  }
+
+  // ===================================================================>
+  // create profile
   async createProfile(req: Req, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.createProfile(
@@ -153,13 +167,11 @@ export class UserController {
   // getProfileImage
   async getProfileImage(req: Req, res: Res, next: Next) {
     try {
-      const { userId } = req.query;
-      console.log("userId ===>", userId);
-      const result = await this.userUseCase.getProfileImage(userId, next);
-      if(result){
-        res.json(result)
+      const result = await this.userUseCase.getProfileImage(req.user?.id, next);
+      if (result) {
+        res.json(result);
       }
-      console.log("this result is going",result)
+      console.log("this result is going", result);
     } catch (error) {}
   }
   // ===================================================================>

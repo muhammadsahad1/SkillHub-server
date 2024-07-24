@@ -15,6 +15,7 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   created_at : { type : Date },
   city : { type :String},
   country : { type : String },
+  states : { type : String},
   skill : { type : String },
   profile: { type : Boolean, default : false},
   picture : { type : String},

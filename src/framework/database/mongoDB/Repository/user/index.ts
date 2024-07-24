@@ -6,7 +6,8 @@ import { findByEmailUpdatePicture } from './findByEmailUpdatePicture'
 import { findUpdateResetToken } from './findUpdateResetToken'
 import { resetPasswordVerify } from './resetPasswordVerify'
 import { fetchProfileImage } from './fetchProfileImage'
-
+import { changePassword } from './changePassword'
+import { getUser } from "./getUser";
 // exporting each functions of manipulation to DB
 export {
   createUser,
@@ -14,6 +15,8 @@ export {
   findByEmailUpdatePicture,
   createProfile,
   resetPasswordVerify,
+  changePassword,
   findUpdateResetToken,
-  fetchProfileImage
+  fetchProfileImage,
+  getUser
 }

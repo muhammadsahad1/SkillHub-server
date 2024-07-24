@@ -35,17 +35,17 @@
 
 // Define the main User interface
 export interface Iuser {
-  id?: string ;
+  id?: string;
   role?: string;
   name: string;
   email: string;
   password: string;
   blocked?: boolean;
-  approve? :boolean
+  approve?: boolean;
   phoneNumber?: string;
   profileImage?: string;
-  imageKey? : string;
-  picture?:string | undefined;
+  imageKey?: string;
+  picture?: string | undefined;
   // followers: Follower[];
   // following?: Following[];
   created_at?: Date;
@@ -53,11 +53,12 @@ export interface Iuser {
   bio?: string;
   city?: string;
   country?: string;
+  states?: string;
   skill?: string;
-  profile?: boolean
-  googleId? : string;
-  googleAvatar? : string;
-  resetPasswordToken? : string;
+  profile?: boolean;
+  googleId?: string;
+  googleAvatar?: string;
+  resetPasswordToken?: string;
   // account_settings?: AccountSettings;
   email_notification?: boolean;
   sms_notification?: boolean;
@@ -65,5 +66,5 @@ export interface Iuser {
   contactVisibility?: string;
   profileVisibility?: string;
   passwordLastChanged?: Date;
-//   profile?: Profile;
+  //   profile?: Profile;
 }

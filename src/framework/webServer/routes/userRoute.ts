@@ -32,17 +32,20 @@ export function userRoute(route: Route) {
   route.post('/resetPassword',(req : Req , res : Res ,next : Next)=>{
     userController.resetPassword(req,res,next)
   })
-
+  
   route.post('/createProfile',upload.single('profileImage'),(req :Req,res : Res , next :Next) =>{
     userController.createProfile(req,res,next)
   })
+  
+    route.post('/changePassword',isAuthenticate,(req : Req , res :Res , next : Next) => {
+      userController.changePassword(req,res,next)
+    })
 
-  route.get('/profileImage',(req : Req , res :Res , next : Next) => {
-    
+  route.get('/profileImage',isAuthenticate,(req : Req , res :Res , next : Next) => {
     userController.getProfileImage(req,res,next)
   })
 
-  route.post('/logout',(req :Req,res : Res , next :Next)=>{
+  route.post('/logout',isAuthenticate,(req :Req,res : Res , next :Next)=>{
     userController.userLogout(req,res,next)
 
   })

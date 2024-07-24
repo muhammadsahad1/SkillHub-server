@@ -6,6 +6,9 @@ import {
   resetPassword,
   forgotPassword,
   getProfileImage,
+  changePassword,
+  getUser
+
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -137,6 +140,24 @@ export class UserUseCase implements IuserUseCase {
     return result;
   }
 // ===================================================================>
+async getUser (userId : string,next : Next): Promise<Iuser | undefined | void>{
+  const result = await getUser(userId,this.userRepostory,next)
+  if(!result){
+    return next(new ErrorHandler(400,"User is founded"))
+  }
+  return result
+}
+
+// ===================================================================>
+async changePassword ( userId : string ,currentPassword : string ,newPassword : string,next : Next) :Promise<{ success : boolean ; message? :string} | any> {
+  const result = await changePassword(userId,currentPassword,newPassword,this.hashPassword,this.userRepostory,next)
+  if(!result){
+    return next(new ErrorHandler(400,"User is founded"))
+  }
+  return result
+}
+
+// ===================================================================>
   async createProfile(
     user: Iuser,
     file: Express.Multer.File,
@@ -161,6 +182,7 @@ export class UserUseCase implements IuserUseCase {
     }
     return result;
   }
+
 // ===================================================================>
   async getProfileImage(
     userId: string,
@@ -182,7 +204,5 @@ export class UserUseCase implements IuserUseCase {
     return result;
   }
 // ===================================================================>
-  getUser(id: string, next: Next): Promise<Iuser | undefined> {
-    throw new Error("Method not implemented.");
-  }
+
 }

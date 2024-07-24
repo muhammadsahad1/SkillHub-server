@@ -1,9 +1,10 @@
 import { S3Client, PutObjectCommand ,GetObjectCommand} from "@aws-sdk/client-s3";
 import { Readable } from "stream";
 import crypto from 'crypto'
-
 import { getSignedUrl } from  "@aws-sdk/s3-request-presigner"
+import NodeCache from  'node-cache' //using for cache machanisim
 
+const cache = new NodeCache({ stdTTL : 3600, checkperiod : 600 , maxKeys : 1000})
 
 export type PutObjectParams = {
   originalname: string;
@@ -61,20 +62,26 @@ export class S3Operations implements IS3Operations {
   }
 
   //getImage from s3 Bucket
- async getObjectUrl({bucket,key} : getObjectParams) : Promise<string | undefined>{
-  const params = {
-    Bucket : bucket,
-    Key : key
-  }
-  console.log("paeamsss",params)
+ async getObjectUrl({bucket,key} : getObjectParams) : Promise<string | unknown>{
 
+   const cacheKey = `${bucket}/${key}`
+   let url = cache.get(cacheKey) // accessing the url from node-cache
+
+   if(!url){
+    const params = {
+      Bucket : bucket,
+      Key : key
+    }
+   
   const command = new GetObjectCommand(params)
   try {
     const url = await getSignedUrl(this.s3Client,command,{expiresIn : 3600})
-    console.log("url in presigned URL ==>",url)
-    return url  
+    cache.set(cacheKey,url) // caching url
   } catch (error) {
     console.log(error)
+    throw error
   }
  }
+ return url
+}
 }

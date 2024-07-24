@@ -26,16 +26,18 @@ export const createProfile = async (
   console.log("data ethiyooo =>",PutObjectParams)    
 
     const imageName = await S3Operations.putObjectUrl(PutObjectParams)
-    
+
     console.log("ProfileImage Name ==>",imageName)
+    console.log("userProfile ===>",userProfile)
     const updatedUser = await userModels.findOneAndUpdate(
       { email: userProfile.email },
       {
         $set: {
           name: userProfile.name,
-          profileImage : imageName,
+          profileImage: imageName,
           bio: userProfile.bio,
           country: userProfile.country,
+          states : userProfile.city,
           city: userProfile.city,
           skill: userProfile.skill,
           picture : userProfile.picture,
