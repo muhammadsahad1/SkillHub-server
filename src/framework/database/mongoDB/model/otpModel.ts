@@ -1,5 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { Iotp } from "../../../../entities/otp";
+import { Iotp } from "../../../../commonEntities/entities/otp";
 
 const otpSchema: Schema<Iotp> = new mongoose.Schema({
   username : {

@@ -1,4 +1,4 @@
-import { Iuser } from "../../../entities/user";
+import { Iuser } from "../../../commonEntities/entities/user";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";

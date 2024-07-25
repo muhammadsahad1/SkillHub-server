@@ -1,4 +1,4 @@
-import { Iuser } from "../../../../../entities/user";
+import { Iuser } from "../../../../../commonEntities/entities/user";
 import userModel from "../../model/userModel";
 import { IS3Operations , PutObjectParams } from "../../../../service/s3Bucket";
 
@@ -38,7 +38,6 @@ export const createProfile = async (
           bio: userProfile.bio,
           country: userProfile.country,
           states : userProfile.city,
-          city: userProfile.city,
           skill: userProfile.skill,
           picture : userProfile.picture,
           imageKey : file.originalname,

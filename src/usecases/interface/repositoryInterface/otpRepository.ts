@@ -1,4 +1,4 @@
-  import { Iotp } from "../../../entities/otp";
+  import { Iotp } from "../../../commonEntities/entities/otp";
 
 export interface IotpRepository{
   createOtp(username : string,userPassword : string | undefined,email : string ,otp :string) : Promise<Iotp>,

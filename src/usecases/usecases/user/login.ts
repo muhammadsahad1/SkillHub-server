@@ -3,7 +3,7 @@ import { IToken, Ijwt } from "../../interface/service/jwt";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IhashPassword } from "../../interface/service/hashPassword";
 import ErrorHandler from "../../middlewares/errorHandler";
-import { Iuser } from "../../../entities/user";
+import { Iuser } from "../../../commonEntities/entities/user";
 
 export const login = async (
   userRepository: IuserRepository,

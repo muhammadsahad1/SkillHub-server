@@ -1,4 +1,4 @@
-import { UserController } from "../../controllers/userController";
+import { UserController } from "../../commonEntities/controllers/userController";
 import { UserUseCase } from "../../usecases/usecases/userUseCase";
 import userModel from "../database/mongoDB/model/userModel";
 import { UserRepository } from "../database/mongoDB/Repository/userRepository";

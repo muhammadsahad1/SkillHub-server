@@ -1,5 +1,5 @@
 import userModel from "../../model/userModel";
-import { Iuser } from "../../../../../entities/user";
+import { Iuser } from "../../../../../commonEntities/entities/user";
 
 export const resetPasswordVerify = async (
   userModels: typeof userModel,

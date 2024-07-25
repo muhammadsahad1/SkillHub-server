@@ -1,6 +1,7 @@
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository"
 import { Next } from "../../../framework/types/serverPackageType"
 import { IS3Operations } from "../../../framework/service/s3Bucket"
+import ErrorHandler from "../../middlewares/errorHandler";
 
 export const getProfileImage = async (
   userId : string,
@@ -17,6 +18,6 @@ export const getProfileImage = async (
        }
       
   } catch (error) {
-    
+    return next(new ErrorHandler(400, "User is founded"));
   }
 }

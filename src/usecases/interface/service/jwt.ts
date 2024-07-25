@@ -1,4 +1,4 @@
-import { Iuser } from "../../../entities/user";
+import { Iuser } from "../../../commonEntities/entities/user";
 import jwt , {JwtPayload} from 'jsonwebtoken'
 
 export interface IToken {

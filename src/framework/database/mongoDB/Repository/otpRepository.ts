@@ -1,4 +1,4 @@
-import { Iotp } from "../../../../entities/otp";
+import { Iotp } from "../../../../commonEntities/entities/otp";
 import otpModel from "../model/otpModel";
 import { IotpRepository } from "../../../../usecases/interface/repositoryInterface/otpRepository";
 

@@ -1,12 +1,12 @@
 import { Iuser } from "../entities/user";
-import { Req, Res, Next } from "../framework/types/serverPackageType";
-import { IuserUseCase } from "../usecases/interface/usecase/userUseCase";
+import { Req, Res, Next } from "../../framework/types/serverPackageType";
+import { IuserUseCase } from "../../usecases/interface/usecase/userUseCase";
 import {
   accessTokenOption,
   refreshTokenOption,
   roleOptions,
-} from "../framework/webServer/middleware/jwt";
-import ErrorHandler from "../usecases/middlewares/errorHandler";
+} from "../../framework/webServer/middleware/jwt";
+import ErrorHandler from "../../usecases/middlewares/errorHandler";
 
 // ===================================== User Controller ================================= //
 

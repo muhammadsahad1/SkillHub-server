@@ -1,5 +1,5 @@
 import userModel from "../model/userModel";
-import { Iuser } from "../../../../entities/user";
+import { Iuser } from "../../../../commonEntities/entities/user";
 import { IuserRepository } from "../../../../usecases/interface/repositoryInterface/userRepository";
 import {
   createUser,

@@ -1,4 +1,4 @@
-import { Iuser } from "../../../entities/user";
+import { Iuser } from "../../../commonEntities/entities/user";
 import { IsendEmail } from "../../interface/service/sendEmail";
 import { Next } from "../../../framework/types/serverPackageType";
 import { Ijwt } from "../../interface/service/jwt";

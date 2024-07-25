@@ -16,7 +16,7 @@ import { Ijwt, IToken } from "../interface/service/jwt";
 import { IotpRepository } from "../interface/repositoryInterface/otpRepository";
 import { IotpGenerate } from "../interface/service/otpGenerate";
 import { IhashPassword } from "../interface/service/hashPassword";
-import { Iuser } from "../../entities/user";
+import { Iuser } from "../../commonEntities/entities/user";
 import { IsendEmail } from "../interface/service/sendEmail";
 import { Next } from "../../framework/types/serverPackageType";
 import { resentOtp } from "./user/resentOtp";

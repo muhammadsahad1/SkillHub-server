@@ -1,5 +1,5 @@
 import userModel from "../../model/userModel";
-import { Iuser } from "../../../../../entities/user";
+import { Iuser } from "../../../../../commonEntities/entities/user";
 
 export const findByEmailUpdatePicture = async (
   userModels: typeof userModel,

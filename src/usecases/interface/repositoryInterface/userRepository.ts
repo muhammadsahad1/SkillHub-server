@@ -1,4 +1,4 @@
-import { Iuser } from "../../../entities/user";
+import { Iuser } from "../../../commonEntities/entities/user";
 
 export interface IuserRepository {
   createUser(newUser: Iuser): Promise<Iuser | undefined>;

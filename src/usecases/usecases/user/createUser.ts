@@ -1,5 +1,5 @@
 import { IhashPassword } from "../../interface/service/hashPassword";
-import { Iuser } from "../../../entities/user";
+import { Iuser } from "../../../commonEntities/entities/user";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
 import { IotpRepository } from "../../interface/repositoryInterface/otpRepository";

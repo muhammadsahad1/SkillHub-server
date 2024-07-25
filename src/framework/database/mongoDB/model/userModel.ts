@@ -1,4 +1,4 @@
-import { Iuser } from "../../../../entities/user";
+import { Iuser } from "../../../../commonEntities/entities/user";
 
 import mongoose, { Model, Schema } from "mongoose";
 
@@ -12,7 +12,7 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   profileImage : { type : String},
   imageKey : { type : String},
   bio : { type : String},
-  created_at : { type : Date },
+  created_at : { type : Date ,default : Date.now },
   city : { type :String},
   country : { type : String },
   states : { type : String},
