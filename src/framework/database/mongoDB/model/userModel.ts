@@ -18,6 +18,8 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   states : { type : String},
   skill : { type : String },
   profile: { type : Boolean, default : false},
+  coverImageKey : { type : String},
+  coverImage : { type : String} ,
   picture : { type : String},
   googleId: { type: String }, 
   googleAvatar :{ type : String },

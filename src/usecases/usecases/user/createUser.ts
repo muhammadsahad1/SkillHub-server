@@ -4,16 +4,18 @@ import { Next } from "../../../framework/types/serverPackageType";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
 import { IotpRepository } from "../../interface/repositoryInterface/otpRepository";
 import ErrorHandler from "../../middlewares/errorHandler";
+import { Ijwt } from "../../interface/service/jwt";
 
 // Creating user after user submits the OTP
 export const createUser = async (
   email: string,
   otp: string,
+  jwt : Ijwt,
   otpRepository: IotpRepository,
   userRepository: IuserRepository,
   hashPassword: IhashPassword,
   next: Next,
-): Promise<{ success: boolean; user?: Iuser; message?: string }| void> => {
+): Promise<{ success: boolean; user?: Iuser;tokens : { acessToken : string , refreshToken : string }; message?: string }| void> => {
   try {
     // Fetch OTP 
     const fetchedOtp = await otpRepository.findOtp(email);
@@ -39,8 +41,10 @@ export const createUser = async (
     console.log("user ==> creating user",user)
     // Save user to the user collection DB
     const newUser = await userRepository.createUser(user);
+    const tokens = await jwt.createAccessAndRefreshToken(newUser?.id as string)
+    console.log("tokens ===>",tokens)
     if(newUser){
-      return { success : true , user : newUser , message : "successfully created user"}
+      return { success : true , user : newUser , tokens : tokens, message : "successfully created user"}
     }
   
 

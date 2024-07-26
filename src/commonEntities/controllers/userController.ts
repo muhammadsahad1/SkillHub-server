@@ -26,12 +26,18 @@ export class UserController {
   // Creating user
   async createUser(req: Req, res: Res, next: Next) {
     try {
-      const newUser = await this.userUseCase.createUser(
+      const result = await this.userUseCase.createUser(
         req.body.email,
         req.body.verifyCode,
         next
       );
-      res.json(newUser);
+      const { accessToken, refreshToken } = result?.tokens;
+      res.cookie("accessToken", accessToken, accessTokenOption);
+      res.cookie("refreshToken", refreshToken, refreshTokenOption);
+      res.cookie("role", "user", roleOptions);
+      res.status(200).json(result);
+      
+      
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
@@ -146,23 +152,41 @@ export class UserController {
       );
 
       if (result) {
-        const { accessToken, refreshToken } = result.token;
-        res.cookie("accessToken", accessToken, accessTokenOption);
-        res.cookie("refreshToken", refreshToken, refreshTokenOption);
-        res.cookie("role", "user", roleOptions);
+        
         res.status(200).json({
           user: result.user,
           message: "Profile created successfully",
           success: true,
           role: "user",
-          accessToken: accessToken,
-          refreshToken: refreshToken,
         });
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+  // ===================================================================>
+  // upload Cover Image
+  async uploadCoverimage (req : Req , res : Res , next : Next) {
+    try {
+      const result = await this.userUseCase.uploadCoverImage(req.user?.id,req.file,next)
+      if(!result){ 
+        console.log("rsult is not come")
+      }
+      console.log("sfkjdfjsdkljsdljs")
+      console.log("result from userUserCase =>",result)
+
+      res.status(200).json({
+        success : true,
+        message : "Cover image uploaded successfully",
+        user : result,
+
+      })
+
+    } catch (error) {
+      
+    }
+  }
+
   // ===================================================================>
   // getProfileImage
   async getProfileImage(req: Req, res: Res, next: Next) {

@@ -11,12 +11,14 @@ import {
   changePassword,
   findUpdateResetToken,
   fetchProfileImage,
+  uploadCoverImage
 } from "./user/index";
 import { IS3Operations } from "../../../service/s3Bucket";
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {
   constructor(private userModels: typeof userModel) {}
+
 
   // ===================================================================>
   async createProfile(
@@ -69,8 +71,17 @@ export class UserRepository implements IuserRepository {
   async fetchProfileImage(
     S3Operations: IS3Operations,
     userId: string
-  ): Promise<string | void> {
+  ): Promise<{ imageUrl :string; coverImageUrl : string}> {
     return await fetchProfileImage(this.userModels, S3Operations, userId);
+  }
+  // cover image upload
+  async uploadeCoverImage(
+    userId : string,
+    file : Express.Multer.File,
+    S3Operations : IS3Operations,
+
+  ) :Promise<Iuser | void> {
+    return await uploadCoverImage(this.userModels,userId,file,S3Operations)
   }
   // ===================================================================>
   async findByIdUpdateUpdateOne(

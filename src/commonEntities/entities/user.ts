@@ -45,6 +45,7 @@ export interface Iuser {
   phoneNumber?: string;
   profileImage?: string;
   imageKey?: string;
+  coverImageKey? : string;
   picture?: string | undefined;
   // followers: Follower[];
   // following?: Following[];
@@ -56,6 +57,7 @@ export interface Iuser {
   states?: string;
   skill?: string;
   profile?: boolean;
+  coverImage? :String; 
   googleId?: string;
   googleAvatar?: string;
   resetPasswordToken?: string;

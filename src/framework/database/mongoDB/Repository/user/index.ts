@@ -8,6 +8,7 @@ import { resetPasswordVerify } from './resetPasswordVerify'
 import { fetchProfileImage } from './fetchProfileImage'
 import { changePassword } from './changePassword'
 import { getUser } from "./getUser";
+import { uploadCoverImage } from "./uploadCoverImage";
 // exporting each functions of manipulation to DB
 export {
   createUser,
@@ -18,5 +19,6 @@ export {
   changePassword,
   findUpdateResetToken,
   fetchProfileImage,
+  uploadCoverImage,
   getUser
 }

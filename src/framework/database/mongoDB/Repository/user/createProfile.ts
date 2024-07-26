@@ -36,7 +36,7 @@ export const createProfile = async (
           name: userProfile.name,
           profileImage: imageName,
           bio: userProfile.bio,
-          country: userProfile.country,
+          country: userProfile.country, 
           states : userProfile.city,
           skill: userProfile.skill,
           picture : userProfile.picture,

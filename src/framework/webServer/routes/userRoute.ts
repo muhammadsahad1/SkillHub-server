@@ -45,6 +45,10 @@ export function userRoute(route: Route) {
     userController.getProfileImage(req,res,next)
   })
 
+  route.post('/coverImage',upload.single('coverImage'),isAuthenticate,(req : Req , res :Res , next : Next)=>{
+      userController.uploadCoverimage(req,res,next)
+  })
+
   route.post('/logout',isAuthenticate,(req :Req,res : Res , next :Next)=>{
     userController.userLogout(req,res,next)
 

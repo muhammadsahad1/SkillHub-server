@@ -8,7 +8,8 @@ export interface IuserRepository {
   findOneUpdateResetToken(email : string,resetToken : string) : Promise<Iuser | void>
   resetPasswordVerify(password : string , token : string) : Promise<Iuser | void>
   createProfile(user : Iuser,file : Express.Multer.File,s3upload : any) :Promise< Iuser| void> 
-  fetchProfileImage(s3upload : any,userId : string) : Promise< string | void>
+  fetchProfileImage(s3upload : any,userId : string) : Promise< { imageUrl :string; coverImageUrl : string}>
+  uploadeCoverImage(userId : string,file : Express.Multer.File,s3 : any):Promise<Iuser | void>
   getAllUsers(): Promise<string>;
   blockUser(id: string): Promise<Iuser>;
   getUser(id: string): Promise<Iuser | undefined>;

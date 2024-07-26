@@ -7,8 +7,8 @@ import {
   forgotPassword,
   getProfileImage,
   changePassword,
-  getUser
-
+  getUser,
+  coverImageUpload,
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -35,7 +35,7 @@ export class UserUseCase implements IuserUseCase {
     private sendEmail: IsendEmail,
     private s3: IS3Operations
   ) {}
-// ===================================================================>
+  // ===================================================================>
   async userSignup(
     user: Iuser,
     next: Next
@@ -56,17 +56,25 @@ export class UserUseCase implements IuserUseCase {
       console.log(error);
     }
   }
-// ===================================================================>
+  // ===================================================================>
   async createUser(
     email: string,
     otp: string,
     next: Next
   ): Promise<
-    Iuser | void | { success: boolean; user?: Iuser; message?: string }
+    | Iuser
+    | void
+    | {
+        success: boolean;
+        user?: Iuser;
+        token: { accessToken: string; refershToken: string };
+        message?: string;
+      }
   > {
     const newuser = await createUser(
       email,
       otp,
+      this.Jwt,
       this.otpRepository,
       this.userRepostory,
       this.hashPassword,
@@ -74,7 +82,7 @@ export class UserUseCase implements IuserUseCase {
     );
     return newuser;
   }
-// ===================================================================>
+  // ===================================================================>
   async resendOtp(email: string, next: Next): Promise<void> {
     await resentOtp(
       this.otpGenerate,
@@ -84,7 +92,7 @@ export class UserUseCase implements IuserUseCase {
       next
     );
   }
-// ===================================================================>
+  // ===================================================================>
   async login(
     user: Iuser,
     next: Next
@@ -100,7 +108,7 @@ export class UserUseCase implements IuserUseCase {
     );
     return tokens;
   }
-// ===================================================================>
+  // ===================================================================>
   async forgotPassword(
     email: string,
     next: Next
@@ -121,7 +129,7 @@ export class UserUseCase implements IuserUseCase {
     }
     return result;
   }
-// ===================================================================>
+  // ===================================================================>
   async resetPassword(
     password: string,
     resetToken: string,
@@ -139,25 +147,37 @@ export class UserUseCase implements IuserUseCase {
     }
     return result;
   }
-// ===================================================================>
-async getUser (userId : string,next : Next): Promise<Iuser | undefined | void>{
-  const result = await getUser(userId,this.userRepostory,next)
-  if(!result){
-    return next(new ErrorHandler(400,"User is founded"))
+  // ===================================================================>
+  async getUser(userId: string, next: Next): Promise<Iuser | undefined | void> {
+    const result = await getUser(userId, this.userRepostory, next);
+    if (!result) {
+      return next(new ErrorHandler(400, "User is founded"));
+    }
+    return result;
   }
-  return result
-}
 
-// ===================================================================>
-async changePassword ( userId : string ,currentPassword : string ,newPassword : string,next : Next) :Promise<{ success : boolean ; message? :string} | any> {
-  const result = await changePassword(userId,currentPassword,newPassword,this.hashPassword,this.userRepostory,next)
-  if(!result){
-    return next(new ErrorHandler(400,"User is founded"))
+  // ===================================================================>
+  async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+    next: Next
+  ): Promise<{ success: boolean; message?: string } | any> {
+    const result = await changePassword(
+      userId,
+      currentPassword,
+      newPassword,
+      this.hashPassword,
+      this.userRepostory,
+      next
+    );
+    if (!result) {
+      return next(new ErrorHandler(400, "User is founded"));
+    }
+    return result;
   }
-  return result
-}
 
-// ===================================================================>
+  // ===================================================================>
   async createProfile(
     user: Iuser,
     file: Express.Multer.File,
@@ -168,7 +188,6 @@ async changePassword ( userId : string ,currentPassword : string ,newPassword : 
     token: IToken;
     message?: string;
   }> {
-    console.log("user details in creating===>", user, "  file ===>", file);
     const result = await createProfile(
       user,
       file,
@@ -183,13 +202,37 @@ async changePassword ( userId : string ,currentPassword : string ,newPassword : 
     return result;
   }
 
-// ===================================================================>
+  // upload cover image
+  async uploadCoverImage(
+    userId: string,
+    file: Express.Multer.File,
+    next: Next
+  ): Promise<Iuser | void> {
+    const result = await coverImageUpload(
+      userId,
+      file,
+      this.s3,
+      this.userRepostory,
+      next
+    );
+    if (!result) {
+      return next(new ErrorHandler(400, "User is founded"));
+    }
+
+    if (result) {
+      console.log(" userCase ===>", result);
+      return result;
+    }
+  }
+
+  // ===================================================================>
   async getProfileImage(
     userId: string,
     next: Next
   ): Promise<{
     success: boolean;
     imageUrl: string | void;
+    coverImage: string | void;
     message?: string;
   } | void> {
     const result = await getProfileImage(
@@ -203,6 +246,5 @@ async changePassword ( userId : string ,currentPassword : string ,newPassword : 
     }
     return result;
   }
-// ===================================================================>
-
+  // ===================================================================>
 }

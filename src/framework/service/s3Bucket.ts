@@ -14,7 +14,7 @@ export type PutObjectParams = {
 
 export type getObjectParams = {
   bucket : string,
-  key : string | undefined
+  key : String | undefined
 }
 
 export interface IS3Operations {
@@ -49,7 +49,6 @@ export class S3Operations implements IS3Operations {
     };
 
     const command = new PutObjectCommand(params);
-
     try {
       const data = await this.s3Client.send(command);
       console.log(`Uploaded ${originalname} to S3 bucket ${this.bucketName}`);

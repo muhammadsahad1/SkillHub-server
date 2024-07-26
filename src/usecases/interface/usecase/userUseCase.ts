@@ -8,12 +8,12 @@ export interface IuserUseCase {
     user: Iuser,
     next: Next
   ): Promise<string | void | { success: boolean; message: string }>;
-// ===================================================================>
+  // ===================================================================>
   login(
     user: Iuser,
     next: Next
   ): Promise<void | { fetchUser: Iuser; tokens: IToken }>;
-// ===================================================================>
+  // ===================================================================>
   createUser(
     email: string,
     otp: string,
@@ -21,7 +21,7 @@ export interface IuserUseCase {
   ): Promise<
     void | Iuser | { success: boolean; user?: Iuser; message?: string }
   >;
-// ===================================================================>
+  // ===================================================================>
   createProfile(
     user: Iuser,
     file: Express.Multer.File | undefined,
@@ -32,8 +32,22 @@ export interface IuserUseCase {
     user?: Iuser;
     message?: string;
   }>;
-// ===================================================================>
-  getProfileImage(userId : string ,next : Next) :Promise<{success: boolean; imageUrl:string | void; message?: string} | void >
+  // ===================================================================>
+  getProfileImage(
+    userId: string,
+    next: Next
+  ): Promise<{
+    success: boolean;
+    imageUrl: string | void;
+    coverImage : string | void;
+    message?: string;
+  } | void>;
+  // ===================================================================>
+    uploadCoverImage(
+    userId : string,
+    file: Express.Multer.File | undefined,
+    next: Next
+  ): Promise< Iuser | void>;
   // ===================================================================>
   forgotPassword(
     email: string,
@@ -50,10 +64,13 @@ export interface IuserUseCase {
     next: Next
   ): Promise<{ success: boolean; user?: Iuser; message?: string } | void>;
   // ===================================================================>
-  changePassword(userId : string , currentPassword : string , newPassword : string) :Promise<{ success : boolean ; message :string}>
+  changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string
+  ): Promise<{ success: boolean; message: string }>;
 
   resendOtp(email: string, next: Next): Promise<void>;
-  
+
   getUser(id: string, next: Next): Promise<Iuser | undefined | void>;
 }
-
