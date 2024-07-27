@@ -31,6 +31,7 @@ export class UserController {
         req.body.verifyCode,
         next
       );
+      
       const { accessToken, refreshToken } = result?.tokens;
       res.cookie("accessToken", accessToken, accessTokenOption);
       res.cookie("refreshToken", refreshToken, refreshTokenOption);
@@ -143,27 +144,32 @@ export class UserController {
 
   // ===================================================================>
   // create profile
-  async createProfile(req: Req, res: Res, next: Next) {
-    try {
-      const result = await this.userUseCase.createProfile(
-        req.body,
-        req.file,
-        next
-      );
+async createProfile(req: Req, res: Res, next: Next) {
+  try {
+    console.log("Request body:", req.body);
+    console.log("Request file:", req.file);
 
-      if (result) {
-        
-        res.status(200).json({
-          user: result.user,
-          message: "Profile created successfully",
-          success: true,
-          role: "user",
-        });
-      }
-    } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+    const result = await this.userUseCase.createProfile(
+      req.body,
+      req.file,
+      next
+    );
+
+    if (result) {
+      res.status(200).json({
+        user: result.user,
+        message: "Profile created successfully",
+        success: true,
+        role: "user",
+      });
+    } else {
+      return next(new ErrorHandler(400, "Profile creation failed"));
     }
+  } catch (error: any) {
+    return next(new ErrorHandler(error.status, error.message));
   }
+}
+
   // ===================================================================>
   // upload Cover Image
   async uploadCoverimage (req : Req , res : Res , next : Next) {
@@ -196,7 +202,9 @@ export class UserController {
         res.json(result);
       }
       console.log("this result is going", result);
-    } catch (error) {}
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
   }
   // ===================================================================>
   // logout User

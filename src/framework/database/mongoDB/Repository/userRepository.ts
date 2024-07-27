@@ -34,7 +34,14 @@ export class UserRepository implements IuserRepository {
     );
   }
   // ===================================================================>
-  async createUser(newUser: Iuser): Promise<Iuser | undefined> {
+  async createUser(newUser: Iuser): Promise<Iuser |
+  void
+ | {
+     success: boolean;
+     user?: Iuser;
+     token: { accessToken: string; refershToken: string };
+     message?: string;
+   }> {
     return await createUser(newUser, this.userModels);
   }
   // ===================================================================>

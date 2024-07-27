@@ -62,8 +62,7 @@ export class UserUseCase implements IuserUseCase {
     otp: string,
     next: Next
   ): Promise<
-    | Iuser
-    | void
+     void
     | {
         success: boolean;
         user?: Iuser;
@@ -178,6 +177,7 @@ export class UserUseCase implements IuserUseCase {
   }
 
   // ===================================================================>
+// Use Case
   async createProfile(
     user: Iuser,
     file: Express.Multer.File,
@@ -185,22 +185,29 @@ export class UserUseCase implements IuserUseCase {
   ): Promise<void | {
     success: boolean;
     user?: Iuser;
-    token: IToken;
     message?: string;
   }> {
-    const result = await createProfile(
-      user,
-      file,
-      this.userRepostory,
-      this.Jwt,
-      this.s3,
-      next
-    );
-    if (!result) {
-      return next(new ErrorHandler(400, "Profile update failed"));
+    try {
+      console.log("File data in use case:", file);
+      const result = await createProfile(
+        user,
+        file,
+        this.userRepostory,
+        this.s3,
+        next
+      );
+  
+      if (!result) {
+        return next(new ErrorHandler(400, "Profile update failed"));
+      }
+  
+      return result;
+    } catch (error) {
+      console.error("Error in createProfile use case:", error);
+      return next(new ErrorHandler(500, "Internal Server Error"));
     }
-    return result;
   }
+  
 
   // upload cover image
   async uploadCoverImage(
@@ -231,7 +238,7 @@ export class UserUseCase implements IuserUseCase {
     next: Next
   ): Promise<{
     success: boolean;
-    imageUrl: string | void;
+    imageUrls: { profileUrl: string; coverImageUrl: string } ;
     coverImage: string | void;
     message?: string;
   } | void> {

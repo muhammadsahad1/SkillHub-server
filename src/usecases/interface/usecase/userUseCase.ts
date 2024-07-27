@@ -27,7 +27,6 @@ export interface IuserUseCase {
     file: Express.Multer.File | undefined,
     next: Next
   ): Promise<void | {
-    token: { accessToken: string; refreshToken: string };
     success: boolean;
     user?: Iuser;
     message?: string;
@@ -38,7 +37,7 @@ export interface IuserUseCase {
     next: Next
   ): Promise<{
     success: boolean;
-    imageUrl: string | void;
+    imageUrls: { profileUrl: string; coverImageUrl: string };
     coverImage : string | void;
     message?: string;
   } | void>;

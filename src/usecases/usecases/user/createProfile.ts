@@ -8,16 +8,17 @@ export const createProfile = async (
   user : Iuser,
   file : Express.Multer.File,
   userRepository : IuserRepository,
-  s3upload : IS3Operations,
+  S3Operations : IS3Operations,
   next : Next 
 ) : Promise<{ success: boolean; user?: Iuser; message?: string }| void> => {
   try {
-    const updatedUser = await userRepository.createProfile(user,file,s3upload)
+    console.log("updating user ==")
+    const updatedUser = await userRepository.createProfile(user,file,S3Operations)
     if(!updatedUser){
       return next(new ErrorHandler(400,"Profile creation failed"))
     }
     // generating token as return
-    const fetchUser = await userRepository.findByEmail(user.email)
+    // const fetchUser = await userRepository.findByEmail(user.email)
 
     return {
       success : true ,

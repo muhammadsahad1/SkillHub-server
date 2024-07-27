@@ -5,7 +5,7 @@ export const findByEmail = async (userModels: typeof userModel, email: string): 
   try {
     console.log("finding", email);
     const user = await userModels.findOne({ email : email });
-    console.log("checking findByEmail");
+    console.log("checking findByEmail user role is ==>" , user?.role);
     if (user) {
       return user;
     } else {

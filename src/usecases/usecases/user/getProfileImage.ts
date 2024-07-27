@@ -10,7 +10,7 @@ export const getProfileImage = async (
   next: Next
 ): Promise<{
   success: boolean;
-  imageUrls: { imageUrl: string; coverImageUrl: string };
+  imageUrls: { profileUrl: string; coverImageUrl: string };
   message?: string;
 } | void> => {
   try {

@@ -1,12 +1,13 @@
 import userModel from "../../model/userModel";
 import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket";
+import { Iuser } from "../../../../../commonEntities/entities/user";
 
 export const uploadCoverImage = async (
   userModels: typeof userModel,
   userId: string,
   file: Express.Multer.File,
   S3Operations: IS3Operations
-) => {
+): Promise<Iuser | undefined | any> => {
   try {
     console.log("file ==>", file);
     const buffer = file.buffer;
@@ -18,9 +19,10 @@ export const uploadCoverImage = async (
       buffer,
       mimetype,
     };
-
+    
+    console.log("PutObjectParams cover image =>",PutObjectParams)
     const imageName = await S3Operations.putObjectUrl(PutObjectParams);
-
+    console.log("cover image naeme =>",imageName)
     const updatedUser = await userModels.findOneAndUpdate(
       { _id: userId },
       { $set: { coverImage: imageName, coverImageKey: file.originalname } },

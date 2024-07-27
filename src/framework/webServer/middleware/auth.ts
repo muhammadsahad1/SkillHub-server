@@ -3,10 +3,11 @@ import { JWTtoken } from '../../service/jwt';
 import userModel from '../../database/mongoDB/model/userModel';
 import { CustomRequest } from './request/customReq';
 import { refreshTokenOption, accessTokenOption } from './jwt';
+import { RequestHandler } from 'express'
 
 const jwt = new JWTtoken();
 
-export const isAuthenticate = async (req: CustomRequest, res: Response, next: NextFunction) => {
+export const isAuthenticate : RequestHandler = async (req, res, next) => {
   const customReq = req as CustomRequest;
   const accessToken = customReq.cookies.accessToken;
   const refreshToken = customReq.cookies.refreshToken;
