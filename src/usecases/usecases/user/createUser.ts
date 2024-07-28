@@ -3,7 +3,7 @@ import { Iuser } from "../../../commonEntities/entities/user";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
 import { IotpRepository } from "../../interface/repositoryInterface/otpRepository";
-import ErrorHandler from "../../middlewares/errorHandler";
+import {ErrorHandler} from "../../middlewares/errorMiddleware";
 import { Ijwt } from "../../interface/service/jwt";
 
 // Creating user after user submits the OTP

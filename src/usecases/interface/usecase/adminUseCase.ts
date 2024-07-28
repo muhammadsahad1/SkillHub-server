@@ -1,19 +1,9 @@
 import { IToken } from "../service/jwt";
-import { Next , Req , Res } from "../../../framework/types/serverPackageType";
+import { Next } from "../../../framework/types/serverPackageType";
 
-interface Admin {
-  id: string;
-  email: string;
+// ================================> AdminUseCase Interface
+export interface IadminUseCase {
+  adminLogin(email: string, password: string, next: Next): Promise<any>;
+  getUsers(next: Next): Promise<any>;
+  blockUser(id: string): Promise<any>;
 }
-
-export interface LoginResponse {
-  success: boolean;
-  tokens: IToken;
-  message: string;
-  admin: Admin;
-}
-  // each functions Interface (TYPSCRIPT)
-  export interface IadminUseCase {
-    adminLogin({ email , password } : { email : string , password : string }) : Promise<LoginResponse>;
-
-  }

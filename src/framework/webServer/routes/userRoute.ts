@@ -4,7 +4,7 @@ import upload from "../middleware/multer";
 import { isAuthenticate } from "../middleware/auth";
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>> User Route <<<<<<<<<<<<<<<<<<<<<<<<< 
-export function userRoute(route: Route) {
+export function userRoute(route: Route) : Route {
   route.post("/register", (req: Req, res: Res, next: Next) => {
     userController.userSignup(req, res, next);
   });

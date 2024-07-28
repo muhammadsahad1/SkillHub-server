@@ -1,35 +1,38 @@
-import express from "express";
-import connectDB from "./framework/webServer/config/db";
-import dotenv from "dotenv";
-import { userRoute } from "./framework/webServer/routes/userRoute";
-import cookieParser from "cookie-parser";
-import errorHandler from "./usecases/middlewares/errorMiddleware";
-import cors from "cors";
+  import express from "express";
+  import connectDB from "./framework/webServer/config/db";
+  import dotenv from "dotenv";
+  import { userRoute } from "./framework/webServer/routes/userRoute";
+  import cookieParser from "cookie-parser";
+  import { errorHandler } from './usecases/middlewares/errorMiddleware'
+  import cors from "cors";
+  import { adminRoute } from "./framework/webServer/routes/adminRoute";
 
-dotenv.config();
-connectDB();
+  dotenv.config();
+  connectDB();
 
-const app = express();
+  const app = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods : 'GET,POST,PUT,DELETE',
-    credentials: true,
-  })
-);
-app.options('*',cors())
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      methods: "GET,POST,PUT,DELETE",
+      credentials: true,
+    })
+  );
+  app.options("*", cors());
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+  app.use(cookieParser());
+  app.use(express.urlencoded({ extended: true }));
 
-const router = express.Router();
-app.use("/user", userRoute(router));
+  const router = express.Router();
 
-app.use(errorHandler)
+  app.use("/user", userRoute(router));
+  app.use("/admin", adminRoute(router));
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server is running here http://localhost:${PORT}`);
-});
+  app.use(errorHandler);
+
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Server is running here http://localhost:${PORT}`);
+  });

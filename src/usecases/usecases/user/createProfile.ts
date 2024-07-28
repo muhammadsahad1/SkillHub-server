@@ -2,7 +2,7 @@ import { Iuser } from "../../../commonEntities/entities/user";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import ErrorHandler from "../../middlewares/errorHandler";
+import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
 
 export const createProfile = async (
   user : Iuser,
@@ -17,8 +17,6 @@ export const createProfile = async (
     if(!updatedUser){
       return next(new ErrorHandler(400,"Profile creation failed"))
     }
-    // generating token as return
-    // const fetchUser = await userRepository.findByEmail(user.email)
 
     return {
       success : true ,

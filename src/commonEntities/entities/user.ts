@@ -45,6 +45,7 @@ export interface Iuser {
   phoneNumber?: string;
   profileImage?: string;
   imageKey?: string;
+  status?:boolean;
   coverImageKey? : string;
   picture?: string | undefined;
   // followers: Follower[];

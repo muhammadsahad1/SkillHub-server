@@ -1,7 +1,7 @@
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
-import ErrorHandler from "../../middlewares/errorHandler";
+import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
 
 export const getProfileImage = async (
   userId: string,

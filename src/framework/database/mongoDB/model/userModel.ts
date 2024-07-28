@@ -18,6 +18,7 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   states : { type : String},
   skill : { type : String },
   profile: { type : Boolean, default : false},
+  status : { type : Boolean },
   coverImageKey : { type : String},
   coverImage : { type : String} ,
   picture : { type : String},

@@ -5,8 +5,7 @@ import { IhashPassword } from "../interface/service/hashPassword";
 import { Ijwt } from "../interface/service/jwt";
 import { IsendEmail } from "../interface/service/sendEmail";
 import { IadminUseCase } from "../interface/usecase/adminUseCase";
-import { LoginResponse } from "../interface/usecase/adminUseCase";
-import { adminLogin } from "./admin/index";
+import { adminLogin, blockUser, getUsers } from "./admin/index";
 import { Next } from "../../framework/types/serverPackageType";
 // ================================= Admin user cases ================================= \\
 
@@ -18,11 +17,9 @@ export class AdminUseCase implements IadminUseCase {
     private sendEmail: IsendEmail,
     private s3: IS3Operations
   ) {}
-  async adminLogin(
-    email: string,
-    password: string,
-    next: Next
-  ): Promise<LoginResponse> {
+
+  // ===================================================================>
+  async adminLogin(email: string, password: string, next: Next): Promise<any> {
     const result = await adminLogin(
       email,
       password,
@@ -31,7 +28,16 @@ export class AdminUseCase implements IadminUseCase {
       this.adminRepostory,
       next
     );
-    console.log("result ===> ", result)
-    return result
+    return result;
+  }
+  // ===================================================================>
+  async getUsers(next: Next): Promise<any> {
+    const result = await getUsers(this.adminRepostory, next);
+    return result;
+  }
+  // ===================================================================>
+  async blockUser(id: string): Promise<any> {
+    const result = await blockUser(id, this.adminRepostory);
+    return result;
   }
 }

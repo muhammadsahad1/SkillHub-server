@@ -1,7 +1,7 @@
 import { IhashPassword } from "../../interface/service/hashPassword";
 import { IadminRepository } from "../../interface/repositoryInterface/adminRepository";
 import { Ijwt } from "../../interface/service/jwt";
-import ErrorHandler from "../../middlewares/errorHandler";
+import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
 import { Next } from "../../../framework/types/serverPackageType";
 
 export const adminLogin = async (
@@ -13,26 +13,29 @@ export const adminLogin = async (
   next : Next,
 ) => {
   const admin = await adminRepository.adminLogin(email)
-  if(admin?.role !== "admin"){
+  // ensure admin
+  if(admin?.role === "user"){
+    console.log("is user")
     return next(new ErrorHandler(403,"Not authorized"))
-  }
-  // campare for ensure the admin
-  const hashPassword = await hashedPassword.createHash(password)
-  const match = await hashedPassword.comparePassword(hashPassword,admin?.password)
-  
+  }else{
+  // campare for ensure the admin password
+  const match = await hashedPassword.comparePassword(password,admin?.password)
+
   if(!match){
       return next(new ErrorHandler(401,"Invalid email or password"))
   }
+// generating token 
+  const Tokens = await jwt.createAccessAndRefreshToken(admin?.id as string)
 
-  const Tokens = await jwt.createAccessAndRefreshToken(admin.id as string)
-  console.log("Tokens +>",Tokens)
   return {
     success : true,
     tokens : Tokens,
     message : "successfully authorized admin",
     admin : {
-      id : admin.id,
-      email : admin.email
+      id : admin?.id,
+      email : admin?.email
     }
   }
+  }
+
 };

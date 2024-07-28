@@ -6,7 +6,7 @@ import {
   refreshTokenOption,
   roleOptions,
 } from "../../framework/webServer/middleware/jwt";
-import ErrorHandler from "../../usecases/middlewares/errorHandler";
+import {ErrorHandler} from "../../usecases/middlewares/errorMiddleware";
 
 // ===================================== User Controller ================================= //
 

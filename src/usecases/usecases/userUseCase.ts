@@ -20,7 +20,7 @@ import { Iuser } from "../../commonEntities/entities/user";
 import { IsendEmail } from "../interface/service/sendEmail";
 import { Next } from "../../framework/types/serverPackageType";
 import { resentOtp } from "./user/resentOtp";
-import ErrorHandler from "../middlewares/errorHandler";
+import { ErrorHandler } from '../middlewares/errorMiddleware' ;
 import { IS3Operations } from "../../framework/service/s3Bucket";
 
 // ================================= User user cases ================================= \\

@@ -1,7 +1,7 @@
 import { Iuser } from "../../../commonEntities/entities/user";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import ErrorHandler from "../../middlewares/errorHandler";
+import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
 
 export const getUser = async(
   userId : string,

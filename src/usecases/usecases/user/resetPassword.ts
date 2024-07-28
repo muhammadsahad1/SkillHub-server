@@ -1,6 +1,6 @@
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
 import { Next } from "../../../framework/types/serverPackageType";
-import ErrorHandler from "../../middlewares/errorHandler";
+import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
 import { IhashPassword } from "../../interface/service/hashPassword";
 
 export const resetPassword = async (

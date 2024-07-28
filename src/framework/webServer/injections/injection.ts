@@ -1,6 +1,7 @@
 // ================================= Admin injections ================================= \\
-
-
+import { AdminController } from "../../../commonEntities/controllers/adminController";
+import { AdminUseCase } from "../../../usecases/usecases/adminUseCase";
+import { AdminRepository } from "../../database/mongoDB/Repository/adminRepository";
 
 
 
@@ -11,6 +12,7 @@ import { UserUseCase } from "../../../usecases/usecases/userUseCase";
 import userModel from "../../database/mongoDB/model/userModel";
 import { UserRepository } from "../../database/mongoDB/Repository/userRepository";
 import { OtpRepository } from "../../database/mongoDB/Repository/otpRepository";
+
 import { JWTtoken } from "../../service/jwt";
 import { Encrypt } from "../../service/hashPassword";
 import { OtpGenerate } from "../../service/otpGenerate";
@@ -39,13 +41,19 @@ const hashPassword = new Encrypt()
 const otpGenerate = new OtpGenerate()
 // NODEMAIER SEND MAIL
 const sendEmail = new SendEmail()
-// HERE USER'S USERUSECASE ( HERE THE ALL THE USERS USE CASES )
+
+
 const userUseCase = new UserUseCase(userRepository,jwt,otpRepository,hashPassword,otpGenerate,sendEmail,uploadImage)
-// INSTANTIATE TO USER CONTROLLER ( AFTER ROUTE ACCESSING )
 const userController = new UserController(userUseCase)
 
 
+const adminRepository = new AdminRepository(userModel)
+const adminUseCase = new AdminUseCase(adminRepository,jwt,hashPassword,sendEmail,uploadImage)
+const adminController = new AdminController(adminUseCase)
+
+
 export {
+  adminController,
   userController 
 }
 

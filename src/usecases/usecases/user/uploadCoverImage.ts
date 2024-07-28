@@ -2,7 +2,7 @@ import { Iuser } from "../../../commonEntities/entities/user";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import ErrorHandler from "../../middlewares/errorHandler";
+import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
 
 export const coverImageUpload = async (
   userId : string,

@@ -3,8 +3,7 @@ import { IsendEmail } from "../../interface/service/sendEmail";
 import { Next } from "../../../framework/types/serverPackageType";
 import { Ijwt } from "../../interface/service/jwt";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import ErrorHandler from "../../middlewares/errorHandler";
-
+import ErrorHandler from "../../middlewares/errorHandler";import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
 export const forgotPassword = async (
   jwt : Ijwt,
   userRepository : IuserRepository,

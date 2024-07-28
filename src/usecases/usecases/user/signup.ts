@@ -6,7 +6,7 @@ import { IotpGenerate } from "../../interface/service/otpGenerate";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IsendEmail } from "../../interface/service/sendEmail";
 import { IhashPassword } from "../../interface/service/hashPassword";
-import ErrorHandler from "../../middlewares/errorHandler";
+import {ErrorHandler} from "../../middlewares/errorMiddleware";
 
 export const userSignup = async (
   jwt: Ijwt,
