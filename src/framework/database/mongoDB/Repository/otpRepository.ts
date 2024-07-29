@@ -7,7 +7,6 @@ export class OtpRepository implements IotpRepository {
   // creating opt document for particular time (1m) 
   async createOtp(username:string,email: string,userPassword:string, otp: string): Promise<Iotp> {
       try {
-        
         const resultOtp = await otpModel.create({username, email ,userPassword,otp })
         resultOtp.save()
         console.log("created OTP ==>" , resultOtp)

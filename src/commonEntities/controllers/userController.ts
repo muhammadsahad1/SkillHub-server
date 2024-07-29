@@ -206,6 +206,17 @@ async createProfile(req: Req, res: Res, next: Next) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+  async changePrivacy(req : Req , res : Res,next : Next) {
+    try {
+      const result = await this.userUseCase.changePrivacy(req.user?.id,req.body.isPrivacy,next)
+      console.log("result ==>",result)
+      if(result){
+        res.json(result)
+      }
+    } catch (error) {
+      
+    }
+  }
   // ===================================================================>
   // logout User
   async userLogout(req: Req, res: Res, next: Next) {

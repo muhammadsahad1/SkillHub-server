@@ -1,7 +1,7 @@
 import { IhashPassword } from "../../interface/service/hashPassword"
 import { Next } from "../../../framework/types/serverPackageType"
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository"
-import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
+import { ErrorHandler } from '../../middlewares/errorMiddleware';
 
 export const changePassword = async(
   userId : string,

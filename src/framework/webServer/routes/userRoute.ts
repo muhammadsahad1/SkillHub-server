@@ -3,8 +3,8 @@ import { userController } from "../../webServer/injections/injection";
 import upload from "../middleware/multer";
 import { isAuthenticate } from "../middleware/auth";
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>> User Route <<<<<<<<<<<<<<<<<<<<<<<<< 
-export function userRoute(route: Route) : Route {
+// >>>>>>>>>>>>>>>>>>>>>>>>>> User Route <<<<<<<<<<<<<<<<<<<<<<<<<
+export function userRoute(route: Route): Route {
   route.post("/register", (req: Req, res: Res, next: Next) => {
     userController.userSignup(req, res, next);
   });
@@ -63,6 +63,14 @@ export function userRoute(route: Route) : Route {
     isAuthenticate,
     (req: Req, res: Res, next: Next) => {
       userController.uploadCoverimage(req, res, next);
+    }
+  );
+
+  route.post(
+    "/accountPrivacy",
+    isAuthenticate,
+    (req: Req, res: Res, next: Next) => {
+      userController.changePrivacy(req, res, next);
     }
   );
 

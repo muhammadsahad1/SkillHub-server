@@ -19,7 +19,6 @@ import { IS3Operations } from "../../../service/s3Bucket";
 export class UserRepository implements IuserRepository {
   constructor(private userModels: typeof userModel) {}
 
-
   // ===================================================================>
   async createProfile(
     userProfile: Iuser,
@@ -96,6 +95,10 @@ export class UserRepository implements IuserRepository {
     password: string
   ): Promise<Iuser | void> {
     return await changePassword(this.userModels,userId,password)
+  }
+  // ===================================================================>
+  changePrivacy(userId : string,isPrivacy: boolean): Promise<{ status: boolean; } | undefined> {
+    
   }
   // ===================================================================>
   async getUser(userId: string): Promise<Iuser | undefined >{

@@ -8,6 +8,7 @@ import { getProfileImage } from "./getProfileImage";
 import { changePassword } from "./changePassword";
 import { getUser } from "./getUser";
 import { coverImageUpload } from "./uploadCoverImage";
+import { changePrivacy } from "./changePrivacy";
 
 export {
   userSignup,
@@ -20,4 +21,5 @@ export {
   coverImageUpload,
   getProfileImage,
   getUser,
+  changePrivacy
 };

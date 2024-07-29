@@ -1,50 +1,54 @@
 import { Iuser } from "../../../../../commonEntities/entities/user";
 import userModel from "../../model/userModel";
-import { IS3Operations , PutObjectParams } from "../../../../service/s3Bucket";
+import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket";
 
 // Creatin profile with upload image to s3bucket
-export const  createProfile = async (
+export const createProfile = async (
   userProfile: Iuser,
-  file : Express.Multer.File,
-  S3Operations : IS3Operations, 
-  userModels: typeof userModel,
+  file: Express.Multer.File,
+  S3Operations: IS3Operations,
+  userModels: typeof userModel
 ): Promise<Iuser | undefined | any> => {
   try {
-    
-    const buffer = file.buffer
-    const mimetype = file.mimetype
-    const originalname = file.originalname
-  
-    const PutObjectParams: PutObjectParams = {
-      originalname,
-      buffer,
-      mimetype
+    console.log("userProfile ==>", userProfile);
+    let imageName = "";
+    console.log("file===>",file)
+    if (file) {
+      const buffer = file.buffer;
+      const mimetype = file.mimetype;
+      const originalname = file.originalname;
+
+      const PutObjectParams: PutObjectParams = {
+        originalname,
+        buffer,
+        mimetype,
+      };
+      console.log("FILE in DB ===>", file.originalname);
+
+      console.log("data ethiyooo =>", PutObjectParams);
+
+      imageName = await S3Operations.putObjectUrl(PutObjectParams);
     }
-
-    console.log("FILE in DB ===>",file.originalname )
-
-  console.log("data ethiyooo =>",PutObjectParams)    
-
-    const imageName = await S3Operations.putObjectUrl(PutObjectParams)
+    const currentUser = await userModels.findOne({ email : userProfile.email})
     const updatedUser = await userModels.findOneAndUpdate(
       { email: userProfile.email },
       {
         $set: {
-          name: userProfile.name,
-          profileImage: imageName,  
-          bio: userProfile.bio,
-          country: userProfile.country, 
-          states : userProfile.city,
-          skill: userProfile.skill,
-          picture : userProfile.picture,
-          imageKey : file.originalname,
-          profile : true 
+          name: userProfile.name || currentUser?.name,
+          profileImage: imageName || currentUser?.profileImage,
+          bio: userProfile.bio || currentUser?.bio,
+          country: userProfile.country || currentUser?.country,
+          states: userProfile.city || currentUser?.states,
+          skill: userProfile.skill ||currentUser?.skill,
+          picture: userProfile.picture || currentUser?.picture,
+          imageKey: file ? file.originalname : currentUser?.imageKey,
+          profile: true,
         },
       },
-      { new: true } 
+      { new: true }
     );
 
-    return updatedUser
+    return updatedUser;
   } catch (error) {
     console.error("Error updating profile:", error);
     return undefined; // Handle error as needed

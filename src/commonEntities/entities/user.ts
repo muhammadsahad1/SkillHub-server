@@ -15,13 +15,15 @@
 //   twoFactorAuthEnabled?: boolean;
 // }
 
-//  interface PrivacySettings {
-//   showEmail: boolean;
-//   showPhone: boolean;
-//   showProfilePicture: boolean;
-//   showActivityStatus: boolean;
-//   dataSharingOptOut?: boolean;
-// }
+ export interface IprivacySettings {
+  // showEmail: boolean;
+  // showPhone: boolean;
+  isProfilePublic ?: boolean;
+  userId : string | undefined;
+  showProfilePicture ?: boolean;
+  showActivityStatus?: boolean;
+  // dataSharingOptOut?: boolean;
+}
 
 // interface Follower {
 //   userId: ObjectId;

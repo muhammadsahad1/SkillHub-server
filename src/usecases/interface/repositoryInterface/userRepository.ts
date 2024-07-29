@@ -21,4 +21,5 @@ export interface IuserRepository {
   getAllUsers(): Promise<string>;
   blockUser(id: string): Promise<Iuser>;
   getUser(id: string): Promise<Iuser | undefined>;
+  // changePrivacy(userId : string,isPrivacy : boolean) : Promise< { status : boolean }| undefined>
 }

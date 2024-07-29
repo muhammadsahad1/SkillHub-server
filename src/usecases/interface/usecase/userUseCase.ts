@@ -1,6 +1,7 @@
 import { Iuser } from "../../../commonEntities/entities/user";
 import { IToken } from "../service/jwt";
 import { Next, Req, Res } from "../../../framework/types/serverPackageType";
+import { IprivacySettings } from "../../../commonEntities/entities/user";
 
 // each functions Interface (TYPSCRIPT)
 export interface IuserUseCase {
@@ -38,15 +39,15 @@ export interface IuserUseCase {
   ): Promise<{
     success: boolean;
     imageUrls: { profileUrl: string; coverImageUrl: string };
-    coverImage : string | void;
+    coverImage: string | void;
     message?: string;
   } | void>;
   // ===================================================================>
-    uploadCoverImage(
-    userId : string,
+  uploadCoverImage(
+    userId: string,
     file: Express.Multer.File | undefined,
     next: Next
-  ): Promise< Iuser | void>;
+  ): Promise<Iuser | void>;
   // ===================================================================>
   forgotPassword(
     email: string,
@@ -68,6 +69,9 @@ export interface IuserUseCase {
     currentPassword: string,
     newPassword: string
   ): Promise<{ success: boolean; message: string }>;
+  // ===================================================================>
+  changePrivacy(userId : string,isPrivacy: boolean,next:Next): Promise<{ updatedPrivacySettings : IprivacySettings ; status: boolean }>;
+
 
   resendOtp(email: string, next: Next): Promise<void>;
 

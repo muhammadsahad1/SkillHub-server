@@ -9,6 +9,7 @@ import {
   changePassword,
   getUser,
   coverImageUpload,
+  changePrivacy,
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -22,12 +23,14 @@ import { Next } from "../../framework/types/serverPackageType";
 import { resentOtp } from "./user/resentOtp";
 import { ErrorHandler } from '../middlewares/errorMiddleware' ;
 import { IS3Operations } from "../../framework/service/s3Bucket";
+import { IprivacyRepository } from "../interface/repositoryInterface/privacyRepository";
 
 // ================================= User user cases ================================= \\
 
 export class UserUseCase implements IuserUseCase {
   constructor(
     private userRepostory: IuserRepository,
+    private privacyRepository : IprivacyRepository,
     private Jwt: Ijwt,
     private otpRepository: IotpRepository,
     private hashPassword: IhashPassword,
@@ -208,7 +211,6 @@ export class UserUseCase implements IuserUseCase {
     }
   }
   
-
   // upload cover image
   async uploadCoverImage(
     userId: string,
@@ -254,4 +256,8 @@ export class UserUseCase implements IuserUseCase {
     return result;
   }
   // ===================================================================>
+  //change password
+  async changePrivacy(userId : string,isPrivacy: boolean,next : Next): Promise<{ status: boolean; }> {
+      const result = await changePrivacy(userId,isPrivacy,this.privacyRepository,next)
+  }
 }
