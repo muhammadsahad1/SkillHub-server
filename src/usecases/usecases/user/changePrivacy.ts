@@ -15,7 +15,10 @@ export const changePrivacy = async (
     }
 
     return {
-      
+      updatedPrivacySettings : result,
+      status : true
     }
-  } catch (error) {}
+  } catch (error :any) {
+    return next(new ErrorHandler(500,"Internal Server Error"));
+  }
 };

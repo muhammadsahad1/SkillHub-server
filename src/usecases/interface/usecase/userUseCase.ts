@@ -1,4 +1,4 @@
-import { Iuser } from "../../../commonEntities/entities/user";
+import { GetSkillRelatedUsersResponse, Iuser, IUserWithImages } from "../../../commonEntities/entities/user";
 import { IToken } from "../service/jwt";
 import { Next, Req, Res } from "../../../framework/types/serverPackageType";
 import { IprivacySettings } from "../../../commonEntities/entities/user";
@@ -70,9 +70,21 @@ export interface IuserUseCase {
     newPassword: string
   ): Promise<{ success: boolean; message: string }>;
   // ===================================================================>
-  changePrivacy(userId : string,isPrivacy: boolean,next:Next): Promise<{ updatedPrivacySettings : IprivacySettings ; status: boolean }>;
+  changePrivacy(
+    userId: string,
+    isPrivacy: boolean,
+    next: Next
+  ): Promise<{ updatedPrivacySettings: IprivacySettings; status: boolean }>;
+  // ===================================================================>
+  showNotification(
+    userId: string,
+    isShowNotification: boolean,
+    next: Next
+  ): Promise<{ success: boolean; status: boolean }>;
+  // ===================================================================>
+  getSkillRelatedUsers(skill : string , next : Next):Promise<IUserWithImages>
 
-
+  // ===================================================================>
   resendOtp(email: string, next: Next): Promise<void>;
 
   getUser(id: string, next: Next): Promise<Iuser | undefined | void>;

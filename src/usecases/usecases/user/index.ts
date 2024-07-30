@@ -9,6 +9,8 @@ import { changePassword } from "./changePassword";
 import { getUser } from "./getUser";
 import { coverImageUpload } from "./uploadCoverImage";
 import { changePrivacy } from "./changePrivacy";
+import { changeShowNotification } from './changeNotificationSettings'
+import { getSkillRelatedUsers} from './getSkillRelatedUsers'
 
 export {
   userSignup,
@@ -17,6 +19,8 @@ export {
   forgotPassword,
   resetPassword,
   changePassword,
+  getSkillRelatedUsers,
+  changeShowNotification,
   createProfile,
   coverImageUpload,
   getProfileImage,

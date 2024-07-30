@@ -6,7 +6,7 @@ import {
   refreshTokenOption,
   roleOptions,
 } from "../../framework/webServer/middleware/jwt";
-import {ErrorHandler} from "../../usecases/middlewares/errorMiddleware";
+import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
 
 // ===================================== User Controller ================================= //
 
@@ -31,14 +31,12 @@ export class UserController {
         req.body.verifyCode,
         next
       );
-      
+
       const { accessToken, refreshToken } = result?.tokens;
       res.cookie("accessToken", accessToken, accessTokenOption);
       res.cookie("refreshToken", refreshToken, refreshTokenOption);
       res.cookie("role", "user", roleOptions);
       res.status(200).json(result);
-      
-      
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
@@ -95,13 +93,34 @@ export class UserController {
   // ===================================================================>
   // reset Password
   async resetPassword(req: Req, res: Res, next: Next) {
-    const result = await this.userUseCase.resetPassword(
-      req.body.password,
-      req.body.resetToken,
-      next
-    );
-    if (result) {
-      res.json(result);
+    try {
+      const result = await this.userUseCase.resetPassword(
+        req.body.password,
+        req.body.resetToken,
+        next
+      );
+      if (result) {
+        res.json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
+  // ===================================================================>
+  // Get skill Related Users
+  async getSkillRelatedUsers(req: Req, res: Res, next: Next) {
+    try {
+      const skill = req.query.skill as string;
+      const result = await this.userUseCase.getSkillRelatedUsers(
+        skill,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
     }
   }
   // ===================================================================>
@@ -137,60 +156,60 @@ export class UserController {
         req.body.currentPassword,
         req.body.newPassword
       );
-      console.log(" result =====" ,result)
-      res.status(200).json(result)
+      console.log(" result =====", result);
+      res.status(200).json(result);
     } catch (error) {}
   }
 
   // ===================================================================>
   // create profile
-async createProfile(req: Req, res: Res, next: Next) {
-  try {
-    console.log("Request body:", req.body);
-    console.log("Request file:", req.file);
+  async createProfile(req: Req, res: Res, next: Next) {
+    try {
+      console.log("Request body:", req.body);
+      console.log("Request file:", req.file);
 
-    const result = await this.userUseCase.createProfile(
-      req.body,
-      req.file,
-      next
-    );
+      const result = await this.userUseCase.createProfile(
+        req.body,
+        req.file,
+        next
+      );
 
-    if (result) {
-      res.status(200).json({
-        user: result.user,
-        message: "Profile created successfully",
-        success: true,
-        role: "user",
-      });
-    } else {
-      return next(new ErrorHandler(400, "Profile creation failed"));
+      if (result) {
+        res.status(200).json({
+          user: result.user,
+          message: "Profile created successfully",
+          success: true,
+          role: "user",
+        });
+      } else {
+        return next(new ErrorHandler(400, "Profile creation failed"));
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
     }
-  } catch (error: any) {
-    return next(new ErrorHandler(error.status, error.message));
   }
-}
 
   // ===================================================================>
   // upload Cover Image
-  async uploadCoverimage (req : Req , res : Res , next : Next) {
+  async uploadCoverimage(req: Req, res: Res, next: Next) {
     try {
-      const result = await this.userUseCase.uploadCoverImage(req.user?.id,req.file,next)
-      if(!result){ 
-        console.log("rsult is not come")
+      const result = await this.userUseCase.uploadCoverImage(
+        req.user?.id,
+        req.file,
+        next
+      );
+      if (!result) {
+        console.log("rsult is not come");
       }
-      console.log("sfkjdfjsdkljsdljs")
-      console.log("result from userUserCase =>",result)
+      console.log("sfkjdfjsdkljsdljs");
+      console.log("result from userUserCase =>", result);
 
       res.status(200).json({
-        success : true,
-        message : "Cover image uploaded successfully",
-        user : result,
-
-      })
-
-    } catch (error) {
-      
-    }
+        success: true,
+        message: "Cover image uploaded successfully",
+        user: result,
+      });
+    } catch (error) {}
   }
 
   // ===================================================================>
@@ -206,17 +225,38 @@ async createProfile(req: Req, res: Res, next: Next) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
-  async changePrivacy(req : Req , res : Res,next : Next) {
+  async changePrivacy(req: Req, res: Res, next: Next) {
     try {
-      const result = await this.userUseCase.changePrivacy(req.user?.id,req.body.isPrivacy,next)
-      console.log("result ==>",result)
-      if(result){
-        res.json(result)
+      const result = await this.userUseCase.changePrivacy(
+        req.user?.id,
+        req.body.isPrivacy,
+        next
+      );
+
+      if (result) {
+        res.status(201).json(result);
       }
-    } catch (error) {
-      
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
     }
   }
+  // ===================================================================>
+  // change notification settings
+  async showNotification(req: Req, res: Res, next: Next) {
+    try {
+      const result = await this.userUseCase.showNotification(
+        req.user?.id,
+        req.body.isShowNotification,
+        next
+      );
+      if (result) {
+        res.status(201).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
   // ===================================================================>
   // logout User
   async userLogout(req: Req, res: Res, next: Next) {

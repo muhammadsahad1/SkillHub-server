@@ -12,7 +12,7 @@ export const createProfile = async (
   try {
     console.log("userProfile ==>", userProfile);
     let imageName = "";
-    console.log("file===>",file)
+
     if (file) {
       const buffer = file.buffer;
       const mimetype = file.mimetype;
@@ -23,10 +23,7 @@ export const createProfile = async (
         buffer,
         mimetype,
       };
-      console.log("FILE in DB ===>", file.originalname);
-
-      console.log("data ethiyooo =>", PutObjectParams);
-
+      
       imageName = await S3Operations.putObjectUrl(PutObjectParams);
     }
     const currentUser = await userModels.findOne({ email : userProfile.email})

@@ -25,8 +25,9 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   googleId: { type: String }, 
   googleAvatar :{ type : String },
   resetPasswordToken : { type :String},
-  email_notification : { type : Boolean , default : false},
-  sms_notification : { type : Boolean , default : false} ,
+  showNotification : { type : Boolean }
+  // email_notification : { type : Boolean , default : false},
+  // sms_notification : { type : Boolean , default : false} ,
 });
 
 const userModel: Model<Iuser> = mongoose.model('User',userSchema)

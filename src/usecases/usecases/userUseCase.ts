@@ -10,6 +10,8 @@ import {
   getUser,
   coverImageUpload,
   changePrivacy,
+  changeShowNotification,
+  getSkillRelatedUsers,
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -17,7 +19,7 @@ import { Ijwt, IToken } from "../interface/service/jwt";
 import { IotpRepository } from "../interface/repositoryInterface/otpRepository";
 import { IotpGenerate } from "../interface/service/otpGenerate";
 import { IhashPassword } from "../interface/service/hashPassword";
-import { Iuser } from "../../commonEntities/entities/user";
+import { GetSkillRelatedUsersResponse, IprivacySettings, Iuser, IUserWithImages } from "../../commonEntities/entities/user";
 import { IsendEmail } from "../interface/service/sendEmail";
 import { Next } from "../../framework/types/serverPackageType";
 import { resentOtp } from "./user/resentOtp";
@@ -157,6 +159,14 @@ export class UserUseCase implements IuserUseCase {
     }
     return result;
   }
+    // ===================================================================>
+  async getSkillRelatedUsers(skill : string , next : Next):Promise<IUserWithImages>  {
+    const result = await getSkillRelatedUsers(skill,this.userRepostory,this.s3,next)
+    if(!result){
+      return next(new ErrorHandler(400,"fetch skill related users failed"))
+    }
+    return result
+  }
 
   // ===================================================================>
   async changePassword(
@@ -164,7 +174,7 @@ export class UserUseCase implements IuserUseCase {
     currentPassword: string,
     newPassword: string,
     next: Next
-  ): Promise<{ success: boolean; message?: string } | any> {
+  ): Promise<{ success: boolean; message: string } | any> {
     const result = await changePassword(
       userId,
       currentPassword,
@@ -257,7 +267,19 @@ export class UserUseCase implements IuserUseCase {
   }
   // ===================================================================>
   //change password
-  async changePrivacy(userId : string,isPrivacy: boolean,next : Next): Promise<{ status: boolean; }> {
+  async changePrivacy(userId : string,isPrivacy: boolean,next : Next): Promise<{ updatedPrivacySettings : IprivacySettings ; status: boolean }> {
       const result = await changePrivacy(userId,isPrivacy,this.privacyRepository,next)
+      if(!result){
+        return next(new ErrorHandler(400,'Change privacy failed'))
+      }
+      return result
+  }
+  // ===================================================================>
+  //change password
+  async showNotification(userId :string,isShowNotification: boolean , next : Next): Promise<{ success : boolean ,status: boolean; } | any> {
+      const result = await changeShowNotification(userId,isShowNotification,this.userRepostory,next)
+      console.log("resss=>",result) 
+      return result
+  
   }
 }

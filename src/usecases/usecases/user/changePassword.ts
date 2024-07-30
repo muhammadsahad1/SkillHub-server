@@ -10,7 +10,7 @@ export const changePassword = async(
   hashPassword :IhashPassword,
   userRepository : IuserRepository,
   next : Next
-) : Promise<any>=> {
+) : Promise<{ success: boolean; message: string } | any>=> {
 try {
   console.log("kerii")
     const user = await userRepository.getUser(userId)

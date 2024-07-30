@@ -10,6 +10,9 @@ import { changePassword } from './changePassword'
 import { getUser } from "./getUser";
 import { uploadCoverImage } from "./uploadCoverImage";
 import { changePrivacy } from './changePrivacy'
+import { showNotification } from './showNotification'
+import { getSkillRelatedUsers } from "./getSkillRelatedUsers";
+import { getUsersImageUrls } from "./getUsersImageUrl";
 // exporting each functions of manipulation to DB
 export {
   createUser,
@@ -18,9 +21,12 @@ export {
   createProfile,
   resetPasswordVerify,
   changePassword,
+  showNotification,
   changePrivacy,
+  getSkillRelatedUsers,
   findUpdateResetToken,
   fetchProfileImage,
+  getUsersImageUrls,
   uploadCoverImage,
   getUser
 }

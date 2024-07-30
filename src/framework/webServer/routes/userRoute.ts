@@ -74,6 +74,23 @@ export function userRoute(route: Route): Route {
     }
   );
 
+  route.post(
+    "/showNotification",
+    isAuthenticate,
+    (req: Req, res: Res, next: Next) => {
+      userController.showNotification(req, res, next);
+    }
+  );
+
+  route.get(
+    "/getSkillRelatedUsers",
+    isAuthenticate,
+    (req: Req, res: Res, next: Next) => {
+      console.log("controlleril vann")
+      userController.getSkillRelatedUsers(req, res, next);
+    }
+  );
+
   route.post("/logout", isAuthenticate, (req: Req, res: Res, next: Next) => {
     userController.userLogout(req, res, next);
   });

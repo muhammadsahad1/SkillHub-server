@@ -1,5 +1,8 @@
 import userModel from "../model/userModel";
-import { Iuser } from "../../../../commonEntities/entities/user";
+import {
+  Iuser,
+  IUserWithImages,
+} from "../../../../commonEntities/entities/user";
 import { IuserRepository } from "../../../../usecases/interface/repositoryInterface/userRepository";
 import {
   createUser,
@@ -11,7 +14,10 @@ import {
   changePassword,
   findUpdateResetToken,
   fetchProfileImage,
-  uploadCoverImage
+  uploadCoverImage,
+  showNotification,
+  getSkillRelatedUsers,
+  getUsersImageUrls,
 } from "./user/index";
 import { IS3Operations } from "../../../service/s3Bucket";
 
@@ -33,14 +39,16 @@ export class UserRepository implements IuserRepository {
     );
   }
   // ===================================================================>
-  async createUser(newUser: Iuser): Promise<Iuser |
-  void
- | {
-     success: boolean;
-     user?: Iuser;
-     token: { accessToken: string; refershToken: string };
-     message?: string;
-   }> {
+  async createUser(newUser: Iuser): Promise<
+    | Iuser
+    | void
+    | {
+        success: boolean;
+        user?: Iuser;
+        token: { accessToken: string; refershToken: string };
+        message?: string;
+      }
+  > {
     return await createUser(newUser, this.userModels);
   }
   // ===================================================================>
@@ -67,6 +75,19 @@ export class UserRepository implements IuserRepository {
     return resInfisrt;
   }
   // ===================================================================>
+  async getSkillRelatedUserss(
+    skill: string,
+    s3Bucket: IS3Operations
+  ): Promise<IUserWithImages[]> {
+    const users = await getSkillRelatedUsers(skill, this.userModels);
+    if (!users || users.length === 0) {
+      return [];
+    }
+    const res = await getUsersImageUrls(users, s3Bucket);
+    return res
+  }
+  
+  // ===================================================================>
   async resetPasswordVerify(
     password: string,
     token: string
@@ -77,31 +98,33 @@ export class UserRepository implements IuserRepository {
   async fetchProfileImage(
     S3Operations: IS3Operations,
     userId: string
-  ): Promise<{ imageUrl :string; coverImageUrl : string}> {
+  ): Promise<{ imageUrl: string; coverImageUrl: string }> {
     return await fetchProfileImage(this.userModels, S3Operations, userId);
   }
   // cover image upload
   async uploadeCoverImage(
-    userId : string,
-    file : Express.Multer.File,
-    S3Operations : IS3Operations,
-
-  ) :Promise<Iuser | void> {
-    return await uploadCoverImage(this.userModels,userId,file,S3Operations)
+    userId: string,
+    file: Express.Multer.File,
+    S3Operations: IS3Operations
+  ): Promise<Iuser | void> {
+    return await uploadCoverImage(this.userModels, userId, file, S3Operations);
   }
   // ===================================================================>
   async findByIdUpdateUpdateOne(
     userId: string,
     password: string
   ): Promise<Iuser | void> {
-    return await changePassword(this.userModels,userId,password)
+    return await changePassword(this.userModels, userId, password);
   }
   // ===================================================================>
-  changePrivacy(userId : string,isPrivacy: boolean): Promise<{ status: boolean; } | undefined> {
-    
+  async changeShowNotification(
+    userId: string,
+    isShowNotification: boolean
+  ): Promise<{ status: boolean }> {
+    return await showNotification(userId, isShowNotification, this.userModels);
   }
   // ===================================================================>
-  async getUser(userId: string): Promise<Iuser | undefined >{
+  async getUser(userId: string): Promise<Iuser | undefined> {
     return await getUser(this.userModels, userId);
   }
   // ===================================================================>

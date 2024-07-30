@@ -84,7 +84,8 @@ export class S3Operations implements IS3Operations {
     if (!key) {
       throw new Error("No value provided for input HTTP label: Key");
     }
-    
+    console.log("getObj vannu =====>",key)
+
     const cacheKey = `${bucket}/${key}`;
     let url = cache.get(cacheKey);
     
@@ -102,7 +103,7 @@ export class S3Operations implements IS3Operations {
         throw error;
       }
     }
-    
+    console.log("URLLLLLLLLLLLLLLLll => ",url)
     return url;
   }
 }

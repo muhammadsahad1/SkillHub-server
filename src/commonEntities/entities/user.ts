@@ -15,25 +15,27 @@
 //   twoFactorAuthEnabled?: boolean;
 // }
 
- export interface IprivacySettings {
+export interface IprivacySettings {
   // showEmail: boolean;
   // showPhone: boolean;
-  isProfilePublic ?: boolean;
-  userId : string | undefined;
-  showProfilePicture ?: boolean;
+  isProfilePublic?: boolean;
+  userId: string | undefined;
+  showProfilePicture?: boolean;
   showActivityStatus?: boolean;
   // dataSharingOptOut?: boolean;
 }
 
-// interface Follower {
-//   userId: ObjectId;
-//   followedAt: Date;
-// }
+export interface Follower {
+  userId: string; // The user who is being followed
+  followerId: string; // The user who is following
+  followedAt: Date;
+}
 
-//  interface Following {
-//   userId: ObjectId;
-//   followedAt: Date;
-// }
+export interface Following {
+  userId: string; // The user who is following
+  followingId: string; // The user being followed
+  followedAt: Date;
+}
 
 // Define the main User interface
 export interface Iuser {
@@ -47,9 +49,10 @@ export interface Iuser {
   phoneNumber?: string;
   profileImage?: string;
   imageKey?: string;
-  status?:boolean;
-  coverImageKey? : string;
+  status?: boolean;
+  coverImageKey?: string;
   picture?: string | undefined;
+  showNotification?: boolean;
   // followers: Follower[];
   // following?: Following[];
   created_at?: Date;
@@ -60,16 +63,34 @@ export interface Iuser {
   states?: string;
   skill?: string;
   profile?: boolean;
-  coverImage? :String; 
+  coverImage?: String;
   googleId?: string;
   googleAvatar?: string;
   resetPasswordToken?: string;
-  // account_settings?: AccountSettings;
-  email_notification?: boolean;
-  sms_notification?: boolean;
-  // privacy_settings?: PrivacySettings;
-  contactVisibility?: string;
-  profileVisibility?: string;
   passwordLastChanged?: Date;
   //   profile?: Profile;
 }
+
+
+export interface GetSkillRelatedUsersResponse {
+  success: boolean;
+  profileImageUrl ?: string,
+  coverImageUrl ? : string,  
+  users: Iuser[]; 
+}
+
+
+export interface IUserWithImages {
+  userId: string;
+  userName: string;
+  bio: string;
+  skill: string;
+  imageUrl?: string;
+  coverImageUrl?: string;
+}
+// account_settings?: AccountSettings;
+// email_notification?: boolean;
+// sms_notification?: boolean;
+// privacy_settings?: PrivacySettings;
+// contactVisibility?: string;
+// profileVisibility?: string;

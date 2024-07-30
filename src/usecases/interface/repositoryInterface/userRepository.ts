@@ -1,4 +1,5 @@
-import { Iuser } from "../../../commonEntities/entities/user";
+import { Iuser, IUserWithImages } from "../../../commonEntities/entities/user";
+import { IS3Operations } from "../../../framework/service/s3Bucket";
 
 export interface IuserRepository {
   createUser(newUser: Iuser): Promise<Iuser |
@@ -18,6 +19,8 @@ export interface IuserRepository {
   createProfile(user : Iuser,file : Express.Multer.File,S3Operations : any) :Promise< Iuser| void> 
   fetchProfileImage(s3upload : any,userId : string) : Promise< { imageUrl :string; coverImageUrl : string}>
   uploadeCoverImage(userId : string,file : Express.Multer.File,s3 : any):Promise<Iuser | void>
+  changeShowNotification(userId : string , isShowNotification : boolean) :Promise<{ status : boolean}>
+  getSkillRelatedUserss(skill : string , s3Bucket: IS3Operations) :Promise<IUserWithImages[]>
   getAllUsers(): Promise<string>;
   blockUser(id: string): Promise<Iuser>;
   getUser(id: string): Promise<Iuser | undefined>;
