@@ -14,7 +14,7 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   bio : { type : String},
   created_at : { type : Date ,default : Date.now },
   city : { type :String},
-  country : { type : String },
+  country : { type : String },  
   states : { type : String},
   skill : { type : String },
   profile: { type : Boolean, default : false},
@@ -25,7 +25,9 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   googleId: { type: String }, 
   googleAvatar :{ type : String },
   resetPasswordToken : { type :String},
-  showNotification : { type : Boolean }
+  showNotification : { type : Boolean },
+  followers : [{ type : Schema.Types.ObjectId , ref :'User'}],
+  following : [{ type : Schema.Types.ObjectId, ref : 'User'}],
   // email_notification : { type : Boolean , default : false},
   // sms_notification : { type : Boolean , default : false} ,
 });

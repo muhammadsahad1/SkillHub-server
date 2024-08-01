@@ -82,9 +82,17 @@ export interface IuserUseCase {
     next: Next
   ): Promise<{ success: boolean; status: boolean }>;
   // ===================================================================>
-  getSkillRelatedUsers(skill : string , next : Next):Promise<IUserWithImages>
+  getSkillRelatedUsers(userId : string,skill : string , next : Next):Promise<IUserWithImages>
 
   // ===================================================================>
+  getUserDetails(userId : string,next : Next) : Promise<{success : boolean , user : Iuser}>
+
+  // ===================================================================>
+  userFollowUp(toFollowingId : string , followerId : string ,next :Next) : Promise<void>
+  
+  // ===================================================================>
+  getMyFollowings(userId : string,next : Next):Promise<Iuser[]>
+
   resendOtp(email: string, next: Next): Promise<void>;
 
   getUser(id: string, next: Next): Promise<Iuser | undefined | void>;

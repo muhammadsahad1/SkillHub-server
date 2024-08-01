@@ -45,7 +45,6 @@ export class UserController {
   // resentOtp
   async resentOtp(req: Req, res: Res, next: Next) {
     try {
-      console.log(req.body);
       const { email } = req.body;
       await this.userUseCase.resendOtp(email, next);
       res.json({ success: true, message: "Resented Otp in your Email" });
@@ -113,6 +112,7 @@ export class UserController {
     try {
       const skill = req.query.skill as string;
       const result = await this.userUseCase.getSkillRelatedUsers(
+        req.user?.id,
         skill,
         next
       );
@@ -150,7 +150,6 @@ export class UserController {
   // create profile
   async changePassword(req: Req, res: Res, next: Next) {
     try {
-      console.log("body changepassword =>", req.body);
       const result = await this.userUseCase.changePassword(
         req.user?.id,
         req.body.currentPassword,
@@ -256,7 +255,46 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+  // ===================================================================>
+  async getUserDetails(req: Req, res: Res, next: Next) {
+    try {
+      const result = await this.userUseCase.getUserDetails(
+        req.query?.userId,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  async userFollowUp(req: Req, res: Res, next: Next) {
+    try {
+      await this.userUseCase.userFollowUp(
+        req.body.toFollowingId,
+        req.body.fromFollowerId,
+        next
+      );
+      res.status(200).json({ success: "successfully update the following" });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: "Failed to follow user" });
+    }
+  }
 
+  async getMyFollowings(req: Req, res: Res, next: Next) {
+    try {
+    
+      const result = await this.userUseCase.getMyFollowings(req.user?.id, next);
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
   // ===================================================================>
   // logout User
   async userLogout(req: Req, res: Res, next: Next) {

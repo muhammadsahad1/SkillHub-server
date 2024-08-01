@@ -1,5 +1,7 @@
 // import mongoose, { Schema, model } from 'mongoose';
 
+import mongoose from "mongoose";
+
 // type ObjectId = mongoose.Types.ObjectId;
 
 // Define interfaces for sub-documents first
@@ -25,18 +27,6 @@ export interface IprivacySettings {
   // dataSharingOptOut?: boolean;
 }
 
-export interface Follower {
-  userId: string; // The user who is being followed
-  followerId: string; // The user who is following
-  followedAt: Date;
-}
-
-export interface Following {
-  userId: string; // The user who is following
-  followingId: string; // The user being followed
-  followedAt: Date;
-}
-
 // Define the main User interface
 export interface Iuser {
   id?: string;
@@ -53,8 +43,10 @@ export interface Iuser {
   coverImageKey?: string;
   picture?: string | undefined;
   showNotification?: boolean;
-  // followers: Follower[];
-  // following?: Following[];
+  followers?: mongoose.Types.ObjectId[] | Iuser[]; // Changed
+  following?: mongoose.Types.ObjectId[] | Iuser[]; // Changed
+  followerCount?: number;
+  followingCount?: number;
   created_at?: Date;
   updated_at?: Date;
   bio?: string;
@@ -71,22 +63,30 @@ export interface Iuser {
   //   profile?: Profile;
 }
 
-
 export interface GetSkillRelatedUsersResponse {
   success: boolean;
-  profileImageUrl ?: string,
-  coverImageUrl ? : string,  
-  users: Iuser[]; 
+  profileImageUrl?: string;
+  coverImageUrl?: string;
+  users: Iuser[];
 }
-
 
 export interface IUserWithImages {
   userId: string;
   userName: string;
+  country: string;
   bio: string;
   skill: string;
   imageUrl?: string;
   coverImageUrl?: string;
+}
+
+export interface FetchProfileImageResponse {
+  success: boolean;
+  imageUrls: {
+    profileUrl: string;
+    coverImageUrl: string;
+  };
+  message?: string;
 }
 // account_settings?: AccountSettings;
 // email_notification?: boolean;

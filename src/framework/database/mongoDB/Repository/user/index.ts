@@ -13,6 +13,9 @@ import { changePrivacy } from './changePrivacy'
 import { showNotification } from './showNotification'
 import { getSkillRelatedUsers } from "./getSkillRelatedUsers";
 import { getUsersImageUrls } from "./getUsersImageUrl";
+import { getUserDetails } from './getUserDetails'
+import { followUp } from "./followUp";
+import { getMyFollowing } from "./getMyFollowings";
 // exporting each functions of manipulation to DB
 export {
   createUser,
@@ -24,8 +27,11 @@ export {
   showNotification,
   changePrivacy,
   getSkillRelatedUsers,
+  getMyFollowing,
+  getUserDetails,
   findUpdateResetToken,
   fetchProfileImage,
+  followUp,
   getUsersImageUrls,
   uploadCoverImage,
   getUser

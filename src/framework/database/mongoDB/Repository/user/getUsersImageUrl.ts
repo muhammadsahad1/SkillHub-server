@@ -8,7 +8,7 @@ export const getUsersImageUrls = async (
     
     const userWithImages = await Promise.all(
       users.map(async (user) => {
-        const {_id  : _id ,name ,bio , skill , profileImage : profileImage , coverImage : coverImage} = user
+        const {_id  : _id ,name ,bio ,country, skill , profileImage : profileImage , coverImage : coverImage} = user
 
         let imageUrl = "";
         let coverImageUrl = "";
@@ -32,6 +32,7 @@ export const getUsersImageUrls = async (
         return {
           _id,
           name,
+          country,
           bio,
           skill,
           imageUrl,

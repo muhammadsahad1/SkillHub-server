@@ -3,21 +3,21 @@ import { Next } from "../../../framework/types/serverPackageType";
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
 
-export const getSkillRelatedUsers = async (
+export const getMyFollowings = async (
   userId : string,
-  skill : string ,
   userRepository : IuserRepository,
   s3 : IS3Operations,
   next : Next
 ) => {
-  const result = await userRepository.getSkillRelatedUserss(userId,skill,s3)
-  
-  if(!result) {
-    return next(new ErrorHandler(401,"fetching skill related users failed"))
-  }
+  try {
+    
+    const myFollowings = await userRepository.getMyFollowing(userId,s3)
 
-  return {
-    success : true,
-    userDetails : result
+    if(!myFollowings){
+      return next(new ErrorHandler(401,"This user don't have followings"))
+    }
+    return myFollowings
+  } catch (error) {
+    return next(new ErrorHandler(400, "User is founded"));
   }
 }

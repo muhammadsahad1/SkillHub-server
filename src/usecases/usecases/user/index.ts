@@ -11,6 +11,9 @@ import { coverImageUpload } from "./uploadCoverImage";
 import { changePrivacy } from "./changePrivacy";
 import { changeShowNotification } from './changeNotificationSettings'
 import { getSkillRelatedUsers} from './getSkillRelatedUsers'
+import { getUserDetails } from './getUserDetails'
+import { followUp } from "./followUp";
+import { getMyFollowings } from "./getMyFollowing";
 
 export {
   userSignup,
@@ -20,10 +23,13 @@ export {
   resetPassword,
   changePassword,
   getSkillRelatedUsers,
+  getUserDetails,
+  getMyFollowings,
   changeShowNotification,
   createProfile,
   coverImageUpload,
   getProfileImage,
   getUser,
+  followUp,
   changePrivacy
 };

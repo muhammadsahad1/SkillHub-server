@@ -86,10 +86,21 @@ export function userRoute(route: Route): Route {
     "/getSkillRelatedUsers",
     isAuthenticate,
     (req: Req, res: Res, next: Next) => {
-      console.log("controlleril vann")
       userController.getSkillRelatedUsers(req, res, next);
     }
   );
+
+  route.get("/getUserDetails",isAuthenticate, (req: Req, res: Res, next: Next) => {
+    userController.getUserDetails(req, res, next);
+  });
+
+  route.post("/followup",isAuthenticate, (req: Req, res: Res, next: Next) => {
+    userController.userFollowUp(req, res, next);
+  });
+
+  route.get("/getMyFollowings",isAuthenticate, (req: Req, res: Res, next: Next) => {
+    userController.getMyFollowings(req, res, next);
+  });
 
   route.post("/logout", isAuthenticate, (req: Req, res: Res, next: Next) => {
     userController.userLogout(req, res, next);

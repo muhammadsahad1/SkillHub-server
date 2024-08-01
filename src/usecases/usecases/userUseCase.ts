@@ -12,6 +12,9 @@ import {
   changePrivacy,
   changeShowNotification,
   getSkillRelatedUsers,
+  getUserDetails,
+  followUp,
+  getMyFollowings,
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -19,11 +22,16 @@ import { Ijwt, IToken } from "../interface/service/jwt";
 import { IotpRepository } from "../interface/repositoryInterface/otpRepository";
 import { IotpGenerate } from "../interface/service/otpGenerate";
 import { IhashPassword } from "../interface/service/hashPassword";
-import { GetSkillRelatedUsersResponse, IprivacySettings, Iuser, IUserWithImages } from "../../commonEntities/entities/user";
+import {
+  GetSkillRelatedUsersResponse,
+  IprivacySettings,
+  Iuser,
+  IUserWithImages,
+} from "../../commonEntities/entities/user";
 import { IsendEmail } from "../interface/service/sendEmail";
 import { Next } from "../../framework/types/serverPackageType";
 import { resentOtp } from "./user/resentOtp";
-import { ErrorHandler } from '../middlewares/errorMiddleware' ;
+import { ErrorHandler } from "../middlewares/errorMiddleware";
 import { IS3Operations } from "../../framework/service/s3Bucket";
 import { IprivacyRepository } from "../interface/repositoryInterface/privacyRepository";
 
@@ -32,7 +40,7 @@ import { IprivacyRepository } from "../interface/repositoryInterface/privacyRepo
 export class UserUseCase implements IuserUseCase {
   constructor(
     private userRepostory: IuserRepository,
-    private privacyRepository : IprivacyRepository,
+    private privacyRepository: IprivacyRepository,
     private Jwt: Ijwt,
     private otpRepository: IotpRepository,
     private hashPassword: IhashPassword,
@@ -66,15 +74,12 @@ export class UserUseCase implements IuserUseCase {
     email: string,
     otp: string,
     next: Next
-  ): Promise<
-     void
-    | {
-        success: boolean;
-        user?: Iuser;
-        token: { accessToken: string; refershToken: string };
-        message?: string;
-      }
-  > {
+  ): Promise<void | {
+    success: boolean;
+    user?: Iuser;
+    token: { accessToken: string; refershToken: string };
+    message?: string;
+  }> {
     const newuser = await createUser(
       email,
       otp,
@@ -159,15 +164,6 @@ export class UserUseCase implements IuserUseCase {
     }
     return result;
   }
-    // ===================================================================>
-  async getSkillRelatedUsers(skill : string , next : Next):Promise<IUserWithImages>  {
-    const result = await getSkillRelatedUsers(skill,this.userRepostory,this.s3,next)
-    if(!result){
-      return next(new ErrorHandler(400,"fetch skill related users failed"))
-    }
-    return result
-  }
-
   // ===================================================================>
   async changePassword(
     userId: string,
@@ -190,7 +186,7 @@ export class UserUseCase implements IuserUseCase {
   }
 
   // ===================================================================>
-// Use Case
+  // Use Case
   async createProfile(
     user: Iuser,
     file: Express.Multer.File,
@@ -209,18 +205,18 @@ export class UserUseCase implements IuserUseCase {
         this.s3,
         next
       );
-  
+
       if (!result) {
         return next(new ErrorHandler(400, "Profile update failed"));
       }
-  
+
       return result;
     } catch (error) {
       console.error("Error in createProfile use case:", error);
       return next(new ErrorHandler(500, "Internal Server Error"));
     }
   }
-  
+
   // upload cover image
   async uploadCoverImage(
     userId: string,
@@ -250,8 +246,8 @@ export class UserUseCase implements IuserUseCase {
     next: Next
   ): Promise<{
     success: boolean;
-    imageUrls: { profileUrl: string; coverImageUrl: string } ;
-    coverImage: string | void;
+    imageUrls: { profileUrl: string; coverImageUrl: string };
+    coverImage: string | void;  
     message?: string;
   } | void> {
     const result = await getProfileImage(
@@ -267,19 +263,81 @@ export class UserUseCase implements IuserUseCase {
   }
   // ===================================================================>
   //change password
-  async changePrivacy(userId : string,isPrivacy: boolean,next : Next): Promise<{ updatedPrivacySettings : IprivacySettings ; status: boolean }> {
-      const result = await changePrivacy(userId,isPrivacy,this.privacyRepository,next)
-      if(!result){
-        return next(new ErrorHandler(400,'Change privacy failed'))
-      }
-      return result
+  async changePrivacy(
+    userId: string,
+    isPrivacy: boolean,
+    next: Next
+  ): Promise<{ updatedPrivacySettings: IprivacySettings; status: boolean }> {
+    const result = await changePrivacy(
+      userId,
+      isPrivacy,
+      this.privacyRepository,
+      next
+    );
+    if (!result) {
+      return next(new ErrorHandler(400, "Change privacy failed"));
+    }
+    return result;
   }
   // ===================================================================>
   //change password
-  async showNotification(userId :string,isShowNotification: boolean , next : Next): Promise<{ success : boolean ,status: boolean; } | any> {
-      const result = await changeShowNotification(userId,isShowNotification,this.userRepostory,next)
-      console.log("resss=>",result) 
+  async showNotification(
+    userId: string,
+    isShowNotification: boolean,
+    next: Next
+  ): Promise<{ success: boolean; status: boolean } | any> {
+    const result = await changeShowNotification(
+      userId,
+      isShowNotification,
+      this.userRepostory,
+      next
+    );
+    console.log("resss=>", result);
+    return result;
+  }
+  // ===================================================================>
+  async getSkillRelatedUsers(
+    userId: string,
+    skill: string,
+    next: Next
+  ): Promise<IUserWithImages> {
+    const result = await getSkillRelatedUsers(
+      userId,
+      skill,
+      this.userRepostory,
+      this.s3,
+      next
+    );
+    if (!result) {
+      return next(new ErrorHandler(400, "fetch skill related users failed"));
+    }
+    return result;
+  }
+  // ===================================================================>
+  async getUserDetails(
+    userId: string,
+    next: Next
+  ): Promise<{ success: boolean; user: Iuser }> {
+    const result = await getUserDetails(userId, this.userRepostory, next);
+    if (!result) {
+      return next(new ErrorHandler(400, "fetch user failed"));
+    }
+    return {
+      success: true,
+      user: result,
+    };
+  }
+  // ===================================================================>
+  async userFollowUp(
+    toFollowingId: string,
+    fromFollowerId: string,
+    next: Next
+  ): Promise<void> {
+    await followUp(toFollowingId, fromFollowerId, this.userRepostory, next);
+  }
+  // ===================================================================>
+  async getMyFollowings(userId : string,next :Next): Promise<Iuser[]> {
+      const result = await getMyFollowings(userId,this.userRepostory,this.s3,next)
       return result
-  
   }
 }

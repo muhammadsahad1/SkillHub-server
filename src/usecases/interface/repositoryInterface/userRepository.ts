@@ -1,4 +1,4 @@
-import { Iuser, IUserWithImages } from "../../../commonEntities/entities/user";
+import { FetchProfileImageResponse, Iuser, IUserWithImages } from "../../../commonEntities/entities/user";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
 
 export interface IuserRepository {
@@ -17,11 +17,14 @@ export interface IuserRepository {
   findOneUpdateResetToken(email : string,resetToken : string) : Promise<Iuser | void>
   resetPasswordVerify(password : string , token : string) : Promise<Iuser | void>
   createProfile(user : Iuser,file : Express.Multer.File,S3Operations : any) :Promise< Iuser| void> 
-  fetchProfileImage(s3upload : any,userId : string) : Promise< { imageUrl :string; coverImageUrl : string}>
+  fetchProfileImage(s3upload : any,userId : string) :Promise<FetchProfileImageResponse> 
   uploadeCoverImage(userId : string,file : Express.Multer.File,s3 : any):Promise<Iuser | void>
   changeShowNotification(userId : string , isShowNotification : boolean) :Promise<{ status : boolean}>
-  getSkillRelatedUserss(skill : string , s3Bucket: IS3Operations) :Promise<IUserWithImages[]>
+  getSkillRelatedUserss(userId : string ,skill : string , s3Bucket: IS3Operations) :Promise<IUserWithImages[]>
+  getUserDetails(userId : string) : Promise<Iuser>
+  getMyFollowing(userId : string,S3Operations : IS3Operations) : Promise<any>
   getAllUsers(): Promise<string>;
+  followUp(toFollowingId : string , fromFollowerId : string):Promise<void>
   blockUser(id: string): Promise<Iuser>;
   getUser(id: string): Promise<Iuser | undefined>;
   // changePrivacy(userId : string,isPrivacy : boolean) : Promise< { status : boolean }| undefined>

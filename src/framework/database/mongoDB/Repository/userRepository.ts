@@ -18,8 +18,11 @@ import {
   showNotification,
   getSkillRelatedUsers,
   getUsersImageUrls,
+  getUserDetails,
+  followUp,
+  getMyFollowing,
 } from "./user/index";
-import { IS3Operations } from "../../../service/s3Bucket";
+import { IS3Operations, S3Operations } from "../../../service/s3Bucket";
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {
@@ -76,17 +79,21 @@ export class UserRepository implements IuserRepository {
   }
   // ===================================================================>
   async getSkillRelatedUserss(
+    userId: string,
     skill: string,
     s3Bucket: IS3Operations
   ): Promise<IUserWithImages[]> {
-    const users = await getSkillRelatedUsers(skill, this.userModels);
+    const users = await getSkillRelatedUsers(userId, skill, this.userModels);
     if (!users || users.length === 0) {
       return [];
     }
     const res = await getUsersImageUrls(users, s3Bucket);
-    return res
+    return res;
   }
-  
+  // ===================================================================>
+  async getUserDetails(userId: string): Promise<Iuser> {
+    return await getUserDetails(userId, this.userModels);
+  }
   // ===================================================================>
   async resetPasswordVerify(
     password: string,
@@ -124,9 +131,31 @@ export class UserRepository implements IuserRepository {
     return await showNotification(userId, isShowNotification, this.userModels);
   }
   // ===================================================================>
+  async followUp(toFollowingId: string, fromFollowerId: string): Promise<void> {
+    await followUp(toFollowingId, fromFollowerId, this.userModels);
+  }
+  // ===================================================================>
   async getUser(userId: string): Promise<Iuser | undefined> {
     return await getUser(this.userModels, userId);
   }
+
+  async getMyFollowing(
+    userId: string,
+    S3Operations: IS3Operations
+  ): Promise<any> {
+    const followingUsers = await getMyFollowing(
+      userId,
+      this.userModels,
+      S3Operations
+    );
+
+    if (!followingUsers || followingUsers.length === 0) {
+      return [];
+    }
+
+    const followingUsersWithImage = await getUsersImageUrls(followingUsers,S3Operations)
+    return followingUsersWithImage
+    }
   // ===================================================================>
   getAllUsers(): Promise<string> {
     throw new Error("Method not implemented.");
