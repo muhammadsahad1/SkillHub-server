@@ -12,7 +12,7 @@ export const createProfile = async (
   next : Next 
 ) : Promise<{ success: boolean; user?: Iuser; message?: string }| void> => {
   try {
-    console.log("updating user ==")
+  
     const updatedUser = await userRepository.createProfile(user,file,S3Operations)
     if(!updatedUser){
       return next(new ErrorHandler(400,"Profile creation failed"))

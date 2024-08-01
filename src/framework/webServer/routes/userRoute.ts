@@ -36,6 +36,7 @@ export function userRoute(route: Route): Route {
   route.post(
     "/createProfile",
     upload.single("profileImage"),
+    isAuthenticate,
     (req: Req, res: Res, next: Next) => {
       userController.createProfile(req, res, next);
     }
@@ -90,19 +91,37 @@ export function userRoute(route: Route): Route {
     }
   );
 
-  route.get("/getUserDetails",isAuthenticate, (req: Req, res: Res, next: Next) => {
-    userController.getUserDetails(req, res, next);
-  });
+  route.get(
+    "/getUserDetails",
+    isAuthenticate,
+    (req: Req, res: Res, next: Next) => {
+      userController.getUserDetails(req, res, next);
+    }
+  );
 
-  route.post("/followup",isAuthenticate, (req: Req, res: Res, next: Next) => {
+  route.post("/followup", isAuthenticate, (req: Req, res: Res, next: Next) => {
     userController.userFollowUp(req, res, next);
   });
 
-  route.get("/getMyFollowings",isAuthenticate, (req: Req, res: Res, next: Next) => {
-    userController.getMyFollowings(req, res, next);
-  });
+  route.get(
+    "/getMyFollowings",
+    isAuthenticate,
+    (req: Req, res: Res, next: Next) => {
+      userController.getMyFollowings(req, res, next);
+    }
+  );
 
-  route.post("/logout", isAuthenticate, (req: Req, res: Res, next: Next) => {
+  route.post('/unFollow',isAuthenticate,
+    (req: Req, res: Res, next: Next) => {
+        userController.unFollow(req,res,next)
+    }
+  );
+
+  route.get('/followers',isAuthenticate,(req : Req , res : Res , next : Next)=> {
+    userController.myFollowers(req,res,next)
+  })
+
+  route.post("/logout",isAuthenticate, (req: Req, res: Res, next: Next) => {
     userController.userLogout(req, res, next);
   });
 

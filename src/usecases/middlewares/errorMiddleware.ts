@@ -9,6 +9,8 @@ class ErrorHandler extends Error {
   }
 }
 
+
+
 const errorHandler = (err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';

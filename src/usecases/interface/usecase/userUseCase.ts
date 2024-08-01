@@ -1,4 +1,8 @@
-import { GetSkillRelatedUsersResponse, Iuser, IUserWithImages } from "../../../commonEntities/entities/user";
+import {
+  GetSkillRelatedUsersResponse,
+  Iuser,
+  IUserWithImages,
+} from "../../../commonEntities/entities/user";
 import { IToken } from "../service/jwt";
 import { Next, Req, Res } from "../../../framework/types/serverPackageType";
 import { IprivacySettings } from "../../../commonEntities/entities/user";
@@ -13,15 +17,21 @@ export interface IuserUseCase {
   login(
     user: Iuser,
     next: Next
-  ): Promise<void | { fetchUser: Iuser; tokens: IToken }>;
+  ): Promise<{
+    fetchUser?: Iuser | void;
+    token: { accessToken: string; refreshToken: string };
+  } | void>;
   // ===================================================================>
   createUser(
     email: string,
     otp: string,
     next: Next
-  ): Promise<
-    void | Iuser | { success: boolean; user?: Iuser; message?: string }
-  >;
+  ): Promise<{
+    success: boolean;
+    user?: Iuser;
+    tokens: { accessToken: string; refreshToken: string };
+    message?: string;
+  } | void>;
   // ===================================================================>
   createProfile(
     user: Iuser,
@@ -82,16 +92,37 @@ export interface IuserUseCase {
     next: Next
   ): Promise<{ success: boolean; status: boolean }>;
   // ===================================================================>
-  getSkillRelatedUsers(userId : string,skill : string , next : Next):Promise<IUserWithImages>
+  getSkillRelatedUsers(
+    userId: string,
+    skill: string,
+    next: Next
+  ): Promise<IUserWithImages>;
 
   // ===================================================================>
-  getUserDetails(userId : string,next : Next) : Promise<{success : boolean , user : Iuser}>
+  getUserDetails(
+    userId: string,
+    next: Next
+  ): Promise<{ success: boolean; user: Iuser }>;
 
   // ===================================================================>
-  userFollowUp(toFollowingId : string , followerId : string ,next :Next) : Promise<void>
-  
+  userFollowUp(
+    toFollowingId: string,
+    followerId: string,
+    next: Next
+  ): Promise<void>;
+
   // ===================================================================>
-  getMyFollowings(userId : string,next : Next):Promise<Iuser[]>
+  getMyFollowings(userId: string, next: Next): Promise<Iuser[]>;
+
+  // ===================================================================>
+  myFollowers(userId: string, next: Next): Promise<Iuser[]>;
+
+  // ===================================================================>
+  unFollow(
+    toUnfollowId: string,
+    fromFollowerId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string } | void>;
 
   resendOtp(email: string, next: Next): Promise<void>;
 

@@ -16,6 +16,9 @@ import { getUsersImageUrls } from "./getUsersImageUrl";
 import { getUserDetails } from './getUserDetails'
 import { followUp } from "./followUp";
 import { getMyFollowing } from "./getMyFollowings";
+import { unFollow } from "./unFollow";
+import { myFollowers } from "./myFollowers";
+
 // exporting each functions of manipulation to DB
 export {
   createUser,
@@ -32,6 +35,8 @@ export {
   findUpdateResetToken,
   fetchProfileImage,
   followUp,
+  unFollow,
+  myFollowers,
   getUsersImageUrls,
   uploadCoverImage,
   getUser

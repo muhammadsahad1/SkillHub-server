@@ -3,7 +3,7 @@ import { IsendEmail } from "../../interface/service/sendEmail";
 import { Next } from "../../../framework/types/serverPackageType";
 import { Ijwt } from "../../interface/service/jwt";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import ErrorHandler from "../../middlewares/errorHandler";import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
+import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
 export const forgotPassword = async (
   jwt : Ijwt,
   userRepository : IuserRepository,
@@ -13,9 +13,9 @@ export const forgotPassword = async (
 ) => {
 
   try {
-    console.log("forgot passs ethi ....")
+  
     const user = await userRepository.findByEmail(email)
-    console.log("fech user ",user)
+
     if(!user){
       return { message : "User not found",success : false}
     }

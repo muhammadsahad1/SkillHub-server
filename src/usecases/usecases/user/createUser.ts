@@ -15,7 +15,7 @@ export const createUser = async (
   userRepository: IuserRepository,
   hashPassword: IhashPassword,
   next: Next,
-): Promise<{ success: boolean; user?: Iuser;tokens : { acessToken : string , refreshToken : string }; message?: string }| void> => {
+): Promise<{ success: boolean; user?: Iuser;tokens : { accessToken : string , refreshToken : string }; message?: string }| void> => {
   try {
     // Fetch OTP 
     const fetchedOtp = await otpRepository.findOtp(email);

@@ -25,6 +25,8 @@ export interface IuserRepository {
   getMyFollowing(userId : string,S3Operations : IS3Operations) : Promise<any>
   getAllUsers(): Promise<string>;
   followUp(toFollowingId : string , fromFollowerId : string):Promise<void>
+  myFollowers(userId : string ,S3Operations : IS3Operations) : Promise<any>
+  unFollow(toUnFollowId : string,fromFollowerId : string):Promise<void>
   blockUser(id: string): Promise<Iuser>;
   getUser(id: string): Promise<Iuser | undefined>;
   // changePrivacy(userId : string,isPrivacy : boolean) : Promise< { status : boolean }| undefined>

@@ -16,6 +16,6 @@ export const getUserDetails = async (
     }
     return user
   } catch (error) {
-    
+    return next(new ErrorHandler(400, "User is founded"));
   }
 }

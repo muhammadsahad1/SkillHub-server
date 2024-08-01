@@ -5,29 +5,34 @@ import {
   refreshTokenOption,
   roleOptions,
 } from "../../framework/webServer/middleware/jwt";
+import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
 // ===================================== User Controller ================================= //
 
 export class AdminController {
   constructor(private adminUseCase: IadminUseCase) {}
 // ======================================================>
   async adminLogin(req: Req, res: Res, next: Next) {
+
     const result = await this.adminUseCase.adminLogin(
       req.body.email,
       req.body.password,
       next
     );
-    console.log("result ==>",result)
+
     res.cookie(
       "admin_access_token",
       result.tokens?.accessToken,
       accessTokenOption
     );
+
     res.cookie(
       "admin_refresh_token",
       result.tokens?.refreshToken,
       refreshTokenOption
     );
+
     res.cookie("role", "admin", roleOptions);
+    console.log("result ===>",result)
     if (result) {
       res.status(200).json(result);
     }
@@ -46,5 +51,17 @@ export class AdminController {
     res.status(200).json(result)
       
     }
+
+    async logout (req: Req, res: Res, next: Next){
+      try {
+        res.clearCookie('admin_access_token',accessTokenOption)
+        res.clearCookie("admin_refresh_token", refreshTokenOption);
+        res.clearCookie("role", roleOptions);
+        res.status(200).json({message : "admin logout successfull"})
+      } catch (error: any) {
+        return next(new ErrorHandler(error.status, error.message));
+      }
+        
+      }
   
 }

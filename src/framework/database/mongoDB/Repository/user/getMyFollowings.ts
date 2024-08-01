@@ -10,10 +10,10 @@ export const getMyFollowing = async (
   try {
 
     const user = await userModels.findById(userId).lean()
-    console.log("current User ==>",user)
-    // if(!user){
-    //   return "user is not found"
-    // }
+
+    if(!user){
+      return "user is not found"
+    }
 
     const followings = user?.following.filter(id => mongoose.Types.ObjectId.isValid(id));
 

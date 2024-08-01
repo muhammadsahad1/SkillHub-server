@@ -34,7 +34,7 @@ export const userSignup = async (
         userInOtp.otp as string
       );
     } else {
-      console.log("otp keri");
+  
       const createdOtp = await otpGenerate.createOtp();
       const responseCreateOtp = await otpRepository.createOtp(
         user.name,

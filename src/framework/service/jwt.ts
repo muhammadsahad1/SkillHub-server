@@ -24,7 +24,7 @@ export class JWTtoken implements Ijwt {
     const refreshToken = await jwt.sign(Payload, process.env.JWT_REFRESH_KEY, {
       expiresIn: "3d",
     });
-    console.log("acc", accessToken, "ref", refreshToken);
+    
     return { accessToken, refreshToken, role: "" };
   }
 

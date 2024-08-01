@@ -7,7 +7,7 @@ import { RequestHandler } from 'express'
 
 const jwt = new JWTtoken();
 
-export const isAuthenticate : RequestHandler = async (req, res, next) => {
+export const isAdminAuthenticate : RequestHandler = async (req, res, next) => {
   const customReq = req as CustomRequest;
   const accessToken = customReq.cookies.admin_access_token;
   const refreshToken = customReq.cookies.admin_refresh_token;

@@ -29,6 +29,7 @@ export const adminLogin = async (
     }
     // generating token
     const Tokens = await jwt.createAccessAndRefreshToken(admin?.id as string);
+    console.log("Tokenssssss => admin ==>",Tokens)
     return {
       success: true,
       tokens: Tokens,

@@ -24,7 +24,7 @@ export const resetPassword = async (
           message : "reset password successfully"
         }
       }
-  }catch(error){
-    console.log("reset password failed",error)
-  }
+    } catch (error) {
+      return next(new ErrorHandler(400, "failed tp reset password"));
+    }
 }

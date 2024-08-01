@@ -14,6 +14,8 @@ import { getSkillRelatedUsers} from './getSkillRelatedUsers'
 import { getUserDetails } from './getUserDetails'
 import { followUp } from "./followUp";
 import { getMyFollowings } from "./getMyFollowing";
+import { unFollow } from "./unFollow";
+import { myFollowers } from "./myFollowers";
 
 export {
   userSignup,
@@ -25,6 +27,8 @@ export {
   getSkillRelatedUsers,
   getUserDetails,
   getMyFollowings,
+  myFollowers,
+  unFollow,
   changeShowNotification,
   createProfile,
   coverImageUpload,

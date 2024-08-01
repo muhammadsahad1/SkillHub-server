@@ -98,9 +98,11 @@ export class UserController {
         req.body.resetToken,
         next
       );
+
       if (result) {
         res.json(result);
       }
+      
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
@@ -155,7 +157,7 @@ export class UserController {
         req.body.currentPassword,
         req.body.newPassword
       );
-      console.log(" result =====", result);
+      
       res.status(200).json(result);
     } catch (error) {}
   }
@@ -208,7 +210,9 @@ export class UserController {
         message: "Cover image uploaded successfully",
         user: result,
       });
-    } catch (error) {}
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
   }
 
   // ===================================================================>
@@ -269,6 +273,7 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   async userFollowUp(req: Req, res: Res, next: Next) {
     try {
       await this.userUseCase.userFollowUp(
@@ -295,6 +300,33 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+// ===================================================================>
+//myFollowers
+async myFollowers (req : Req , res : Res ,next :Next) {
+  try {
+    const userId = req.user?.id
+    const result = await this.userUseCase.myFollowers(userId,next)
+    if(result){
+      res.status(200).json(result)
+    }
+  } catch (error: any) {
+    return next(new ErrorHandler(error.status, error.message));
+  }
+}
+  // Unfollow
+async unFollow(req : Req, res : Res , next : Next) {
+  try {
+    const { toUnFollowId , fromFollowerId } = req.body
+    const result = await this.userUseCase.unFollow(toUnFollowId,fromFollowerId,next)
+    console.log("result of unfollow user =>",result)
+    if(result){
+      res.status(200).json(result)
+    }
+  } catch (error: any) {
+    return next(new ErrorHandler(error.status, error.message));
+  }
+}
+
   // ===================================================================>
   // logout User
   async userLogout(req: Req, res: Res, next: Next) {

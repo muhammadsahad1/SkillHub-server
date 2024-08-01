@@ -10,7 +10,7 @@ export const createProfile = async (
   userModels: typeof userModel
 ): Promise<Iuser | undefined | any> => {
   try {
-    console.log("userProfile ==>", userProfile);
+
     let imageName = "";
 
     if (file) {

@@ -21,8 +21,11 @@ import {
   getUserDetails,
   followUp,
   getMyFollowing,
+  unFollow,
+  myFollowers
 } from "./user/index";
 import { IS3Operations, S3Operations } from "../../../service/s3Bucket";
+
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {
@@ -148,14 +151,27 @@ export class UserRepository implements IuserRepository {
       this.userModels,
       S3Operations
     );
-
     if (!followingUsers || followingUsers.length === 0) {
       return [];
     }
-
     const followingUsersWithImage = await getUsersImageUrls(followingUsers,S3Operations)
     return followingUsersWithImage
     }
+
+  // ===================================================================>
+  async unFollow(toUnFollowId : string,fromFollowerId : string):Promise<void>{
+    return await unFollow(toUnFollowId,fromFollowerId,this.userModels)
+  }
+
+  async myFollowers(userId: string, S3Operations: IS3Operations): Promise<any> {
+      const followers = await myFollowers(userId,this.userModels)
+
+      if(!followers || followers.length === 0){
+        return []
+      }
+      const followersUsersWithImage = await getUsersImageUrls(followers,S3Operations)
+      return followersUsersWithImage
+  }
   // ===================================================================>
   getAllUsers(): Promise<string> {
     throw new Error("Method not implemented.");
