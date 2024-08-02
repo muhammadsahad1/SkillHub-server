@@ -21,6 +21,7 @@ export const getMyFollowing = async (
 
     return followingsUsers
     
+    
   } catch (error) {
     console.error("Error updating profile:", error);
     return undefined; 

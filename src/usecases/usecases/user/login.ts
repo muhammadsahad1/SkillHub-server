@@ -41,7 +41,7 @@ export const login = async (
     }
     
     const tokens = await jwt.createAccessAndRefreshToken(fetchUser.id as string);
-    console.log("tokenn after googleLogin  ===>",tokens)
+    
     return { fetchUser, tokens };
   } catch (error) {
     return next(new ErrorHandler(500, "An error occurred during login"));

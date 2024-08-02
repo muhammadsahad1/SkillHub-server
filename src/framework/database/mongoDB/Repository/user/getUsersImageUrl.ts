@@ -2,13 +2,23 @@ import { IS3Operations } from "../../../../service/s3Bucket";
 
 export const getUsersImageUrls = async (
   users: any[],
+  followings: any[] = [],
   s3: IS3Operations
 ) => {
   try {
     
+    const followingIds = followings.map((id) => id.toString())
     const userWithImages = await Promise.all(
       users.map(async (user) => {
-        const {_id  : _id ,name ,bio ,country, skill , profileImage : profileImage , coverImage : coverImage} = user
+        const {
+          _id: _id,
+          name,
+          bio,
+          country,
+          skill,
+          profileImage: profileImage,
+          coverImage: coverImage,
+        } = user;
 
         let imageUrl = "";
         let coverImageUrl = "";
@@ -18,7 +28,7 @@ export const getUsersImageUrls = async (
             bucket: process.env.C3_BUCKET_NAME,
             key: profileImage,
           });
-          console.log("imageUrl ===>",imageUrl)
+          console.log("imageUrl ===>", imageUrl);
         }
 
         if (coverImage) {
@@ -27,6 +37,8 @@ export const getUsersImageUrls = async (
             key: coverImage,
           });
         }
+        
+        let isFollowingBack = followingIds.includes(_id.toString());
 
         // returning the home page userSkillReleted data
         return {
@@ -37,14 +49,15 @@ export const getUsersImageUrls = async (
           skill,
           imageUrl,
           coverImageUrl,
+          isFollowingBack,
         };
       })
     );
-    
-    return userWithImages;
 
+    console.log("usersWithImages ===>", userWithImages);
+    return userWithImages;
   } catch (error) {
     console.error("Error updating profile:", error);
-    return undefined; 
+    return undefined;
   }
 };

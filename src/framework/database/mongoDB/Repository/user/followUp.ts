@@ -7,8 +7,8 @@ export const followUp = async (
   userModels: typeof userModel
 ) => {
   try {
+
     if (toFollowingId && fromFollowerId) {
-      console.log("rand idyum ind -------");
       const toFollowingObjectId = new mongoose.Types.ObjectId(toFollowingId);
       const fromFollowerObjectId = new mongoose.Types.ObjectId(fromFollowerId);
       await userModels.findByIdAndUpdate(
@@ -24,7 +24,7 @@ export const followUp = async (
           $addToSet: { following: toFollowingId },
         }
       );
-      console.log("updated follow");
+      
     } else {
       console.log("one of the id is not valid");
     }

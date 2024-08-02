@@ -102,7 +102,6 @@ export class UserController {
       if (result) {
         res.json(result);
       }
-      
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
@@ -157,7 +156,7 @@ export class UserController {
         req.body.currentPassword,
         req.body.newPassword
       );
-      
+
       res.status(200).json(result);
     } catch (error) {}
   }
@@ -291,7 +290,6 @@ export class UserController {
 
   async getMyFollowings(req: Req, res: Res, next: Next) {
     try {
-    
       const result = await this.userUseCase.getMyFollowings(req.user?.id, next);
       if (result) {
         res.status(200).json(result);
@@ -300,33 +298,70 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
-// ===================================================================>
-//myFollowers
-async myFollowers (req : Req , res : Res ,next :Next) {
-  try {
-    const userId = req.user?.id
-    const result = await this.userUseCase.myFollowers(userId,next)
-    if(result){
-      res.status(200).json(result)
+  // ===================================================================>
+  //myFollowers
+  async myFollowers(req: Req, res: Res, next: Next) {
+    try {
+      const userId = req.user?.id;
+      const result = await this.userUseCase.myFollowers(userId, next);
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
     }
-  } catch (error: any) {
-    return next(new ErrorHandler(error.status, error.message));
   }
-}
   // Unfollow
-async unFollow(req : Req, res : Res , next : Next) {
-  try {
-    const { toUnFollowId , fromFollowerId } = req.body
-    const result = await this.userUseCase.unFollow(toUnFollowId,fromFollowerId,next)
-    console.log("result of unfollow user =>",result)
-    if(result){
-      res.status(200).json(result)
+  async unFollow(req: Req, res: Res, next: Next) {
+    try {
+      const { toUnFollowId, fromFollowerId } = req.body;
+      const result = await this.userUseCase.unFollow(
+        toUnFollowId,
+        fromFollowerId,
+        next
+      );
+      console.log("result of unfollow user =>", result);
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
     }
-  } catch (error: any) {
-    return next(new ErrorHandler(error.status, error.message));
   }
-}
 
+  async removeFollower(req: Req, res: Res, next: Next) {
+    try {
+      const { toRemoveId } = req.body;
+      const result = await this.userUseCase.removeFollower(
+        req.user?.id,
+        toRemoveId,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  // ===================================================================>
+  // followBack
+  async followback(req: Req, res: Res, next: Next) {
+    try {
+      const { toFollowId } = req.body;
+      const result = await this.userUseCase.followBack(
+        req.user?.id,
+        toFollowId,
+        next
+      );
+
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
   // ===================================================================>
   // logout User
   async userLogout(req: Req, res: Res, next: Next) {

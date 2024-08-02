@@ -12,7 +12,7 @@ export const myFollowers = async (
       mongoose.Types.ObjectId.isValid(id)
     );
     const followersUsers = await userModels.find({ _id: { $in: followers } });
-
+    
     // returning followerUsers and followingback userId
     return {
       followersUsers,

@@ -78,7 +78,8 @@ export interface IuserUseCase {
     userId: string,
     currentPassword: string,
     newPassword: string
-  ): Promise<{ success: boolean; message: string }>;
+    next : Next,
+  ): Promise<{ success: boolean; message: string } | any>;
   // ===================================================================>
   changePrivacy(
     userId: string,
@@ -122,7 +123,15 @@ export interface IuserUseCase {
     toUnfollowId: string,
     fromFollowerId: string,
     next: Next
-  ): Promise<{ success: boolean; message: string } | void>;
+  ): Promise<{ success: boolean; message: string }>;
+  // ===================================================================>
+  removeFollower(
+    fromRemoveId: string,
+    toRemoveId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string }>;
+// ===================================================================>
+  followBack(toFollowId : string,fromFollowingId : string,next : Next) :Promise<{ success: boolean; message: string }>
 
   resendOtp(email: string, next: Next): Promise<void>;
 

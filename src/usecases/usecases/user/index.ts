@@ -9,13 +9,15 @@ import { changePassword } from "./changePassword";
 import { getUser } from "./getUser";
 import { coverImageUpload } from "./uploadCoverImage";
 import { changePrivacy } from "./changePrivacy";
-import { changeShowNotification } from './changeNotificationSettings'
-import { getSkillRelatedUsers} from './getSkillRelatedUsers'
-import { getUserDetails } from './getUserDetails'
+import { changeShowNotification } from "./changeNotificationSettings";
+import { getSkillRelatedUsers } from "./getSkillRelatedUsers";
+import { getUserDetails } from "./getUserDetails";
 import { followUp } from "./followUp";
 import { getMyFollowings } from "./getMyFollowing";
 import { unFollow } from "./unFollow";
 import { myFollowers } from "./myFollowers";
+import { removeFollower } from "./removeFollower";
+import { followBack } from "./followBack";
 
 export {
   userSignup,
@@ -29,11 +31,13 @@ export {
   getMyFollowings,
   myFollowers,
   unFollow,
+  removeFollower,
   changeShowNotification,
   createProfile,
   coverImageUpload,
   getProfileImage,
   getUser,
   followUp,
-  changePrivacy
+  followBack,
+  changePrivacy,
 };

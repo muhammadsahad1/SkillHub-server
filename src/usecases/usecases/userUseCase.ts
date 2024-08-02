@@ -17,6 +17,8 @@ import {
   getMyFollowings,
   unFollow,
   myFollowers,
+  removeFollower,
+  followBack,
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -36,6 +38,7 @@ import { resentOtp } from "./user/resentOtp";
 import { ErrorHandler } from "../middlewares/errorMiddleware";
 import { IS3Operations } from "../../framework/service/s3Bucket";
 import { IprivacyRepository } from "../interface/repositoryInterface/privacyRepository";
+import { NextFunction } from "express";
 
 // ================================= User user cases ================================= \\
 
@@ -50,6 +53,7 @@ export class UserUseCase implements IuserUseCase {
     private sendEmail: IsendEmail,
     private s3: IS3Operations
   ) {}
+
   // ===================================================================>
   async userSignup(
     user: Iuser,
@@ -107,7 +111,10 @@ export class UserUseCase implements IuserUseCase {
   async login(
     user: Iuser,
     next: Next
-  ): Promise<{ fetchUser?: Iuser | void; token : {accessToken : string ,refreshToken : string} }| void> {
+  ): Promise<{
+    fetchUser?: Iuser | void;
+    token: { accessToken: string; refreshToken: string };
+  } | void> {
     const tokens = await login(
       this.userRepostory,
       this.Jwt,
@@ -348,9 +355,9 @@ export class UserUseCase implements IuserUseCase {
     return result;
   }
   // ===================================================================>
-  async myFollowers(userId :string,next :Next): Promise<Iuser[]> {
-    const result = await myFollowers(userId,this.s3,this.userRepostory,next)
-    return result
+  async myFollowers(userId: string, next: Next): Promise<Iuser[]> {
+    const result = await myFollowers(userId, this.s3, this.userRepostory, next);
+    return result;
   }
 
   // ===================================================================>
@@ -358,8 +365,34 @@ export class UserUseCase implements IuserUseCase {
     toUnfollowId: string,
     fromFollowerId: string,
     next: Next
-  ): Promise<{ success: boolean; message: string } | void > {
-    const result = await unFollow(toUnfollowId,fromFollowerId,this.userRepostory,next)
-    return result
+  ): Promise<{ success: boolean; message: string } | void> {
+    const result = await unFollow(
+      toUnfollowId,
+      fromFollowerId,
+      this.userRepostory,
+      next
+    );
+    return result;
+  }
+  // ===================================================================>
+  async removeFollower(
+    fromRemoverId: string,
+    toRemoveId: string,
+    next: NextFunction
+  ): Promise<{ success: boolean; message: string }> {
+    return await removeFollower(
+      fromRemoverId,
+      toRemoveId,
+      this.userRepostory,
+      next
+    );
+  }
+
+  async followBack(
+    toFollowId: string,
+    fromFollowingId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string }> {
+      return await followBack(toFollowId,fromFollowingId,this.userRepostory,next)
   }
 }

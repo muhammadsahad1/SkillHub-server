@@ -22,10 +22,11 @@ import {
   followUp,
   getMyFollowing,
   unFollow,
-  myFollowers
+  myFollowers,
+  removeFollower,
+  followBack,
 } from "./user/index";
-import { IS3Operations, S3Operations } from "../../../service/s3Bucket";
-
+import { IS3Operations } from "../../../service/s3Bucket";
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {
@@ -90,7 +91,7 @@ export class UserRepository implements IuserRepository {
     if (!users || users.length === 0) {
       return [];
     }
-    const res = await getUsersImageUrls(users, s3Bucket);
+    const res = await getUsersImageUrls(users,[], s3Bucket);
     return res;
   }
   // ===================================================================>
@@ -154,23 +155,43 @@ export class UserRepository implements IuserRepository {
     if (!followingUsers || followingUsers.length === 0) {
       return [];
     }
-    const followingUsersWithImage = await getUsersImageUrls(followingUsers,S3Operations)
-    return followingUsersWithImage
-    }
+    const followingUsersWithImage = await getUsersImageUrls(
+      followingUsers,
+      [],
+      S3Operations
+    );
+    return followingUsersWithImage;
+  }
 
   // ===================================================================>
-  async unFollow(toUnFollowId : string,fromFollowerId : string):Promise<void>{
-    return await unFollow(toUnFollowId,fromFollowerId,this.userModels)
+  async unFollow(toUnFollowId: string, fromFollowerId: string): Promise<void> {
+    return await unFollow(toUnFollowId, fromFollowerId, this.userModels);
   }
 
   async myFollowers(userId: string, S3Operations: IS3Operations): Promise<any> {
-      const followers = await myFollowers(userId,this.userModels)
+    const { followersUsers, following } = await myFollowers(
+      userId,
+      this.userModels
+    );
 
-      if(!followers || followers.length === 0){
-        return []
-      }
-      const followersUsersWithImage = await getUsersImageUrls(followers,S3Operations)
-      return followersUsersWithImage
+    if (!followersUsers || followersUsers?.length === 0) {
+      return [];
+    }
+    const followersUsersWithImage = await getUsersImageUrls(
+      followersUsers,
+      following,
+      S3Operations
+    );
+    return followersUsersWithImage;
+  }
+// ===================================================================>
+  async removeFollower(fromRemoverId: string,toRemoveId: string): Promise<void> {
+      return await removeFollower(fromRemoverId,toRemoveId,this.userModels)
+  }
+  // ===================================================================>
+
+  async followBack(fromFollowingId: string, toFollowId: string): Promise<void> {
+      return await followBack(fromFollowingId,toFollowId,this.userModels)
   }
   // ===================================================================>
   getAllUsers(): Promise<string> {

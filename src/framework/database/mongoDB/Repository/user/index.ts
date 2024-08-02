@@ -18,6 +18,8 @@ import { followUp } from "./followUp";
 import { getMyFollowing } from "./getMyFollowings";
 import { unFollow } from "./unFollow";
 import { myFollowers } from "./myFollowers";
+import { removeFollower } from "./removeFollower";
+import { followBack } from "./followBack";
 
 // exporting each functions of manipulation to DB
 export {
@@ -37,6 +39,8 @@ export {
   followUp,
   unFollow,
   myFollowers,
+  followBack,
+  removeFollower,
   getUsersImageUrls,
   uploadCoverImage,
   getUser
