@@ -19,6 +19,7 @@ import {
   myFollowers,
   removeFollower,
   followBack,
+  uploadPostandRetriveUrl,
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -39,6 +40,7 @@ import { ErrorHandler } from "../middlewares/errorMiddleware";
 import { IS3Operations } from "../../framework/service/s3Bucket";
 import { IprivacyRepository } from "../interface/repositoryInterface/privacyRepository";
 import { NextFunction } from "express";
+import { captureRejectionSymbol } from "events";
 
 // ================================= User user cases ================================= \\
 
@@ -310,17 +312,13 @@ export class UserUseCase implements IuserUseCase {
     skill: string,
     next: Next
   ): Promise<IUserWithImages> {
-    const result = await getSkillRelatedUsers(
+    return await getSkillRelatedUsers(
       userId,
       skill,
       this.userRepostory,
       this.s3,
       next
     );
-    if (!result) {
-      return next(new ErrorHandler(400, "fetch skill related users failed"));
-    }
-    return result;
   }
   // ===================================================================>
   async getUserDetails(
@@ -346,18 +344,11 @@ export class UserUseCase implements IuserUseCase {
   }
   // ===================================================================>
   async getMyFollowings(userId: string, next: Next): Promise<Iuser[]> {
-    const result = await getMyFollowings(
-      userId,
-      this.userRepostory,
-      this.s3,
-      next
-    );
-    return result;
+    return await getMyFollowings(userId, this.userRepostory, this.s3, next);
   }
   // ===================================================================>
   async myFollowers(userId: string, next: Next): Promise<Iuser[]> {
-    const result = await myFollowers(userId, this.s3, this.userRepostory, next);
-    return result;
+    return await myFollowers(userId, this.s3, this.userRepostory, next);
   }
 
   // ===================================================================>
@@ -366,13 +357,12 @@ export class UserUseCase implements IuserUseCase {
     fromFollowerId: string,
     next: Next
   ): Promise<{ success: boolean; message: string } | void> {
-    const result = await unFollow(
+    return await unFollow(
       toUnfollowId,
       fromFollowerId,
       this.userRepostory,
       next
     );
-    return result;
   }
   // ===================================================================>
   async removeFollower(
@@ -393,6 +383,15 @@ export class UserUseCase implements IuserUseCase {
     fromFollowingId: string,
     next: Next
   ): Promise<{ success: boolean; message: string }> {
-      return await followBack(toFollowId,fromFollowingId,this.userRepostory,next)
+    return await followBack(
+      toFollowId,
+      fromFollowingId,
+      this.userRepostory,
+      next
+    );
+  }
+
+  async uploadPost(userId: string, imageUrl: Express.Multer.File, caption: string, next: Next): Promise<{ success: boolean; imageUrl: string; }> {
+      return await uploadPostandRetriveUrl(userId , imageUrl,caption,this.s3,this.userRepostory,next)
   }
 }

@@ -49,6 +49,8 @@ removeFollower(fromRemoverId: string, toRemoveId: string): Promise<void>;
 
 followBack(fromFollowingId: string, toFollowId: string): Promise<void>;
 
+uploadPostRetriveImageUrl(userId :string,file : Express.Multer.File , caption : string,s3 : IS3Operations) : Promise<any>
+
 blockUser(id: string): Promise<Iuser>;
 
 getUser(id: string): Promise<Iuser | undefined>;

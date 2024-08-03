@@ -362,6 +362,23 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+  async uploadPost(req: Req, res: Res, next: Next) {
+    try {
+      console.log("ethisuua")
+      const result = await this.userUseCase.uploadPost(
+        req.user?.id,
+        req.file,
+        req.body.caption,
+        next
+      );
+      if(result){
+        res.status(200).json(result)
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
   // ===================================================================>
   // logout User
   async userLogout(req: Req, res: Res, next: Next) {

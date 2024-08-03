@@ -34,6 +34,9 @@ export function userRoute(route: Route): Route {
   route.post("/follower", isAuthenticate, (req: Req, res: Res, next: Next) => userController.removeFollower(req, res, next));
   route.post("/followBack", isAuthenticate, (req: Req, res: Res, next: Next) => userController.followback(req, res, next));
 
+  // UploadPost/
+  route.post('/uploadPost',upload.single("postImage"),isAuthenticate,(req: Req, res: Res, next: Next) => userController.uploadPost(req,res,next));
+
   // Logout Route
   route.post("/logout", isAuthenticate, (req: Req, res: Res, next: Next) => userController.userLogout(req, res, next));
 

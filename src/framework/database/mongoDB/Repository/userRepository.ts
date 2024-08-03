@@ -26,11 +26,16 @@ import {
   removeFollower,
   followBack,
 } from "./user/index";
+import { uploadPost } from './post/uploadPost'
 import { IS3Operations } from "../../../service/s3Bucket";
+import PostModel from "../model/postModel";
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {
-  constructor(private userModels: typeof userModel) {}
+  constructor(private userModels: typeof userModel ,
+    private postModels : typeof PostModel
+  ) {}
+
 
   // ===================================================================>
   async createProfile(
@@ -194,6 +199,11 @@ export class UserRepository implements IuserRepository {
       return await followBack(fromFollowingId,toFollowId,this.userModels)
   }
   // ===================================================================>
+
+  async uploadPostRetriveImageUrl(userId: string, file: Express.Multer.File, caption: string, s3: IS3Operations): Promise<any> {
+      return await uploadPost(userId,file,caption,s3,this.postModels)
+  }
+
   getAllUsers(): Promise<string> {
     throw new Error("Method not implemented.");
   }

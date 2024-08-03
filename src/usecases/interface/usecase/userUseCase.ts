@@ -131,6 +131,10 @@ export interface IuserUseCase {
     next: Next
   ): Promise<{ success: boolean; message: string }>;
 // ===================================================================>
+
+uploadPost(userId : string,imageUrl : Express.Multer.File  |undefined, caption : string,next : Next) : Promise<{ success : boolean,imageUrl: string;}>
+
+// ===================================================================>
   followBack(toFollowId : string,fromFollowingId : string,next : Next) :Promise<{ success: boolean; message: string }>
 
   resendOtp(email: string, next: Next): Promise<void>;

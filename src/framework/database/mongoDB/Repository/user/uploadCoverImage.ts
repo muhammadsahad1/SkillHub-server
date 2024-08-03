@@ -9,7 +9,7 @@ export const uploadCoverImage = async (
   S3Operations: IS3Operations
 ): Promise<Iuser | undefined | any> => {
   try {
-    console.log("file ==>", file);
+
     const buffer = file.buffer;
     const mimetype = file.mimetype;
     const originalname = file.originalname;

@@ -18,6 +18,7 @@ import { unFollow } from "./unFollow";
 import { myFollowers } from "./myFollowers";
 import { removeFollower } from "./removeFollower";
 import { followBack } from "./followBack";
+import { uploadPostandRetriveUrl } from "./uploadPostandRetriveUrl";
 
 export {
   userSignup,
@@ -40,4 +41,5 @@ export {
   followUp,
   followBack,
   changePrivacy,
+  uploadPostandRetriveUrl,
 };
