@@ -20,6 +20,8 @@ import {
   removeFollower,
   followBack,
   uploadPostandRetriveUrl,
+  getPosts,
+  deletePost
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -40,7 +42,7 @@ import { ErrorHandler } from "../middlewares/errorMiddleware";
 import { IS3Operations } from "../../framework/service/s3Bucket";
 import { IprivacyRepository } from "../interface/repositoryInterface/privacyRepository";
 import { NextFunction } from "express";
-import { captureRejectionSymbol } from "events";
+import { Ipost } from "../../commonEntities/entities/post";
 
 // ================================= User user cases ================================= \\
 
@@ -391,7 +393,16 @@ export class UserUseCase implements IuserUseCase {
     );
   }
 
-  async uploadPost(userId: string, imageUrl: Express.Multer.File, caption: string, next: Next): Promise<{ success: boolean; imageUrl: string; }> {
-      return await uploadPostandRetriveUrl(userId , imageUrl,caption,this.s3,this.userRepostory,next)
+  async uploadPost(userId: string, imageUrl: Express.Multer.File, caption: string, type : string,next: Next): Promise<any> {
+      return await uploadPostandRetriveUrl(userId , imageUrl,caption,type,this.s3,this.userRepostory,next)
+  }
+
+  async fetchPosts(userSkill : string ,next : Next) : Promise<any> {
+    return await getPosts(userSkill,this.s3,this.userRepostory,next)
+  }
+
+  async deletePost(postId: string, next: Next): Promise<any> {
+    console.log("userUseCasil kerii")
+      return await deletePost(postId,this.userRepostory,next)
   }
 }

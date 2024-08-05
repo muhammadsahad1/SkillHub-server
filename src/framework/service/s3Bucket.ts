@@ -88,14 +88,15 @@ export class S3Operations implements IS3Operations {
 
     const cacheKey = `${bucket}/${key}`;
     let url = cache.get(cacheKey);
-    
+    console.log(`url indellll ==> ${bucket}/${key} `,url)
     if (!url) {
+      console.log("illengill ----> url create aknnu")
       const params = {
         Bucket: bucket,
         Key: key,
       };
       const command = new GetObjectCommand(params);
-      try {
+      try { 
         url = await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
         cache.set(cacheKey, url);
       } catch (error) {

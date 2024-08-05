@@ -6,6 +6,21 @@ const PostSchema: Schema<Ipost> = new mongoose.Schema(
     userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     imageName: { type: String, required: true },
     caption: { type: String, default: "" },
+    type: {
+      type: String,
+      enum: ["image", "video", "thoughts"], // Only "image" or "video" are valid values
+      required: true,
+    },
+    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    comments: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        comment: { type: String },
+        created_at: { type: Date, default: Date.now },
+      },
+    ],
+    saves: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    reports: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   {
     timestamps: true,

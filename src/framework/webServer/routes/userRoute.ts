@@ -36,7 +36,8 @@ export function userRoute(route: Route): Route {
 
   // UploadPost/
   route.post('/uploadPost',upload.single("postImage"),isAuthenticate,(req: Req, res: Res, next: Next) => userController.uploadPost(req,res,next));
-
+  route.get('/posts',isAuthenticate,(req: Req, res: Res, next: Next) => userController.fetchPosts(req,res,next));
+  route.delete('/posts',isAuthenticate,(req: Req, res: Res, next: Next) => userController.deletePost(req,res,next));
   // Logout Route
   route.post("/logout", isAuthenticate, (req: Req, res: Res, next: Next) => userController.userLogout(req, res, next));
 

@@ -19,6 +19,8 @@ import { myFollowers } from "./myFollowers";
 import { removeFollower } from "./removeFollower";
 import { followBack } from "./followBack";
 import { uploadPostandRetriveUrl } from "./uploadPostandRetriveUrl";
+import { getPosts } from "./getPosts"; 
+import { deletePost } from "./deletePost";
 
 export {
   userSignup,
@@ -42,4 +44,6 @@ export {
   followBack,
   changePrivacy,
   uploadPostandRetriveUrl,
+  deletePost,
+  getPosts
 };

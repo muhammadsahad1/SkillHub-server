@@ -1,15 +1,20 @@
 import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket";
 import PostModel from "../../model/postModel";
+import userModel from "../../model/userModel";
 
 export const uploadPost = async (
   userId: string,
   file: Express.Multer.File,
   caption: string,
+  type: string,
   s3: IS3Operations,
+  userModels: typeof userModel,
   postModels: typeof PostModel
 ) => {
   try {
     let imageName = "";
+    let signedUrl = "";
+
     if (file) {
       const buffer = file.buffer;
       const mimetype = file.mimetype;
@@ -21,19 +26,33 @@ export const uploadPost = async (
         mimetype,
       };
 
-      imageName = await s3.putObjectUrl(putObjectParams)
+      imageName = await s3.putObjectUrl(putObjectParams);
     }
-
     const newPost = {
       userId: userId,
-      imageName : imageName,
-      caption: caption || '',
+      imageName: imageName,
+      caption: caption || "",
+      type: type,
     };
+    // here creating post
+    const createdPost = await postModels.create(newPost);
+    // retrive the image url in s3
+    signedUrl = await s3.getObjectUrl({
+      bucket: process.env.C3_BUCKET_NAME,
+      key: imageName,
+    });
 
-    const result = postModels.create(newPost);
+    const currentUser = await userModels.findById(userId);
+    const skill = currentUser?.skill;
 
-
-    console.log("created post ==>",result)
+    const postWithUrl = {
+      ...createdPost.toObject(),
+      signedUrl: signedUrl,
+      skill: skill,
+      userId : currentUser?._id
+    };
+    // returning the created post and post url
+    return postWithUrl;
   } catch (error) {
     console.error("Error updating profile:", error);
     return undefined; // Handle error as needed

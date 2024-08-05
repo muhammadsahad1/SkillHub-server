@@ -14,7 +14,6 @@ export const changePassword = async (
       }
     })
 
-    console.log("updated USer",updateUser)
     return updateUser
   } catch (error) {
     console.error("Error updating profile:", error);

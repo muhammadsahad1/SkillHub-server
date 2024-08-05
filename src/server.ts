@@ -14,6 +14,7 @@
 
   app.use(cors({
     origin: "http://localhost:5173",
+    // origin : "https://q8js630t-5173.inc1.devtunnels.ms",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }));

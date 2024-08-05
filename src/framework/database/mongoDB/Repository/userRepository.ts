@@ -26,16 +26,16 @@ import {
   removeFollower,
   followBack,
 } from "./user/index";
-import { uploadPost } from './post/uploadPost'
+import { uploadPost , fetchPosts , deletePost } from './post/index'
 import { IS3Operations } from "../../../service/s3Bucket";
 import PostModel from "../model/postModel";
+import { Ipost } from "../../../../commonEntities/entities/post";
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {
   constructor(private userModels: typeof userModel ,
     private postModels : typeof PostModel
   ) {}
-
 
   // ===================================================================>
   async createProfile(
@@ -200,8 +200,18 @@ export class UserRepository implements IuserRepository {
   }
   // ===================================================================>
 
-  async uploadPostRetriveImageUrl(userId: string, file: Express.Multer.File, caption: string, s3: IS3Operations): Promise<any> {
-      return await uploadPost(userId,file,caption,s3,this.postModels)
+  async uploadPostRetriveImageUrl(userId: string, file: Express.Multer.File, caption: string, type : string,s3: IS3Operations): Promise<any> {
+      return await uploadPost(userId,file,caption,type,s3,this.userModels,this.postModels)
+  }
+  // ===================================================================>
+
+  async fetchPosts(userSkill: string, s3: IS3Operations): Promise<any> {
+      return await fetchPosts(userSkill,s3,this.userModels,this.postModels)
+  } 
+
+  // ===================================================================>
+  async deletePost(postId: string): Promise<void> {
+      return await deletePost(postId,this.postModels)
   }
 
   getAllUsers(): Promise<string> {

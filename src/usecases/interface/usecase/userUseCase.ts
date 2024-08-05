@@ -132,10 +132,17 @@ export interface IuserUseCase {
   ): Promise<{ success: boolean; message: string }>;
 // ===================================================================>
 
-uploadPost(userId : string,imageUrl : Express.Multer.File  |undefined, caption : string,next : Next) : Promise<{ success : boolean,imageUrl: string;}>
+uploadPost(userId : string,imageUrl : Express.Multer.File  |undefined, caption : string,type : string, next : Next) : Promise<any>
 
 // ===================================================================>
-  followBack(toFollowId : string,fromFollowingId : string,next : Next) :Promise<{ success: boolean; message: string }>
+followBack(toFollowId : string,fromFollowingId : string,next : Next) :Promise<{ success: boolean; message: string }>
+// ===================================================================>
+
+fetchPosts(userSkill : string , next : Next) : Promise<any>
+// ===================================================================>
+
+deletePost(postId :string,next : Next): Promise<any>
+
 
   resendOtp(email: string, next: Next): Promise<void>;
 

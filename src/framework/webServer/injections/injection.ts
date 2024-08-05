@@ -21,6 +21,7 @@ import { OtpGenerate } from "../../service/otpGenerate";
 import { SendEmail } from "../../service/sentEmail";
 import { S3Operations } from "../../service/s3Bucket";
 import { PrivacyRepository } from "../../database/mongoDB/Repository/privacyRepository";
+import PostModel from "../../database/mongoDB/model/postModel";
 
 // Retrieve environment variables 
 const region = process.env.C3_BUCKET_REGION || "";
@@ -33,7 +34,7 @@ const bucketName = process.env.C3_BUCKET_NAME || "";
 // FOR UPLOADING IMAGE TO S3 BUCKET
 const uploadImage = new S3Operations(region, accessKeyId, secretAccessKey, bucketName);
 // USER REPO FOR INTRACTE WITH DB
-const userRepository = new UserRepository(userModel)
+const userRepository = new UserRepository(userModel,PostModel)
 const privacyRepository = new PrivacyRepository(PrivacyModal)
 // TOKEN
 const jwt = new JWTtoken()

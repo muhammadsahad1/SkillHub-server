@@ -362,23 +362,55 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+  // ===================================================================>
+  // Uploading post
   async uploadPost(req: Req, res: Res, next: Next) {
     try {
-      console.log("ethisuua")
       const result = await this.userUseCase.uploadPost(
         req.user?.id,
         req.file,
         req.body.caption,
+        req.body.type,
         next
       );
-      if(result){
-        res.status(200).json(result)
+      if (result) {
+        res.status(200).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
-
+  // ===================================================================>
+  // fetching the posts
+  async fetchPosts(req: Req, res: Res, next: Next) {
+    try {
+      const result = await this.userUseCase.fetchPosts(
+        req.query?.skill as string,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  // ===================================================================>
+  // Delete post
+  async deletePost(req: Req, res: Res, next: Next) {
+    try {
+  
+      const result = await this.userUseCase.deletePost(
+        req.query?.postId as string,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
   // ===================================================================>
   // logout User
   async userLogout(req: Req, res: Res, next: Next) {

@@ -28,7 +28,7 @@ export const getUsersImageUrls = async (
             bucket: process.env.C3_BUCKET_NAME,
             key: profileImage,
           });
-          console.log("imageUrl ===>", imageUrl);
+          
         }
 
         if (coverImage) {
