@@ -91,7 +91,13 @@ export interface IuserRepository {
 
   fetchPosts(userSkill: string, s3: IS3Operations): Promise<Ipost[]>;
 
+  fetchMyPosts(userId : string,s3 : IS3Operations) : Promise<any>
+  
   deletePost(postId: string): Promise<void>;
+
+  editPost(caption : string,postId : string) : Promise<{postId: string | undefined,caption:string | undefined}>
+
+  postLike(userId : string , postId : string ) : Promise<{message : string , postId : string}>
 
   blockUser(id: string): Promise<Iuser>;
 

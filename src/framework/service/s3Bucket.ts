@@ -8,7 +8,7 @@ import crypto from "crypto";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import NodeCache from "node-cache"; //using for cache machanisim
 
-const cache = new NodeCache({ stdTTL: 3600, checkperiod: 600, maxKeys: 1000 });
+const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600, maxKeys: 10000 });
 
 export type PutObjectParams = {
   originalname: string;
@@ -84,7 +84,7 @@ export class S3Operations implements IS3Operations {
     if (!key) {
       throw new Error("No value provided for input HTTP label: Key");
     }
-    console.log("getObj vannu =====>",key)
+  
 
     const cacheKey = `${bucket}/${key}`;
     let url = cache.get(cacheKey);
@@ -104,7 +104,7 @@ export class S3Operations implements IS3Operations {
         throw error;
       }
     }
-    console.log("URLLLLLLLLLLLLLLLll => ",url)
+    
     return url;
   }
 }

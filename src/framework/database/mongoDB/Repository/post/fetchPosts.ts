@@ -27,12 +27,12 @@ export const fetchPosts = async (
         if (!user) return null;
 
         const userImageUrl = await s3.getObjectUrl({
-          bucket: process.env.C3_BUCKET_NAME, // Corrected bucket name
+          bucket: process.env.C3_BUCKET_NAME, 
           key: user.profileImage,
         });
 
         const postImageUrl = await s3.getObjectUrl({
-          bucket: process.env.C3_BUCKET_NAME, // Corrected bucket name
+          bucket: process.env.C3_BUCKET_NAME, 
           key: post.imageName,
         });
 

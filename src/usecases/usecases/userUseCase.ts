@@ -21,7 +21,10 @@ import {
   followBack,
   uploadPostandRetriveUrl,
   getPosts,
-  deletePost
+  deletePost,
+  editPost,
+  postLike,
+  fetchMyPosts
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -401,8 +404,20 @@ export class UserUseCase implements IuserUseCase {
     return await getPosts(userSkill,this.s3,this.userRepostory,next)
   }
 
+  async fetchMyPosts(userId: string, next: Next): Promise<any> {
+      return await fetchMyPosts(userId,this.userRepostory,this.s3,next)
+  }
+
   async deletePost(postId: string, next: Next): Promise<any> {
     console.log("userUseCasil kerii")
       return await deletePost(postId,this.userRepostory,next)
+  }
+
+  async editPost(editedCaption: string, postId : string, next: Next): Promise<{ success: boolean; message: string; }> {
+      return await editPost(editedCaption,postId,this.userRepostory,next)
+  }
+
+  async postLike(userId : string,postId : string,next : Next): Promise<any> {
+    return await postLike(userId,postId,this.userRepostory,next)
   }
 }

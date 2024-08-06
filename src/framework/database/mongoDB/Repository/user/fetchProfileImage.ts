@@ -14,13 +14,14 @@ export const fetchProfileImage = async (
     // here we got the IMAGE URL
     let imageUrl 
     let coverImageUrl
+
     if(profileImgName){
        imageUrl = await s3.getObjectUrl({
         bucket: process.env.C3_BUCKET_NAME,
         key: profileImgName,
       });
     }
-    console.log("url of imageUrl ===>",imageUrl)
+    
     if(coverImageName){
        coverImageUrl = await s3.getObjectUrl({
         bucket: process.env.C3_BUCKET_NAME,

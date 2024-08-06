@@ -399,7 +399,6 @@ export class UserController {
   // Delete post
   async deletePost(req: Req, res: Res, next: Next) {
     try {
-  
       const result = await this.userUseCase.deletePost(
         req.query?.postId as string,
         next
@@ -411,6 +410,56 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+  // ===================================================================>
+  // Post edit
+  async editPost(req: Req, res: Res, next: Next) {
+    try {
+      const { id, caption } = req.body;
+      const result = await this.userUseCase.editPost(
+        caption as string,
+        id as string,
+        next
+      );
+
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  // ===================================================================>
+  // Post like
+  async postLike(req: Req, res: Res, next: Next) {
+    try {
+      const { postId } = req.body;
+
+      const result = await this.userUseCase.postLike(
+        req.user?.id,
+        postId,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  // ===================================================================>
+  // Fetch my posts
+  async fetchMyPosts(req: Req, res: Res, next: Next) {
+    try {
+      const result = await this.userUseCase.fetchMyPosts(req.user?.id,next);
+      
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
   // ===================================================================>
   // logout User
   async userLogout(req: Req, res: Res, next: Next) {

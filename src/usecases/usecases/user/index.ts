@@ -21,6 +21,9 @@ import { followBack } from "./followBack";
 import { uploadPostandRetriveUrl } from "./uploadPostandRetriveUrl";
 import { getPosts } from "./getPosts"; 
 import { deletePost } from "./deletePost";
+import { editPost } from "./editPost";
+import { postLike } from "./postLike";
+import { fetchMyPosts } from "./fetchMyPosts";
 
 export {
   userSignup,
@@ -44,6 +47,9 @@ export {
   followBack,
   changePrivacy,
   uploadPostandRetriveUrl,
+  fetchMyPosts,
   deletePost,
+  editPost,
+  postLike,
   getPosts
 };

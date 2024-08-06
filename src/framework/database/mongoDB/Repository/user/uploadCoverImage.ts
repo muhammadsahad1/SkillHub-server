@@ -20,7 +20,6 @@ export const uploadCoverImage = async (
       mimetype,
     };
     
-    console.log("PutObjectParams cover image =>",PutObjectParams)
     const imageName = await S3Operations.putObjectUrl(PutObjectParams);
     console.log("cover image naeme =>",imageName)
     const updatedUser = await userModels.findOneAndUpdate(
@@ -28,7 +27,7 @@ export const uploadCoverImage = async (
       { $set: { coverImage: imageName, coverImageKey: file.originalname } },
       { new: true }
     );
-    console.log("cover Updated user =>", updatedUser);
+    
     return updatedUser; 
   } catch (error) {
     console.error("Error updating : cover image", error);

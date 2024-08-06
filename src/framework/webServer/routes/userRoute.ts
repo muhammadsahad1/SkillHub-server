@@ -38,6 +38,9 @@ export function userRoute(route: Route): Route {
   route.post('/uploadPost',upload.single("postImage"),isAuthenticate,(req: Req, res: Res, next: Next) => userController.uploadPost(req,res,next));
   route.get('/posts',isAuthenticate,(req: Req, res: Res, next: Next) => userController.fetchPosts(req,res,next));
   route.delete('/posts',isAuthenticate,(req: Req, res: Res, next: Next) => userController.deletePost(req,res,next));
+  route.post('/post',isAuthenticate,(req: Req, res: Res, next: Next) => userController.editPost(req,res,next));
+  route.post('/postLike',isAuthenticate,(req: Req, res: Res, next: Next) => userController.postLike(req,res,next));
+  route.get('/myPosts',isAuthenticate,(req: Req, res: Res, next: Next) => userController.fetchMyPosts(req,res,next));
   // Logout Route
   route.post("/logout", isAuthenticate, (req: Req, res: Res, next: Next) => userController.userLogout(req, res, next));
 

@@ -141,8 +141,15 @@ followBack(toFollowId : string,fromFollowingId : string,next : Next) :Promise<{ 
 fetchPosts(userSkill : string , next : Next) : Promise<any>
 // ===================================================================>
 
-deletePost(postId :string,next : Next): Promise<any>
+fetchMyPosts(userId : string , next : Next) : Promise<any>
+// ===================================================================>
 
+deletePost(postId :string,next : Next): Promise<any>
+// ===================================================================>
+
+editPost(editedCaption : string,postId : string,next : Next) : Promise<{ success: boolean; message: string }>
+
+postLike(userId : string,postId : string,next :Next) : Promise<{message : string , postId : string}>
 
   resendOtp(email: string, next: Next): Promise<void>;
 

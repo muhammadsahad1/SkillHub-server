@@ -2,20 +2,19 @@ import { Next } from "../../../framework/types/serverPackageType";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
 
-export const deletePost = async (
+export const postLike = async (
+  userId: string,
   postId: string,
   userRepository: IuserRepository,
-  next: Next
+  next : Next
 ) => {
   try {
-    await userRepository.deletePost(postId);
-
-    return {
-      success: true,
-      message: "Post delete successfull",
-      postId : postId,
-    };
+    const result = await userRepository.postLike(userId, postId);
+    if (!result) {
+      return next(new ErrorHandler(400, "User does not exist"));
+    }
+    return result
   } catch (error) {
-    return next(new ErrorHandler(500, "Internal Server Error"));
+    return next(new ErrorHandler(400,"User is not found"))
   }
 };

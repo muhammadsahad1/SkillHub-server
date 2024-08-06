@@ -8,7 +8,7 @@ const PostSchema: Schema<Ipost> = new mongoose.Schema(
     caption: { type: String, default: "" },
     type: {
       type: String,
-      enum: ["image", "video", "thoughts"], // Only "image" or "video" are valid values
+      enum: ["image", "video", "thoughts"], 
       required: true,
     },
     likes: [{ type: Schema.Types.ObjectId, ref: "User" }],

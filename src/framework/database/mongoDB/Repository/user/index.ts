@@ -20,7 +20,7 @@ import { unFollow } from "./unFollow";
 import { myFollowers } from "./myFollowers";
 import { removeFollower } from "./removeFollower";
 import { followBack } from "./followBack";
-
+import { postLike } from "../post/postLike";
 // exporting each functions of manipulation to DB
 export {
   createUser,
@@ -43,5 +43,6 @@ export {
   removeFollower,
   getUsersImageUrls,
   uploadCoverImage,
+  postLike,
   getUser
 }
