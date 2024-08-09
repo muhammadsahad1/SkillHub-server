@@ -10,8 +10,12 @@ export const getSkillRelatedUsers = async (
   s3 : IS3Operations,
   next : Next
 ) => {
-  const result = await userRepository.getSkillRelatedUserss(userId,skill,s3)
+  console.log("casil ketiiiiiiii");
+  const result = await userRepository.getSkillRelatedUsers(userId,skill,s3)
   
+    console.log("result after repo ==>",result);
+    
+
   if(!result) {
     return next(new ErrorHandler(401,"fetching skill related users failed"))
   }

@@ -60,6 +60,7 @@ export interface Iuser {
   googleAvatar?: string;
   resetPasswordToken?: string;
   passwordLastChanged?: Date;
+  accountPrivacy?: boolean;
   //   profile?: Profile;
 }
 

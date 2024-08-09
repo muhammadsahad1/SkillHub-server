@@ -1,24 +1,19 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 dotenv.config();
 const mongoURL = process.env.MONGO_URL || '';
-const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
+if (!mongoURL) {
+    console.error('MongoDB URL is not defined. Check your .env file.');
+    process.exit(1);
+}
+const connectDB = async () => {
     try {
-        yield mongoose.connect(mongoURL)
-            .then((data) => console.log(`db connected successfully .. ${data.connection.host}`));
+        await mongoose.connect(mongoURL);
+        console.log(`DB connected successfully: ${mongoose.connection.host}`);
     }
     catch (error) {
-        console.log(error);
+        console.error('DB connection error:', error);
         setTimeout(connectDB, 5000);
     }
-});
+};
 export default connectDB;

@@ -7,34 +7,42 @@ export const uploadPostandRetriveUrl = async (
   userId: string,
   file: Express.Multer.File,
   caption: string,
-  type : string,
+  type: string,
   S3Operations: IS3Operations,
-  userRepository: IuserRepository,
-  next: Next
+  userRepository: IuserRepository
 ) => {
   try {
-    const result = await userRepository.uploadPostRetriveImageUrl(
+    console.log("vannoo ?sdfdsf");
+    
+    const result = await userRepository.uploadPostRetriveImageUrl (
       userId,
       file,
       caption,
       type,
       S3Operations
     );
-    console.log("result in useCaes mini fun ===>", result);
-
+    console.log("result ====> useCasill =>", result);
+    
     if (!result) {
-      return next(new ErrorHandler(401, "Post upload failed"));
+      return {
+        success: false,
+        message: "Post upload failed",
+        post: null
+      };
     }
 
-    // returning the all the details after created post
     return {
       success: true,
-      message: "Post created successfully completed",
+      message: "Post created successfully",
       post: result
     };
 
   } catch (error) {
-    next(new ErrorHandler(500, "Internal Server Error"));
-    return { success: false, message: "Post created successfully completed" };
+    console.error("Error in uploadPostandRetriveUrl:", error);
+    return {
+      success: false,
+      message: "Internal Server Error",
+      post: null
+    };
   }
 };

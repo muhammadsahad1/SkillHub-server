@@ -8,6 +8,7 @@ export interface Ipost {
   likes: mongoose.Types.ObjectId;
   comments: {
     userId: mongoose.Types.ObjectId[];
+    userName : string,
     comment: string;
     created_at: Date;
   }[];
@@ -15,4 +16,11 @@ export interface Ipost {
   reports: mongoose.Types.ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface IComment {
+  userId: mongoose.Types.ObjectId;
+  userName: string;
+  comment: string;
+  created_at: Date;
 }

@@ -24,6 +24,12 @@ import { deletePost } from "./deletePost";
 import { editPost } from "./editPost";
 import { postLike } from "./postLike";
 import { fetchMyPosts } from "./fetchMyPosts";
+import { othersFollowers } from "./othersFollowers";
+import { othersFollowings } from "./othersFollowings";
+import { addComment } from "./addComment";
+import { deleteComment } from "./deleteComment";
+import { editingComment } from "./editingComment";
+import { fetchOthersPosts } from "./fetchOthersPosts";
 
 export {
   userSignup,
@@ -45,11 +51,17 @@ export {
   getUser,
   followUp,
   followBack,
+  othersFollowings,
+  othersFollowers,
   changePrivacy,
   uploadPostandRetriveUrl,
   fetchMyPosts,
   deletePost,
   editPost,
   postLike,
+  addComment,
+  deleteComment,
+  editingComment,
+  fetchOthersPosts,
   getPosts
 };

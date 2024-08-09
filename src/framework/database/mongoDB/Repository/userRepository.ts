@@ -27,6 +27,11 @@ import {
   removeFollower,
   followBack,
   postLike,
+  getOthersFollowers,
+  getOthersFollowersImageUrls,
+  getOthersFollowings,
+  getOthersFollowingsImageUrl,
+  changePrivacy,
 } from "./user/index";
 import {
   uploadPost,
@@ -34,10 +39,16 @@ import {
   deletePost,
   editPost,
   fetchMyPosts,
+  addComment,
+  getCommentedUserImage,
+  deleteComment,
+  editComment,
+  fetchOthersPosts
 } from "./post/index";
 import { IS3Operations } from "../../../service/s3Bucket";
 import PostModel from "../model/postModel";
-import { Ipost } from "../../../../commonEntities/entities/post";
+import { Next } from "../../../types/serverPackageType";
+import { IComment } from "../../../../commonEntities/entities/post";
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {
@@ -69,7 +80,7 @@ export class UserRepository implements IuserRepository {
         token: { accessToken: string; refershToken: string };
         message?: string;
       }
-  > {
+      > {
     return await createUser(newUser, this.userModels);
   }
   // ===================================================================>
@@ -96,7 +107,7 @@ export class UserRepository implements IuserRepository {
     return resInfisrt;
   }
   // ===================================================================>
-  async getSkillRelatedUserss(
+  async getSkillRelatedUsers(
     userId: string,
     skill: string,
     s3Bucket: IS3Operations
@@ -156,7 +167,7 @@ export class UserRepository implements IuserRepository {
   async getUser(userId: string): Promise<Iuser | undefined> {
     return await getUser(this.userModels, userId);
   }
-
+  
   async getMyFollowing(
     userId: string,
     S3Operations: IS3Operations
@@ -176,7 +187,7 @@ export class UserRepository implements IuserRepository {
     );
     return followingUsersWithImage;
   }
-
+  
   // ===================================================================>
   async unFollow(toUnFollowId: string, fromFollowerId: string): Promise<void> {
     return await unFollow(toUnFollowId, fromFollowerId, this.userModels);
@@ -206,12 +217,30 @@ export class UserRepository implements IuserRepository {
     return await removeFollower(fromRemoverId, toRemoveId, this.userModels);
   }
   // ===================================================================>
-
+  
   async followBack(fromFollowingId: string, toFollowId: string): Promise<void> {
     return await followBack(fromFollowingId, toFollowId, this.userModels);
   }
   // ===================================================================>
+  async othersFollowers(userId: string,currentUserId : string, S3Operations: IS3Operations): Promise<any> {
+    const followers = await getOthersFollowers(userId,this.userModels)
+    if (!followers || followers?.length === 0) {
+      return [];
+    }
 
+    return await getOthersFollowersImageUrls(followers,currentUserId,this.userModels,S3Operations)
+    
+  }
+
+  async othersFollowings(userId : string,currentUserId : string,s3 : IS3Operations):Promise<any> {
+    const followings = await getOthersFollowings(userId,this.userModels)
+    
+    if(!followings || followings?.length === 0){
+      return []
+    }
+    return await getOthersFollowingsImageUrl(followings,currentUserId,this.userModels,s3)
+  }
+  
   async uploadPostRetriveImageUrl(
     userId: string,
     file: Express.Multer.File,
@@ -254,10 +283,37 @@ export class UserRepository implements IuserRepository {
     return await postLike(userId, postId, this.postModels);
   }
 
+  async addComment(postId: string, userId: string, comment: string,s3 : IS3Operations,next:Next): Promise<any> {
+    const newComment =  await addComment(postId,userId,comment,this.postModels,this.userModels)
+    if(!newComment){
+      return []
+    }
+    const newFirstComment = newComment[0]
+    const userIdToFetch = newFirstComment.userId.toString();
+    return await getCommentedUserImage(userIdToFetch,s3,this.userModels,next)
+  }
+
   async fetchMyPosts(userId: string, s3: IS3Operations): Promise<any> {
     return await fetchMyPosts(userId, s3, this.postModels);
   }
 
+  async fetchOthersPosts(userId: string, s3: IS3Operations): Promise<any> {
+    return await fetchOthersPosts(userId,s3,this.postModels,this.userModels)
+  }
+
+
+  async editComment(postId: string, commentId: string,userId : string,updatedComment : string,): Promise<IComment> {
+      return await editComment(postId,commentId,userId,updatedComment,this.postModels)
+  }
+
+  async deleteComment(postId : string , commentId : string): Promise<any> {
+    return await deleteComment(postId , commentId,this.postModels)
+  }
+
+  
+  async changePrivacy(userId: string, isPrivacy: boolean ): Promise<any> {
+    return await changePrivacy(userId,isPrivacy,this.userModels)
+}
 
   getAllUsers(): Promise<string> {
     throw new Error("Method not implemented.");

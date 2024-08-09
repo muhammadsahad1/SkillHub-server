@@ -109,14 +109,17 @@ export class UserController {
 
   // ===================================================================>
   // Get skill Related Users
-  async getSkillRelatedUsers(req: Req, res: Res, next: Next) {
+  async getUsers(req: Req, res: Res, next: Next) {
     try {
       const skill = req.query.skill as string;
+
       const result = await this.userUseCase.getSkillRelatedUsers(
         req.user?.id,
         skill,
         next
       );
+      console.log("result in backend ======>", result);
+
       if (result) {
         res.status(200).json(result);
       }
@@ -227,6 +230,7 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   async changePrivacy(req: Req, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.changePrivacy(
@@ -234,6 +238,7 @@ export class UserController {
         req.body.isPrivacy,
         next
       );
+      console.log("result ===> ", result);
 
       if (result) {
         res.status(201).json(result);
@@ -366,15 +371,20 @@ export class UserController {
   // Uploading post
   async uploadPost(req: Req, res: Res, next: Next) {
     try {
+      console.log("uploading post ===>", req.file);
+
       const result = await this.userUseCase.uploadPost(
         req.user?.id,
         req.file,
         req.body.caption,
-        req.body.type,
-        next
+        req.body.type
       );
-      if (result) {
+      console.log("result ===>>>>>", result);
+
+      if (result.success) {
         res.status(200).json(result);
+      } else {
+        res.status(400).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -433,7 +443,6 @@ export class UserController {
   async postLike(req: Req, res: Res, next: Next) {
     try {
       const { postId } = req.body;
-
       const result = await this.userUseCase.postLike(
         req.user?.id,
         postId,
@@ -447,12 +456,130 @@ export class UserController {
     }
   }
   // ===================================================================>
+  // Comment post
+  async addComment(req: Req, res: Res, next: Next) {
+    try {
+      const { postId, comment } = req.body;
+      const result = await this.userUseCase.addComment(
+        postId,
+        req.user?.id,
+        comment,
+        next
+      );
+
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  // ===================================================================>
+  // Deleteing comment
+  async deleteComment(req: Req, res: Res, next: Next) {
+    try {
+      const { commentId, postId } = req.body;
+      const result = await this.userUseCase.delteComment(
+        postId,
+        commentId,
+        next
+      );
+
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
+  // Deleteing comment
+  async editingComment(req: Req, res: Res, next: Next) {
+    try {
+      const { commentId, postId, updatedText } = req.body.data;
+
+      const result = await this.userUseCase.editingComment(
+        postId,
+        commentId,
+        req.user?.id,
+        updatedText,
+        next
+      );
+
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
+  // ===================================================================>
   // Fetch my posts
   async fetchMyPosts(req: Req, res: Res, next: Next) {
     try {
-      const result = await this.userUseCase.fetchMyPosts(req.user?.id,next);
-      
+      const result = await this.userUseCase.fetchMyPosts(req.user?.id, next);
+
       if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  // ===================================================================>
+  // Fetch my posts
+  async fetchOtherFollowers(req: Req, res: Res, next: Next) {
+    try {
+      const userId = req.query.userId;
+
+      const result = await this.userUseCase.othersFollowers(
+        userId as string,
+        req.user?.id,
+        next
+      );
+
+      if (result) {
+        console.log("result ===> ", result);
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  // ===================================================================>
+  // Fetch my posts
+  async fetchOtherFollowings(req: Req, res: Res, next: Next) {
+    try {
+      const userId = req.query.userId;
+
+      const result = await this.userUseCase.othersFollowings(
+        userId as string,
+        req.user?.id,
+        next
+      );
+
+      if (result) {
+        console.log("result ===> ", result);
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  // ===================================================================>
+  // Fetch my posts
+  async fetchOthersPosts(req: Req, res: Res, next: Next) {
+    try {
+
+      const { userId } = req.query;
+      const result = await this.userUseCase.fetchOthersPosts(
+        userId as string,
+        next
+      );
+
+      if (result) {
+        console.log("result =============> ", result);
         res.status(200).json(result);
       }
     } catch (error: any) {

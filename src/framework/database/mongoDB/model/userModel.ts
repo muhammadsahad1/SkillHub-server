@@ -28,6 +28,7 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
   showNotification : { type : Boolean },
   followers : [{ type : Schema.Types.ObjectId , ref :'User'}],
   following : [{ type : Schema.Types.ObjectId, ref : 'User'}],
+  accountPrivacy : { type : Boolean ,default : false}
   // email_notification : { type : Boolean , default : false},
   // sms_notification : { type : Boolean , default : false} ,
 });

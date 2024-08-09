@@ -1,23 +1,23 @@
-import PrivacyModal from "../../model/privacyModel";
-import { IprivacySettings } from "../../../../../commonEntities/entities/user";
+import userModel from "../../model/userModel";
 
 export const changePrivacy = async (
   userId: string,
   isPrivacy: boolean,
-  privacyModal: typeof PrivacyModal
-):Promise<IprivacySettings | undefined> => {
+  userModelS: typeof userModel
+) => {
   try {
-    const updatePrivacySettings = await privacyModal
-      .findOneAndUpdate(
-        { userId },
-        { isProfilePublic: isPrivacy },
-        { new: true, upsert: true }
-      )
-      .exec();
-    console.log("updatedPrivcy", updatePrivacySettings);
+    console.log("status of privacy ==>", isPrivacy);
+
+    const updatePrivacySettings = await userModelS.findOneAndUpdate(
+      { _id: userId },
+      { accountPrivacy: isPrivacy },
+      { new: true }
+    );
+
+    console.log("updatedPrivacy", updatePrivacySettings);
     return updatePrivacySettings;
   } catch (error) {
     console.error("Error updating profile:", error);
-    return undefined; // Handle error as needed
+    throw new Error("Error updating profile"); // Throwing the error to handle it appropriately in the caller function
   }
 };

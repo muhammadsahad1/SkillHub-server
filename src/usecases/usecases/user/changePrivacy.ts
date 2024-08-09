@@ -1,21 +1,26 @@
 import { Next } from "../../../framework/types/serverPackageType";
 import { IprivacyRepository } from "../../interface/repositoryInterface/privacyRepository";
+import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
 
 export const changePrivacy = async (
   userId: string,
   isPrivacy: boolean,
-  privacyRepository : IprivacyRepository,
+  userRepository : IuserRepository,
   next: Next
 ) => {
   try {
-    const result = await privacyRepository.changePrivacy(userId,isPrivacy)
+    console.log("ethiyaaaaaa");
+    
+    const result = await userRepository.changePrivacy(userId,isPrivacy)
+    console.log("+++++++++++++++++++++++>" ,result);
+    
     if(!result){
       return next(new ErrorHandler(400,'failed to changePrivacy'))
     }
 
     return {
-      updatedPrivacySettings : result,
+      updatedPrivacySettings : result, 
       status : true
     }
   } catch (error :any) {

@@ -15,6 +15,7 @@ const PostSchema: Schema<Ipost> = new mongoose.Schema(
     comments: [
       {
         userId: { type: Schema.Types.ObjectId, ref: "User" },
+        userName : { type : String },
         comment: { type: String },
         created_at: { type: Date, default: Date.now },
       },

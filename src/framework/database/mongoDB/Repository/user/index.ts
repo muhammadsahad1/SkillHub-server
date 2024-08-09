@@ -1,19 +1,19 @@
-// /exporting each operation function for user/ 
+// /exporting each operation function for user/
 import { createUser } from "./createUser";
 import { findByEmail } from "./findbyEmail";
 import { createProfile } from "./createProfile";
-import { findByEmailUpdatePicture } from './findByEmailUpdatePicture'
-import { findUpdateResetToken } from './findUpdateResetToken'
-import { resetPasswordVerify } from './resetPasswordVerify'
-import { fetchProfileImage } from './fetchProfileImage'
-import { changePassword } from './changePassword'
+import { findByEmailUpdatePicture } from "./findByEmailUpdatePicture";
+import { findUpdateResetToken } from "./findUpdateResetToken";
+import { resetPasswordVerify } from "./resetPasswordVerify";
+import { fetchProfileImage } from "./fetchProfileImage";
+import { changePassword } from "./changePassword";
 import { getUser } from "./getUser";
 import { uploadCoverImage } from "./uploadCoverImage";
-import { changePrivacy } from './changePrivacy'
-import { showNotification } from './showNotification'
+import { changePrivacy } from "./changePrivacy";
+import { showNotification } from "./showNotification";
 import { getSkillRelatedUsers } from "./getSkillRelatedUsers";
 import { getUsersImageUrls } from "./getUsersImageUrl";
-import { getUserDetails } from './getUserDetails'
+import { getUserDetails } from "./getUserDetails";
 import { followUp } from "./followUp";
 import { getMyFollowing } from "./getMyFollowings";
 import { unFollow } from "./unFollow";
@@ -21,6 +21,10 @@ import { myFollowers } from "./myFollowers";
 import { removeFollower } from "./removeFollower";
 import { followBack } from "./followBack";
 import { postLike } from "../post/postLike";
+import { getOthersFollowers } from "./othersFollowers";
+import { getOthersFollowersImageUrls } from "./getOthersFollowerImageUrls";
+import { getOthersFollowings } from "./getOthersFollowings";
+import { getOthersFollowingsImageUrl } from "./getOthersFollowingsImageUrl";
 // exporting each functions of manipulation to DB
 export {
   createUser,
@@ -42,7 +46,11 @@ export {
   followBack,
   removeFollower,
   getUsersImageUrls,
+  getOthersFollowers,
   uploadCoverImage,
+  getOthersFollowersImageUrls,
+  getOthersFollowings,
+  getOthersFollowingsImageUrl,
   postLike,
-  getUser
-}
+  getUser,
+};

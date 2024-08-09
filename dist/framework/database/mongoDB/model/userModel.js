@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
@@ -7,13 +7,26 @@ const userSchema = new mongoose.Schema({
     blocked: { type: Boolean, default: false },
     phoneNumber: { type: String },
     profileImage: { type: String },
+    imageKey: { type: String },
     bio: { type: String },
-    created_at: { type: Date },
+    created_at: { type: Date, default: Date.now },
     city: { type: String },
     country: { type: String },
-    skills: { type: String },
-    email_notification: { type: Boolean, default: false },
-    sms_notification: { type: Boolean, default: false },
+    states: { type: String },
+    skill: { type: String },
+    profile: { type: Boolean, default: false },
+    status: { type: Boolean },
+    coverImageKey: { type: String },
+    coverImage: { type: String },
+    picture: { type: String },
+    googleId: { type: String },
+    googleAvatar: { type: String },
+    resetPasswordToken: { type: String },
+    showNotification: { type: Boolean },
+    followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    // email_notification : { type : Boolean , default : false},
+    // sms_notification : { type : Boolean , default : false} ,
 });
-const userModel = mongoose.model('user', userSchema);
+const userModel = mongoose.model('User', userSchema);
 export default userModel;

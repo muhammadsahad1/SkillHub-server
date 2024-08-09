@@ -6,6 +6,7 @@ import {
 import { IToken } from "../service/jwt";
 import { Next, Req, Res } from "../../../framework/types/serverPackageType";
 import { IprivacySettings } from "../../../commonEntities/entities/user";
+import { Ipost } from "../../../commonEntities/entities/post";
 
 // each functions Interface (TYPSCRIPT)
 export interface IuserUseCase {
@@ -85,7 +86,7 @@ export interface IuserUseCase {
     userId: string,
     isPrivacy: boolean,
     next: Next
-  ): Promise<{ updatedPrivacySettings: IprivacySettings; status: boolean }>;
+  ): Promise<any>;
   // ===================================================================>
   showNotification(
     userId: string,
@@ -132,11 +133,18 @@ export interface IuserUseCase {
   ): Promise<{ success: boolean; message: string }>;
 // ===================================================================>
 
-uploadPost(userId : string,imageUrl : Express.Multer.File  |undefined, caption : string,type : string, next : Next) : Promise<any>
+uploadPost(userId : string,imageUrl : Express.Multer.File  |undefined, caption : string,type : string) : Promise<any>
 
 // ===================================================================>
 followBack(toFollowId : string,fromFollowingId : string,next : Next) :Promise<{ success: boolean; message: string }>
 // ===================================================================>
+
+othersFollowers(userId : string,currentUserId : string,next : Next) :Promise<Iuser[]>
+// ===================================================================>
+
+othersFollowings(userId : string,currentUserId : string,next : Next) :Promise<Iuser[]>
+// ===================================================================>
+fetchOthersPosts(userId :string,  next : Next) :Promise<any>
 
 fetchPosts(userSkill : string , next : Next) : Promise<any>
 // ===================================================================>
@@ -151,7 +159,14 @@ editPost(editedCaption : string,postId : string,next : Next) : Promise<{ success
 
 postLike(userId : string,postId : string,next :Next) : Promise<{message : string , postId : string}>
 
-  resendOtp(email: string, next: Next): Promise<void>;
+addComment(postId : string,userId : string,comment : string,next :Next ):Promise<any>
 
-  getUser(id: string, next: Next): Promise<Iuser | undefined | void>;
+delteComment(postId : string,commentId : string,next :Next ):Promise<any>
+
+editingComment(postId : string,commentId : string,userId : string,updateComment : string,next : Next) :Promise<any>
+
+resendOtp(email: string, next: Next): Promise<void>;
+
+getUser(id: string, next: Next): Promise<Iuser | undefined | void>;
+
 }

@@ -11,6 +11,9 @@ export const uploadPost = async (
   userModels: typeof userModel,
   postModels: typeof PostModel
 ) => {
+  console.log("vaneeee");
+  
+  console.log("in repo ===>", file);
   try {
     let imageName = "";
     let signedUrl = "";
@@ -49,12 +52,16 @@ export const uploadPost = async (
       ...createdPost.toObject(),
       signedUrl: signedUrl,
       skill: skill,
-      userId : currentUser?._id
+      userId: currentUser?._id,
     };
     // returning the created post and post url
     return postWithUrl;
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    return undefined; // Handle error as needed
+  } catch (error: any) {
+    console.error("Error uploading post:", error);
+    return {
+      success: false,
+      message: "Error uploading post",
+      error: error.message,
+    };
   }
 };

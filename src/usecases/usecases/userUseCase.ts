@@ -24,7 +24,13 @@ import {
   deletePost,
   editPost,
   postLike,
-  fetchMyPosts
+  fetchMyPosts,
+  othersFollowers,
+  othersFollowings,
+  addComment,
+  deleteComment,
+  editingComment,
+  fetchOthersPosts
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -283,11 +289,11 @@ export class UserUseCase implements IuserUseCase {
     userId: string,
     isPrivacy: boolean,
     next: Next
-  ): Promise<{ updatedPrivacySettings: IprivacySettings; status: boolean }> {
+  ): Promise<any> {
     const result = await changePrivacy(
       userId,
       isPrivacy,
-      this.privacyRepository,
+      this.userRepostory,
       next
     );
     if (!result) {
@@ -317,6 +323,8 @@ export class UserUseCase implements IuserUseCase {
     skill: string,
     next: Next
   ): Promise<IUserWithImages> {
+  
+    
     return await getSkillRelatedUsers(
       userId,
       skill,
@@ -396,8 +404,16 @@ export class UserUseCase implements IuserUseCase {
     );
   }
 
-  async uploadPost(userId: string, imageUrl: Express.Multer.File, caption: string, type : string,next: Next): Promise<any> {
-      return await uploadPostandRetriveUrl(userId , imageUrl,caption,type,this.s3,this.userRepostory,next)
+  async othersFollowers(userId: string,currentUserId : string, next: Next): Promise<any> {
+      return await othersFollowers(userId,currentUserId,this.userRepostory,this.s3,next)
+  }
+
+  async othersFollowings(userId: string, currentUserId: string, next: Next): Promise<any> {
+      return await othersFollowings(userId,currentUserId,this.userRepostory,this.s3,next)
+  }
+
+  async uploadPost(userId: string, imageUrl: Express.Multer.File, caption: string, type : string): Promise<any> {
+      return await uploadPostandRetriveUrl(userId , imageUrl,caption,type,this.s3,this.userRepostory)
   }
 
   async fetchPosts(userSkill : string ,next : Next) : Promise<any> {
@@ -406,6 +422,10 @@ export class UserUseCase implements IuserUseCase {
 
   async fetchMyPosts(userId: string, next: Next): Promise<any> {
       return await fetchMyPosts(userId,this.userRepostory,this.s3,next)
+  }
+
+  async fetchOthersPosts(userId: string, next: Next): Promise<any> {
+      return await fetchOthersPosts(userId ,this.userRepostory, this.s3,next)
   }
 
   async deletePost(postId: string, next: Next): Promise<any> {
@@ -420,4 +440,17 @@ export class UserUseCase implements IuserUseCase {
   async postLike(userId : string,postId : string,next : Next): Promise<any> {
     return await postLike(userId,postId,this.userRepostory,next)
   }
+
+  async addComment(postId: string, userId: string, comment: string, next: Next): Promise<any> {
+    return await addComment(postId,userId,comment,this.userRepostory,this.s3,next)
+  }
+
+  async delteComment(postId: string, commentId: string, next: Next): Promise<any> {
+      return await deleteComment(postId,commentId,this.userRepostory,next)
+  }
+
+  async editingComment(postId: string, commentId: string,userId :string, updateComment : string,next: Next): Promise<any> {
+      return await editingComment(postId,commentId,userId,updateComment,this.userRepostory,next)
+  }
+
 }

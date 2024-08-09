@@ -1,15 +1,14 @@
-import { Ipost } from "../../../commonEntities/entities/post";
+import { IComment, Ipost } from "../../../commonEntities/entities/post";
 import {
   FetchProfileImageResponse,
   Iuser,
   IUserWithImages,
 } from "../../../commonEntities/entities/user";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
+import { Next } from "../../../framework/types/serverPackageType";
 
 export interface IuserRepository {
-  createUser(newUser: Iuser): Promise<
-    | Iuser
-    | void
+  createUser(newUser: Iuser): Promise<Iuser| void
     | {
         success: boolean;
         user?: Iuser;
@@ -59,7 +58,7 @@ export interface IuserRepository {
     isShowNotification: boolean
   ): Promise<{ status: boolean }>;
 
-  getSkillRelatedUserss(
+  getSkillRelatedUsers(
     userId: string,
     skill: string,
     s3Bucket: IS3Operations
@@ -81,6 +80,12 @@ export interface IuserRepository {
 
   followBack(fromFollowingId: string, toFollowId: string): Promise<void>;
 
+  othersFollowers(userId : string,currentUserId : string,s3 : IS3Operations):Promise<any> 
+
+  othersFollowings(userId : string,currentUserId : string,s3 : IS3Operations):Promise<any> 
+
+  
+
   uploadPostRetriveImageUrl(
     userId: string,
     file: Express.Multer.File,
@@ -93,11 +98,21 @@ export interface IuserRepository {
 
   fetchMyPosts(userId : string,s3 : IS3Operations) : Promise<any>
   
+  fetchOthersPosts(userId : string,s3 : IS3Operations) : Promise<any>
+  
   deletePost(postId: string): Promise<void>;
 
   editPost(caption : string,postId : string) : Promise<{postId: string | undefined,caption:string | undefined}>
 
   postLike(userId : string , postId : string ) : Promise<{message : string , postId : string}>
+  
+  addComment(postId :string,userId : string,comment : string,s3 : IS3Operations,next : Next) : Promise<any>
+
+  editComment(postId : string,commentId : string,userId : string,updatedComment : string) : Promise<IComment>
+
+  deleteComment(postId : string , commentId : string) : Promise<any>
+
+  changePrivacy(userId: string, isPrivacy: boolean ): Promise<any>
 
   blockUser(id: string): Promise<Iuser>;
 

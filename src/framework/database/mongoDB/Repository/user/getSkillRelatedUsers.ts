@@ -1,4 +1,3 @@
-import { Iuser } from "../../../../../commonEntities/entities/user";
 import userModel from "../../model/userModel";
 
 export const getSkillRelatedUsers = async (
@@ -12,7 +11,8 @@ export const getSkillRelatedUsers = async (
       _id: { $ne: userId },
       skill,
     });
-  
+    console.log("skillRelatedusers ===========>",skillRelatedUsers);
+    
     return skillRelatedUsers;
   } catch (error) {
     console.error("Error updating profile:", error);
