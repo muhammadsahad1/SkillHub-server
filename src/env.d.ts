@@ -25,6 +25,6 @@ declare namespace NodeJS {
     CLIENT_SECRET: string;
     CLIENT_URL : string;
     JWT_SECRET: string;
-
+    ELASTICSEARCH_PASSWORD : string
   }
 }

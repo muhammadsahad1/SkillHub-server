@@ -26,6 +26,8 @@
 
     "@aws-sdk/s3-request-presigner": "^3.614.0",
 
+    "@elastic/elasticsearch": "^8.14.0",
+
     "@react-oauth/google": "^0.12.1",
 
     "aws-sdk": "^2.1664.0",

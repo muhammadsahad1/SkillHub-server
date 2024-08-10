@@ -371,15 +371,12 @@ export class UserController {
   // Uploading post
   async uploadPost(req: Req, res: Res, next: Next) {
     try {
-      console.log("uploading post ===>", req.file);
-
       const result = await this.userUseCase.uploadPost(
         req.user?.id,
         req.file,
         req.body.caption,
         req.body.type
       );
-      console.log("result ===>>>>>", result);
 
       if (result.success) {
         res.status(200).json(result);
@@ -560,7 +557,6 @@ export class UserController {
       );
 
       if (result) {
-        console.log("result ===> ", result);
         res.status(200).json(result);
       }
     } catch (error: any) {
@@ -571,7 +567,6 @@ export class UserController {
   // Fetch my posts
   async fetchOthersPosts(req: Req, res: Res, next: Next) {
     try {
-
       const { userId } = req.query;
       const result = await this.userUseCase.fetchOthersPosts(
         userId as string,
@@ -579,9 +574,22 @@ export class UserController {
       );
 
       if (result) {
-        console.log("result =============> ", result);
         res.status(200).json(result);
       }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+  // ===================================================================>
+  // Search users with elastic searching
+  async searchUsers(req: Req, res: Res, next: Next) {
+    try {
+      
+      const query = req.query.query as string;
+      const result = await this.userUseCase.searchUsers(query, next);
+
+      console.log("Search result from backend:", result);
+      return res.status(200).json(result);
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }

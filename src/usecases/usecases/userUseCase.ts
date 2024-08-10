@@ -30,7 +30,8 @@ import {
   addComment,
   deleteComment,
   editingComment,
-  fetchOthersPosts
+  fetchOthersPosts,
+  searchUsers,
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -49,7 +50,7 @@ import { Next } from "../../framework/types/serverPackageType";
 import { resentOtp } from "./user/resentOtp";
 import { ErrorHandler } from "../middlewares/errorMiddleware";
 import { IS3Operations } from "../../framework/service/s3Bucket";
-import { IprivacyRepository } from "../interface/repositoryInterface/privacyRepository";
+import { IElasticsearchService } from "../../framework/service/elasticsearchService";
 import { NextFunction } from "express";
 import { Ipost } from "../../commonEntities/entities/post";
 
@@ -58,13 +59,13 @@ import { Ipost } from "../../commonEntities/entities/post";
 export class UserUseCase implements IuserUseCase {
   constructor(
     private userRepostory: IuserRepository,
-    private privacyRepository: IprivacyRepository,
     private Jwt: Ijwt,
     private otpRepository: IotpRepository,
     private hashPassword: IhashPassword,
     private otpGenerate: IotpGenerate,
     private sendEmail: IsendEmail,
-    private s3: IS3Operations
+    private s3: IS3Operations,
+    private elasticSearchService: IElasticsearchService
   ) {}
 
   // ===================================================================>
@@ -323,8 +324,6 @@ export class UserUseCase implements IuserUseCase {
     skill: string,
     next: Next
   ): Promise<IUserWithImages> {
-  
-    
     return await getSkillRelatedUsers(
       userId,
       skill,
@@ -404,53 +403,121 @@ export class UserUseCase implements IuserUseCase {
     );
   }
 
-  async othersFollowers(userId: string,currentUserId : string, next: Next): Promise<any> {
-      return await othersFollowers(userId,currentUserId,this.userRepostory,this.s3,next)
+  async othersFollowers(
+    userId: string,
+    currentUserId: string,
+    next: Next
+  ): Promise<any> {
+    return await othersFollowers(
+      userId,
+      currentUserId,
+      this.userRepostory,
+      this.s3,
+      next
+    );
   }
 
-  async othersFollowings(userId: string, currentUserId: string, next: Next): Promise<any> {
-      return await othersFollowings(userId,currentUserId,this.userRepostory,this.s3,next)
+  async othersFollowings(
+    userId: string,
+    currentUserId: string,
+    next: Next
+  ): Promise<any> {
+    return await othersFollowings(
+      userId,
+      currentUserId,
+      this.userRepostory,
+      this.s3,
+      next
+    );
   }
 
-  async uploadPost(userId: string, imageUrl: Express.Multer.File, caption: string, type : string): Promise<any> {
-      return await uploadPostandRetriveUrl(userId , imageUrl,caption,type,this.s3,this.userRepostory)
+  async uploadPost(
+    userId: string,
+    imageUrl: Express.Multer.File,
+    caption: string,
+    type: string
+  ): Promise<any> {
+    return await uploadPostandRetriveUrl(
+      userId,
+      imageUrl,
+      caption,
+      type,
+      this.s3,
+      this.userRepostory
+    );
   }
 
-  async fetchPosts(userSkill : string ,next : Next) : Promise<any> {
-    return await getPosts(userSkill,this.s3,this.userRepostory,next)
+  async fetchPosts(userSkill: string, next: Next): Promise<any> {
+    return await getPosts(userSkill, this.s3, this.userRepostory, next);
   }
 
   async fetchMyPosts(userId: string, next: Next): Promise<any> {
-      return await fetchMyPosts(userId,this.userRepostory,this.s3,next)
+    return await fetchMyPosts(userId, this.userRepostory, this.s3, next);
   }
 
   async fetchOthersPosts(userId: string, next: Next): Promise<any> {
-      return await fetchOthersPosts(userId ,this.userRepostory, this.s3,next)
+    return await fetchOthersPosts(userId, this.userRepostory, this.s3, next);
   }
 
   async deletePost(postId: string, next: Next): Promise<any> {
-    console.log("userUseCasil kerii")
-      return await deletePost(postId,this.userRepostory,next)
+    console.log("userUseCasil kerii");
+    return await deletePost(postId, this.userRepostory, next);
   }
 
-  async editPost(editedCaption: string, postId : string, next: Next): Promise<{ success: boolean; message: string; }> {
-      return await editPost(editedCaption,postId,this.userRepostory,next)
+  async editPost(
+    editedCaption: string,
+    postId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string }> {
+    return await editPost(editedCaption, postId, this.userRepostory, next);
   }
 
-  async postLike(userId : string,postId : string,next : Next): Promise<any> {
-    return await postLike(userId,postId,this.userRepostory,next)
+  async postLike(userId: string, postId: string, next: Next): Promise<any> {
+    return await postLike(userId, postId, this.userRepostory, next);
   }
 
-  async addComment(postId: string, userId: string, comment: string, next: Next): Promise<any> {
-    return await addComment(postId,userId,comment,this.userRepostory,this.s3,next)
+  async addComment(
+    postId: string,
+    userId: string,
+    comment: string,
+    next: Next
+  ): Promise<any> {
+    return await addComment(
+      postId,
+      userId,
+      comment,
+      this.userRepostory,
+      this.s3,
+      next
+    );
   }
 
-  async delteComment(postId: string, commentId: string, next: Next): Promise<any> {
-      return await deleteComment(postId,commentId,this.userRepostory,next)
+  async delteComment(
+    postId: string,
+    commentId: string,
+    next: Next
+  ): Promise<any> {
+    return await deleteComment(postId, commentId, this.userRepostory, next);
   }
 
-  async editingComment(postId: string, commentId: string,userId :string, updateComment : string,next: Next): Promise<any> {
-      return await editingComment(postId,commentId,userId,updateComment,this.userRepostory,next)
+  async editingComment(
+    postId: string,
+    commentId: string,
+    userId: string,
+    updateComment: string,
+    next: Next
+  ): Promise<any> {
+    return await editingComment(
+      postId,
+      commentId,
+      userId,
+      updateComment,
+      this.userRepostory,
+      next
+    );
   }
 
+  async searchUsers(query: string, next: Next): Promise<Iuser[]> {
+      return await searchUsers(query,this.elasticSearchService,this.s3,next)
+  }
 }

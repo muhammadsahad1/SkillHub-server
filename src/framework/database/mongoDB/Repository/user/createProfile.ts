@@ -1,6 +1,7 @@
 import { Iuser } from "../../../../../commonEntities/entities/user";
 import userModel from "../../model/userModel";
 import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket";
+import client from "../../../../elasticsearch/elasticsearchClient";
 
 // Creatin profile with upload image to s3bucket
 export const createProfile = async (
@@ -10,7 +11,6 @@ export const createProfile = async (
   userModels: typeof userModel
 ): Promise<Iuser | undefined | any> => {
   try {
-
     let imageName = "";
 
     if (file) {
@@ -23,10 +23,10 @@ export const createProfile = async (
         buffer,
         mimetype,
       };
-      
+
       imageName = await S3Operations.putObjectUrl(PutObjectParams);
     }
-    const currentUser = await userModels.findOne({ email : userProfile.email})
+    const currentUser = await userModels.findOne({ email: userProfile.email });
     const updatedUser = await userModels.findOneAndUpdate(
       { email: userProfile.email },
       {
@@ -36,7 +36,7 @@ export const createProfile = async (
           bio: userProfile.bio || currentUser?.bio,
           country: userProfile.country || currentUser?.country,
           states: userProfile.city || currentUser?.states,
-          skill: userProfile.skill ||currentUser?.skill,
+          skill: userProfile.skill || currentUser?.skill,
           picture: userProfile.picture || currentUser?.picture,
           imageKey: file ? file.originalname : currentUser?.imageKey,
           profile: true,
@@ -45,9 +45,26 @@ export const createProfile = async (
       { new: true }
     );
 
+    
+    // Index or update user in Elasticsearch
+    if (updatedUser) {
+     await client.index({
+        index: "users",
+        id: updatedUser._id.toString(),
+        document: {
+          id: updatedUser._id.toString(),
+          name: updatedUser.name,
+          bio: updatedUser.bio,
+          skill: updatedUser.skill,
+          profileImage: updatedUser.profileImage,
+        },
+      });
+      
+    }
+
     return updatedUser;
   } catch (error) {
-    console.error("Error updating profile:", error);
+    console.error("Error updating profile:", error);  
     return undefined; // Handle error as needed
   }
 };

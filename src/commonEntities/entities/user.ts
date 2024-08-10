@@ -17,15 +17,15 @@ import mongoose from "mongoose";
 //   twoFactorAuthEnabled?: boolean;
 // }
 
-export interface IprivacySettings {
-  // showEmail: boolean;
-  // showPhone: boolean;
-  isProfilePublic?: boolean;
-  userId: string | undefined;
-  showProfilePicture?: boolean;
-  showActivityStatus?: boolean;
-  // dataSharingOptOut?: boolean;
-}
+// export interface IprivacySettings {
+//   // showEmail: boolean;
+//   // showPhone: boolean;
+//   isProfilePublic?: boolean;
+//   userId: string | undefined;
+//   showProfilePicture?: boolean;
+//   showActivityStatus?: boolean;
+//   // dataSharingOptOut?: boolean;
+// }
 
 // Define the main User interface
 export interface Iuser {
@@ -61,6 +61,7 @@ export interface Iuser {
   resetPasswordToken?: string;
   passwordLastChanged?: Date;
   accountPrivacy?: boolean;
+  profileImageUrl?: string;
   //   profile?: Profile;
 }
 

@@ -1,5 +1,5 @@
-import { IprivacySettings } from "../../../commonEntities/entities/user";
+// import { IprivacySettings } from "../../../commonEntities/entities/user";
 
-export interface IprivacyRepository {
-  changePrivacy(userId: string, isPrivacy: boolean): Promise<IprivacySettings | undefined>;
-}
+// export interface IprivacyRepository {
+//   changePrivacy(userId: string, isPrivacy: boolean): Promise<IprivacySettings | undefined>;
+// }

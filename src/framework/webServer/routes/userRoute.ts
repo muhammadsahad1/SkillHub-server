@@ -47,6 +47,10 @@ export function userRoute(route: Route): Route {
   route.delete('/deleteComment',isAuthenticate,(req: Req, res: Res, next: Next) => userController.deleteComment(req,res,next));
   route.put('/editComment',isAuthenticate,(req: Req, res: Res, next: Next) => userController.editingComment(req,res,next));
 
+  // users search
+  route.get('/searchUser',isAuthenticate,(req: Req, res: Res, next: Next) => userController.searchUsers(req,res,next));
+  
+
   // Logout Route
   route.post("/logout", isAuthenticate, (req: Req, res: Res, next: Next) => userController.userLogout(req, res, next));
 

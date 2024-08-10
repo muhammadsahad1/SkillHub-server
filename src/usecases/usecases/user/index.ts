@@ -19,7 +19,7 @@ import { myFollowers } from "./myFollowers";
 import { removeFollower } from "./removeFollower";
 import { followBack } from "./followBack";
 import { uploadPostandRetriveUrl } from "./uploadPostandRetriveUrl";
-import { getPosts } from "./getPosts"; 
+import { getPosts } from "./getPosts";
 import { deletePost } from "./deletePost";
 import { editPost } from "./editPost";
 import { postLike } from "./postLike";
@@ -30,6 +30,7 @@ import { addComment } from "./addComment";
 import { deleteComment } from "./deleteComment";
 import { editingComment } from "./editingComment";
 import { fetchOthersPosts } from "./fetchOthersPosts";
+import { searchUsers } from "./searchUsers";
 
 export {
   userSignup,
@@ -63,5 +64,6 @@ export {
   deleteComment,
   editingComment,
   fetchOthersPosts,
-  getPosts
+  searchUsers,
+  getPosts,
 };

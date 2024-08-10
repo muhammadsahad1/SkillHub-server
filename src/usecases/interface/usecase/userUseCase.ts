@@ -165,6 +165,9 @@ delteComment(postId : string,commentId : string,next :Next ):Promise<any>
 
 editingComment(postId : string,commentId : string,userId : string,updateComment : string,next : Next) :Promise<any>
 
+searchUsers(query : string,next : Next): Promise<Iuser[]>
+// ===================================================================>
+
 resendOtp(email: string, next: Next): Promise<void>;
 
 getUser(id: string, next: Next): Promise<Iuser | undefined | void>;
