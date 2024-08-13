@@ -1,0 +1,47 @@
+import mongoose from "mongoose";
+import ConversationModel from "../../model/conversation";
+import MessageModel from "../../model/message";
+
+// here while user sending message that time conversation is creating
+export const sendMessage = async (
+  senderId: string,
+  receiverId: string,
+  message: string,
+  messageModel: typeof MessageModel,
+  conversationModel: typeof ConversationModel
+) => {
+
+  try {
+
+    let conversation = await conversationModel.findOne({
+      participants: { $all: [senderId, receiverId] },
+    });
+
+    // creating conversation if the converstion not exists
+    if (!conversation) {
+      conversation = await conversationModel.create({
+        participants: [senderId, receiverId],
+      });
+    }
+
+    const newMessage = new messageModel({
+      senderId,
+      receiverId,
+      message,
+    });
+    
+    if (newMessage) {
+      await newMessage.save();
+      conversation.messages.push(
+        newMessage._id as unknown as mongoose.Schema.Types.ObjectId
+      );
+
+      await conversation.save();
+      return newMessage;
+    }
+
+  } catch (error) {
+    console.error("Error in create conversation:", error);
+    return undefined;
+  }
+};

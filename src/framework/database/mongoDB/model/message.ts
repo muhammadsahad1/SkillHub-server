@@ -1,0 +1,29 @@
+import mongoose from "mongoose";
+import { Imessage } from "../../../../commonEntities/entities/message";
+
+const messsageSchema = new mongoose.Schema<Imessage>(
+  {
+    senderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    receiverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
+    media: {
+      type: String,
+    },
+  },
+  // createdAt, updatedAt
+  { timestamps: true }
+);
+
+const MessageModel = mongoose.model<Imessage>("Message", messsageSchema);
+export default MessageModel;

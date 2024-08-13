@@ -14,14 +14,12 @@ export const changePassword = async(
 try {
   console.log("kerii")
     const user = await userRepository.getUser(userId)
-    console.log("user geted",user)
 
     if(!user){
       return next(new ErrorHandler(400,"User is not found"))
     }
 
     const compare = await hashPassword.comparePassword(currentPassword,user?.password)
-    console.log("compare",compare)
     
     if(!compare) {
       return { success : false , message : "Current password is incorrect"}

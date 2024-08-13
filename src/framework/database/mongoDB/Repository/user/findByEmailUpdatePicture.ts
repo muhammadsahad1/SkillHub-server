@@ -18,7 +18,6 @@ export const findByEmailUpdatePicture = async (
       },
       { new: true }
     );
-    console.log("google kazhinj updated",updatedUser)
     return updatedUser;
   } catch (error) {
     console.error("Error updating profile:", error);

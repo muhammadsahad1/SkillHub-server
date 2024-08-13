@@ -14,10 +14,6 @@ export const changeShowNotification = async (
       isShowNotification
     );
     console.log("result IN DB", result)
-    // if (!result) {
-    //   return next(
-    //     new ErrorHandler(400, "failed to change notification settings")
-    //   );
     
     return {
       success: true,

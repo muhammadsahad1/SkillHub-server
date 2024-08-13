@@ -8,7 +8,11 @@ import crypto from "crypto";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import NodeCache from "node-cache"; //using for cache machanisim
 
-const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600, maxKeys: 10000 });
+const cache = new NodeCache({
+  stdTTL: 86400,
+  checkperiod: 3600,
+  maxKeys: 10000,
+});
 
 export type PutObjectParams = {
   originalname: string;
@@ -29,7 +33,7 @@ export interface IS3Operations {
 export class S3Operations implements IS3Operations {
   private s3Client: S3Client;
   private bucketName: string;
-  
+
   constructor(
     region: string,
     accessKeyId: string,
@@ -45,7 +49,7 @@ export class S3Operations implements IS3Operations {
     });
     this.bucketName = bucketName;
   }
-  
+
   // uploading bolb data
   async putObjectUrl({
     originalname,
@@ -61,14 +65,11 @@ export class S3Operations implements IS3Operations {
       Body: buffer,
       ContentType: mimetype,
     };
-    console.log("s3 putil vannu ===> ")
-    console.log("paramss in put ==>",params)
 
+    // here the blob data uploading
     const command = new PutObjectCommand(params);
     try {
-      const data = await this.s3Client.send(command);
-      console.log(`Uploaded ${originalname} to S3 bucket ${this.bucketName}`);
-      console.log("Upload response:", data);
+      await this.s3Client.send(command);
       return imageName;
     } catch (error) {
       console.error(
@@ -80,23 +81,23 @@ export class S3Operations implements IS3Operations {
   }
 
   //getImage from s3 Bucket
-  async getObjectUrl({ bucket, key }: getObjectParams): Promise<string | unknown> {
+  async getObjectUrl({
+    bucket,
+    key,
+  }: getObjectParams): Promise<string | unknown> {
     if (!key) {
       throw new Error("No value provided for input HTTP label: Key");
     }
-  
 
     const cacheKey = `${bucket}/${key}`;
     let url = cache.get(cacheKey);
-    console.log(`url indellll ==> ${bucket}/${key} `,url)
     if (!url) {
-      console.log("illengill ----> url create aknnu")
       const params = {
         Bucket: bucket,
         Key: key,
-      };
+      }
       const command = new GetObjectCommand(params);
-      try { 
+      try {
         url = await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
         cache.set(cacheKey, url);
       } catch (error) {
@@ -104,7 +105,7 @@ export class S3Operations implements IS3Operations {
         throw error;
       }
     }
-    
+
     return url;
   }
 }

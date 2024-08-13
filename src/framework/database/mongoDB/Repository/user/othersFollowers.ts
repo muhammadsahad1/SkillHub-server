@@ -11,8 +11,6 @@ export const getOthersFollowers = async (
 ) => {
   try {
     const user = await userModel.findById(userId);
-    // Find the user by ID
-    console.log("user =====>",user?.followers)
 
     // Check if user exists
     if (!user) {
@@ -20,7 +18,6 @@ export const getOthersFollowers = async (
     }
 
     const followers = user.followers;
-
     await userModel.find();
 
     return followers;

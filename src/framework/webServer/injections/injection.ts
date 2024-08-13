@@ -7,7 +7,6 @@ import { AdminRepository } from "../../database/mongoDB/Repository/adminReposito
 import { UserController } from "../../../commonEntities/controllers/userController";
 import { UserUseCase } from "../../../usecases/usecases/userUseCase";
 import userModel from "../../database/mongoDB/model/userModel";
-import PrivacyModal from "../../database/mongoDB/model/privacyModel";
 import { UserRepository } from "../../database/mongoDB/Repository/userRepository";
 import { OtpRepository } from "../../database/mongoDB/Repository/otpRepository";
 
@@ -17,8 +16,14 @@ import { OtpGenerate } from "../../service/otpGenerate";
 import { SendEmail } from "../../service/sentEmail";
 import { S3Operations } from "../../service/s3Bucket";
 import { indexUser, searchUsers } from "../../service/elasticsearchService";
-import { PrivacyRepository } from "../../database/mongoDB/Repository/privacyRepository";
 import PostModel from "../../database/mongoDB/model/postModel";
+
+// ================================= Message injections ================================= \\
+import { MessageController } from "../../../commonEntities/controllers/messageController";
+import MessageModel from "../../database/mongoDB/model/message";
+import ConversationModel from "../../database/mongoDB/model/conversation";
+import { MessageUseCase } from "../../../usecases/usecases/messageUseCase";
+import { MessageRepository } from "../../database/mongoDB/Repository/messageRepository";
 
 // Retrieve environment variables
 const region = process.env.C3_BUCKET_REGION || "";
@@ -29,15 +34,12 @@ const bucketName = process.env.C3_BUCKET_NAME || "";
 // ====================== Instantiate / providing ( Dpendencies Injections )  ====================== \\
 
 // FOR UPLOADING IMAGE TO S3 BUCKET
-const uploadImage = new S3Operations(
+const s3Operations = new S3Operations(
   region,
   accessKeyId,
   secretAccessKey,
   bucketName
 );
-// USER REPO FOR INTRACTE WITH DB
-const userRepository = new UserRepository(userModel, PostModel);
-const privacyRepository = new PrivacyRepository(PrivacyModal);
 // TOKEN
 const jwt = new JWTtoken();
 // OTP INTRACTE WITH DB
@@ -51,6 +53,8 @@ const sendEmail = new SendEmail();
 
 const elasticSearchService = { indexUser, searchUsers };
 
+// USER REPO FOR INTRACTE WITH DB
+const userRepository = new UserRepository(userModel, PostModel);
 const userUseCase = new UserUseCase(
   userRepository,
   jwt,
@@ -58,10 +62,9 @@ const userUseCase = new UserUseCase(
   hashPassword,
   otpGenerate,
   sendEmail,
-  uploadImage,
+  s3Operations,
   elasticSearchService
 );
-
 const userController = new UserController(userUseCase);
 
 const adminRepository = new AdminRepository(userModel);
@@ -70,8 +73,19 @@ const adminUseCase = new AdminUseCase(
   jwt,
   hashPassword,
   sendEmail,
-  uploadImage
+  s3Operations
 );
 const adminController = new AdminController(adminUseCase);
 
-export { adminController, userController };
+
+const messageRepository = new MessageRepository(
+  ConversationModel,
+  MessageModel,
+  userModel
+);
+const messageUseCase = new MessageUseCase(messageRepository,s3Operations);
+const messageController = new MessageController(messageUseCase);
+
+
+
+export { adminController, userController, messageController };

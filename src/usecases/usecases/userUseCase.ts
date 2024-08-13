@@ -41,7 +41,6 @@ import { IotpGenerate } from "../interface/service/otpGenerate";
 import { IhashPassword } from "../interface/service/hashPassword";
 import {
   GetSkillRelatedUsersResponse,
-  IprivacySettings,
   Iuser,
   IUserWithImages,
 } from "../../commonEntities/entities/user";
@@ -460,7 +459,6 @@ export class UserUseCase implements IuserUseCase {
   }
 
   async deletePost(postId: string, next: Next): Promise<any> {
-    console.log("userUseCasil kerii");
     return await deletePost(postId, this.userRepostory, next);
   }
 

@@ -2,31 +2,6 @@
 
 import mongoose from "mongoose";
 
-// type ObjectId = mongoose.Types.ObjectId;
-
-// Define interfaces for sub-documents first
-// interface Profile {
-//   profileImage?: string;
-//   interests?: string[];
-// }
-
-//  interface AccountSettings {
-//   theme: string;
-//   language: string;
-//   timeZone?: string;
-//   twoFactorAuthEnabled?: boolean;
-// }
-
-// export interface IprivacySettings {
-//   // showEmail: boolean;
-//   // showPhone: boolean;
-//   isProfilePublic?: boolean;
-//   userId: string | undefined;
-//   showProfilePicture?: boolean;
-//   showActivityStatus?: boolean;
-//   // dataSharingOptOut?: boolean;
-// }
-
 // Define the main User interface
 export interface Iuser {
   id?: string;

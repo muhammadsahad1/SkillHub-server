@@ -3,10 +3,7 @@ import {
   Iuser,
   IUserWithImages,
 } from "../../../commonEntities/entities/user";
-import { IToken } from "../service/jwt";
 import { Next, Req, Res } from "../../../framework/types/serverPackageType";
-import { IprivacySettings } from "../../../commonEntities/entities/user";
-import { Ipost } from "../../../commonEntities/entities/post";
 
 // each functions Interface (TYPSCRIPT)
 export interface IuserUseCase {
@@ -78,7 +75,7 @@ export interface IuserUseCase {
   changePassword(
     userId: string,
     currentPassword: string,
-    newPassword: string
+    newPassword: string,
     next : Next,
   ): Promise<{ success: boolean; message: string } | any>;
   // ===================================================================>

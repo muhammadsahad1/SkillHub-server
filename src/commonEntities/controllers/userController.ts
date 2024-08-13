@@ -118,7 +118,6 @@ export class UserController {
         skill,
         next
       );
-      console.log("result in backend ======>", result);
 
       if (result) {
         res.status(200).json(result);
@@ -157,7 +156,8 @@ export class UserController {
       const result = await this.userUseCase.changePassword(
         req.user?.id,
         req.body.currentPassword,
-        req.body.newPassword
+        req.body.newPassword,
+        next
       );
 
       res.status(200).json(result);
@@ -168,9 +168,7 @@ export class UserController {
   // create profile
   async createProfile(req: Req, res: Res, next: Next) {
     try {
-      console.log("Request body:", req.body);
-      console.log("Request file:", req.file);
-
+      
       const result = await this.userUseCase.createProfile(
         req.body,
         req.file,
@@ -238,7 +236,6 @@ export class UserController {
         req.body.isPrivacy,
         next
       );
-      console.log("result ===> ", result);
 
       if (result) {
         res.status(201).json(result);
