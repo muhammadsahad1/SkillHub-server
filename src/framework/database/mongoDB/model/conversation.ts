@@ -16,9 +16,18 @@ const conversationSchema = new mongoose.Schema<Iconversation>(
         default: [],
       },
     ],
+    lastMessage: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Message",
+      },
+    ],
   },
   { timestamps: true }
 );
 
-const ConversationModel = mongoose.model<Iconversation>("Conversation", conversationSchema);
+const ConversationModel = mongoose.model<Iconversation>(
+  "Conversation",
+  conversationSchema
+);
 export default ConversationModel;

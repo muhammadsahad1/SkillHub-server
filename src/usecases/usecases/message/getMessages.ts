@@ -14,8 +14,9 @@ export const getChat = async (
     console.log("to ==>",userToChatId);
     console.log("sender ====>",senderId);
     
-    
     const result = await messageRepository.getChat(userToChatId, senderId,s3);
+    
+    
     if (!result) {
       return next(new ErrorHandler(401, "Getting the messages failed"));
     }

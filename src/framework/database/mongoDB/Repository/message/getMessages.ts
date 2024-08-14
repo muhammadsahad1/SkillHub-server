@@ -1,5 +1,5 @@
 import { Iconversation } from "../../../../../commonEntities/entities/conversation";
-import { Imessage } from "../../../../../commonEntities/entities/message";
+import { ChatResponse,} from "../../../../../commonEntities/entities/message";
 import { IS3Operations } from "../../../../service/s3Bucket";
 import ConversationModel from "../../model/conversation";
 import userModel from "../../model/userModel";
@@ -10,26 +10,44 @@ export const getChat = async (
   userModels: typeof userModel,
   s3: IS3Operations,
   conversationModel: typeof ConversationModel
-): Promise<any> => {
+): Promise<ChatResponse> => {
   try {
-    console.log("userTOchjat ==>",userToChatId);
-    
+    console.log("userTOchjat ==>", userToChatId);
+
     const conversation = await conversationModel
       .findOne({
         participants: { $all: [senderId, userToChatId] },
       })
       .populate("messages");
 
-      console.log("converstion =========>",conversation);
-      
-
     if (!conversation || !conversation.messages) {
-      return null;
+      const user = await userModels
+      .findById(userToChatId)
+      .select("_id name email profileImage");
+
+      let profileImageUrl = "";
+      if (user?.profileImage) {
+        profileImageUrl = await s3.getObjectUrl({
+          bucket: process.env.C3_BUCKET_NAME,
+          key: user?.profileImage,
+        });
+      }
+  
+      const userWithProfileImage = {
+        ...user?.toObject(),
+        profileImageUrl: profileImageUrl,
+      };
+      
+      const result = {
+        userWithProfileImage,
+      };
+
+      return result
     }
 
     const messages = conversation?.messages;
     const user = await userModels
-      .findById(senderId)
+      .findById(userToChatId)
       .select("_id name email profileImage");
 
     let profileImageUrl = "";
@@ -40,13 +58,17 @@ export const getChat = async (
       });
     }
 
-    const result = {
-      user : user,
-      profileImageUrl : profileImageUrl,
-      messages : messages,
+    const userWithProfileImage = {
+      ...user?.toObject(),
+      profileImageUrl: profileImageUrl,
     };
-    console.log("resiult++++++++++++++>",result);
+    
+    const result = {
+      messages: messages,
+      userWithProfileImage,
+    };
 
+    return result;
   } catch (error) {
     console.error("Error in create conversation:", error);
     return undefined;

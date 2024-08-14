@@ -9,17 +9,21 @@ export class MessageController {
     
       const { receiverId , messages  } = req.body
       const senderId = req.user?.id as string
-      console.log("senderId ==>",senderId);
       const result = await this.messageUseCase.sendMessage(senderId,receiverId,messages,next)
       res.status(201).json(result)
     }
 
     async getChat(req : Req,res :Res , next :Next){
-      const { userToChatId } = req.params
-      const senderId = req.user?.id
+        
+      const { senderId , userToChatId } = req.query
       const result = await this.messageUseCase.getChat(userToChatId,senderId,next)
-      console.log("resultt   =====> " , result);
-      
+      console.log("ress ======>",result);
+      res.status(200).json(result)
+    }
+
+    async chatUsers(req : Req,res :Res , next :Next){
+      const userId = req.user?.id as string
+      const result = await this.messageUseCase.getConversationsUsers(userId,next)
       res.status(200).json(result)
     }
 }

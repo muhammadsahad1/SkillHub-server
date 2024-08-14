@@ -20,6 +20,12 @@ const messsageSchema = new mongoose.Schema<Imessage>(
     media: {
       type: String,
     },
+    readBy : [
+      {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "User"
+      }
+    ]
   },
   // createdAt, updatedAt
   { timestamps: true }

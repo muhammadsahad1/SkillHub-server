@@ -11,9 +11,10 @@ export const sendMessage = async (
 ) => {
   try {
     const result = await messageRepository.sendMessage(senderId,receiverId,message)
-
+    console.log("+=======>",result);
+    
     if(!result){
-      return next(new ErrorHandler(401,"Create a new conversation failed"))
+      return { success : true , result}
     }
   
     return { success : true , result }
