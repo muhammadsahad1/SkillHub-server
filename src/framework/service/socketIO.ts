@@ -10,26 +10,32 @@ export const initializeSocket = (server: http.Server) => {
     },
   });
 
-  io.on('connection', (socket) => {
+  io.on("connection", (socket) => {
     console.log("Server connected with socket ID:", socket.id);
 
-    socket.on('joinRoom', ({ senderId, receiverId }) => {
-      const roomName = [senderId, receiverId].sort().join('-');
+    socket.on("joinRoom", ({ senderId, receiverId }) => {
+      const roomName = [senderId, receiverId].sort().join("-");
       socket.join(roomName);
       console.log("Joined room:", roomName);
     });
 
-    socket.on('sendData', (data) => {
-      console.log("sendMessagil ethi====>",data);
-      
+    socket.on("sendData", (data) => {
+      console.log("sendMessagil ethi====>", data);
+
       const { senderId, receiverId, message } = data;
-      const roomName = [senderId, receiverId].sort().join('-');
+      const roomName = [senderId, receiverId].sort().join("-");
       console.log("Sending data to room:", roomName);
-      socket.to(roomName).emit('receiveData', data);
+      socket.to(roomName).emit("receiveData", data);
     });
 
-    socket.on('disconnect', () => {
-      console.log('User disconnected');
+    // handleMessagRecieve
+    socket.on("messageRead", ({ conversationId, senderId, receiverId }) => {
+      const roomName = [senderId, receiverId].sort().join("-");
+      socket.to(roomName).emit("messageRead", { conversationId });
+    });
+
+    socket.on("disconnect", () => {
+      console.log("User disconnected");
     });
   });
-}
+};

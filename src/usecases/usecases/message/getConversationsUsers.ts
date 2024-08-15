@@ -12,8 +12,6 @@ export const getConversationsUsers = async (
 ) => {
   try {
     const result = await messageRepository.getConversationsUsers(userId,s3)
-    console.log("resssss =====>",result);
-    
     if(!result){
       return next(new ErrorHandler(401, "Getting the messages failed"));
     }

@@ -1,46 +1,64 @@
 import { IS3Operations } from "../../../../service/s3Bucket";
 import ConversationModel from "../../model/conversation";
-import userModel from "../../model/userModel";
+import MessageModel from "../../model/message";
+
 
 export const getConversationsUsers = async (
   userId: string,
   s3: IS3Operations,
-  userModels: typeof userModel,
+  messageModel: typeof MessageModel,
   conversationModal: typeof ConversationModel
 ) => {
-  console.log("keriiiiiiiiiii ====>");
-  
   try {
+    console.log("userId : ==>",userId);
+    
+    // finding the conversation of with userId and
+    //populating the participants where exlude current userId
     const conversations = await conversationModal
       .find({ participants: userId })
       .populate({
         path: "participants",
-        select: "name email profileImage",
+        select: "_id name email profileImage",
         match: { _id: { $ne: userId } },
       })
       .populate({
-        path: "lastMessage",
-        select: "message senderId createdAt",
+        path: "lastMessage", // here populating the lastMesage for find the lastMessage
+        select: "message senderId createdAt readBy",
       });
+  
 
-   const chatList = conversations.map((conversation) => {
-    console.log("conversation =>",conversation);
-    
-    // Calculate unread messages for the current user
-    const unreadCount = conversation.messages.filter(
-      (message: any) => !message.readBy.includes(userId)
-    ).length;
+    // Here fetching the otherUsers to lists in chat with imageUrl
+    const chatList = await Promise.all(
+      conversations.map(async (conversation) => {
+        console.log("conversation =>", conversation);
+        const otherUser = conversation.participants[0];
+        const lastMessage = conversation.lastMessage;
 
-    return {
-      _id: conversation._id,
-      user: conversation.participants[0], // Since we excluded the current user, this is the other user
-      lastMessage: conversation.lastMessage,
-      unreadCount, // Include the unread message count
-    };
-  });
+        // generating resign url of profile image
+        const profileImageUrl = await s3.getObjectUrl({
+          bucket: process.env.C3_BUCKET_NAME,
+          key: otherUser?.profileImage,
+        });
 
-  console.log("chatlist ====>",chatList);
-  return chatList;
+        console.log("lastMessage ===>",lastMessage);
+        
+        return {
+          _id: conversation._id,
+          user: {
+            _id: otherUser?._id,
+            name: otherUser?.name || "Unknown",
+            profileImageUrl: profileImageUrl || "",
+          },
+          lastMessage: lastMessage ? lastMessage?.message : "",
+          isRead: lastMessage
+          ? lastMessage.readBy.includes(userId.toString())
+          : false,
+        };
+      })
+    );
+
+    console.log("chatList ===>", chatList);
+    return chatList;
 
   } catch (error) {
     console.error("Error in create conversation:", error);

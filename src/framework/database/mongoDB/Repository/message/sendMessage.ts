@@ -20,7 +20,7 @@ export const sendMessage = async (
     // creating conversation if the converstion not exists
     if (!conversation) {
       conversation = await conversationModel.create({
-        participants: [senderId, receiverId],
+        participants: [senderId, receiverId],lastMessage: null
       });
     }
 
@@ -33,8 +33,10 @@ export const sendMessage = async (
     if (newMessage) {
       await newMessage.save();
       conversation.messages.push(
-        newMessage._id as unknown as mongoose.Schema.Types.ObjectId
+        newMessage._id as mongoose.Types.ObjectId
       );
+
+      conversation.lastMessage = newMessage._id
 
       await conversation.save();
       return newMessage;

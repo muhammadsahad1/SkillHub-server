@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { Iconversation } from "../../../../commonEntities/entities/conversation";
-
 const conversationSchema = new mongoose.Schema<Iconversation>(
   {
     participants: [
@@ -16,12 +15,10 @@ const conversationSchema = new mongoose.Schema<Iconversation>(
         default: [],
       },
     ],
-    lastMessage: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Message",
-      },
-    ],
+    lastMessage: {
+      type: mongoose.Types.ObjectId, // Single ObjectId
+      ref: "Message",
+    },
   },
   { timestamps: true }
 );

@@ -4,7 +4,7 @@ import { IS3Operations } from "../../../service/s3Bucket";
 import ConversationModel from "../model/conversation";
 import MessageModel from "../model/message";
 import userModel from "../model/userModel";
-import { getChat, getConversationsUsers, sendMessage } from './message/index'
+import { getChat, getConversationsUsers, markMessagesAsRead, sendMessage } from './message/index'
 
 export class MessageRepository implements ImessageRepository{
   constructor(
@@ -22,6 +22,12 @@ export class MessageRepository implements ImessageRepository{
   }
 
   async getConversationsUsers(userId: string, s3: IS3Operations): Promise<any> {
-    return await getConversationsUsers(userId,s3,this.userModels,this.conversationModal)
+    return await getConversationsUsers(userId,s3,this.messageModal,this.conversationModal)
   }
+
+  async markAsRead(conversationId: string, userId: string): Promise<void> {
+    return await markMessagesAsRead(conversationId,userId,this.messageModal,this.conversationModal)
+  }
+
+  
 }

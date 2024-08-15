@@ -11,8 +11,6 @@ export const sendMessage = async (
 ) => {
   try {
     const result = await messageRepository.sendMessage(senderId,receiverId,message)
-    console.log("+=======>",result);
-    
     if(!result){
       return { success : true , result}
     }

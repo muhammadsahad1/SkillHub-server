@@ -11,15 +11,11 @@ export const getChat = async (
   next: Next
 ) => {
   try {
-    console.log("to ==>",userToChatId);
-    console.log("sender ====>",senderId);
-    
     const result = await messageRepository.getChat(userToChatId, senderId,s3);
-    
-    
     if (!result) {
       return next(new ErrorHandler(401, "Getting the messages failed"));
     }
+    console.log("result ===>",result);  
     return result;
   } catch (error: any) {
     return next(new ErrorHandler(500, "Internal Server Error"));
