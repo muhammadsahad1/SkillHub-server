@@ -11,17 +11,15 @@ export const initializeSocket = (server: http.Server) => {
   });
 
   io.on("connection", (socket) => {
-    console.log("Server connected with socket ID:", socket.id);
+    console.log("Server con nected with socket ID:", socket.id);
 
     socket.on("joinRoom", ({ senderId, receiverId }) => {
       const roomName = [senderId, receiverId].sort().join("-");
       socket.join(roomName);
       console.log("Joined room:", roomName);
     });
-
+    
     socket.on("sendData", (data) => {
-      console.log("sendMessagil ethi====>", data);
-
       const { senderId, receiverId, message } = data;
       const roomName = [senderId, receiverId].sort().join("-");
       console.log("Sending data to room:", roomName);
@@ -31,6 +29,7 @@ export const initializeSocket = (server: http.Server) => {
     // handleMessagRecieve
     socket.on("messageRead", ({ conversationId, senderId, receiverId }) => {
       const roomName = [senderId, receiverId].sort().join("-");
+      console.log("roomname ==>",roomName);
       socket.to(roomName).emit("messageRead", { conversationId });
     });
 
@@ -38,4 +37,5 @@ export const initializeSocket = (server: http.Server) => {
       console.log("User disconnected");
     });
   });
+  return io
 };

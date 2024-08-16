@@ -24,6 +24,17 @@ import MessageModel from "../../database/mongoDB/model/message";
 import ConversationModel from "../../database/mongoDB/model/conversation";
 import { MessageUseCase } from "../../../usecases/usecases/messageUseCase";
 import { MessageRepository } from "../../database/mongoDB/Repository/messageRepository";
+import { NotificationRepository } from "../../database/mongoDB/Repository/notificationRepository";
+import { NotificationModel } from "../../database/mongoDB/model/notification";
+import { NotificationUseCase } from "../../../usecases/usecases/notificationUseCase";
+import { NotificationController } from "../../../commonEntities/controllers/notificationController";
+
+import { initializeSocket } from "../../service/socketIO";
+import http from 'http'
+const server = http.createServer()
+// SOCKET intilaize
+const io = initializeSocket(server)
+
 
 // Retrieve environment variables
 const region = process.env.C3_BUCKET_REGION || "";
@@ -77,15 +88,23 @@ const adminUseCase = new AdminUseCase(
 );
 const adminController = new AdminController(adminUseCase);
 
-
+// MESSAGE INJECTIONS
 const messageRepository = new MessageRepository(
   ConversationModel,
   MessageModel,
   userModel
 );
-const messageUseCase = new MessageUseCase(messageRepository,s3Operations);
+const messageUseCase = new MessageUseCase(messageRepository, s3Operations);
 const messageController = new MessageController(messageUseCase);
 
+// NOTIFICATION INECTIONS
+const notificationRepository = new NotificationRepository(NotificationModel);
+const notificationUseCase = new NotificationUseCase(notificationRepository,io);
+const notificationController = new NotificationController(notificationUseCase);
 
-
-export { adminController, userController, messageController };
+export {
+  adminController,
+  userController,
+  messageController,
+  notificationController,
+};

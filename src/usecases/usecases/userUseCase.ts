@@ -53,7 +53,7 @@ import { IElasticsearchService } from "../../framework/service/elasticsearchServ
 import { NextFunction } from "express";
 import { Ipost } from "../../commonEntities/entities/post";
 
-// ================================= User user cases ================================= \\
+// ================================= User use cases ================================= \\
 
 export class UserUseCase implements IuserUseCase {
   constructor(

@@ -10,11 +10,7 @@ export const changePrivacy = async (
   next: Next
 ) => {
   try {
-    console.log("ethiyaaaaaa");
-    
     const result = await userRepository.changePrivacy(userId,isPrivacy)
-    console.log("+++++++++++++++++++++++>" ,result);
-    
     if(!result){
       return next(new ErrorHandler(400,'failed to changePrivacy'))
     }

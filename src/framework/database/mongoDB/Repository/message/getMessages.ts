@@ -10,7 +10,7 @@ export const getChat = async (
   userModels: typeof userModel,
   s3: IS3Operations,
   conversationModel: typeof ConversationModel
-): Promise<ChatResponse> => {
+): Promise<ChatResponse | void> => {
   try {
     console.log("userTOchjat ==>", userToChatId);
 

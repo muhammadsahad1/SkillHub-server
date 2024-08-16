@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Imessage } from "../../../../commonEntities/entities/message";
 
-const messsageSchema = new mongoose.Schema<Imessage>(
+const messageSchema = new mongoose.Schema<Imessage>(
   {
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,5 +31,7 @@ const messsageSchema = new mongoose.Schema<Imessage>(
   { timestamps: true }
 );
 
-const MessageModel = mongoose.model<Imessage>("Message", messsageSchema);
+messageSchema.index({ senderId: 1, receiverId: 1 });
+
+const MessageModel = mongoose.model<Imessage>("Message", messageSchema);
 export default MessageModel;

@@ -17,7 +17,7 @@ export class MessageRepository implements ImessageRepository{
     return await sendMessage(senderId,receiverId,message,this.messageModal,this.conversationModal)
   }
 
-  async getChat(userToChatId: string, senderId: string,s3 : IS3Operations): Promise<ChatResponse> {
+  async getChat(userToChatId: string, senderId: string,s3 : IS3Operations): Promise<ChatResponse | void> {
     return await getChat(userToChatId,senderId,this.userModels,s3,this.conversationModal)
   }
 
