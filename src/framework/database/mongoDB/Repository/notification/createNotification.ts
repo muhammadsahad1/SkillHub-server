@@ -10,6 +10,7 @@ interface NewNotificationData {
   receiverId: mongoose.Types.ObjectId;
   message: string;
   type: NotificationType;
+  link : string,
   read: boolean;
 }
 
@@ -18,6 +19,7 @@ export const createNotification = async (
   receiverId: string,
   message: string,
   type: NotificationType,
+  link : string,
   notificationModel: typeof NotificationModel
 ):Promise<INotification | undefined> => {
   try {
@@ -29,13 +31,14 @@ export const createNotification = async (
       receiverId: receiverObjId,
       message,
       type,
+      link,
       read: false,
     };
 
     const notification = await notificationModel.create(newNotification);
     console.log(notification);
     const result = await notification.save();
-    console.log("createdNotification");
+    console.log("createdNotification",result);
     return result   
   } catch (error) {
     console.error("Error in create conversation:", error);

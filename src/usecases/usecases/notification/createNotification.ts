@@ -29,10 +29,7 @@ export const createNotification = async (
 
     // If the notification was created successfully, emit it to the relevant room
     if (notification) {
-      console.log("new notification ====>",notification);
-      
-      const roomName = [senderId, receiverId].sort().join("-");
-      io.to(roomName).emit("notification", notification);
+      io.to(`user_${receiverId}`).emit("notification", notification);
     }
 
     return notification;

@@ -78,6 +78,7 @@ const userUseCase = new UserUseCase(
 );
 const userController = new UserController(userUseCase);
 
+// Admin injection
 const adminRepository = new AdminRepository(userModel);
 const adminUseCase = new AdminUseCase(
   adminRepository,

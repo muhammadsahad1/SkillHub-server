@@ -6,8 +6,8 @@ import { createNotification, notifications} from './notification/index'
 export class NotificationRepository implements InotificationRepository{
   constructor(private notificationModel : typeof NotificationModel){}
 
-  async createNotification(senderId: string, receiverId: string, message: string, type: NotificationType): Promise<INotification | undefined> {
-    return await createNotification(senderId,receiverId,message,type,this.notificationModel)
+  async createNotification(senderId: string, receiverId: string, message: string, type: NotificationType,link : string): Promise<INotification | undefined> {
+    return await createNotification(senderId,receiverId,message,type,link,this.notificationModel)
   } 
   
   async notifications(userId : string): Promise<INotification[] | undefined> {

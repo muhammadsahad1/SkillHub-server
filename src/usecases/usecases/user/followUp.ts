@@ -1,6 +1,7 @@
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
 import { Next } from "../../../framework/types/serverPackageType";
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { Server } from "socket.io";
 
 export const followUp = async (
   toFollowingId: string,

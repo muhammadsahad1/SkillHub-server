@@ -53,6 +53,7 @@ import { IElasticsearchService } from "../../framework/service/elasticsearchServ
 import { NextFunction } from "express";
 import { Ipost } from "../../commonEntities/entities/post";
 
+
 // ================================= User use cases ================================= \\
 
 export class UserUseCase implements IuserUseCase {
@@ -64,8 +65,10 @@ export class UserUseCase implements IuserUseCase {
     private otpGenerate: IotpGenerate,
     private sendEmail: IsendEmail,
     private s3: IS3Operations,
-    private elasticSearchService: IElasticsearchService
-  ) {}
+    private elasticSearchService: IElasticsearchService,
+  
+  ) {
+  }
 
   // ===================================================================>
   async userSignup(
@@ -145,7 +148,6 @@ export class UserUseCase implements IuserUseCase {
     next: Next
   ): Promise<
     | void
-    | Iuser
     | { success: boolean; token: string; user: Iuser; message: string }
   > {
     const result = await forgotPassword(
@@ -335,8 +337,8 @@ export class UserUseCase implements IuserUseCase {
   async getUserDetails(
     userId: string,
     next: Next
-  ): Promise<{ success: boolean; user: Iuser }> {
-    const result = await getUserDetails(userId, this.userRepostory, next);
+  ): Promise<{ success: boolean; user: Iuser } | void> {
+    const result = await getUserDetails(userId, this.s3, this.userRepostory, next);
     if (!result) {
       return next(new ErrorHandler(400, "fetch user failed"));
     }
@@ -351,7 +353,7 @@ export class UserUseCase implements IuserUseCase {
     fromFollowerId: string,
     next: Next
   ): Promise<void> {
-    await followUp(toFollowingId, fromFollowerId, this.userRepostory, next);
+    await followUp(toFollowingId, fromFollowerId, this.userRepostory,next);
   }
   // ===================================================================>
   async getMyFollowings(userId: string, next: Next): Promise<Iuser[]> {

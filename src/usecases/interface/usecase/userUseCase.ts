@@ -101,7 +101,7 @@ export interface IuserUseCase {
   getUserDetails(
     userId: string,
     next: Next
-  ): Promise<{ success: boolean; user: Iuser }>;
+  ): Promise<{ success: boolean; user: Iuser } | void>;
 
   // ===================================================================>
   userFollowUp(

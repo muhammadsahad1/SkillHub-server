@@ -7,6 +7,7 @@ import { userRoute } from "../routes/userRoute";
 import { adminRoute } from "../routes/adminRoute";
 import { messageRoute } from "../routes/messageRoute";
 import { errorHandler } from "../../../usecases/middlewares/errorMiddleware";
+import { notificationRoute } from "../routes/notificationRoute";
 
 dotenv.config();
 connectDB();
@@ -34,6 +35,8 @@ const router = express.Router();
 app.use("/user", userRoute(router));
 app.use("/admin", adminRoute(router));
 app.use("/chat",messageRoute(router))
+app.use('/notification',notificationRoute(router))
+
 
 app.use(errorHandler);
 

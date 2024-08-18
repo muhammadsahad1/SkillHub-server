@@ -264,7 +264,7 @@ export class UserController {
   async getUserDetails(req: Req, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.getUserDetails(
-        req.query?.userId,
+        req.query?.userId as string,
         next
       );
       if (result) {
