@@ -26,7 +26,8 @@ export const createNotification = async (
       type,
       link
     );
-
+    console.log("notificaion ===> ccrere",notification,);
+    
     // If the notification was created successfully, emit it to the relevant room
     if (notification) {
       io.to(`user_${receiverId}`).emit("notification", notification);

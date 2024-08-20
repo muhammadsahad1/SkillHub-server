@@ -30,9 +30,25 @@ export const initializeSocket = (server: http.Server) => {
       const roomName = [senderId, receiverId].sort().join("-");
       socket.to(roomName).emit("receiveData", data);
     });
-
+    // to handle the follow event
     socket.on("follow", async (data) => {
       const { senderId, receiverId, message, type, link } = data;
+      io.to(`user_${receiverId}`).emit("notification", { message, type, link });
+    });
+
+    // to handle the like of post notification
+    socket.on("postLiked", async (data) => {
+      const { senderId, receiverId, type, message, link } = data;
+      io.to(`user_${receiverId}`).emit("notification", { message, type, link });
+    });
+    // to handle the comment event
+    socket.on("comment", async (data) => {
+      const { senderId, receiverId, message, type, link } = data;
+      io.to(`user_${receiverId}`).emit("notification", { message, type, link });
+    });
+    // to handle the chat event notification
+    socket.on("chat",async(data) => {
+      const { senderId, receiverId, type, message, link } = data;
       io.to(`user_${receiverId}`).emit("notification", { message, type, link });
     });
     // handleMessagRecieve
@@ -40,6 +56,19 @@ export const initializeSocket = (server: http.Server) => {
       const roomName = [senderId, receiverId].sort().join("-");
       socket.to(roomName).emit("messageRead", { conversationId });
     });
+    
+    // ====================> TO handle the video call Events <======================= \\
+    socket.on('callRequest',({receiverId , roomID}) => {
+      io.to(`user_${receiverId}`).emit('callRequest',{callerId : socket.id , roomID})
+    })
+    
+    socket.on('callAccepted',({ callerId , roomId}) => {
+      io.to(callerId).emit('callAccepted',({ roomId}))
+    })
+
+    socket.on('callDecline',({callerId}) => {
+      io.to(callerId).emit('callDecline')
+    })
 
     socket.on("disconnect", () => {
       console.log("User disconnected");

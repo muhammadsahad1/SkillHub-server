@@ -1,7 +1,7 @@
 
 import { INotification, NotificationModel ,NotificationType } from "../../framework/database/mongoDB/model/notification";
 import { InotificationUseCase } from "../interface/usecase/notificationUseCase";
-import { createNotification , notifications } from './notification/index'
+import { createNotification , markAsRead, notifications } from './notification/index'
 import { Next } from "../../framework/types/serverPackageType";
 import { InotificationRepository } from "../interface/repositoryInterface/notificationRepository";
 import { Server } from 'socket.io'
@@ -20,7 +20,13 @@ export class NotificationUseCase implements InotificationUseCase {
     return await createNotification(senderId, receiverId, message, type,link,this.notificationRepository,this.io,next)
   }
 
-  async notifications(userId : string,next: Next): Promise<INotification[]> {
+  async notifications(userId : string,next: Next):  Promise<INotification[] | undefined | void> {
     return await notifications(userId,this.notificationRepository,next)
   }
+
+  async markAsRead(notificationId: string, next: Next): Promise<void> {
+     await markAsRead(notificationId,this.notificationRepository,next)
+  }
+
+  
 }

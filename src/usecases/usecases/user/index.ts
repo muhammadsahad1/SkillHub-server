@@ -31,6 +31,7 @@ import { deleteComment } from "./deleteComment";
 import { editingComment } from "./editingComment";
 import { fetchOthersPosts } from "./fetchOthersPosts";
 import { searchUsers } from "./searchUsers";
+import { postView } from "./postView";
 
 export {
   userSignup,
@@ -63,6 +64,7 @@ export {
   addComment,
   deleteComment,
   editingComment,
+  postView,
   fetchOthersPosts,
   searchUsers,
   getPosts,

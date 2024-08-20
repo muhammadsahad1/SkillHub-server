@@ -4,6 +4,7 @@ import { Next } from "../../../../types/serverPackageType";
 import userModel from "../../model/userModel";
 
 export const getCommentedUserImage = async (
+  postOwnerId : string,
   userId: string,
   s3: IS3Operations,
   userModels: typeof userModel,
@@ -29,7 +30,7 @@ export const getCommentedUserImage = async (
       return next(new ErrorHandler(500, "Error retrieving image from S3")); // Handle case where image retrieval fails
     }
 
-    return { userWithImage, userName: user.name };
+    return { postOwnerId : postOwnerId ,userWithImage, userId : userId, userName: user.name };
     
   } catch (error) {
     console.error("Error delete post:", error);

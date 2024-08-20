@@ -10,7 +10,7 @@ export interface IuserUseCase {
   userSignup(
     user: Iuser,
     next: Next
-  ): Promise<string | void | { success: boolean; message: string }>;
+  ): Promise<string | void | { success: boolean; message: string }>; 
   // ===================================================================>
   login(
     user: Iuser,
@@ -121,7 +121,7 @@ export interface IuserUseCase {
     toUnfollowId: string,
     fromFollowerId: string,
     next: Next
-  ): Promise<{ success: boolean; message: string }>;
+  ): Promise<{ success: boolean; message: string } | void>;
   // ===================================================================>
   removeFollower(
     fromRemoveId: string,
@@ -162,6 +162,9 @@ delteComment(postId : string,commentId : string,next :Next ):Promise<any>
 
 editingComment(postId : string,commentId : string,userId : string,updateComment : string,next : Next) :Promise<any>
 
+  postView(postId : string,next : Next) :Promise<any>
+
+// ===================================================================>
 searchUsers(query : string,next : Next): Promise<Iuser[]>
 // ===================================================================>
 

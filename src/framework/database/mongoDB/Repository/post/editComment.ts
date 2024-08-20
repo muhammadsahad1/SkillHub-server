@@ -23,20 +23,6 @@ export const editComment = async (
       }
       console.log("CommentUpdatedd =>", comment);
     }
-    //   {
-    //     _id: new mongoose.Types.ObjectId(postId),
-    //     "comments._id": new mongoose.Types.ObjectId(commentId),
-    //     "comments.userId": new mongoose.Types.ObjectId(userId),
-    //   },
-    //   {
-    //     $set: {
-    //       "comments.$.comment": updatedComment,
-    //       "comments.$.created_at": new Date(),
-    //     },
-    //   },
-    //   { new: true }
-    // );
-
 
   } catch (error) {
     console.error("Error delete post:", error);

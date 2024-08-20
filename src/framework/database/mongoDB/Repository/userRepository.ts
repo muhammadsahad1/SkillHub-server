@@ -43,7 +43,8 @@ import {
   getCommentedUserImage,
   deleteComment,
   editComment,
-  fetchOthersPosts
+  fetchOthersPosts,
+  postView
 } from "./post/index";
 import { IS3Operations } from "../../../service/s3Bucket";
 import PostModel from "../model/postModel";
@@ -288,9 +289,12 @@ export class UserRepository implements IuserRepository {
     if(!newComment){
       return []
     }
-    const newFirstComment = newComment[0]
+    console.log("newComment ==IIII>",newComment);
+    
+    const newFirstComment = newComment?.comments[0]
     const userIdToFetch = newFirstComment.userId.toString();
-    return await getCommentedUserImage(userIdToFetch,s3,this.userModels,next)
+    const postOwnerId = newComment?.postOwnerId
+    return await getCommentedUserImage(postOwnerId,userIdToFetch,s3,this.userModels,next)
   }
 
   async fetchMyPosts(userId: string, s3: IS3Operations): Promise<any> {
@@ -299,6 +303,10 @@ export class UserRepository implements IuserRepository {
 
   async fetchOthersPosts(userId: string, s3: IS3Operations): Promise<any> {
     return await fetchOthersPosts(userId,s3,this.postModels,this.userModels)
+  }
+
+  async postView(postId: string): Promise<any> {
+      return await postView(postId,this.postModels)
   }
 
 

@@ -1,7 +1,7 @@
 
 import { InotificationRepository } from "../../../../usecases/interface/repositoryInterface/notificationRepository";
 import { INotification, NotificationModel,NotificationType } from "../model/notification";
-import { createNotification, notifications} from './notification/index'
+import { createNotification, markAsRead, notifications, removeNotification} from './notification/index'
 
 export class NotificationRepository implements InotificationRepository{
   constructor(private notificationModel : typeof NotificationModel){}
@@ -12,6 +12,14 @@ export class NotificationRepository implements InotificationRepository{
   
   async notifications(userId : string): Promise<INotification[] | undefined> {
     return await notifications(userId,this.notificationModel)
+  }
+  
+  async markAsReadNotification(notificationId: string): Promise<void> {
+    await markAsRead(notificationId,this.notificationModel)
+  }
+
+  async removeNotification(receiverId: string, type: string): Promise<void> {
+    await removeNotification(receiverId,type,this.notificationModel)
   }
   
 }

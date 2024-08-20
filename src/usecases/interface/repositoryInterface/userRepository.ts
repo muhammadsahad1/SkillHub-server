@@ -104,9 +104,11 @@ export interface IuserRepository {
 
   editPost(caption : string,postId : string) : Promise<{postId: string | undefined,caption:string | undefined}>
 
-  postLike(userId : string , postId : string ) : Promise<{message : string , postId : string}>
+  postLike(userId : string , postId : string ) : Promise<{message : string , postId : string , postUserId : string}>
+
+  postView(postId : string ) : Promise<any>
   
-  addComment(postId :string,userId : string,comment : string,s3 : IS3Operations,next : Next) : Promise<any>
+  addComment(postId :string,userId : string,comment : string,s3 : IS3Operations,next  :Next) : Promise<any>
 
   editComment(postId : string,commentId : string,userId : string,updatedComment : string) : Promise<IComment>
 

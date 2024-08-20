@@ -21,6 +21,7 @@ export function userRoute(route: Route): Route {
   route.post("/coverImage", upload.single("coverImage"), isAuthenticate, (req: Req, res: Res, next: Next) => userController.uploadCoverimage(req, res, next));
   route.post("/accountPrivacy", isAuthenticate, (req: Req, res: Res, next: Next) => userController.changePrivacy(req, res, next));
   route.post("/showNotification", isAuthenticate, (req: Req, res: Res, next: Next) => userController.showNotification(req, res, next));
+
   // Skill-related Routes
   route.get("/getSkillRelatedUsers",isAuthenticate, (req: Req, res: Res, next: Next) => userController.getUsers(req, res, next));
   route.get("/getUserDetails", isAuthenticate, (req: Req, res: Res, next: Next) => userController.getUserDetails(req, res, next));
@@ -46,6 +47,7 @@ export function userRoute(route: Route): Route {
   route.post('/addComment',isAuthenticate,(req: Req, res: Res, next: Next) => userController.addComment(req,res,next));
   route.delete('/deleteComment',isAuthenticate,(req: Req, res: Res, next: Next) => userController.deleteComment(req,res,next));
   route.put('/editComment',isAuthenticate,(req: Req, res: Res, next: Next) => userController.editingComment(req,res,next));
+  route.get('/viewPost',isAuthenticate,(req: Req, res: Res, next: Next) => userController.postView(req,res,next));
 
   // users search
   route.get('/searchUser',isAuthenticate,(req: Req, res: Res, next: Next) => userController.searchUsers(req,res,next));

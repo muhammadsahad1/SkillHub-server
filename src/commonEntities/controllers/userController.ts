@@ -414,6 +414,19 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+// ===================================================================>
+  // One post 
+async postView(req : Req , res : Res , next : Next){
+  try {
+
+    const { postId } = req.query;
+    const result = await this.userUseCase.postView(postId as string,next)
+    
+    res.status(200).json(result)
+  } catch (error: any) {
+    return next(new ErrorHandler(error.status, error.message));
+  }
+}
   // ===================================================================>
   // Post edit
   async editPost(req: Req, res: Res, next: Next) {

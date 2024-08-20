@@ -64,6 +64,11 @@ const sendEmail = new SendEmail();
 
 const elasticSearchService = { indexUser, searchUsers };
 
+// NOTIFICATION INECTIONS
+const notificationRepository = new NotificationRepository(NotificationModel);
+const notificationUseCase = new NotificationUseCase(notificationRepository,io);
+const notificationController = new NotificationController(notificationUseCase);
+
 // USER REPO FOR INTRACTE WITH DB
 const userRepository = new UserRepository(userModel, PostModel);
 const userUseCase = new UserUseCase(
@@ -74,7 +79,9 @@ const userUseCase = new UserUseCase(
   otpGenerate,
   sendEmail,
   s3Operations,
-  elasticSearchService
+  elasticSearchService,
+  io,
+  notificationRepository,
 );
 const userController = new UserController(userUseCase);
 
@@ -98,10 +105,6 @@ const messageRepository = new MessageRepository(
 const messageUseCase = new MessageUseCase(messageRepository, s3Operations);
 const messageController = new MessageController(messageUseCase);
 
-// NOTIFICATION INECTIONS
-const notificationRepository = new NotificationRepository(NotificationModel);
-const notificationUseCase = new NotificationUseCase(notificationRepository,io);
-const notificationController = new NotificationController(notificationUseCase);
 
 export {
   adminController,

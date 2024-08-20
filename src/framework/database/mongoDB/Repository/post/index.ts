@@ -8,6 +8,7 @@ import { getCommentedUserImage } from "./getCommentedUserImage";
 import { deleteComment } from "./deleteComment";
 import { editComment } from "./editComment";
 import { fetchOthersPosts } from "./fetchOthersPosts";
+import { postView } from "./postView";
 
 export{
   uploadPost,
@@ -19,5 +20,6 @@ export{
   getCommentedUserImage,
   deleteComment,
   editComment,
-  editPost
+  editPost,
+  postView
 }

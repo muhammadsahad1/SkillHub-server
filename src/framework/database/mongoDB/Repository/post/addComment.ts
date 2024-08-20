@@ -17,18 +17,17 @@ export const addComment = async (
   userModelS: typeof userModel
 ) => {
   try {
-    
-    const user = await userModelS.findById(userId).select('name')
+    const user = await userModelS.findById(userId).select("name");
 
-    if(!user){
-      return (new ErrorHandler(404, "user not found"))
+    if (!user) {
+      return new ErrorHandler(404, "user not found");
     }
 
     const newComment: Comment = {
       userId,
       comment: comment,
-      userName : user.name,
-      createdAt: new Date(), 
+      userName: user.name,
+      createdAt: new Date(),
     };
 
     const post = await postModels.findByIdAndUpdate(
@@ -38,9 +37,12 @@ export const addComment = async (
       },
       { new: true }
     );
+    console.log("commenPOst =", post);
 
-    return post?.comments;
-    
+    return {
+      comments: post?.comments,
+      postOwnerId: post?.userId,
+    };
   } catch (error) {
     console.error("Error delete post:", error);
     return undefined;

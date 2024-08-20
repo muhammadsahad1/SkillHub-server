@@ -18,15 +18,15 @@ export const postLike = async (
     const alreadyLiked = post.likes.some((id) => id.equals(userIdObject));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     if (alreadyLiked) {
       // Remove the user from the likes array
-      post.likes.pull(userIdObject);
+      post.likes?.pull(userIdObject);
     } else {
       // Add the user to the likes array
-      post.likes.push(userIdObject);
+      post.likes?.push(userIdObject);
     }
 
     await post.save();
 
-    return { message: alreadyLiked ? "Post unliked" : "Post liked" ,postId : postId};
+    return { message: alreadyLiked ? "Post unliked" : "Post liked" ,postId : postId , postUserId : post.userId};
   } catch (error : any) {
     throw new ErrorHandler(500, error.message);
   }

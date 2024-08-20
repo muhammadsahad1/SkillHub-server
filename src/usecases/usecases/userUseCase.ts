@@ -32,6 +32,7 @@ import {
   editingComment,
   fetchOthersPosts,
   searchUsers,
+  postView,
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -52,11 +53,14 @@ import { IS3Operations } from "../../framework/service/s3Bucket";
 import { IElasticsearchService } from "../../framework/service/elasticsearchService";
 import { NextFunction } from "express";
 import { Ipost } from "../../commonEntities/entities/post";
+import { Server } from "socket.io";
+import { InotificationRepository } from "../interface/repositoryInterface/notificationRepository";
 
 
 // ================================= User use cases ================================= \\
 
 export class UserUseCase implements IuserUseCase {
+
   constructor(
     private userRepostory: IuserRepository,
     private Jwt: Ijwt,
@@ -66,7 +70,8 @@ export class UserUseCase implements IuserUseCase {
     private sendEmail: IsendEmail,
     private s3: IS3Operations,
     private elasticSearchService: IElasticsearchService,
-  
+    private io : Server,
+    private notification : InotificationRepository,
   ) {
   }
 
@@ -149,7 +154,7 @@ export class UserUseCase implements IuserUseCase {
   ): Promise<
     | void
     | { success: boolean; token: string; user: Iuser; message: string }
-  > {
+  > { 
     const result = await forgotPassword(
       this.Jwt,
       this.userRepostory,
@@ -374,6 +379,7 @@ export class UserUseCase implements IuserUseCase {
       toUnfollowId,
       fromFollowerId,
       this.userRepostory,
+      this.notification,
       next
     );
   }
@@ -456,6 +462,10 @@ export class UserUseCase implements IuserUseCase {
     return await fetchMyPosts(userId, this.userRepostory, this.s3, next);
   }
 
+  async postView(postId : string , next  : Next) :Promise<any> {
+    return await postView(postId,this.userRepostory,this.s3,next)
+  }
+
   async fetchOthersPosts(userId: string, next: Next): Promise<any> {
     return await fetchOthersPosts(userId, this.userRepostory, this.s3, next);
   }
@@ -473,7 +483,7 @@ export class UserUseCase implements IuserUseCase {
   }
 
   async postLike(userId: string, postId: string, next: Next): Promise<any> {
-    return await postLike(userId, postId, this.userRepostory, next);
+    return await postLike(userId, postId, this.userRepostory,this.notification, next);
   }
 
   async addComment(
@@ -488,6 +498,7 @@ export class UserUseCase implements IuserUseCase {
       comment,
       this.userRepostory,
       this.s3,
+      this.io,
       next
     );
   }

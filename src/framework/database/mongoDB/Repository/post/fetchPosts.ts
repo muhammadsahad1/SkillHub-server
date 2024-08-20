@@ -15,7 +15,7 @@ export const fetchPosts = async (
       .find({ skill: userSkill })
       .select("_id profileImage name")
       .exec();
-    const usersIds = users.map((user) => user._id);
+    const usersIds = users.map((user) => user?._id);
 
     const userPosts = await postModels.find({ userId: { $in: usersIds } });
 
@@ -36,11 +36,30 @@ export const fetchPosts = async (
           key: post.imageName,
         });
 
+        const commentedUserProfileUrls = await Promise.all(
+
+          post?.comments.map(async (comment : any) => {
+            const userImageName = await userModels.findById(comment.userId)
+            if(!userImageName) return null
+
+            const commentedUserProfileUrl = await s3.getObjectUrl({
+              bucket : process.env.C3_BUCKET_NAME,
+              key : userImageName.profileImage
+            })
+
+            return {
+              ...comment.toObject(),
+              commentedUserProfileUrl
+            }
+
+          })
+        )
         return {
           ...post.toObject(),
           userImageUrl,
           postImageUrl,
-          userName : user?.name
+          userName : user?.name as string,
+          comments : commentedUserProfileUrls.filter(( comment : any) => comment !== null)
         };
       })
     );
