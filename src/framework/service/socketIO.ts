@@ -58,8 +58,10 @@ export const initializeSocket = (server: http.Server) => {
     });
     
     // ====================> TO handle the video call Events <======================= \\
-    socket.on('callRequest',({receiverId , roomID}) => {
-      io.to(`user_${receiverId}`).emit('callRequest',{callerId : socket.id , roomID})
+    socket.on('callRequest',({receiverId , roomId}) => {
+      console.log("resId ==>",receiverId ,"roomId ==>",roomId );
+      
+      io.to(`user_${receiverId}`).emit('callRequest',{callerId : socket.id , roomId})
     })
     
     socket.on('callAccepted',({ callerId , roomId}) => {
