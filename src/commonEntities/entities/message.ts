@@ -1,39 +1,28 @@
-import mongoose from "mongoose";
-;
-
-export interface IUser {
-  _id: mongoose.Types.ObjectId;
-  email: string;
-  name: string;
-  profileImage?: string;
-  profileImageUrl?: string; // Optional, to be added in the response
-}
-
-export interface Imessage {
-  senderId: mongoose.Schema.Types.ObjectId;
-  receiverId: mongoose.Schema.Types.ObjectId;
+// Interface for a single message
+interface Message {
+  _id: string; // or ObjectId if you are using ObjectId from mongoose
+  senderId: string; // or ObjectId
+  receiverId: string; // or ObjectId
   message: string;
-  media?: string;
-  readBy : mongoose.Schema.Types.ObjectId[]
-}
-
-
-export interface Message {
-  _id: string;
-  senderId: string;
-  receiverId: string;
-  message: string;
-  media?: string;
+  media?: string; // Optional, as not all messages will have media
+  mediaUrl?: string; // Optional, mediaUrl will be present only if media is present
+  readBy: string[]; // List of user IDs who have read the message
   createdAt: Date;
   updatedAt: Date;
-  readBy: string[];
+  __v: number; // Version key for mongoose
 }
 
+// Interface for user details
+interface UserWithProfileImage {
+  _id: string; // or ObjectId
+  name: string;
+  email: string;
+  profileImage: string;
+  profileImageUrl: string; // URL of the profile image
+}
 
-export interface MessageWithSenderProfileResponse {
+// Interface for the ChatResponse
+interface ChatResponse {
   messages: Message[];
-  userWithProfileImage: IUser;
+  userWithProfileImage: UserWithProfileImage;
 }
-
-
-export type ChatResponse = MessageWithSenderProfileResponse | IUser | undefined;

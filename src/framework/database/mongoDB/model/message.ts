@@ -15,7 +15,6 @@ const messageSchema = new mongoose.Schema<Imessage>(
     },
     message: {
       type: String,
-      required: true,
     },
     media: {
       type: String,

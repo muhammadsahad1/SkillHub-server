@@ -45,7 +45,25 @@ export const getChat = async (
       return result
     }
 
-    const messages = conversation?.messages;
+    const messageWithAllData = await Promise.all(
+      conversation?.messages.map(async (msg) => {
+        const media = msg?.media
+        if(media){
+          const mediaImgUrl = await s3.getObjectUrl({
+            bucket : process.env.C3_BUCKET_NAME,
+            key : media
+          })
+
+          return {
+            ...msg.toObject(),
+            mediaUrl : mediaImgUrl
+          }
+        }
+        return msg.toObject()
+
+      })
+    )
+
     const user = await userModels
       .findById(userToChatId)
       .select("_id name email profileImage");
@@ -63,11 +81,12 @@ export const getChat = async (
       profileImageUrl: profileImageUrl,
     };
     
+
     const result = {
-      messages: messages,
+      messages: messageWithAllData,
       userWithProfileImage,
     };
-
+    console.log("result ==>",result)
     return result;
   } catch (error) {
     console.error("Error in create conversation:", error);

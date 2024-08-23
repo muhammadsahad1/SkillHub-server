@@ -28,7 +28,10 @@ export const sendMessage = async (
       senderId,
       receiverId,
       message,
+      media : "",
     });
+    console.log("neww=>",newMessage);
+    
     
     if (newMessage) {
       await newMessage.save();

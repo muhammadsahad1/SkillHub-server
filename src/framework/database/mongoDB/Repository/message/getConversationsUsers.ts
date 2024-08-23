@@ -23,7 +23,7 @@ export const getConversationsUsers = async (
       })
       .populate({
         path: "lastMessage", // here populating the lastMesage for find the lastMessage
-        select: "message senderId createdAt readBy",
+        select: "message senderId createdAt readBy media",
       });
   
 
@@ -33,15 +33,22 @@ export const getConversationsUsers = async (
         console.log("conversation =>", conversation);
         const otherUser = conversation.participants[0];
         const lastMessage = conversation.lastMessage;
+        
 
         // generating resign url of profile image
         const profileImageUrl = await s3.getObjectUrl({
           bucket: process.env.C3_BUCKET_NAME,
           key: otherUser?.profileImage,
         });
+        let lastMessageUrl = ""
+        if(lastMessage?.media){
+          lastMessageUrl = await s3.getObjectUrl({
+            bucket : process.env.C3_BUCKET_NAME,
+            key : lastMessage?.media
+          })
+        }
 
-        console.log("lastMessage ===>",lastMessage);
-        
+      
         return {
           _id: conversation._id,
           user: {
@@ -50,6 +57,7 @@ export const getConversationsUsers = async (
             profileImageUrl: profileImageUrl || "",
           },
           lastMessage: lastMessage ? lastMessage?.message : "",
+          media : lastMessageUrl || "",
           isRead: lastMessage
           ? lastMessage.readBy.includes(userId.toString())
           : false,

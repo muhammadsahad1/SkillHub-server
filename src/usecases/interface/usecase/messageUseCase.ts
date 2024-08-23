@@ -5,4 +5,5 @@ export interface ImessageUseCase {
   getChat(userToChatId : string | any,senderId:string | any,next : Next) : Promise<any>
   getConversationsUsers(userId : string ,next : Next) : Promise<any>
   markAsRead(conversationId : string,userId : string,next : Next) : Promise<void>
+  sendImage(senderId: string,receiverId: string,file: Express.Multer.File | undefined,next : Next) : Promise<{success : boolean}>
 }

@@ -104,7 +104,7 @@ export interface IuserRepository {
 
   editPost(caption : string,postId : string) : Promise<{postId: string | undefined,caption:string | undefined}>
 
-  postLike(userId : string , postId : string ) : Promise<{message : string , postId : string , postUserId : string}>
+  postLike(userId : string , postId : string ) : Promise<{message : string , postId : string }>
 
   postView(postId : string ) : Promise<any>
   

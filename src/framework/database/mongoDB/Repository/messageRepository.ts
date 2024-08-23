@@ -4,7 +4,7 @@ import { IS3Operations } from "../../../service/s3Bucket";
 import ConversationModel from "../model/conversation";
 import MessageModel from "../model/message";
 import userModel from "../model/userModel";
-import { getChat, getConversationsUsers, markMessagesAsRead, sendMessage } from './message/index'
+import { getChat, getConversationsUsers, markMessagesAsRead, sendMessage , sendImage} from './message/index'
 
 export class MessageRepository implements ImessageRepository{
   constructor(
@@ -29,5 +29,8 @@ export class MessageRepository implements ImessageRepository{
     return await markMessagesAsRead(conversationId,userId,this.messageModal,this.conversationModal)
   }
 
+  async sendImage(senderId: string, receiverId: string,file: Express.Multer.File,s3Operations : IS3Operations):Promise<{success : boolean} | undefined>  {
+    return await sendImage(senderId , receiverId , file ,s3Operations ,this.messageModal,this.conversationModal)
+  }
   
 }

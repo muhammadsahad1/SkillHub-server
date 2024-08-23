@@ -7,4 +7,5 @@
   getChat(userToChatId : string,senderId : string,s3 : IS3Operations) :Promise<ChatResponse | void>
   getConversationsUsers(userId : string,s3 : IS3Operations) : Promise<any>
   markAsRead(conversationId : string ,userId : string) :Promise<void>
+  sendImage(senderId: string, receiverId: string,file : Express.Multer.File | undefined,s3Operations : IS3Operations):Promise<{success : boolean} | undefined> 
   }

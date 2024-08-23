@@ -49,7 +49,7 @@ export const initializeSocket = (server: http.Server) => {
     // to handle the chat event notification
     socket.on("chat",async(data) => {
       const { senderId, receiverId, type, message, link } = data;
-      io.to(`user_${receiverId}`).emit("notification", { message, type, link });
+      io.to(`user_${receiverId}`).emit("notification", { message, type, link ,receiverId});
     });
     // handleMessagRecieve
     socket.on("messageRead", ({ conversationId, senderId, receiverId }) => {
@@ -58,14 +58,13 @@ export const initializeSocket = (server: http.Server) => {
     });
     
     // ====================> TO handle the video call Events <======================= \\
-    socket.on('callRequest',({receiverId , roomId}) => {
-      console.log("resId ==>",receiverId ,"roomId ==>",roomId );
-      
-      io.to(`user_${receiverId}`).emit('callRequest',{callerId : socket.id , roomId})
+    socket.on('callRequest',({receiverId ,receiverName, roomId , callerName }) => {
+      console.log("resId ==>",receiverId ,"roomId ==>",roomId , "receirverName : =>",receiverName , "callerName :==>",callerName );
+      io.to(`user_${receiverId}`).emit('callRequest',{callerId : socket.id , receiverName, roomId , callerName })
     })
     
-    socket.on('callAccepted',({ callerId , roomId}) => {
-      io.to(callerId).emit('callAccepted',({ roomId}))
+    socket.on('callAccepted',({ callerId , roomId }) => {
+      io.to(callerId).emit('callAccepted',({ roomId }))
     })
 
     socket.on('callDecline',({callerId}) => {
