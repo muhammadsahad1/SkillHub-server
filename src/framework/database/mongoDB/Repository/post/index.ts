@@ -9,6 +9,7 @@ import { deleteComment } from "./deleteComment";
 import { editComment } from "./editComment";
 import { fetchOthersPosts } from "./fetchOthersPosts";
 import { postView } from "./postView";
+import { uploadThoughts } from './uploadThoughts'
 
 export{
   uploadPost,
@@ -21,5 +22,6 @@ export{
   deleteComment,
   editComment,
   editPost,
-  postView
+  postView,
+  uploadThoughts
 }

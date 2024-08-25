@@ -2,6 +2,7 @@
 import { AdminController } from "../../../commonEntities/controllers/adminController";
 import { AdminUseCase } from "../../../usecases/usecases/adminUseCase";
 import { AdminRepository } from "../../database/mongoDB/Repository/adminRepository";
+import { VerificationRequestModal } from "../../database/mongoDB/model/VerificationRequest";
 
 // ================================= User injections ================================= \\
 import { UserController } from "../../../commonEntities/controllers/userController";
@@ -70,7 +71,7 @@ const notificationUseCase = new NotificationUseCase(notificationRepository,io);
 const notificationController = new NotificationController(notificationUseCase);
 
 // USER REPO FOR INTRACTE WITH DB
-const userRepository = new UserRepository(userModel, PostModel);
+const userRepository = new UserRepository(userModel, PostModel , VerificationRequestModal);
 const userUseCase = new UserUseCase(
   userRepository,
   jwt,
@@ -86,7 +87,7 @@ const userUseCase = new UserUseCase(
 const userController = new UserController(userUseCase);
 
 // Admin injection
-const adminRepository = new AdminRepository(userModel);
+const adminRepository = new AdminRepository(userModel,VerificationRequestModal);
 const adminUseCase = new AdminUseCase(
   adminRepository,
   jwt,

@@ -5,8 +5,9 @@ import { IhashPassword } from "../interface/service/hashPassword";
 import { Ijwt } from "../interface/service/jwt";
 import { IsendEmail } from "../interface/service/sendEmail";
 import { IadminUseCase } from "../interface/usecase/adminUseCase";
-import { adminLogin, blockUser, getUsers } from "./admin/index";
+import { adminLogin, blockUser, changeVerifyStatus, getUsers, getVerificationRequests } from "./admin/index";
 import { Next } from "../../framework/types/serverPackageType";
+import { IVerificationRequest } from "../../commonEntities/entities/verificationRequest";
 // ================================= Admin user cases ================================= \\
 
 export class AdminUseCase implements IadminUseCase {
@@ -17,7 +18,7 @@ export class AdminUseCase implements IadminUseCase {
     private sendEmail: IsendEmail,
     private s3: IS3Operations
   ) {}
-
+  
   // ===================================================================>
   async adminLogin(email: string, password: string, next: Next): Promise<any> {
     const result = await adminLogin(
@@ -34,6 +35,16 @@ export class AdminUseCase implements IadminUseCase {
   async getUsers(next: Next): Promise<any> {
     const result = await getUsers(this.adminRepostory, next);
     return result;
+  }
+  // ===================================================================>
+  async getVerificationRequests(next: Next): Promise<IVerificationRequest[] | void> {
+    const result = await getVerificationRequests(this.adminRepostory,next)
+    return result 
+  }
+  
+  async changeVerifyStatus(requesId: string, status: "Pending" | "Approved" | "Rejected" , next: Next): Promise<{ success: boolean; } | undefined | void> {
+    const result = await changeVerifyStatus(requesId , status ,this.adminRepostory,next)
+    return result
   }
   // ===================================================================>
   async blockUser(id: string): Promise<any> {

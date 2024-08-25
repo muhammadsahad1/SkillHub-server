@@ -14,8 +14,11 @@ export function userRoute(route: Route): Route {
   route.post("/forgotPassword", (req: Req, res: Res, next: Next) => userController.forgotPassword(req, res, next));
   route.post("/resetPassword", (req: Req, res: Res, next: Next) => userController.resetPassword(req, res, next));
   
+  //verify requesting for proffessinal account
+  route.post('/verification-request',isAuthenticate , (req: Req, res: Res, next: Next) => userController.verifyRequest(req, res, next));
+
   // Profile Routes
-  route.post("/createProfile", upload.single("profileImage"), isAuthenticate, (req: Req, res: Res, next: Next) => userController.createProfile(req, res, next));
+  route.post("/createProfile",upload.single("profileImage"), isAuthenticate, (req: Req, res: Res, next: Next) => userController.createProfile(req, res, next));
   route.post("/changePassword", isAuthenticate, (req: Req, res: Res, next: Next) => userController.changePassword(req, res, next));
   route.get("/profileImage", isAuthenticate, (req: Req, res: Res, next: Next) => userController.getProfileImage(req, res, next));
   route.post("/coverImage", upload.single("coverImage"), isAuthenticate, (req: Req, res: Res, next: Next) => userController.uploadCoverimage(req, res, next));
@@ -48,7 +51,7 @@ export function userRoute(route: Route): Route {
   route.delete('/deleteComment',isAuthenticate,(req: Req, res: Res, next: Next) => userController.deleteComment(req,res,next));
   route.put('/editComment',isAuthenticate,(req: Req, res: Res, next: Next) => userController.editingComment(req,res,next));
   route.get('/viewPost',isAuthenticate,(req: Req, res: Res, next: Next) => userController.postView(req,res,next));
-
+  route.post('/postThoughts',isAuthenticate,(req: Req, res: Res, next: Next) => userController.uploadThoughts(req,res,next));
   // users search
   route.get('/searchUser',isAuthenticate,(req: Req, res: Res, next: Next) => userController.searchUsers(req,res,next));
   

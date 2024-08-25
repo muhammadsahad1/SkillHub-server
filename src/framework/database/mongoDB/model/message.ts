@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { Imessage } from "../../../../commonEntities/entities/message";
+import { Message } from '../../../../commonEntities/entities/message'
 
-const messageSchema = new mongoose.Schema<Imessage>(
+const messageSchema = new mongoose.Schema<Message>(
   {
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -32,5 +32,5 @@ const messageSchema = new mongoose.Schema<Imessage>(
 
 messageSchema.index({ senderId: 1, receiverId: 1 });
 
-const MessageModel = mongoose.model<Imessage>("Message", messageSchema);
+const MessageModel = mongoose.model<Message>("Message", messageSchema);
 export default MessageModel;

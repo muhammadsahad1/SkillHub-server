@@ -59,7 +59,6 @@ export const createProfile = async (
           profileImage: updatedUser.profileImage,
         },
       });
-      
     }
 
     return updatedUser;

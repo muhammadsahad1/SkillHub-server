@@ -19,15 +19,22 @@ export const initializeSocket = (server: http.Server) => {
       console.log(`User ${userId} connected with socket ID: ${socket.id}`);
     }
 
-    socket.on("joinRoom", ({ senderId, receiverId }) => {
+    socket.on("joinRoom", ({ 
+      senderId, receiverId }) => {
       const roomName = [senderId, receiverId].sort().join("-");
       socket.join(roomName);
       console.log("Sending data to room in joinroom:", roomName);
     });
 
     socket.on("sendData", (data) => {
-      const { senderId, receiverId, message } = data;
+      console.log("data in backend =>",data);
+      
+      const { senderId, receiverId, message , media } = data;
+      console.log("messag,",message , "media =>",media);
+      
       const roomName = [senderId, receiverId].sort().join("-");
+      console.log("roomNar ==>",roomName);
+      
       socket.to(roomName).emit("receiveData", data);
     });
     // to handle the follow event
@@ -48,6 +55,7 @@ export const initializeSocket = (server: http.Server) => {
     });
     // to handle the chat event notification
     socket.on("chat",async(data) => {
+      console.log("data in chat noti",data)
       const { senderId, receiverId, type, message, link } = data;
       io.to(`user_${receiverId}`).emit("notification", { message, type, link ,receiverId});
     });

@@ -32,7 +32,6 @@ export class AdminController {
     );
 
     res.cookie("role", "admin", roleOptions);
-    console.log("result ===>",result)
     if (result) {
       res.status(200).json(result);
     }
@@ -46,13 +45,23 @@ export class AdminController {
 
   // ======================================================>
   async blockUser(req: Req, res: Res, next: Next){
-    console.log("block controller vann")
     const result = await this.adminUseCase.blockUser(req.body.id)
     res.status(200).json(result)
-      
     }
 
-    async logout (req: Req, res: Res, next: Next){
+  // ======================================================>
+  async getVerificationRequests(req : Req,  res : Res , next : Next){
+    const result = await this.adminUseCase.getVerificationRequests(next)
+    res.status(200).json(result)
+  }
+  // ======================================================>
+  async changeVerifyStatus(req : Req,  res : Res , next : Next){
+    const { reqId,status} = req.body
+    const result = await this.adminUseCase.changeVerifyStatus(reqId,status,next)
+    res.status(200).json(result)
+  }
+  // ======================================================>
+  async logout (req: Req, res: Res, next: Next){
       try {
         res.clearCookie('admin_access_token',accessTokenOption)
         res.clearCookie("admin_refresh_token", refreshTokenOption);

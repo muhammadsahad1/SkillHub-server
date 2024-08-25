@@ -11,9 +11,7 @@ export const uploadPost = async (
   userModels: typeof userModel,
   postModels: typeof PostModel
 ) => {
-  console.log("vaneeee");
-  
-  console.log("in repo ===>", file);
+
   try {
     let imageName = "";
     let signedUrl = "";
@@ -28,7 +26,7 @@ export const uploadPost = async (
         buffer,
         mimetype,
       };
-
+      // uploading the image to s3 bucket
       imageName = await s3.putObjectUrl(putObjectParams);
     }
     const newPost = {

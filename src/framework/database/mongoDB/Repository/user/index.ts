@@ -25,6 +25,7 @@ import { getOthersFollowers } from "./othersFollowers";
 import { getOthersFollowersImageUrls } from "./getOthersFollowerImageUrls";
 import { getOthersFollowings } from "./getOthersFollowings";
 import { getOthersFollowingsImageUrl } from "./getOthersFollowingsImageUrl";
+import { verifyRequest } from "./verifyRequest";
 // exporting each functions of manipulation to DB
 export {
   createUser,
@@ -53,4 +54,5 @@ export {
   getOthersFollowingsImageUrl,
   postLike,
   getUser,
+  verifyRequest,
 };

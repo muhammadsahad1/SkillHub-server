@@ -32,6 +32,8 @@ import { editingComment } from "./editingComment";
 import { fetchOthersPosts } from "./fetchOthersPosts";
 import { searchUsers } from "./searchUsers";
 import { postView } from "./postView";
+import { uploadThoughts } from './uploadThoughts'
+import { verifyRequest } from './verifyRequest'
 
 export {
   userSignup,
@@ -68,4 +70,6 @@ export {
   fetchOthersPosts,
   searchUsers,
   getPosts,
+  uploadThoughts,
+  verifyRequest
 };

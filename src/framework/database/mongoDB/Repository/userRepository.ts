@@ -32,6 +32,7 @@ import {
   getOthersFollowings,
   getOthersFollowingsImageUrl,
   changePrivacy,
+  verifyRequest,
 } from "./user/index";
 import {
   uploadPost,
@@ -44,18 +45,22 @@ import {
   deleteComment,
   editComment,
   fetchOthersPosts,
-  postView
+  postView,
+  uploadThoughts
 } from "./post/index";
 import { IS3Operations } from "../../../service/s3Bucket";
 import PostModel from "../model/postModel";
 import { Next } from "../../../types/serverPackageType";
-import { IComment } from "../../../../commonEntities/entities/post";
+import { IComment, Ipost } from "../../../../commonEntities/entities/post";
+import { VerificationRequestModal } from "../model/VerificationRequest";
+import { VerifyRequest } from "../../../../commonEntities/entities/verificationRequest";
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {
   constructor(
     private userModels: typeof userModel,
-    private postModels: typeof PostModel
+    private postModels: typeof PostModel,
+    private verificationRequestModal : typeof VerificationRequestModal,
   ) {}
 
   // ===================================================================>
@@ -72,13 +77,17 @@ export class UserRepository implements IuserRepository {
     );
   }
   // ===================================================================>
+  async verifyRequest(userId: string, requestData: VerifyRequest): Promise<{ success: boolean; } | undefined> {
+      return await verifyRequest(userId,requestData,this.verificationRequestModal,this.userModels)
+  }
+  // ===================================================================>
   async createUser(newUser: Iuser): Promise<
-    | Iuser
+     Iuser
     | void
     | {
         success: boolean;
         user?: Iuser;
-        token: { accessToken: string; refershToken: string };
+        token: { accessToken: string; refreshToken: string };
         message?: string;
       }
       > {
@@ -259,6 +268,12 @@ export class UserRepository implements IuserRepository {
       this.postModels
     );
   }
+  // ===================================================================>
+
+async uploadThoughts(userId: string, thoughts: string): Promise<{ success: boolean;  thoughtPost : Ipost}| void> {
+      return await uploadThoughts(userId , thoughts,this.postModels)
+  }
+
   // ===================================================================>
 
   async fetchPosts(userSkill: string, s3: IS3Operations): Promise<any> {

@@ -1,8 +1,10 @@
+import mongoose from "mongoose";
+
 // Interface for a single message
-interface Message {
+export interface Message {
   _id: string; // or ObjectId if you are using ObjectId from mongoose
-  senderId: string; // or ObjectId
-  receiverId: string; // or ObjectId
+  senderId: mongoose.Types.ObjectId; // or ObjectId
+  receiverId: mongoose.Types.ObjectId; // or ObjectId
   message: string;
   media?: string; // Optional, as not all messages will have media
   mediaUrl?: string; // Optional, mediaUrl will be present only if media is present

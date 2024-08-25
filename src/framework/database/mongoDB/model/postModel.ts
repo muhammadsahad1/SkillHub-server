@@ -4,18 +4,25 @@ import { Ipost } from "../../../../commonEntities/entities/post";
 const PostSchema: Schema<Ipost> = new mongoose.Schema(
   {
     userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-    imageName: { type: String, required: true },
+    imageName: {
+      type: String,
+      required: function () {
+        {
+          return this.type !== "thoughts";
+        }
+      },
+    },
     caption: { type: String, default: "" },
     type: {
       type: String,
-      enum: ["image", "video", "thoughts"], 
+      enum: ["image", "video", "thoughts"],
       required: true,
     },
     likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
     comments: [
       {
         userId: { type: Schema.Types.ObjectId, ref: "User" },
-        userName : { type : String },
+        userName: { type: String },
         comment: { type: String },
         created_at: { type: Date, default: Date.now },
       },

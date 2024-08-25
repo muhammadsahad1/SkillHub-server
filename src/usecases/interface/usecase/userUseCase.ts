@@ -1,8 +1,10 @@
+import { Ipost } from "../../../commonEntities/entities/post";
 import {
   GetSkillRelatedUsersResponse,
   Iuser,
   IUserWithImages,
 } from "../../../commonEntities/entities/user";
+import { VerifyRequest } from "../../../commonEntities/entities/verificationRequest";
 import { Next, Req, Res } from "../../../framework/types/serverPackageType";
 
 // each functions Interface (TYPSCRIPT)
@@ -40,6 +42,8 @@ export interface IuserUseCase {
     user?: Iuser;
     message?: string;
   }>;
+  // ===================================================================>
+  verifyRequest(userId : string ,requestData : VerifyRequest,next : Next):Promise<{success : boolean } | void>
   // ===================================================================>
   getProfileImage(
     userId: string,
@@ -131,6 +135,10 @@ export interface IuserUseCase {
 // ===================================================================>
 
 uploadPost(userId : string,imageUrl : Express.Multer.File  |undefined, caption : string,type : string) : Promise<any>
+
+// ===================================================================>
+
+uploadThoughts(userId : string,type : string,next : Next): Promise<{ success: boolean; thoughtPost   : Ipost } | void>
 
 // ===================================================================>
 followBack(toFollowId : string,fromFollowingId : string,next : Next) :Promise<{ success: boolean; message: string }>

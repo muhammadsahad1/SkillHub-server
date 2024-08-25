@@ -28,7 +28,6 @@ export class MessageController {
     async markAsRead(req : Req, res : Res , next : Next) {
       const {conversationId} = req.body
       const userId = req.user?.id
-      console.log("Bodyyyy ====>",req.body);
        await this.messageUseCase.markAsRead(conversationId,userId,next)
     }
 

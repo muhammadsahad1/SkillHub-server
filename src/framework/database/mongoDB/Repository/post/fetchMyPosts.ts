@@ -13,10 +13,10 @@ export const fetchMyPosts = async (
       const imageName = post.imageName;
       
       // returing with postImageUrl
-      const postImageUrl = await s3.getObjectUrl({
+      const postImageUrl = imageName ?  await s3.getObjectUrl({
         bucket: process.env.C3_BUCKET_NAME,
         key: imageName,
-      });
+      }) : null;
 
       return {
         ...post.toObject(),

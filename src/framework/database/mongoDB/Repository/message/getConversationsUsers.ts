@@ -61,6 +61,7 @@ export const getConversationsUsers = async (
           isRead: lastMessage
           ? lastMessage.readBy.includes(userId.toString())
           : false,
+          lastMessageTime : lastMessage?.createdAt || lastMessage?.updatedaAt,
         };
       })
     );

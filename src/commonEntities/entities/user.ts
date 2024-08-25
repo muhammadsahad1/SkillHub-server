@@ -38,6 +38,14 @@ export interface Iuser {
   accountPrivacy?: boolean;
   profileImageUrl?: string;
   //   profile?: Profile;
+  isProfessional: boolean;
+  experienceYears: number;
+  professionalBadge: boolean;
+  verificationBadge: boolean;
+  website: string;
+  isRequested : boolean;
+  verificationStatus: "Pending" | "Approved" | "Rejected";
+  proofLink: string;
 }
 
 export interface GetSkillRelatedUsersResponse {
@@ -65,9 +73,3 @@ export interface FetchProfileImageResponse {
   };
   message?: string;
 }
-// account_settings?: AccountSettings;
-// email_notification?: boolean;
-// sms_notification?: boolean;
-// privacy_settings?: PrivacySettings;
-// contactVisibility?: string;
-// profileVisibility?: string;

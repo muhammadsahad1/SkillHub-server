@@ -189,6 +189,15 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+  // ===================================================================>
+  // verify requesting for proffesional account
+  async verifyRequest(req : Req , res : Res , next : Next) {
+    const userId = req.user?.id
+    const result = await this.userUseCase.verifyRequest(userId,req.body,next)
+    if(result){
+      res.status(200).json(result)
+    }
+  }
 
   // ===================================================================>
   // upload Cover Image
@@ -384,6 +393,22 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
+  async uploadThoughts (req : Req , res : Res , next : Next) {
+    try {
+      console.log("body =>",req.body);
+      
+      const { thoughts } = req.body
+      const userId = req.user?.id
+      const result = await this.userUseCase.uploadThoughts(userId,thoughts,next)
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
   // ===================================================================>
   // fetching the posts
   async fetchPosts(req: Req, res: Res, next: Next) {
