@@ -7,7 +7,7 @@ export const VerificationRequestSchema: Schema<IVerificationRequest> = new Schem
       fullName: { type: String, required: true },
       email: { type: String, },
       profession: { type: String, required: true },
-      company: { type: String },
+      company: { type: String },  
       website: { type: String },
       linkedin: { type: String },
       proofLink: { type: String, required: true },

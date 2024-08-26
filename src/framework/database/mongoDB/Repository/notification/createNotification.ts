@@ -41,15 +41,14 @@ export const createNotification = async (
       link,
       read: false,
     };
-    // const existFollowReq = await notificationModel.findOne({senderId : senderId ,type : type})
-    // if(existFollowReq){
 
-    // }
+    console.log("newNoti==>",newNotification);
+    
+  
     const notification = await notificationModel.create(newNotification);
-    console.log(notification);
     const result = await notification.save();
-    console.log("createdNotification", result);
     return result;   
+    
   } catch (error) {
     console.error("Error in createNotification:", error);
     return undefined;

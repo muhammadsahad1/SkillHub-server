@@ -1,12 +1,12 @@
 import { Server } from "socket.io";
 import http from "http";
-import { log } from "console";
 
+// initializeSocke for wrapp to server
 export const initializeSocket = (server: http.Server) => {
   const io = new Server(server, {
     cors: {
       origin: ["http://localhost:5173"],
-      methods: ["GET", "POST"],
+      methods: ["GET", "POST", "PUT"],
       credentials: true,
     },
   });
@@ -19,22 +19,17 @@ export const initializeSocket = (server: http.Server) => {
       console.log(`User ${userId} connected with socket ID: ${socket.id}`);
     }
 
-    socket.on("joinRoom", ({ 
-      senderId, receiverId }) => {
+    socket.on("joinRoom", ({ senderId, receiverId }) => {
       const roomName = [senderId, receiverId].sort().join("-");
       socket.join(roomName);
       console.log("Sending data to room in joinroom:", roomName);
     });
 
     socket.on("sendData", (data) => {
-      console.log("data in backend =>",data);
-      
-      const { senderId, receiverId, message , media } = data;
-      console.log("messag,",message , "media =>",media);
-      
+      console.log("data in backend =>", data);
+
+      const { senderId, receiverId, message, media } = data;
       const roomName = [senderId, receiverId].sort().join("-");
-      console.log("roomNar ==>",roomName);
-      
       socket.to(roomName).emit("receiveData", data);
     });
     // to handle the follow event
@@ -54,33 +49,56 @@ export const initializeSocket = (server: http.Server) => {
       io.to(`user_${receiverId}`).emit("notification", { message, type, link });
     });
     // to handle the chat event notification
-    socket.on("chat",async(data) => {
-      console.log("data in chat noti",data)
+    socket.on("chat", async (data) => {
+      console.log("data in chat noti", data);
       const { senderId, receiverId, type, message, link } = data;
-      io.to(`user_${receiverId}`).emit("notification", { message, type, link ,receiverId});
+      io.to(`user_${receiverId}`).emit("notification", {
+        message,
+        type,
+        link,
+        receiverId,
+      });
     });
     // handleMessagRecieve
     socket.on("messageRead", ({ conversationId, senderId, receiverId }) => {
       const roomName = [senderId, receiverId].sort().join("-");
       socket.to(roomName).emit("messageRead", { conversationId });
     });
-    
-    // ====================> TO handle the video call Events <======================= \\
-    socket.on('callRequest',({receiverId ,receiverName, roomId , callerName }) => {
-      console.log("resId ==>",receiverId ,"roomId ==>",roomId , "receirverName : =>",receiverName , "callerName :==>",callerName );
-      io.to(`user_${receiverId}`).emit('callRequest',{callerId : socket.id , receiverName, roomId , callerName })
-    })
-    
-    socket.on('callAccepted',({ callerId , roomId }) => {
-      io.to(callerId).emit('callAccepted',({ roomId }))
-    })
 
-    socket.on('callDecline',({callerId}) => {
-      io.to(callerId).emit('callDecline')
-    })
+    // ====================> TO handle the video call Events <======================= \\
+    socket.on(
+      "callRequest",
+      ({ receiverId, receiverName, roomId, callerName }) => {
+        io.to(`user_${receiverId}`).emit("callRequest", {
+          callerId: socket.id,
+          receiverName,
+          roomId,
+          callerName,
+        });
+      }
+    );
+
+    socket.on("callAccepted", ({ callerId, roomId }) => {
+      io.to(callerId).emit("callAccepted", { roomId });
+    });
+
+    socket.on("callDecline", ({ callerId }) => {
+      io.to(callerId).emit("callDecline");
+    });
 
     socket.on("disconnect", () => {
       console.log("User disconnected");
+    });
+    // FOR ADMIN action in verify Requests
+    socket.on("verifyRequest", async (data) => {
+      const { senderId, receiverId, type, message, link } = data;
+      io.to(`user_${receiverId}`).emit("notification", {
+        senderId,
+        receiverId,
+        type,
+        message,
+        link,
+      });
     });
   });
   return io;

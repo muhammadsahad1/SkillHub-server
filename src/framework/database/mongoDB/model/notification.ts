@@ -11,7 +11,13 @@ export interface INotification extends Document {
   createdAt: Date;
 }
 
-export type NotificationType = "follow" | "chat" | "like" | "comment";
+export type NotificationType =
+  | "follow"
+  | "chat"
+  | "like"
+  | "comment"
+  | "verifyRequestAccepted"
+  | "verifyRequestRejected";
 
 const NotificationSchema: Schema = new Schema({
   senderId: { type: Schema.Types.ObjectId, ref: "User", required: true },
@@ -19,11 +25,18 @@ const NotificationSchema: Schema = new Schema({
   message: { type: String, require: true },
   type: {
     type: String,
-    enum: ["follow", "chat", "like", "comment"],
+    enum: [
+      "follow",
+      "chat",
+      "like",
+      "comment",
+      "verifyRequestAccepted",
+      "verifyRequestRejected",
+    ],
     require: true,
   },
   read: { type: Boolean, default: false },
-  link: { type: String, require: true },
+  link: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

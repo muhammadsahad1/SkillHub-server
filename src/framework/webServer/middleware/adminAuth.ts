@@ -9,8 +9,8 @@ const jwt = new JWTtoken();
 
 export const isAdminAuthenticate : RequestHandler = async (req, res, next) => {
   const customReq = req as CustomRequest;
-  const accessToken = customReq.cookies.accessToken;
-  const refreshToken = customReq.cookies.refreshToken;
+  const accessToken = customReq.cookies.admin_access_token;
+  const refreshToken = customReq.cookies.admin_refresh_token;
   console.log("ass ==>",accessToken)
   console.log("ref ==>",refreshToken);
   
@@ -41,8 +41,8 @@ export const isAdminAuthenticate : RequestHandler = async (req, res, next) => {
         const newTokens = await jwt.createAccessAndRefreshToken(reDecoded.id);
         
         // Set new access token and refresh token in cookie
-        res.cookie('accessToken', newTokens.accessToken, accessTokenOption);
-        res.cookie('refreshToken',newTokens.refreshToken,refreshTokenOption)
+        res.cookie('admin_access_token', newTokens.accessToken, accessTokenOption);
+        res.cookie('admin_refresh_token',newTokens.refreshToken,refreshTokenOption)
         const user = await userModel.findById(reDecoded.id).select("-password");
         if (!user) {
           return res.status(401).json({ message: 'User not found' });

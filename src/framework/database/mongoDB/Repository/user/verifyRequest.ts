@@ -10,6 +10,7 @@ export const verifyRequest = async (
 ) => {
   try {
     const user = await userModels.findById(userId)
+    const email = user?.email
     if(user?.isRequested){
       return {
         success : false ,
@@ -21,12 +22,14 @@ export const verifyRequest = async (
     // creating the newObject for newRequest
     const newRequest = {
       userId,
+      email,
       fullName,
       profession,
       company,
       website,
       proofLink,
     };
+
     const verificationRequest = await verificationRequestModal.create(
       newRequest
     );
@@ -42,13 +45,3 @@ export const verifyRequest = async (
     return undefined;
   }
 };
-
-// requestData =====> {
-//   formData: {
-//     fullName: 'muhammad sahad ',
-//     profession: 'software devloper ',
-//     company: 'brototype',
-//     website: 'https://bronotes.super.site/',
-//     proofLink: 'https://www.linkedin.com/in/muhammad-sahad-108a83290/'
-//   }
-// }

@@ -35,7 +35,7 @@ export const adminLogin = async (
       tokens: Tokens,
       message: "successfully authorized admin",
       admin: {  
-        id: admin?.id,
+        _id: admin?._id,
         email: admin?.email,
       },
     };

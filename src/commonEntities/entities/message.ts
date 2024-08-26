@@ -24,7 +24,7 @@ interface UserWithProfileImage {
 }
 
 // Interface for the ChatResponse
-interface ChatResponse {
+export interface ChatResponse {
   messages: Message[];
   userWithProfileImage: UserWithProfileImage;
 }

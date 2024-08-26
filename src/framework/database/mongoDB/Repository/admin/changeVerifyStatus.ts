@@ -27,7 +27,7 @@ export const changeVerifyStatus = async (
       user.isProfessional = true;
       user.professionalBadge = true;
       user.verificationStatus = status;
-      user.proofLinks = request.proofLinks;
+      user.proofLink = request.proofLink;
     } else {
       user.verificationStatus = status;
     }

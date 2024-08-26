@@ -16,7 +16,7 @@ import { Encrypt } from "../../service/hashPassword";
 import { OtpGenerate } from "../../service/otpGenerate";
 import { SendEmail } from "../../service/sentEmail";
 import { S3Operations } from "../../service/s3Bucket";
-import { indexUser, searchUsers } from "../../service/elasticsearchService";
+import { indexUser, searchUsers } from "../../service/elasticsearchService";  
 import PostModel from "../../database/mongoDB/model/postModel";
 
 // ================================= Message injections ================================= \\
@@ -32,6 +32,10 @@ import { NotificationController } from "../../../commonEntities/controllers/noti
 
 import { initializeSocket } from "../../service/socketIO";
 import http from 'http'
+import { EventRepository } from "../../database/mongoDB/Repository/eventRepository";
+import EventModel from "../../database/mongoDB/model/eventModel";
+import { EventUseCase } from "../../../usecases/usecases/eventUseCase";
+import { EventController } from "../../../commonEntities/controllers/eventController";
 const server = http.createServer()
 // SOCKET intilaize
 const io = initializeSocket(server)
@@ -71,7 +75,7 @@ const notificationUseCase = new NotificationUseCase(notificationRepository,io);
 const notificationController = new NotificationController(notificationUseCase);
 
 // USER REPO FOR INTRACTE WITH DB
-const userRepository = new UserRepository(userModel, PostModel , VerificationRequestModal);
+const userRepository = new UserRepository(userModel,PostModel,VerificationRequestModal);
 const userUseCase = new UserUseCase(
   userRepository,
   jwt,
@@ -93,7 +97,8 @@ const adminUseCase = new AdminUseCase(
   jwt,
   hashPassword,
   sendEmail,
-  s3Operations
+  s3Operations,
+  io
 );
 const adminController = new AdminController(adminUseCase);
 
@@ -103,13 +108,18 @@ const messageRepository = new MessageRepository(
   MessageModel,
   userModel
 );
-const messageUseCase = new MessageUseCase(messageRepository, s3Operations);
+const messageUseCase = new MessageUseCase(messageRepository,s3Operations);
 const messageController = new MessageController(messageUseCase);
 
+// EVENT INJECTIONs
+const eventRepository = new EventRepository(EventModel)
+const eventUseCase = new EventUseCase(eventRepository)
+const eventController = new EventController(eventUseCase)
 
 export {
   adminController,
   userController,
   messageController,
   notificationController,
+  eventController,
 };

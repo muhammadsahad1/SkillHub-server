@@ -8,6 +8,7 @@ import { IadminUseCase } from "../interface/usecase/adminUseCase";
 import { adminLogin, blockUser, changeVerifyStatus, getUsers, getVerificationRequests } from "./admin/index";
 import { Next } from "../../framework/types/serverPackageType";
 import { IVerificationRequest } from "../../commonEntities/entities/verificationRequest";
+import { Server } from "socket.io";
 // ================================= Admin user cases ================================= \\
 
 export class AdminUseCase implements IadminUseCase {
@@ -16,7 +17,8 @@ export class AdminUseCase implements IadminUseCase {
     private Jwt: Ijwt,
     private hashPassword: IhashPassword,
     private sendEmail: IsendEmail,
-    private s3: IS3Operations
+    private s3: IS3Operations,
+    private io : Server,
   ) {}
   
   // ===================================================================>
@@ -43,7 +45,7 @@ export class AdminUseCase implements IadminUseCase {
   }
   
   async changeVerifyStatus(requesId: string, status: "Pending" | "Approved" | "Rejected" , next: Next): Promise<{ success: boolean; } | undefined | void> {
-    const result = await changeVerifyStatus(requesId , status ,this.adminRepostory,next)
+    const result = await changeVerifyStatus(requesId , status ,this.adminRepostory,this.io,next)
     return result
   }
   // ===================================================================>

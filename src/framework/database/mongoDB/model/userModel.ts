@@ -32,7 +32,6 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
 
   // New fields for professional account
   isProfessional: { type: Boolean, default: false },
-  experienceYears: { type: Number },
   professionalBadge: { type: Boolean, default: false },
   website: { type: String, default: "" },
   isRequested: { type: Boolean, default: false },

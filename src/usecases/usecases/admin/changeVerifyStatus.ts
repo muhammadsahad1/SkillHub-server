@@ -1,3 +1,4 @@
+import { Server } from "socket.io";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IadminRepository } from "../../interface/repositoryInterface/adminRepository";
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
@@ -6,6 +7,7 @@ export const changeVerifyStatus = async (
   requestId: string,
   status: "Pending" | "Approved" | "Rejected",
   adminRepostory: IadminRepository,
+  io : Server,
   next : Next
 ) => {
   try {
@@ -13,6 +15,8 @@ export const changeVerifyStatus = async (
     if(!result){
       return next(new ErrorHandler(401,"updating the status failed"))
     }
+
+
     return result
   } catch (error) {
     console.log("error =>",error)

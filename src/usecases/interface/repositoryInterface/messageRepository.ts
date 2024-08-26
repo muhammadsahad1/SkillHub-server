@@ -1,4 +1,4 @@
-  import { ChatResponse, MessageWithSenderProfileResponse } from "../../../commonEntities/entities/message"
+  import { ChatResponse } from "../../../commonEntities/entities/message"
   import { IS3Operations } from "../../../framework/service/s3Bucket"
 
 
