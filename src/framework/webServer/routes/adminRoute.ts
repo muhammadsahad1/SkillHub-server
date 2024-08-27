@@ -10,6 +10,8 @@ export function adminRoute(route: Route): Route {
   route.post("/blockUser",isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.blockUser(req, res, next));
   route.get('/verification-request',isAdminAuthenticate,(req : Req, res : Res ,next : Next) => adminController.getVerificationRequests(req,res,next))
   route.post('/changeVerifyStatus',isAdminAuthenticate,(req : Req, res : Res ,next : Next) => adminController.changeVerifyStatus(req,res,next))
+  route.get('/events',isAdminAuthenticate,(req: Req, res: Res, next: Next) => adminController.getEvents(req, res, next));
+  route.post('/changeEventsStatus',isAdminAuthenticate,(req: Req, res: Res, next: Next) => adminController.changeEventStatus(req, res, next));
   route.post("/logout",isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.logout(req, res, next));
 
   return route;

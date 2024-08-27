@@ -6,29 +6,22 @@ export class EventController {
   constructor(private eventUseCase: IEventUseCase) {}
   // creating Event
   async createEvent(req: Req, res: Res, next: Next) {
-    const {
-      title,
-      description,
-      date,
-      time,
-      duration,
-      speaker,
-      registrationLink,
-      accessLink,
-      category,
-    } = req.body;
-    const result = await this.eventUseCase.createEvent(
-      title,
-      description,
-      date,
-      time,
-      duration,
-      speaker,
-      registrationLink,
-      accessLink,
-      category,
-      req?.file
+    const data = req.body;
+    const userId = req.user?.id;
+    const result = await this.eventUseCase?.createEvent(
+      userId,
+      data,
+      req.file,
+      next
     );
+    if (result) {
+      res.status(200).json(result);
+    }
+  }
+
+  // fetching the all events
+  async getEvents(req: Req, res: Res, next: Next) {
+    const result = await this.eventUseCase.getEvents(next);
     if (result) {
       res.status(200).json(result);
     }

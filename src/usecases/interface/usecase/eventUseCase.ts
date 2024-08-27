@@ -1,14 +1,15 @@
+import { ICreateEvent, IEvent } from "../../../commonEntities/entities/event";
+import { Next } from "../../../framework/types/serverPackageType";
+
 export interface IEventUseCase {
   createEvent(
-    title: string,
-    description: string,
-    date: string,
-    time: string,
-    duration: string,
-    speaker: string,
-    registrationLink: string,
-    accessLink: string,
-    category: string,
-    bannerFile: Express.Multer.File | undefined
-  ): Promise<{success : boolean , message : string}>;
+    userId: string,
+    eventDate: ICreateEvent,
+    bannerFile: Express.Multer.File | undefined,
+    next: Next
+  ): Promise<{ success: boolean; message: string } | void>;
+
+  // ============================================================
+
+  getEvents(next: Next): Promise<IEvent[] | void>;
 }

@@ -15,6 +15,21 @@ const EventSchema = new mongoose.Schema<IEvent>(
     isPublic: { type: Boolean, default: true },
     category: { type: String, default: "" },
     attendees: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    approvalStatus: {
+      type: String,
+      enum: ["Pending", "Approved", "Rejected"],
+      default: "Pending",
+    },
+    eventStatus: {
+      type: String,
+      enum: ["Upcoming", "Ongoing", "Completed"],
+      default: "Upcoming",
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,

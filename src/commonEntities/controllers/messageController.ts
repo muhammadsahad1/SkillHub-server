@@ -32,12 +32,7 @@ export class MessageController {
     }
 
     async uploadImage(req : Req , res : Res , next : Next) {
-      
       const { senderId , receiverId } = req.body
-
-       // req.file contains the file metadata and path
-       console.log("req.file ===>", req.file); // This will log the uploaded file details
- 
       const result = await this.messageUseCase.sendImage(senderId,receiverId,req.file,next)
       res.status(200).json(result)
       return result

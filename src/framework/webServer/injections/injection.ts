@@ -91,14 +91,14 @@ const userUseCase = new UserUseCase(
 const userController = new UserController(userUseCase);
 
 // Admin injection
-const adminRepository = new AdminRepository(userModel,VerificationRequestModal);
+const adminRepository = new AdminRepository(userModel,VerificationRequestModal,EventModel);
 const adminUseCase = new AdminUseCase(
   adminRepository,
   jwt,
   hashPassword,
   sendEmail,
   s3Operations,
-  io
+  io,
 );
 const adminController = new AdminController(adminUseCase);
 
@@ -113,7 +113,7 @@ const messageController = new MessageController(messageUseCase);
 
 // EVENT INJECTIONs
 const eventRepository = new EventRepository(EventModel)
-const eventUseCase = new EventUseCase(eventRepository)
+const eventUseCase = new EventUseCase(eventRepository,s3Operations)
 const eventController = new EventController(eventUseCase)
 
 export {

@@ -35,7 +35,7 @@ export interface IuserUseCase {
   // ===================================================================>
   createProfile(
     user: Iuser,
-    file: Express.Multer.File | undefined,
+    file: n
     next: Next
   ): Promise<void | {
     success: boolean;

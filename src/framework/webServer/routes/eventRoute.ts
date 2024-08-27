@@ -1,8 +1,10 @@
 import { Route, Req, Res, Next } from "../../types/serverPackageType";
 import { eventController } from "../injections/injection";
-
+import upload from "../middleware/multer";
+import { isAuthenticate } from "../middleware/auth";
 // >>>>>>>>>>>>>>>>>>>>>>>>>> Events Route <<<<<<<<<<<<<<<<<<<<<<<<<
 export function eventRoute(route : Route) :Route {
-  route.post('/event',(req : Req , res : Res ,next : Next) => eventController.createEvent(req,res,next))
+  route.post('/createEvent',isAuthenticate,upload.single('bannerFile'),(req : Req , res : Res ,next : Next) => eventController.createEvent(req,res,next))
+  route.get('/events',isAuthenticate,(req : Req , res : Res ,next : Next) => eventController.getEvents(req,res,next))
   return route
 }

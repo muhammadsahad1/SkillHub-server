@@ -5,10 +5,11 @@ import { IhashPassword } from "../interface/service/hashPassword";
 import { Ijwt } from "../interface/service/jwt";
 import { IsendEmail } from "../interface/service/sendEmail";
 import { IadminUseCase } from "../interface/usecase/adminUseCase";
-import { adminLogin, blockUser, changeVerifyStatus, getUsers, getVerificationRequests } from "./admin/index";
+import { adminLogin, blockUser, changeEventsStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests } from "./admin/index";
 import { Next } from "../../framework/types/serverPackageType";
 import { IVerificationRequest } from "../../commonEntities/entities/verificationRequest";
 import { Server } from "socket.io";
+import { IEvent } from "../../commonEntities/entities/event";
 // ================================= Admin user cases ================================= \\
 
 export class AdminUseCase implements IadminUseCase {
@@ -20,7 +21,7 @@ export class AdminUseCase implements IadminUseCase {
     private s3: IS3Operations,
     private io : Server,
   ) {}
-  
+
   // ===================================================================>
   async adminLogin(email: string, password: string, next: Next): Promise<any> {
     const result = await adminLogin(
@@ -48,6 +49,15 @@ export class AdminUseCase implements IadminUseCase {
     const result = await changeVerifyStatus(requesId , status ,this.adminRepostory,this.io,next)
     return result
   }
+  // ===================================================================>
+  async getEvents(next: Next):Promise<void | IEvent[]>{
+    return await getEvents(next,this.adminRepostory)
+  }
+ // ===================================================================>
+  async changeEventStatus(requestId: string, action : "Pending" | "Approved" | "Rejected",next: Next): Promise<{ success: boolean } | void> {
+    return await changeEventsStatus(requestId ,action, this.adminRepostory , next)
+  }
+
   // ===================================================================>
   async blockUser(id: string): Promise<any> {
     const result = await blockUser(id, this.adminRepostory);

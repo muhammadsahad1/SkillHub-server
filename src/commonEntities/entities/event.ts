@@ -8,11 +8,28 @@ export interface IEvent extends Document {
   duration: number;
   speaker: string;
   category: string;
-  bannerName: string;
+  bannerName?: string;
   registrationLink: string;
   accessLink: string;
   isPublic: boolean;
-  attendees: string[];
+  attendees: mongoose.Types.ObjectId[];
+  eventStatus: string;
+  approvalStatus: string;
+  createdBy: mongoose.Types.ObjectId;
+  bannerImageUrl? :string,  
   createdAt: Date;
   updatedAt: Date;
+}
+
+// create event props
+export interface ICreateEvent {
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  duration: string;
+  speaker: string;
+  registrationLink: string;
+  accessLink: string;
+  category: string;
 }
