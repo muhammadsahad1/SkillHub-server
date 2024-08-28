@@ -21,9 +21,22 @@ export class EventController {
 
   // fetching the all events
   async getEvents(req: Req, res: Res, next: Next) {
-    const result = await this.eventUseCase.getEvents(next);
+  const result = await this.eventUseCase.getEvents(next);
     if (result) {
       res.status(200).json(result);
     }
+  
+  }
+
+  async eventDetails(req : Req , res : Res, next : Next) {
+    const eventId = req.query.eventId as string;
+    const result = await this.eventUseCase.eventDetails(eventId,next)
+    if(result){
+      res.status(200).json(result)
+    }
+  }
+
+  async eventRegister() {
+    const result = await this.eventUseCase.
   }
 }

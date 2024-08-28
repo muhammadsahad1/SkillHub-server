@@ -7,24 +7,25 @@ export const getEvents = async (
   s3: IS3Operations
 ): Promise<IEvent[] | void> => {
   try {
-    const events = await eventModel.find({});
+
+    const events = await eventModel.find({ approvalStatus : "Approved"});
     // retrive the events and banner image url
     const eventsWithBannerImage = await Promise.all(
       events.map(async (event) => {
         const bannerImageUrl = await s3.getObjectUrl({
           bucket: process.env.C3_BUCKET_NAME,
-          key: event.bannerName ? event.bannerName : "",
+          key: event?.bannerName ? event?.bannerName : "",
         });
 
         return {
           ...event.toObject(),
-          bannerImageUrl,
+          bannerImageUrl : bannerImageUrl,
         };
       })
     );
 
     return eventsWithBannerImage;
   } catch (error) {
-    console.error(error);
+    
   }
 };

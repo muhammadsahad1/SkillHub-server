@@ -11,8 +11,7 @@ export const createEvent = async (
   eventModel: typeof EventModel
 ): Promise<{ success: boolean; message: string } | void> => {
   try {
-    console.log("userID ==>",userId);
-    
+
     const {
       title,
       description,
@@ -23,6 +22,8 @@ export const createEvent = async (
       speaker,
       time,
       category,
+      price,
+      currency,
     } = data;
 
     // Store the image in the S3 bucket and retrieve the banner name
@@ -34,8 +35,8 @@ export const createEvent = async (
     }
 
     const eventDate = new Date(date);
-
     const eventDuration = Number(duration);
+    const priceValue = Number(price);
     // Create the new event object with all required fields
     const newEvent = {
       title,
@@ -48,9 +49,11 @@ export const createEvent = async (
       registrationLink,
       accessLink,
       category,
+      price: priceValue,
+      currency,
       createdBy: new mongoose.Types.ObjectId(userId),
     };
-     
+
     // Save the event to the database
     const result = await eventModel.create(newEvent);
 
@@ -58,6 +61,7 @@ export const createEvent = async (
       success: true,
       message: "Create Event request is successful",
     };
+
   } catch (error) {
     console.error(error);
     return {

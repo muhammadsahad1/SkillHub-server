@@ -22,7 +22,7 @@ export type PutObjectParams = {
 
 export type getObjectParams = {
   bucket: string;
-  key: String | undefined;
+  key: string ;
 };
 
 export interface IS3Operations {

@@ -16,7 +16,9 @@ export interface IEvent extends Document {
   eventStatus: string;
   approvalStatus: string;
   createdBy: mongoose.Types.ObjectId;
-  bannerImageUrl? :string,  
+  bannerImageUrl : string;
+  price: number;
+  currency: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -31,5 +33,7 @@ export interface ICreateEvent {
   speaker: string;
   registrationLink: string;
   accessLink: string;
+  price : string,
+  currency : string,
   category: string;
 }

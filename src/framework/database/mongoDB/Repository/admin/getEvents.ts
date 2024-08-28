@@ -23,7 +23,7 @@ export const getEvents = async (
         };
       })
     );
-
+    console.log("result ===>",userNameWithEvent)
     return userNameWithEvent;
 
   } catch (error) {

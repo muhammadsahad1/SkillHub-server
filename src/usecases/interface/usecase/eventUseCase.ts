@@ -1,4 +1,5 @@
 import { ICreateEvent, IEvent } from "../../../commonEntities/entities/event";
+import { IEventRegister } from "../../../commonEntities/entities/eventRegister";
 import { Next } from "../../../framework/types/serverPackageType";
 
 export interface IEventUseCase {
@@ -12,4 +13,10 @@ export interface IEventUseCase {
   // ============================================================
 
   getEvents(next: Next): Promise<IEvent[] | void>;
+
+  // ============================================================
+
+  eventDetails(eventId : string , next : Next) : Promise<IEvent | void | null>
+
+  eventRegiter(registerData : IEventRegister,next : Next) : Promise<any>
 }

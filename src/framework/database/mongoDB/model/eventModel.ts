@@ -14,7 +14,31 @@ const EventSchema = new mongoose.Schema<IEvent>(
     accessLink: { type: String, required: true, unique: true },
     isPublic: { type: Boolean, default: true },
     category: { type: String, default: "" },
-    attendees: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    attendees: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        paymentStatus: {
+          type: String,
+          enum: ["Pending", "Completed", "Not Required"],
+          default: "Not Required",
+        },
+        stripePaymentId: {
+          type: String,
+          required: function () {
+            return this.paymentStatus === "Completed";
+          },
+        },
+      },
+    ],
+    price: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    currency: {
+      type: String,
+      default: "USD",
+    },
     approvalStatus: {
       type: String,
       enum: ["Pending", "Approved", "Rejected"],

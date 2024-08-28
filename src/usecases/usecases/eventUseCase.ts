@@ -1,9 +1,10 @@
 import { ICreateEvent, IEvent } from "../../commonEntities/entities/event";
+import { IEventRegister } from "../../commonEntities/entities/eventRegister";
 import { IS3Operations } from "../../framework/service/s3Bucket";
 import { Next } from "../../framework/types/serverPackageType";
 import { IEventRepository } from "../../usecases/interface/repositoryInterface/eventRepository";
 import { IEventUseCase } from "../interface/usecase/eventUseCase";
-import { createEvent, getEvents } from "../usecases/event/index";
+import { createEvent, eventDetails, eventRegister, getEvents } from "../usecases/event/index";
 
 export class EventUseCase implements IEventUseCase {
   constructor(
@@ -29,5 +30,13 @@ export class EventUseCase implements IEventUseCase {
 
   async getEvents(next: Next): Promise<IEvent[] | void> {
     return await getEvents(next,this.eventRepository,this.s3Operations)
+  }
+
+  async eventDetails(eventId : string , next : Next) :Promise<IEvent | void | null> {
+    return await eventDetails(eventId,this.s3Operations,this.eventRepository,next)
+  }
+
+  async eventRegister(eventRegisterData : IEventRegister,next : Next) : Promise<IEvent | void | null> {
+    return await eventRegister(eventRegisterData,this.eventRepository,next)
   }
 }
