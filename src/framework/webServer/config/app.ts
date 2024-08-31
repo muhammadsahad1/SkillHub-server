@@ -32,12 +32,16 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 const router = express.Router();
-
+router.use((req, res, next) => {
+  console.log("request details", req.url, req.method);
+  next();
+})
 app.use("/user", userRoute(router));
 app.use("/admin", adminRoute(router));
 app.use("/chat",messageRoute(router))
 app.use("/event",eventRoute(router))
 app.use('/notification',notificationRoute(router))
+
 
 
 app.use(errorHandler);

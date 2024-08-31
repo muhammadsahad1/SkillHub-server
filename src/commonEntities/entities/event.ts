@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
 
+
+export interface IAttendee {
+  userId: mongoose.Types.ObjectId;
+  paymentStatus: "Pending" | "Completed" | "Not Required";
+  stripePaymentId?: string; 
+  joinToken : string
+}
+
 export interface IEvent extends Document {
   title: string;
   description: string;
@@ -9,15 +17,16 @@ export interface IEvent extends Document {
   speaker: string;
   category: string;
   bannerName?: string;
-  registrationLink: string;
+  registerLink ?: string; 
   accessLink: string;
   isPublic: boolean;
-  attendees: mongoose.Types.ObjectId[];
+  attendees: IAttendee[];
   eventStatus: string;
   approvalStatus: string;
   createdBy: mongoose.Types.ObjectId;
-  bannerImageUrl : string;
+  bannerImageUrl? : string;
   price: number;
+  agoraToken : string,
   currency: string;
   createdAt: Date;
   updatedAt: Date;
@@ -31,8 +40,6 @@ export interface ICreateEvent {
   time: string;
   duration: string;
   speaker: string;
-  registrationLink: string;
-  accessLink: string;
   price : string,
   currency : string,
   category: string;

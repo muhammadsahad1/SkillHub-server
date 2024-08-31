@@ -16,32 +16,42 @@ export const fetchOthersPosts = async (
 
     const profileImageUrl = user?.profileImage
       ? await s3.getObjectUrl({
-          bucket: process.env.C3_BUCKET_NAME,
+          bucket: process.env.C3_BUCKET_NAME || "",
           key: user.profileImage,
         })
       : null;
-      
 
+    // Retrieving the posts with images from the S3 bucket or other types
     const postsWithImage = await Promise.all(
       userPosts.map(async (post) => {
-        const imageName = post.imageName;
-        const postUrl = await s3.getObjectUrl({
-          bucket: process.env.C3_BUCKET_NAME,
-          key: imageName,
-        });
+        if (post.type === "image") {
+          const postUrl = post.imageName
+            ? await s3.getObjectUrl({
+                bucket: process.env.C3_BUCKET_NAME || "",
+                key: post.imageName,
+              })
+            : null;
 
-        return {
-          ...post.toObject(),
-          postUrl: postUrl,
-          profileImageUrl : profileImageUrl,
-          userName : user?.name
-        };
+          return {
+            ...post.toObject(),
+            postUrl,
+            profileImageUrl,
+            userName: user?.name,
+          };
+        } else {
+          return {
+            ...post.toObject(),
+            profileImageUrl,
+            userName: user?.name,
+          };
+        }
       })
     );
 
+    console.log("Fetched posts:", postsWithImage);
     return postsWithImage;
   } catch (error) {
-    console.error("Error fetching the others posts:", error);
+    console.error("Error fetching others' posts:", error);
     return undefined; // Handle error as needed
   }
 };

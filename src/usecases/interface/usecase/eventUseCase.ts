@@ -8,7 +8,7 @@ export interface IEventUseCase {
     eventDate: ICreateEvent,
     bannerFile: Express.Multer.File | undefined,
     next: Next
-  ): Promise<{ success: boolean; message: string } | void>;
+  ):  Promise<{ success: boolean; message: string , joinLink : string } | void>;
 
   // ============================================================
 
@@ -18,5 +18,8 @@ export interface IEventUseCase {
 
   eventDetails(eventId : string , next : Next) : Promise<IEvent | void | null>
 
-  eventRegiter(registerData : IEventRegister,next : Next) : Promise<any>
+  eventRegister(registerData : IEventRegister,next : Next) :Promise<{success : boolean ,message : string ,joinToken : string} | void>
+
+  getEvent(eventId : string,next : Next)  : Promise<IEvent | void>
+
 }

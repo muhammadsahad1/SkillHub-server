@@ -26,5 +26,11 @@ declare namespace NodeJS {
     CLIENT_URL: string;
     JWT_SECRET: string;
     ELASTICSEARCH_PASSWORD: string;
+
+    // AGORA_APP_ID : string
+    // AGORA_APP_CERTIFICATE : string
+
+    ZEGO_APP_ID: number;
+    ZEGO_SERVER_SECRET: string;
   }
 }

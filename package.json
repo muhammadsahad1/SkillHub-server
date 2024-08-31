@@ -30,7 +30,13 @@
 
     "@react-oauth/google": "^0.12.1",
 
+    "agora-access-token": "^2.0.4",
+
+    "agora-token": "^2.0.3",
+
     "aws-sdk": "^2.1664.0",
+
+    "axios": "^1.7.5",
 
     "bcrypt": "^5.1.1",
 
@@ -74,7 +80,9 @@
 
     "socket.io": "^4.7.5",
 
-    "sweetalert2": "^11.12.3"
+    "sweetalert2": "^11.12.3",
+
+    "zego-express-engine-webrtc": "^3.6.0"
 
   },
 

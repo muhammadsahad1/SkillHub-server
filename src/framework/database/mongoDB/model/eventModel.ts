@@ -10,8 +10,8 @@ const EventSchema = new mongoose.Schema<IEvent>(
     duration: { type: Number, required: true },
     speaker: { type: String, required: true },
     bannerName: { type: String },
-    registrationLink: { type: String, required: true, unique: true },
-    accessLink: { type: String, required: true, unique: true },
+    registerLink : {type : String },
+    accessLink: { type: String, unique: true },
     isPublic: { type: Boolean, default: true },
     category: { type: String, default: "" },
     attendees: [
@@ -28,6 +28,7 @@ const EventSchema = new mongoose.Schema<IEvent>(
             return this.paymentStatus === "Completed";
           },
         },
+        joinToken: { type: String }, 
       },
     ],
     price: {
@@ -54,6 +55,7 @@ const EventSchema = new mongoose.Schema<IEvent>(
       ref: "User",
       required: true,
     },
+    agoraToken: { type: String },
   },
   {
     timestamps: true,

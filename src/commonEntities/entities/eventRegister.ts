@@ -4,6 +4,6 @@ export interface IEventRegister {
   name: string;
   email: string;
   phone: string;
-  payment: string;
+  paymentId: string;
 
 }

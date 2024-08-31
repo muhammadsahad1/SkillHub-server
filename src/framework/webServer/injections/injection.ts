@@ -16,7 +16,8 @@ import { Encrypt } from "../../service/hashPassword";
 import { OtpGenerate } from "../../service/otpGenerate";
 import { SendEmail } from "../../service/sentEmail";
 import { S3Operations } from "../../service/s3Bucket";
-import { indexUser, searchUsers } from "../../service/elasticsearchService";  
+import { indexUser, searchUsers } from "../../service/elasticsearchService"; 
+import { ZoomService } from '../../service/zoomService' 
 import PostModel from "../../database/mongoDB/model/postModel";
 
 // ================================= Message injections ================================= \\
@@ -36,6 +37,8 @@ import { EventRepository } from "../../database/mongoDB/Repository/eventReposito
 import EventModel from "../../database/mongoDB/model/eventModel";
 import { EventUseCase } from "../../../usecases/usecases/eventUseCase";
 import { EventController } from "../../../commonEntities/controllers/eventController";
+import { EventPaymentModel } from "../../database/mongoDB/model/eventPaymentModel";
+import { ZegoService } from "../../service/zegoService";
 const server = http.createServer()
 // SOCKET intilaize
 const io = initializeSocket(server)
@@ -67,6 +70,11 @@ const otpGenerate = new OtpGenerate();
 // NODEMAIER SEND MAIL
 const sendEmail = new SendEmail();
 
+const ZEGO_APP_ID = process.env.ZEGO_APP_ID
+const ZEGO_SERVER_SECRET = process.env.ZEGO_SERVER_SECRET 
+
+const zegoService = new ZegoService(ZEGO_APP_ID,ZEGO_SERVER_SECRET)
+
 const elasticSearchService = { indexUser, searchUsers };
 
 // NOTIFICATION INECTIONS
@@ -87,6 +95,7 @@ const userUseCase = new UserUseCase(
   elasticSearchService,
   io,
   notificationRepository,
+  
 );
 const userController = new UserController(userUseCase);
 
@@ -112,8 +121,8 @@ const messageUseCase = new MessageUseCase(messageRepository,s3Operations);
 const messageController = new MessageController(messageUseCase);
 
 // EVENT INJECTIONs
-const eventRepository = new EventRepository(EventModel)
-const eventUseCase = new EventUseCase(eventRepository,s3Operations)
+const eventRepository = new EventRepository(EventModel,EventPaymentModel)
+const eventUseCase = new EventUseCase(eventRepository,s3Operations,zegoService)
 const eventController = new EventController(eventUseCase)
 
 export {

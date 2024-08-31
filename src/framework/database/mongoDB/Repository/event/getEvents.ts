@@ -26,6 +26,7 @@ export const getEvents = async (
 
     return eventsWithBannerImage;
   } catch (error) {
-    
+    console.error(error);
+    return undefined;
   }
 };
