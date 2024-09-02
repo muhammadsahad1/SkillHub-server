@@ -37,7 +37,7 @@ export interface Iuser {
   passwordLastChanged?: Date;
   accountPrivacy?: boolean;
   profileImageUrl?: string;
-  //   profile?: Profile;
+  // profile?: Profile;
   isProfessional: boolean;
   experienceYears: number;
   professionalBadge: boolean;
@@ -46,6 +46,8 @@ export interface Iuser {
   isRequested : boolean;
   verificationStatus: "Pending" | "Approved" | "Rejected";
   proofLink: string;
+
+  groups : mongoose.Types.ObjectId[]
 }
 
 export interface GetSkillRelatedUsersResponse {

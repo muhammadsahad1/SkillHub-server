@@ -2,11 +2,13 @@ import mongoose from "mongoose";
 import { IEventRegister } from "../../../../../commonEntities/entities/eventRegister";
 import EventModel from "../../model/eventModel";
 import { EventPaymentModel } from "../../model/eventPaymentModel";
+import userModel from "../../model/userModel";
 
-//generate the token 
+//generate the token
 const generateJoinToken = (length = 20) => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
@@ -16,11 +18,17 @@ const generateJoinToken = (length = 20) => {
 export const eventRegister = async (
   eventRegisterData: IEventRegister,
   eventModel: typeof EventModel,
-  eventPaymentModel: typeof EventPaymentModel
-):Promise<{success : boolean ,message : string ,joinToken ?: string}> => {
+  eventPaymentModel: typeof EventPaymentModel,
+  userModels: typeof userModel
+): Promise<{
+  success: boolean;
+  message: string;
+  joinToken?: string;
+  paymentUrl?: string;
+}> => {
   try {
-    const { userId, eventId, name, email, phone, paymentId } = eventRegisterData;
 
+    const { userId, eventId, name, email, phone, paymentId } = eventRegisterData;
     const eventID = new mongoose.Types.ObjectId(eventId);
     const event = await eventModel.findById(eventID);
 
@@ -31,8 +39,9 @@ export const eventRegister = async (
       };
     }
 
-    const isAttendee = event.attendees.some((attend : any) => attend?.userId.toString() === userId);
-    
+    const isAttendee = event.attendees.some(
+      (attend: any) => attend?.userId.toString() === userId);
+
     if (isAttendee) {
       return {
         success: false,
@@ -47,17 +56,18 @@ export const eventRegister = async (
           message: "Payment is required for this event",
         };
       }
-      const payment = await eventPaymentModel.findOne({ paymentId });
-
-      if (!payment || payment.status !== "succeeded") {
-        return {
-          success: false,
-          message: "Payment not verified or failed",
-        };
-      }
+      const payment = await eventPaymentModel.create({
+        eventId: event._id,
+        userId,
+        paymentId,
+        amount: event.price,
+        currency: "usd",
+        status: "succeeded",
+      });
+      const result = await payment.save();
       // getting the token
       const joinToken = generateJoinToken();
-      //  updating the attendes payment event usr 
+      //  updating the attendes payment event usr
       await eventModel.findByIdAndUpdate(eventID, {
         $push: {
           attendees: {
@@ -71,12 +81,11 @@ export const eventRegister = async (
 
       return {
         success: true,
-        message: "Registration successful",
-        joinToken, 
+        message: "regiseterd successful",
       };
     } else {
       const joinToken = generateJoinToken();
-      // updating the attendes free event user 
+      // updating the attendes free event user
       const regiEvnt = await eventModel.findByIdAndUpdate(eventID, {
         $push: {
           attendees: {
@@ -87,15 +96,14 @@ export const eventRegister = async (
         },
       });
 
-      console.log("registerEVnt ===>",regiEvnt)
+      console.log("registerEVnt ===>", regiEvnt);
 
       return {
         success: true,
         message: "Registration successful",
-        joinToken, 
+        joinToken,
       };
     }
-
   } catch (error) {
     console.error(error);
     return {

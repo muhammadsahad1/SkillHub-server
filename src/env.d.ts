@@ -32,5 +32,7 @@ declare namespace NodeJS {
 
     ZEGO_APP_ID: number;
     ZEGO_SERVER_SECRET: string;
+
+    STRIP_SECRET_KEY : string
   }
 }

@@ -17,8 +17,6 @@ export interface IEvent extends Document {
   speaker: string;
   category: string;
   bannerName?: string;
-  registerLink ?: string; 
-  accessLink: string;
   isPublic: boolean;
   attendees: IAttendee[];
   eventStatus: string;
@@ -26,7 +24,6 @@ export interface IEvent extends Document {
   createdBy: mongoose.Types.ObjectId;
   bannerImageUrl? : string;
   price: number;
-  agoraToken : string,
   currency: string;
   createdAt: Date;
   updatedAt: Date;
@@ -34,6 +31,7 @@ export interface IEvent extends Document {
 
 // create event props
 export interface ICreateEvent {
+  eventId : string,
   title: string;
   description: string;
   date: string;

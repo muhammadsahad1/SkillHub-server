@@ -9,6 +9,7 @@ import { messageRoute } from "../routes/messageRoute";
 import { errorHandler } from "../../../usecases/middlewares/errorMiddleware";
 import { notificationRoute } from "../routes/notificationRoute";
 import { eventRoute } from "../routes/eventRoute";
+import { groupRoute } from "../routes/groupRoute";
 
 dotenv.config();
 connectDB();
@@ -36,11 +37,13 @@ router.use((req, res, next) => {
   console.log("request details", req.url, req.method);
   next();
 })
+
 app.use("/user", userRoute(router));
 app.use("/admin", adminRoute(router));
 app.use("/chat",messageRoute(router))
 app.use("/event",eventRoute(router))
 app.use('/notification',notificationRoute(router))
+app.use('/group',groupRoute(router))
 
 
 

@@ -18,8 +18,16 @@ export interface IEventUseCase {
 
   eventDetails(eventId : string , next : Next) : Promise<IEvent | void | null>
 
-  eventRegister(registerData : IEventRegister,next : Next) :Promise<{success : boolean ,message : string ,joinToken : string} | void>
+  eventRegister(registerData : IEventRegister,next : Next) : Promise<{
+    success: boolean;
+    message: string;
+    joinToken?: string;
+    paymentUrl?: string;
+  }| void>
 
   getEvent(eventId : string,next : Next)  : Promise<IEvent | void>
 
+  makePayment(eventPrice : string,eventId : string,userId : string,next : Next) : Promise<string | void>
+
+  changeStatus(eventId : string,status : string,next : Next) : Promise<{success : boolean} | void>
 }

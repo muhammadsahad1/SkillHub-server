@@ -80,6 +80,8 @@
 
     "socket.io": "^4.7.5",
 
+    "stripe": "^16.9.0",
+
     "sweetalert2": "^11.12.3",
 
     "zego-express-engine-webrtc": "^3.6.0"
@@ -113,6 +115,8 @@
     "@types/passport-google-oauth20": "^2.0.16",
 
     "@types/passport-jwt": "^4.0.1",
+
+    "@types/stripe": "^8.0.416",
 
     "ts-node": "^10.9.2",
 

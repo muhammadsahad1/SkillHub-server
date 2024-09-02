@@ -282,7 +282,7 @@ export interface IuserRepository {
    * @param updatedComment - The updated comment text.
    * @returns The updated comment.
    */
-  editComment(postId: string, commentId: string, userId: string, updatedComment: string): Promise<IComment>;
+  editComment(postId: string, commentId: string, userId: string, updatedComment: string): Promise<IComment | void>;
 
   /**
    * Deletes a comment.

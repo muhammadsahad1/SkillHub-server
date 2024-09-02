@@ -9,17 +9,15 @@ export const createEvent = async (
   userId: string,
   data: ICreateEvent,
   bannerFile: Express.Multer.File | undefined,
-  zegoService : IZegoService,
   eventRepository: IEventRepository,
   s3Operations: IS3Operations,
   next: Next
-): Promise<{ success: boolean; message: string , joinLink : string } | void> => {
+): Promise<{ success: boolean; message: string } | void> => {
   try {
     const result = await eventRepository.createEvent(
       userId,
       data,
       bannerFile,
-      zegoService,
       s3Operations
     );
     if (!result) {

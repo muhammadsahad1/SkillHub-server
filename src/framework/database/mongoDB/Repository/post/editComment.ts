@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import PostModel from "../../model/postModel";
+import { IComment, Ipost } from "../../../../../commonEntities/entities/post";
 
 export const editComment = async (
   postId: string,
@@ -7,7 +8,7 @@ export const editComment = async (
   userId: string,
   updatedComment: string,
   postModels: typeof PostModel
-) => {
+):Promise<Ipost | void>  => {
   try {
 
     const post = await postModels.findById(postId)
@@ -21,7 +22,7 @@ export const editComment = async (
         await post.save()
         return comment
       }
-      console.log("CommentUpdatedd =>", comment);
+
     }
 
   } catch (error) {

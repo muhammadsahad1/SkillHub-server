@@ -304,8 +304,7 @@ async uploadThoughts(userId: string, thoughts: string): Promise<{ success: boole
     if(!newComment){
       return []
     }
-    console.log("newComment ==IIII>",newComment);
-    
+
     const newFirstComment = newComment?.comments[0]
     const userIdToFetch = newFirstComment.userId.toString();
     const postOwnerId = newComment?.postOwnerId
@@ -325,7 +324,7 @@ async uploadThoughts(userId: string, thoughts: string): Promise<{ success: boole
   }
 
 
-  async editComment(postId: string, commentId: string,userId : string,updatedComment : string,): Promise<IComment> {
+  async editComment(postId: string, commentId: string,userId : string,updatedComment : string,): Promise<IComment | void> {
       return await editComment(postId,commentId,userId,updatedComment,this.postModels)
   }
 
@@ -333,7 +332,6 @@ async uploadThoughts(userId: string, thoughts: string): Promise<{ success: boole
     return await deleteComment(postId , commentId,this.postModels)
   }
 
-  
   async changePrivacy(userId: string, isPrivacy: boolean ): Promise<any> {
     return await changePrivacy(userId,isPrivacy,this.userModels)
 }

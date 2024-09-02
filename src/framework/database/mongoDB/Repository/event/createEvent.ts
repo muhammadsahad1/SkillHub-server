@@ -2,8 +2,6 @@ import mongoose from "mongoose";
 import { ICreateEvent } from "../../../../../commonEntities/entities/event";
 import { IS3Operations } from "../../../../service/s3Bucket";
 import EventModel from "../../model/eventModel";
-import { IZegoService } from "../../../../service/zegoService";
-
 
 const generateRandomString = (length = 10) => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -14,20 +12,18 @@ const generateRandomString = (length = 10) => {
   return result;
 };
 
-
-export const createEvent = async (
+export const createOrUpdateEvent = async (
   userId: string,
   data: ICreateEvent,
   bannerFile: Express.Multer.File | undefined,
   s3: IS3Operations,
   eventModel: typeof EventModel,
-  zegoService: IZegoService,
 ): Promise<{ success: boolean; message: string; } | void> => {
   try {
     console.log("data ==>", data);
-    console.log("tile ==>", data.title);
 
     const {
+      eventId,
       title,
       description,
       date,
@@ -39,51 +35,81 @@ export const createEvent = async (
       currency,
     } = data;
 
-    const registerLink = generateRandomString(10)
+    // Find existing event if eventId is provided
+    let existingEvent = null;
+    if (eventId) {
+      existingEvent = await eventModel.findById(eventId);
+      if (!existingEvent) {
+        return {
+          success: false,
+          message: "Event not found",
+        };
+      }
+    }
+
 
     // Store the image in the S3 bucket and retrieve the banner name
-    let bannerName = "";
+    let bannerName = existingEvent?.bannerName || ""; // Use existing banner name if no new file
     if (bannerFile) {
       const { originalname, buffer, mimetype } = bannerFile;
       const PutObjectParams = { originalname, buffer, mimetype };
       bannerName = await s3.putObjectUrl(PutObjectParams);
     }
 
-    const eventDate = new Date(date);
-    const eventDuration = Number(duration);
-    const priceValue = Number(price);
+    const eventDate = date ? new Date(date) : existingEvent?.date;
+    const eventDuration = duration !== undefined ? Number(duration) : existingEvent?.duration;
+    const priceValue = price !== undefined ? Number(price) : existingEvent?.price;
 
-    // Create the new event object with all required fields
-    const newEvent = {
-      title,
-      description,
-      date: eventDate,
-      time,
-      duration: eventDuration,
-      speaker,
-      registerLink,
-      bannerName,
-      category,
-      price: priceValue,
-      currency,
-      createdBy: new mongoose.Types.ObjectId(userId),
-    };
+    if (existingEvent) {
+      // Update existing event
+      await eventModel.findByIdAndUpdate(eventId, {
+        title: title || existingEvent.title,
+        description: description || existingEvent.description,
+        date: eventDate,
+        time: time || existingEvent.time,
+        duration: eventDuration,
+        speaker: speaker || existingEvent.speaker,
+        category: category || existingEvent.category,
+        price: priceValue,
+        currency: currency || existingEvent.currency,
+        bannerName,  // Updated or existing banner name
+      });
 
-    // Save the event to the database
-    const result = await eventModel.create(newEvent);
+      return {
+        success: true,
+        message: "Event updated successfully",
+      };
+    } else {
+      // Create new event
+      const newEvent = {
+        title,
+        description,
+        date: eventDate,
+        time,
+        duration: eventDuration,
+        speaker,
+        bannerName,
+        category,
+        price: priceValue,
+        currency,
+        createdBy: new mongoose.Types.ObjectId(userId),
+      };
 
-    console.log("new Event ==>", result);
+      // Save the event to the database
+      const result = await eventModel.create(newEvent);
 
-    return {
-      success: true,
-      message: "Create Event request is successful",
-  
-    };
+      console.log("new Event ==>", result);
+
+      return {
+        success: true,
+        message: "Create Event request is successful",
+      };
+    }
   } catch (error) {
     console.error(error);
     return {
       success: false,
-      message: "Failed to create the event",
+      message: "Failed to create or update the event",
     };
   }
 };

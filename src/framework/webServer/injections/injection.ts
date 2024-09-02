@@ -17,7 +17,6 @@ import { OtpGenerate } from "../../service/otpGenerate";
 import { SendEmail } from "../../service/sentEmail";
 import { S3Operations } from "../../service/s3Bucket";
 import { indexUser, searchUsers } from "../../service/elasticsearchService"; 
-import { ZoomService } from '../../service/zoomService' 
 import PostModel from "../../database/mongoDB/model/postModel";
 
 // ================================= Message injections ================================= \\
@@ -38,7 +37,12 @@ import EventModel from "../../database/mongoDB/model/eventModel";
 import { EventUseCase } from "../../../usecases/usecases/eventUseCase";
 import { EventController } from "../../../commonEntities/controllers/eventController";
 import { EventPaymentModel } from "../../database/mongoDB/model/eventPaymentModel";
-import { ZegoService } from "../../service/zegoService";
+import { StripeService } from "../../service/stripService";
+import Stripe from "stripe";
+import { GroupRepository } from "../../database/mongoDB/Repository/groupRepository";
+import { GroupModel } from "../../database/mongoDB/model/groupModel";
+import { GroupUseCase } from "../../../usecases/usecases/groupUseCase";
+import { GroupController } from "../../../commonEntities/controllers/groupController";
 const server = http.createServer()
 // SOCKET intilaize
 const io = initializeSocket(server)
@@ -70,10 +74,9 @@ const otpGenerate = new OtpGenerate();
 // NODEMAIER SEND MAIL
 const sendEmail = new SendEmail();
 
-const ZEGO_APP_ID = process.env.ZEGO_APP_ID
-const ZEGO_SERVER_SECRET = process.env.ZEGO_SERVER_SECRET 
+const STRIP_SECRET_KEY = process.env.STRIP_SECRET_KEY
 
-const zegoService = new ZegoService(ZEGO_APP_ID,ZEGO_SERVER_SECRET)
+const stripeService = new StripeService(STRIP_SECRET_KEY)
 
 const elasticSearchService = { indexUser, searchUsers };
 
@@ -121,9 +124,13 @@ const messageUseCase = new MessageUseCase(messageRepository,s3Operations);
 const messageController = new MessageController(messageUseCase);
 
 // EVENT INJECTIONs
-const eventRepository = new EventRepository(EventModel,EventPaymentModel)
-const eventUseCase = new EventUseCase(eventRepository,s3Operations,zegoService)
+const eventRepository = new EventRepository(EventModel,EventPaymentModel,userModel)
+const eventUseCase = new EventUseCase(eventRepository,s3Operations,stripeService)
 const eventController = new EventController(eventUseCase)
+
+const groupRepository = new GroupRepository(GroupModel,s3Operations)
+const groupUseCase = new GroupUseCase(groupRepository)
+const groupController = new GroupController(groupUseCase)
 
 export {
   adminController,
@@ -131,4 +138,5 @@ export {
   messageController,
   notificationController,
   eventController,
+  groupController
 };

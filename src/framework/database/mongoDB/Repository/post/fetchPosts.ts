@@ -12,7 +12,7 @@ export const fetchPosts = async (
   try {
     const users: User[] = await userModels
       .find({ skill: userSkill })
-      .select("_id profileImage name")
+      .select("_id profileImage name isProfessional")
       .exec();
     const usersIds = users.map((user) => user?._id);
     const userPosts = await postModels.find({ userId: { $in: usersIds } });
@@ -36,7 +36,7 @@ export const fetchPosts = async (
               bucket: process.env.C3_BUCKET_NAME,
               key: post.imageName,
             })
-          : null; 
+          : null;
 
         const commentedUserProfileUrls = await Promise.all(
           post?.comments.map(async (comment: any) => {
@@ -51,6 +51,7 @@ export const fetchPosts = async (
             return {
               ...comment.toObject(),
               commentedUserProfileUrl,
+            
             };
           })
         );
@@ -59,6 +60,7 @@ export const fetchPosts = async (
           userImageUrl,
           postImageUrl,
           userName: user?.name || "",
+          isProfessional :user?.isProfessional ? true : false,
           comments: commentedUserProfileUrls.filter(
             (comment: any) => comment !== null
           ),

@@ -41,6 +41,8 @@ const userSchema: Schema<Iuser> = new mongoose.Schema({
     default: "Pending",
   },
   proofLink: { type: String },
+
+  groups: [{ type: Schema.Types.ObjectId, ref: "Group" }],
 });
 
 const userModel: Model<Iuser> = mongoose.model("User", userSchema);

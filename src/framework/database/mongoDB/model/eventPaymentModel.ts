@@ -4,12 +4,12 @@ import { IEventPayment } from "../../../../commonEntities/entities/eventPayment"
 const EventPaymentSchema = new mongoose.Schema<IEventPayment>({
   eventId: { type: Schema.Types.ObjectId, ref: "Event", required: true },
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  paymentId: { type: String, required: true, unique: true },
+  paymentId: { type: String, required: true, },
   amount: {
     type: Number,
     required: true,
   },
-  currency: {
+  currency: { 
     type: String,
     required: true,
     default: "usd",
