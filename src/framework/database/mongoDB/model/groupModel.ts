@@ -4,13 +4,13 @@ import { IGroup } from "../../../../commonEntities/entities/group";
 const groupSchema: Schema<IGroup> = new mongoose.Schema({
   groupName: { type: String, required: true, },
   description: { type: String, required: true },
-  creator: {
+  creatorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] }],
-  skills: [{ type: [String], required: true }],
+  skills: [{ type: Array, required: true }],
   groupImage: { type: String },
 },
 {

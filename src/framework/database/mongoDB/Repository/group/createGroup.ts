@@ -11,25 +11,34 @@ export const createGroup = async (
   groupModel: typeof GroupModel
 ) => {
   try {
-    const { groupName, description, skills }: IGroupCreationData = groupData;
+    const { groupName, description, selectedSkills }: IGroupCreationData =
+      groupData;
     let groupImage = "";
+
+    //parsing the skill json object to array 
+    let skills: string[] = [];
+    try {
+      skills = JSON.parse(selectedSkills);
+    } catch (error : any) {
+      console.error("Error parsing selectedSkills:",error.message);
+      throw new Error("Invalid skills format");
+    }
 
     if (groupImageFile) {
       const { buffer, mimetype, originalname } = groupImageFile;
-      const putObjectUrl = { buffer, mimetype, originalname };
+      const putObjectUrl = { originalname, buffer, mimetype };
       groupImage = await s3Operations.putObjectUrl(putObjectUrl);
     }
 
     const newGroup = {
       groupName,
       description,
-      skills,
       creatorId,
+      skills,
       groupImage,
     };
 
-    const createdNewGroup = await groupModel.create(newGroup);
-    console.log(createdNewGroup)
+ await groupModel.create(newGroup);
     return {
       success: true,
       message: "Group created successful",

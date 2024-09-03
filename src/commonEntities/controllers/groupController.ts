@@ -2,19 +2,63 @@ import { Next, Req, Res } from "../../framework/types/serverPackageType";
 import { IgroupUseCase } from "../../usecases/interface/usecase/groupUseCase";
 import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
 
+//============================== Group Controller ================== \\
 export class GroupController {
-  constructor(private groupUseCase : IgroupUseCase) {}
+  constructor(private groupUseCase: IgroupUseCase) {}
   async createGroup(req: Req, res: Res, next: Next) {
     try {
-      const { groupData } = req.body;
+      const groupData = req.body;
       const creatorId = req.user?.id as string;
-      const result = await this.groupUseCase.createGroup(groupData,creatorId,req.file,next);
-      if(result){
-        res.status(200).json(result)
+      const result = await this.groupUseCase.createGroup(
+        groupData,
+        creatorId,
+        req.file,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
+  }
 
+  async getGroups(req: Req, res: Res, next: Next) {
+    try {
+      const result = await this.groupUseCase.getGroups(next);
+      if (result) {
+        res.status(200).json({
+          success: true,
+          result,
+        });
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
+  async joinGroup(req: Req, res: Res, next: Next) {
+    try {
+      const { groupId } = req.body;
+      const userId = req.user?.id as string;
+      const result = await this.groupUseCase.joinGroup(groupId, userId, next);
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
+  async getGroup(req: Req, res: Res, next: Next) {
+    try {
+      const { groupId } = req.query as { groupId: string };
+      const result = await this.groupUseCase.getGroup(groupId, next);
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
   }
 }

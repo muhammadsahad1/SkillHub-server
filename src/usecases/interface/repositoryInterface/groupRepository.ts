@@ -7,4 +7,8 @@ export interface IGroupRepository {
     creatorId: string,
     groupImageFile: Express.Multer.File | undefined
   ): Promise<{ success: boolean; message: string } | void>;
+
+  getGroups() :Promise<IGroup[] | void>
+
+  joinGroup(groupId : string , joinUserId : string) :  Promise<{ success: boolean; message: string } | void>
 }

@@ -1,5 +1,9 @@
 import { createGroup } from "./createGroup";
+import { getGroups} from './getGroups'
+import { joinGroup } from './joinGroup'
 
 export {
- createGroup
+ createGroup,
+ getGroups,
+ joinGroup
 }
