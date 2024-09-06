@@ -84,4 +84,27 @@ export class AdminController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+  // ======================================================>
+  async getReports(req : Req , res : Res , next : Next) {
+    try {
+      const result = await this.adminUseCase.getReports(next)
+      if(result){
+        res.status(200).json(result)
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+// ======================================================>
+  async reportAction(req : Req , res : Res , next : Next) {
+    try {
+      const { reportId , status } = req.body as {reportId : string , status : string}
+      const result = await this.adminUseCase.reportAction(reportId,status)
+      if(result){
+        res.status(200).json(result)
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
 }

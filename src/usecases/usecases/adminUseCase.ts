@@ -5,11 +5,13 @@ import { IhashPassword } from "../interface/service/hashPassword";
 import { Ijwt } from "../interface/service/jwt";
 import { IsendEmail } from "../interface/service/sendEmail";
 import { IadminUseCase } from "../interface/usecase/adminUseCase";
-import { adminLogin, blockUser, changeEventsStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests } from "./admin/index";
+import { adminLogin, blockUser, changeEventsStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests , getReports } from "./admin/index";
 import { Next } from "../../framework/types/serverPackageType";
 import { IVerificationRequest } from "../../commonEntities/entities/verificationRequest";
 import { Server } from "socket.io";
 import { IEvent } from "../../commonEntities/entities/event";
+import { IReportRequest } from "../../commonEntities/entities/reportRequests";
+
 // ================================= Admin user cases ================================= \\
 
 export class AdminUseCase implements IadminUseCase {
@@ -63,4 +65,13 @@ export class AdminUseCase implements IadminUseCase {
     const result = await blockUser(id, this.adminRepostory);
     return result;
   }
+// ===================================================================>
+  async getReports (next : Next) : Promise<IReportRequest[] | void> {
+    return await getReports(next,this.adminRepostory,this.s3)
+  }
+
+  async reportAction(reportId: string, status: string): Promise<{ success: boolean; message: string; }> {
+      return await reportAc
+  }
+
 }

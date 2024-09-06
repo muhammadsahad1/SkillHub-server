@@ -52,11 +52,12 @@ export function userRoute(route: Route): Route {
   route.put('/editComment',isAuthenticate,(req: Req, res: Res, next: Next) => userController.editingComment(req,res,next));
   route.get('/viewPost',isAuthenticate,(req: Req, res: Res, next: Next) => userController.postView(req,res,next));
   route.post('/postThoughts',isAuthenticate,(req: Req, res: Res, next: Next) => userController.uploadThoughts(req,res,next));
+  route.post('/report',isAuthenticate,(req: Req, res: Res, next: Next) => userController.reportPost(req,res,next));
   // users search
   route.get('/searchUser',isAuthenticate,(req: Req, res: Res, next: Next) => userController.searchUsers(req,res,next));
   
   // Logout Route
-  route.post("/logout", (req: Req, res: Res, next: Next) => userController.userLogout(req, res, next));
+  route.post("/logout", isAuthenticate,(req: Req, res: Res, next: Next) => userController.userLogout(req, res, next));
 
   return route;
 }

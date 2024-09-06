@@ -43,6 +43,8 @@ import { GroupRepository } from "../../database/mongoDB/Repository/groupReposito
 import { GroupModel } from "../../database/mongoDB/model/groupModel";
 import { GroupUseCase } from "../../../usecases/usecases/groupUseCase";
 import { GroupController } from "../../../commonEntities/controllers/groupController";
+import GroupMessageModel from "../../database/mongoDB/model/groupMessageModel";
+import ReportModel from "../../database/mongoDB/model/reportRequest";
 const server = http.createServer()
 // SOCKET intilaize
 const io = initializeSocket(server)
@@ -86,7 +88,7 @@ const notificationUseCase = new NotificationUseCase(notificationRepository,io);
 const notificationController = new NotificationController(notificationUseCase);
 
 // USER REPO FOR INTRACTE WITH DB
-const userRepository = new UserRepository(userModel,PostModel,VerificationRequestModal);
+const userRepository = new UserRepository(userModel,PostModel,VerificationRequestModal,ReportModel);
 const userUseCase = new UserUseCase(
   userRepository,
   jwt,
@@ -103,7 +105,7 @@ const userUseCase = new UserUseCase(
 const userController = new UserController(userUseCase);
 
 // Admin injection
-const adminRepository = new AdminRepository(userModel,VerificationRequestModal,EventModel);
+const adminRepository = new AdminRepository(userModel,VerificationRequestModal,EventModel,ReportModel,PostModel,NotificationModel);
 const adminUseCase = new AdminUseCase(
   adminRepository,
   jwt,
@@ -128,7 +130,7 @@ const eventRepository = new EventRepository(EventModel,EventPaymentModel,userMod
 const eventUseCase = new EventUseCase(eventRepository,s3Operations,stripeService)
 const eventController = new EventController(eventUseCase)
 
-const groupRepository = new GroupRepository(GroupModel,s3Operations)
+const groupRepository = new GroupRepository(GroupModel,s3Operations,userModel,GroupMessageModel)
 const groupUseCase = new GroupUseCase(groupRepository)
 const groupController = new GroupController(groupUseCase)
 

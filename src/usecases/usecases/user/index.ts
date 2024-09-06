@@ -34,6 +34,7 @@ import { searchUsers } from "./searchUsers";
 import { postView } from "./postView";
 import { uploadThoughts } from './uploadThoughts'
 import { verifyRequest } from './verifyRequest'
+import { reportPost } from './reportPost'
 
 export {
   userSignup,
@@ -71,5 +72,6 @@ export {
   searchUsers,
   getPosts,
   uploadThoughts,
-  verifyRequest
+  verifyRequest,
+  reportPost
 };

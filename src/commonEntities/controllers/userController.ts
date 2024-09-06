@@ -7,6 +7,7 @@ import {
   roleOptions,
 } from "../../framework/webServer/middleware/jwt";
 import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
+import { CustomRequest } from "../../framework/webServer/middleware/request/customReq";
 
 // ===================================== User Controller ================================= //
 
@@ -32,7 +33,10 @@ export class UserController {
         next
       );
 
-      const { accessToken, refreshToken } = result?.tokens;
+      const { accessToken, refreshToken } = result?.tokens as {
+        accessToken: string;
+        refreshToken: string;
+      };
       res.cookie("accessToken", accessToken, accessTokenOption);
       res.cookie("refreshToken", refreshToken, refreshTokenOption);
       res.cookie("role", "user", roleOptions);
@@ -59,7 +63,7 @@ export class UserController {
       const result = await this.userUseCase.login(req.body, next);
       console.log("result Token ==>", result);
       if (result) {
-        const { accessToken, refreshToken } = result.tokens;
+        const { accessToken, refreshToken } = result?.tokens as { accessToken: string; refreshToken: string };
         res.cookie("accessToken", accessToken, accessTokenOption);
         res.cookie("refreshToken", refreshToken, refreshTokenOption);
         res.cookie("role", "user", roleOptions);
@@ -168,7 +172,6 @@ export class UserController {
   // create profile
   async createProfile(req: Req, res: Res, next: Next) {
     try {
-      
       const result = await this.userUseCase.createProfile(
         req.body,
         req.file,
@@ -191,11 +194,11 @@ export class UserController {
   }
   // ===================================================================>
   // verify requesting for proffesional account
-  async verifyRequest(req : Req , res : Res , next : Next) {
-    const userId = req.user?.id
-    const result = await this.userUseCase.verifyRequest(userId,req.body,next)
-    if(result){
-      res.status(200).json(result)
+  async verifyRequest(req: Req, res: Res, next: Next) {
+    const userId = req.user?.id;
+    const result = await this.userUseCase.verifyRequest(userId, req.body, next);
+    if (result) {
+      res.status(200).json(result);
     }
   }
 
@@ -394,13 +397,17 @@ export class UserController {
     }
   }
 
-  async uploadThoughts (req : Req , res : Res , next : Next) {
+  async uploadThoughts(req: Req, res: Res, next: Next) {
     try {
-      console.log("body =>",req.body);
-      
-      const { thoughts } = req.body
-      const userId = req.user?.id
-      const result = await this.userUseCase.uploadThoughts(userId,thoughts,next)
+      console.log("body =>", req.body);
+
+      const { thoughts } = req.body;
+      const userId = req.user?.id;
+      const result = await this.userUseCase.uploadThoughts(
+        userId,
+        thoughts,
+        next
+      );
       if (result) {
         res.status(200).json(result);
       }
@@ -439,19 +446,18 @@ export class UserController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
-// ===================================================================>
-  // One post 
-async postView(req : Req , res : Res , next : Next){
-  try {
+  // ===================================================================>
+  // One post
+  async postView(req: Req, res: Res, next: Next) {
+    try {
+      const { postId } = req.query;
+      const result = await this.userUseCase.postView(postId as string, next);
 
-    const { postId } = req.query;
-    const result = await this.userUseCase.postView(postId as string,next)
-    
-    res.status(200).json(result)
-  } catch (error: any) {
-    return next(new ErrorHandler(error.status, error.message));
+      res.status(200).json(result);
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
   }
-}
   // ===================================================================>
   // Post edit
   async editPost(req: Req, res: Res, next: Next) {
@@ -619,7 +625,6 @@ async postView(req : Req , res : Res , next : Next){
   // Search users with elastic searching
   async searchUsers(req: Req, res: Res, next: Next) {
     try {
-      
       const query = req.query.query as string;
       const result = await this.userUseCase.searchUsers(query, next);
 
@@ -638,6 +643,29 @@ async postView(req : Req , res : Res , next : Next){
       res.clearCookie("refreshToken", refreshTokenOption);
       res.clearCookie("role", roleOptions);
       res.status(200).json({ success: true, message: "successfully logouted" });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
+  async reportPost(req: Req, res: Res, next: Next) {
+    try {
+      const { postId, reason } = req.body as {
+        postId: string;
+        userId: string;
+        reason: string;
+      };
+      console.log("body ==>", req.body);
+      const userId = req.user?.id as string;
+      const result = await this.userUseCase.reportPost(
+        postId,
+        reason,
+        userId,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
+      }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }

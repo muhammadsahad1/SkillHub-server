@@ -1,8 +1,9 @@
 import mongoose, { Schema, Model, Document } from "mongoose";
 import { Ipost } from "../../../../commonEntities/entities/post";
 
+
 const PostSchema: Schema<Ipost> = new mongoose.Schema(
-  {
+  { 
     userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     imageName: {
       type: String,
@@ -16,7 +17,9 @@ const PostSchema: Schema<Ipost> = new mongoose.Schema(
     type: {
       type: String,
       enum: ["image", "video", "thoughts"],
-      required: true,
+      required: function () {
+        return this.type !== "thoughts";
+      },
     },
     likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
     comments: [
@@ -28,7 +31,13 @@ const PostSchema: Schema<Ipost> = new mongoose.Schema(
       },
     ],
     saves: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    reports: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    reports: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        reason: { type: String, required: true },
+        created_at: { type: Date, default: Date.now },
+      },
+    ],
   },
   {
     timestamps: true,

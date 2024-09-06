@@ -8,7 +8,7 @@ export interface IAttendee {
   joinToken : string
 }
 
-export interface IEvent extends Document {
+export interface IEvent {
   title: string;
   description: string;
   date: Date;

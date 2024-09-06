@@ -1,3 +1,4 @@
+import { Iuser } from "../../../commonEntities/entities/user";
 import { IElasticsearchService } from "../../../framework/service/elasticsearchService";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
 import { Next } from "../../../framework/types/serverPackageType";
@@ -9,13 +10,12 @@ export const searchUsers = async (
   elasticsearch: IElasticsearchService,
   s3: IS3Operations,
   next: Next
-) => {
+): Promise<{ success: boolean; message?: string; result: Iuser[] } | void> => {
   try {
-    
     const result = await elasticsearch.searchUsers(query, s3);
 
     if (!result || result.length === 0) {
-      return { success: false, message: "No users found." };
+      return next(new ErrorHandler(401, "data not found"));
     }
 
     return {

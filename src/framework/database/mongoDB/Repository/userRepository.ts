@@ -46,7 +46,8 @@ import {
   editComment,
   fetchOthersPosts,
   postView,
-  uploadThoughts
+  uploadThoughts,
+  reportPost,
 } from "./post/index";
 import { IS3Operations } from "../../../service/s3Bucket";
 import PostModel from "../model/postModel";
@@ -54,13 +55,15 @@ import { Next } from "../../../types/serverPackageType";
 import { IComment, Ipost } from "../../../../commonEntities/entities/post";
 import { VerificationRequestModal } from "../model/VerificationRequest";
 import { VerifyRequest } from "../../../../commonEntities/entities/verificationRequest";
+import ReportModel from "../model/reportRequest";
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {
   constructor(
     private userModels: typeof userModel,
     private postModels: typeof PostModel,
-    private verificationRequestModal : typeof VerificationRequestModal,
+    private verificationRequestModal: typeof VerificationRequestModal,
+    private requestModel: typeof ReportModel
   ) {}
 
   // ===================================================================>
@@ -77,12 +80,20 @@ export class UserRepository implements IuserRepository {
     );
   }
   // ===================================================================>
-  async verifyRequest(userId: string, requestData: VerifyRequest): Promise<{ success: boolean; } | undefined> {
-      return await verifyRequest(userId,requestData,this.verificationRequestModal,this.userModels)
+  async verifyRequest(
+    userId: string,
+    requestData: VerifyRequest
+  ): Promise<{ success: boolean } | undefined> {
+    return await verifyRequest(
+      userId,
+      requestData,
+      this.verificationRequestModal,
+      this.userModels
+    );
   }
   // ===================================================================>
   async createUser(newUser: Iuser): Promise<
-     Iuser
+    | Iuser
     | void
     | {
         success: boolean;
@@ -90,7 +101,7 @@ export class UserRepository implements IuserRepository {
         token: { accessToken: string; refreshToken: string };
         message?: string;
       }
-      > {
+  > {
     return await createUser(newUser, this.userModels);
   }
   // ===================================================================>
@@ -177,7 +188,7 @@ export class UserRepository implements IuserRepository {
   async getUser(userId: string): Promise<Iuser | undefined> {
     return await getUser(this.userModels, userId);
   }
-  
+
   async getMyFollowing(
     userId: string,
     S3Operations: IS3Operations
@@ -197,7 +208,7 @@ export class UserRepository implements IuserRepository {
     );
     return followingUsersWithImage;
   }
-  
+
   // ===================================================================>
   async unFollow(toUnFollowId: string, fromFollowerId: string): Promise<void> {
     return await unFollow(toUnFollowId, fromFollowerId, this.userModels);
@@ -227,30 +238,47 @@ export class UserRepository implements IuserRepository {
     return await removeFollower(fromRemoverId, toRemoveId, this.userModels);
   }
   // ===================================================================>
-  
+
   async followBack(fromFollowingId: string, toFollowId: string): Promise<void> {
     return await followBack(fromFollowingId, toFollowId, this.userModels);
   }
   // ===================================================================>
-  async othersFollowers(userId: string,currentUserId : string, S3Operations: IS3Operations): Promise<any> {
-    const followers = await getOthersFollowers(userId,this.userModels)
+  async othersFollowers(
+    userId: string,
+    currentUserId: string,
+    S3Operations: IS3Operations
+  ): Promise<any> {
+    const followers = await getOthersFollowers(userId, this.userModels);
     if (!followers || followers?.length === 0) {
       return [];
     }
 
-    return await getOthersFollowersImageUrls(followers,currentUserId,this.userModels,S3Operations)
-    
+    return await getOthersFollowersImageUrls(
+      followers,
+      currentUserId,
+      this.userModels,
+      S3Operations
+    );
   }
 
-  async othersFollowings(userId : string,currentUserId : string,s3 : IS3Operations):Promise<any> {
-    const followings = await getOthersFollowings(userId,this.userModels)
-    
-    if(!followings || followings?.length === 0){
-      return []
+  async othersFollowings(
+    userId: string,
+    currentUserId: string,
+    s3: IS3Operations
+  ): Promise<any> {
+    const followings = await getOthersFollowings(userId, this.userModels);
+
+    if (!followings || followings?.length === 0) {
+      return [];
     }
-    return await getOthersFollowingsImageUrl(followings,currentUserId,this.userModels,s3)
+    return await getOthersFollowingsImageUrl(
+      followings,
+      currentUserId,
+      this.userModels,
+      s3
+    );
   }
-  
+
   async uploadPostRetriveImageUrl(
     userId: string,
     file: Express.Multer.File,
@@ -270,8 +298,11 @@ export class UserRepository implements IuserRepository {
   }
   // ===================================================================>
 
-async uploadThoughts(userId: string, thoughts: string): Promise<{ success: boolean;  thoughtPost : Ipost}| void> {
-      return await uploadThoughts(userId , thoughts,this.postModels)
+  async uploadThoughts(
+    userId: string,
+    thoughts: string
+  ): Promise<{ success: boolean; thoughtPost: Ipost } | void> {
+    return await uploadThoughts(userId, thoughts, this.postModels);
   }
 
   // ===================================================================>
@@ -299,16 +330,34 @@ async uploadThoughts(userId: string, thoughts: string): Promise<{ success: boole
     return await postLike(userId, postId, this.postModels);
   }
 
-  async addComment(postId: string, userId: string, comment: string,s3 : IS3Operations,next:Next): Promise<any> {
-    const newComment =  await addComment(postId,userId,comment,this.postModels,this.userModels)
-    if(!newComment){
-      return []
+  async addComment(
+    postId: string,
+    userId: string,
+    comment: string,
+    s3: IS3Operations,
+    next: Next
+  ): Promise<any> {
+    const newComment = await addComment(
+      postId,
+      userId,
+      comment,
+      this.postModels,
+      this.userModels
+    );
+    if (!newComment) {
+      return [];
     }
 
-    const newFirstComment = newComment?.comments[0]
+    const newFirstComment = newComment?.comments[0];
     const userIdToFetch = newFirstComment.userId.toString();
-    const postOwnerId = newComment?.postOwnerId
-    return await getCommentedUserImage(postOwnerId,userIdToFetch,s3,this.userModels,next)
+    const postOwnerId = newComment?.postOwnerId;
+    return await getCommentedUserImage(
+      postOwnerId,
+      userIdToFetch,
+      s3,
+      this.userModels,
+      next
+    );
   }
 
   async fetchMyPosts(userId: string, s3: IS3Operations): Promise<any> {
@@ -316,25 +365,43 @@ async uploadThoughts(userId: string, thoughts: string): Promise<{ success: boole
   }
 
   async fetchOthersPosts(userId: string, s3: IS3Operations): Promise<any> {
-    return await fetchOthersPosts(userId,s3,this.postModels,this.userModels)
+    return await fetchOthersPosts(userId, s3, this.postModels, this.userModels);
   }
 
   async postView(postId: string): Promise<any> {
-      return await postView(postId,this.postModels)
+    return await postView(postId, this.postModels);
   }
 
-
-  async editComment(postId: string, commentId: string,userId : string,updatedComment : string,): Promise<IComment | void> {
-      return await editComment(postId,commentId,userId,updatedComment,this.postModels)
+  async editComment(
+    postId: string,
+    commentId: string,
+    userId: string,
+    updatedComment: string
+  ): Promise<IComment | void> {
+    return await editComment(
+      postId,
+      commentId,
+      userId,
+      updatedComment,
+      this.postModels
+    );
   }
 
-  async deleteComment(postId : string , commentId : string): Promise<any> {
-    return await deleteComment(postId , commentId,this.postModels)
+  async deleteComment(postId: string, commentId: string): Promise<any> {
+    return await deleteComment(postId, commentId, this.postModels);
   }
 
-  async changePrivacy(userId: string, isPrivacy: boolean ): Promise<any> {
-    return await changePrivacy(userId,isPrivacy,this.userModels)
-}
+  async changePrivacy(userId: string, isPrivacy: boolean): Promise<any> {
+    return await changePrivacy(userId, isPrivacy, this.userModels);
+  }
+
+  async reportPost(
+    postId: string,
+    reason: string,
+    userId: string
+  ): Promise<{ success: boolean; message: string } | void> {
+    return await reportPost(postId, reason, userId, this.postModels, this.requestModel);
+  }
 
   getAllUsers(): Promise<string> {
     throw new Error("Method not implemented.");

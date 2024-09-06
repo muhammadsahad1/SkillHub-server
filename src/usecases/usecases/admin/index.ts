@@ -5,6 +5,7 @@ import {getVerificationRequests} from './getVerificationRequests'
 import { changeVerifyStatus } from "./changeVerifyStatus";
 import { getEvents } from './getEvents'
 import { changeEventsStatus } from './changeEventsStatus'
+import { getReports } from './getReports'
 
 export {
   adminLogin,
@@ -13,5 +14,6 @@ export {
   changeVerifyStatus,
   getEvents,
   changeEventsStatus,
+  getReports,
   blockUser
 }

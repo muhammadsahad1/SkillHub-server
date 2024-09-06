@@ -1,14 +1,21 @@
 import { IGroupCreationData } from "../../commonEntities/entities/createGroup";
-import { IGroup } from "../../commonEntities/entities/group";
+import { IGroup, IMember } from "../../commonEntities/entities/group";
 import { Next } from "../../framework/types/serverPackageType";
 import { IGroupRepository } from "../interface/repositoryInterface/groupRepository";
 import { IgroupUseCase } from "../interface/usecase/groupUseCase";
-import { createGroup, getGroups, joinGroup } from "./group/index";
+import {
+  createGroup,
+  getGroup,
+  getGroups,
+  joinGroup,
+  messages,
+  sendMessage,
+  updateOnlineStatus,
+} from "./group/index";
 
 // ================================ GroupUseCase =========================== \\
 export class GroupUseCase implements IgroupUseCase {
   constructor(private groupRepository: IGroupRepository) {}
-
 
   async createGroup(
     groupData: IGroupCreationData,
@@ -25,16 +32,50 @@ export class GroupUseCase implements IgroupUseCase {
     );
   }
 
-async getGroups(next: Next): Promise<IGroup[] | void> {
-    return await getGroups(next,this.groupRepository);
+  async getGroups(next: Next): Promise<IGroup[] | void> {
+    return await getGroups(next, this.groupRepository);
   }
 
-  async joinGroup(groupId: string, joinUserId: string, next: Next): Promise<{ success: boolean; message: string; } | void> {
-    return await joinGroup(groupId,joinUserId,this.groupRepository,next)
+  async joinGroup(
+    groupId: string,
+    joinUserId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string } | void> {
+    return await joinGroup(groupId, joinUserId, this.groupRepository, next);
   }
 
-  async getGroup(groupId: string, next: Next): Promise<{ success: boolean; message: string; group: IGroup; } | void> {
-    throw new Error("Method not implemented.");
+  async getGroup(groupId: string, next: Next): Promise<IGroup | void> {
+    return await getGroup(groupId, this.groupRepository, next);
   }
 
+  async sendMessage(
+    senderId: string,
+    groupId: string,
+    message: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string } | void> {
+    return await sendMessage(
+      senderId,
+      groupId,
+      message,
+      this.groupRepository,
+      next
+    );
+  }
+
+  async messages(groupId: string, next: Next): Promise<any> {
+    return await messages(groupId, this.groupRepository, next);
+  }
+
+  async updateOnlineStatus(
+    groupId: string,
+    userId: string,
+    status: boolean,
+    next : Next
+  ): Promise<{ success: boolean; message: string ;updatedMember?: IMember } | void>{
+    console.log("usecaseil");
+    
+    return await updateOnlineStatus(groupId,userId ,status,this.groupRepository,next)
+  }
 }
+

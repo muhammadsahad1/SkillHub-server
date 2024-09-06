@@ -2,13 +2,25 @@ import { IGroupCreationData } from "../../../../commonEntities/entities/createGr
 import { IGroup } from "../../../../commonEntities/entities/group";
 import { IGroupRepository } from "../../../../usecases/interface/repositoryInterface/groupRepository";
 import { IS3Operations } from "../../../service/s3Bucket";
+import GroupMessageModel from "../model/groupMessageModel";
 import { GroupModel } from "../model/groupModel";
-import { createGroup, getGroups} from './group/index'
+import userModel from "../model/userModel";
+import {
+  createGroup,
+  getGroup,
+  getGroups,
+  joinGroup,
+  messages,
+  sendMessage,
+  updateOnlineStatus,
+} from "./group/index";
 
 export class GroupRepository implements IGroupRepository {
   constructor(
     private groupModel: typeof GroupModel,
-    private s3Operations: IS3Operations
+    private s3Operations: IS3Operations,
+    private userModels: typeof userModel,
+    private groupMessageModel: typeof GroupMessageModel
   ) {}
 
   async createGroup(
@@ -26,10 +38,52 @@ export class GroupRepository implements IGroupRepository {
   }
 
   async getGroups(): Promise<IGroup[] | void> {
-    return await getGroups(this.groupModel,this.s3Operations)
+    return await getGroups(this.groupModel, this.s3Operations);
   }
 
-  async joinGroup(groupId : string , joinUserId : string) : Promise<{success :boolean,message : string} | void> {
-    return await joinGrop
+  async joinGroup(
+    groupId: string,
+    joinUserId: string
+  ): Promise<{ success: boolean; message: string } | void> {
+    return await joinGroup(groupId, joinUserId, this.groupModel);
+  }
+
+  async getGroup(groupId: string): Promise<IGroup | void> {
+    return await getGroup(
+      groupId,
+      this.s3Operations,
+      this.groupModel,
+      this.userModels
+    );
+  }
+
+  async sendMessage(
+    senderId: string,
+    groupId: string,
+    message: string
+  ): Promise<{ success: boolean; message: string } | void> {
+    return await sendMessage(
+      senderId,
+      groupId,
+      message,
+      this.groupMessageModel
+    );
+  }
+
+  async messages(groupId: string): Promise<any> {
+    return await messages(
+      groupId,
+      this.groupMessageModel,
+      this.groupModel,
+      this.userModels,
+      this.s3Operations
+    );
+  }
+
+  async updateOnlineStatus(groupId : string , userId : string , status : boolean) : Promise<{success : boolean , message : string} | void>{
+    console.log("vak");
+    
+    return await updateOnlineStatus(groupId,userId,status,this.groupModel)
+
   }
 }

@@ -19,5 +19,16 @@ export function groupRoute(route: Route): Route {
     groupController.getGroup(req, res, next)
   );
 
+  route.post('/sendGroupMessage',isAuthenticate,(req: Req, res: Res, next: Next) =>
+    groupController.sendMessage(req, res, next)
+  );
+
+  route.get('/messages',isAuthenticate,(req: Req, res: Res, next: Next) =>
+    groupController.messages(req, res, next)
+  );
+
+  route.post('/status',isAuthenticate,(req: Req, res: Res, next: Next) =>
+    groupController.updateOnlineStatus(req, res, next))
+  
   return route;
 }

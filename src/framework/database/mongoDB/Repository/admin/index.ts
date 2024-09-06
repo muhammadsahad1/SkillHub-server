@@ -4,6 +4,8 @@ import { getVerificationRequests } from "./getVerificationRequests";
 import { changeVerifyStatus } from "./changeVerifyStatus";
 import { getEvents } from './getEvents'
 import { changeEventStatus } from './changeEventStatus'
+import { getReports } from './getReports'
+import { reportAction } from './reportAction'
 
 export {
   getUsers,
@@ -11,5 +13,7 @@ export {
   changeVerifyStatus,
   getEvents,
   changeEventStatus,
-  blockUser
+  blockUser,
+  getReports,
+  reportAction
 }

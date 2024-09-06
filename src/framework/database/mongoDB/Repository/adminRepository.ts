@@ -2,18 +2,27 @@ import { Iuser } from "../../../../commonEntities/entities/user";
 import { IadminRepository } from "../../../../usecases/interface/repositoryInterface/adminRepository";
 import { findByEmail } from "./user";
 import userModel from "../model/userModel";
-import { blockUser, changeEventStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests } from "./admin/index";
+import { blockUser, changeEventStatus, changeVerifyStatus, getEvents, getReports, getUsers, getVerificationRequests, reportAction } from "./admin/index";
 import { IVerificationRequest } from "../../../../commonEntities/entities/verificationRequest";
 import { VerificationRequestModal } from "../model/VerificationRequest";
 import { IEvent } from "../../../../commonEntities/entities/event";
 import EventModel from "../model/eventModel";
+import { IReportRequest } from "../../../../commonEntities/entities/reportRequests";
+import ReportModel from "../model/reportRequest";
+import { IS3Operations } from "../../../service/s3Bucket";
+import PostModel from "../model/postModel";
+import { NotificationModel } from "../model/notification";
 
 export class AdminRepository implements IadminRepository {
   constructor(
     private userModels: typeof userModel,
     private verificationRequestsModel: typeof VerificationRequestModal,
-    private eventModel : typeof EventModel
+    private eventModel : typeof EventModel,
+    private reportModel : typeof ReportModel, 
+    private postModel : typeof PostModel,
+    private notifcationModel :typeof NotificationModel
   ) {}
+
 
   async adminLogin(email: string): Promise<Iuser | void> {
     return await findByEmail(this.userModels, email);
@@ -39,8 +48,15 @@ export class AdminRepository implements IadminRepository {
     return await changeEventStatus(requestId , status , this.eventModel)
   }
 
+  async getReports(s3Operations : IS3Operations): Promise<IReportRequest[] | void> {
+    return await getReports(this.reportModel,this.postModel,s3Operations)
+  }
 
   async blockUser(id: string): Promise<any> {
     return await blockUser(id, this.userModels);
+  }
+
+  async reportAction(reportId: string, status: string): Promise<{ success: boolean; message: string; } | void> {
+      return await reportAction(reportId,status,this.reportModel,this.postModel,this.notifcationModel)
   }
 }

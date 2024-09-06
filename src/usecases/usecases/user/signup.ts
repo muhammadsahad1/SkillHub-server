@@ -6,7 +6,7 @@ import { IotpGenerate } from "../../interface/service/otpGenerate";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IsendEmail } from "../../interface/service/sendEmail";
 import { IhashPassword } from "../../interface/service/hashPassword";
-import {ErrorHandler} from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware";
 
 export const userSignup = async (
   jwt: Ijwt,
@@ -19,12 +19,11 @@ export const userSignup = async (
   next: Next
 ): Promise<string | void | { success: boolean; message: string }> => {
   try {
-    
     const existUser = await userRepostory.findByEmail(user.email);
     if (existUser) {
       console.log("user already exists");
       return next(new ErrorHandler(400, "User already exists"));
-    } 
+    }
 
     const userInOtp = await otpRepository.findOtp(user.email);
     if (userInOtp) {
@@ -34,7 +33,6 @@ export const userSignup = async (
         userInOtp.otp as string
       );
     } else {
-  
       const createdOtp = await otpGenerate.createOtp();
       const responseCreateOtp = await otpRepository.createOtp(
         user.name,
@@ -42,7 +40,7 @@ export const userSignup = async (
         user.password,
         createdOtp
       );
-      console.log("responseCreateOtp",responseCreateOtp)
+      console.log("responseCreateOtp", responseCreateOtp);
       await sendEmail.sentEmailVerification(user.name, user.email, createdOtp);
       const password = await hashPassword.createHash(user.password as string);
       user.password = password;

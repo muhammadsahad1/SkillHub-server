@@ -26,8 +26,6 @@ export const initializeSocket = (server: http.Server) => {
     });
 
     socket.on("sendData", (data) => {
-      console.log("data in backend =>", data);
-
       const { senderId, receiverId, message, media } = data;
       const roomName = [senderId, receiverId].sort().join("-");
       socket.to(roomName).emit("receiveData", data);
@@ -100,6 +98,46 @@ export const initializeSocket = (server: http.Server) => {
         link,
       });
     });
+
+    // ====================> Group Events <======================= \\
+
+    socket.on("joinGroup", (data) => {
+      const { groupId, senderId }: { groupId: string; senderId: string } = data;
+      socket.join(`group_${groupId}`); //here join the socket with groupID
+      console.log(`User ${senderId} joined group ${groupId}`);
+    });
+
+    socket.on("sendGroupMessage", (data) => {
+      console.log("data===>", data);
+
+      const {
+        _id,
+        sender,
+        message,
+        createAt,
+      }: {
+        _id: string;
+        sender: {
+          _id: string;
+          userProfile: string;
+        };
+
+        message: string;
+        createAt: Date;
+      } = data;
+      console.log("Processed data:", { _id: _id, media: null, sender, message, createAt });
+      socket.to(`group_${_id}`).emit("receiveGroupMessage", {
+        _id: _id,
+        media: null,
+        sender: {
+          _id: sender._id,
+          userProfile: sender.userProfile,
+        },
+        message: message,
+        createAt,
+      });
+    });
   });
+
   return io;
 };

@@ -35,6 +35,7 @@ import {
   postView,
   uploadThoughts,
   verifyRequest,
+  reportPost,
 } from "./user/index";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -542,7 +543,11 @@ export class UserUseCase implements IuserUseCase {
     );
   }
 
-  async searchUsers(query: string, next: Next): Promise<Iuser[]> {
+  async searchUsers(query: string, next: Next): Promise<{ success: boolean; message?: string; result: Iuser[] } | void> {
       return await searchUsers(query,this.elasticSearchService,this.s3,next)
+  }
+
+  async reportPost(postId: string, reason: string, userId: string, next: Next): Promise<{ success: boolean; message: string; } | void> {
+    return await reportPost(postId, reason ,userId,this.userRepostory,next)
   }
 }

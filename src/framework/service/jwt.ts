@@ -37,7 +37,7 @@ export class JWTtoken implements Ijwt {
     const Payload = { id };
     const resetPasswordToken = await jwt.sign(Payload, process.env.JWT_SECRET, {
       expiresIn: "20m",
-    });
+    }); 
     return resetPasswordToken;
   }
 }

@@ -61,4 +61,56 @@ export class GroupController {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
+  async sendMessage(req: Req, res: Res, next: Next) {
+    try {
+      const { groupId, message } = req.body as {
+        groupId: string;
+        message: string;
+      };
+      const senderId = req.user?.id;
+      const result = await this.groupUseCase.sendMessage(
+        senderId,
+        groupId,
+        message,
+        next
+      );
+      if (!result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
+  async messages(req: Req, res: Res, next: Next) {
+    try {
+      const { groupId } = req.query as { groupId: string };
+      const result = await this.groupUseCase.messages(groupId, next);
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
+  async updateOnlineStatus(req: Req, res: Res, next: Next) {
+    try {
+      
+      console.log("Controo")
+      const { groupId, userId, status } = req.body;
+      const result = await this.groupUseCase.updateOnlineStatus(
+        groupId,
+        userId,
+        status,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
 }

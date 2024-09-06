@@ -1,5 +1,5 @@
 import { IGroupCreationData } from "../../../commonEntities/entities/createGroup";
-import { IGroup } from "../../../commonEntities/entities/group";
+import { IGroup, IMember } from "../../../commonEntities/entities/group";
 
 export interface IGroupRepository {
   createGroup(
@@ -11,4 +11,16 @@ export interface IGroupRepository {
   getGroups() :Promise<IGroup[] | void>
 
   joinGroup(groupId : string , joinUserId : string) :  Promise<{ success: boolean; message: string } | void>
+
+  getGroup(groupId : string) : Promise<IGroup | void>
+
+  sendMessage(senderId : string,grouId : string , message : string) : Promise<{success : boolean , message : string} | void>
+
+   messages(groupId : string) :Promise<any>
+
+   updateOnlineStatus(groupId : string , userId : string , status : boolean  ): Promise<{
+    success: boolean;
+    message: string;
+    updatedMember?: IMember;
+  } | void>;
 }

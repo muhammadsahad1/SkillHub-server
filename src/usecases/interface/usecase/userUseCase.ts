@@ -12,7 +12,7 @@ export interface IuserUseCase {
   userSignup(
     user: Iuser,
     next: Next
-  ): Promise<string | void | { success: boolean; message: string }>; 
+  ): Promise<string | void | { success: boolean; message: string }>;
   // ===================================================================>
   login(
     user: Iuser,
@@ -35,7 +35,7 @@ export interface IuserUseCase {
   // ===================================================================>
   createProfile(
     user: Iuser,
-    file: n
+    file: Express.Multer.File | undefined,
     next: Next
   ): Promise<void | {
     success: boolean;
@@ -43,7 +43,11 @@ export interface IuserUseCase {
     message?: string;
   }>;
   // ===================================================================>
-  verifyRequest(userId : string ,requestData : VerifyRequest,next : Next):Promise<{success : boolean } | void>
+  verifyRequest(
+    userId: string,
+    requestData: VerifyRequest,
+    next: Next
+  ): Promise<{ success: boolean } | void>;
   // ===================================================================>
   getProfileImage(
     userId: string,
@@ -80,14 +84,10 @@ export interface IuserUseCase {
     userId: string,
     currentPassword: string,
     newPassword: string,
-    next : Next,
+    next: Next
   ): Promise<{ success: boolean; message: string } | any>;
   // ===================================================================>
-  changePrivacy(
-    userId: string,
-    isPrivacy: boolean,
-    next: Next
-  ): Promise<any>;
+  changePrivacy(userId: string, isPrivacy: boolean, next: Next): Promise<any>;
   // ===================================================================>
   showNotification(
     userId: string,
@@ -132,52 +132,101 @@ export interface IuserUseCase {
     toRemoveId: string,
     next: Next
   ): Promise<{ success: boolean; message: string }>;
-// ===================================================================>
+  // ===================================================================>
 
-uploadPost(userId : string,imageUrl : Express.Multer.File  |undefined, caption : string,type : string) : Promise<any>
+  uploadPost(
+    userId: string,
+    imageUrl: Express.Multer.File | undefined,
+    caption: string,
+    type: string
+  ): Promise<any>;
 
-// ===================================================================>
+  // ===================================================================>
 
-uploadThoughts(userId : string,type : string,next : Next): Promise<{ success: boolean; thoughtPost   : Ipost } | void>
+  uploadThoughts(
+    userId: string,
+    type: string,
+    next: Next
+  ): Promise<{ success: boolean; thoughtPost: Ipost } | void>;
 
-// ===================================================================>
-followBack(toFollowId : string,fromFollowingId : string,next : Next) :Promise<{ success: boolean; message: string }>
-// ===================================================================>
+  // ===================================================================>
+  followBack(
+    toFollowId: string,
+    fromFollowingId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string }>;
+  // ===================================================================>
 
-othersFollowers(userId : string,currentUserId : string,next : Next) :Promise<Iuser[]>
-// ===================================================================>
+  othersFollowers(
+    userId: string,
+    currentUserId: string,
+    next: Next
+  ): Promise<Iuser[]>;
+  // ===================================================================>
 
-othersFollowings(userId : string,currentUserId : string,next : Next) :Promise<Iuser[]>
-// ===================================================================>
-fetchOthersPosts(userId :string,  next : Next) :Promise<any>
+  othersFollowings(
+    userId: string,
+    currentUserId: string,
+    next: Next
+  ): Promise<Iuser[]>;
+  // ===================================================================>
+  fetchOthersPosts(userId: string, next: Next): Promise<any>;
 
-fetchPosts(userSkill : string , next : Next) : Promise<any>
-// ===================================================================>
+  fetchPosts(userSkill: string, next: Next): Promise<any>;
+  // ===================================================================>
 
-fetchMyPosts(userId : string , next : Next) : Promise<any>
-// ===================================================================>
+  fetchMyPosts(userId: string, next: Next): Promise<any>;
+  // ===================================================================>
 
-deletePost(postId :string,next : Next): Promise<any>
-// ===================================================================>
+  deletePost(postId: string, next: Next): Promise<any>;
+  // ===================================================================>
 
-editPost(editedCaption : string,postId : string,next : Next) : Promise<{ success: boolean; message: string }>
+  editPost(
+    editedCaption: string,
+    postId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string }>;
 
-postLike(userId : string,postId : string,next :Next) : Promise<{message : string , postId : string}>
+  postLike(
+    userId: string,
+    postId: string,
+    next: Next
+  ): Promise<{ message: string; postId: string }>;
 
-addComment(postId : string,userId : string,comment : string,next :Next ):Promise<any>
+  addComment(
+    postId: string,
+    userId: string,
+    comment: string,
+    next: Next
+  ): Promise<any>;
 
-delteComment(postId : string,commentId : string,next :Next ):Promise<any>
+  delteComment(postId: string, commentId: string, next: Next): Promise<any>;
 
-editingComment(postId : string,commentId : string,userId : string,updateComment : string,next : Next) :Promise<any>
+  editingComment(
+    postId: string,
+    commentId: string,
+    userId: string,
+    updateComment: string,
+    next: Next
+  ): Promise<any>;
 
-  postView(postId : string,next : Next) :Promise<any>
+  postView(postId: string, next: Next): Promise<any>;
 
-// ===================================================================>
-searchUsers(query : string,next : Next): Promise<Iuser[]>
-// ===================================================================>
+  // ===================================================================>
+  searchUsers(
+    query: string,
+    next: Next
+  ): Promise<{ success: boolean; message?: string; result: Iuser[] } | void>;
+  // ===================================================================>
 
-resendOtp(email: string, next: Next): Promise<void>;
+  resendOtp(email: string, next: Next): Promise<void>;
 
-getUser(id: string, next: Next): Promise<Iuser | undefined | void>;
+  getUser(id: string, next: Next): Promise<Iuser | undefined | void>;
 
+  reportPost(
+    postId: string,
+    reason: string,
+    userId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string } | void>;
 }
