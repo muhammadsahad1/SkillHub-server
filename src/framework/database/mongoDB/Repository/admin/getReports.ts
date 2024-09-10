@@ -9,7 +9,6 @@ export const getReports = async (
   s3Operations: IS3Operations
 ): Promise<IReportRequest[] | void> => {
   try {
-    console.log("s3 ==>",s3Operations)
     // Fetch reports and populate postId and reportedBy
     const reports = await reportModel
       .find({})
@@ -24,19 +23,21 @@ export const getReports = async (
 
     const reportPostDetails = await Promise.all(
       reports.map(async (repo: IReport) => {
-        const post = repo.postId as any;  // Since postId is populated, it will have the post document properties
-        const reportedBy = repo.reportedBy as any; // Same for reportedBy
-        console.log("repo ==>",repo)
+        console.log("repoo ==>",repo)
+        const post = repo.postId as any;
+        const reportedBy = repo.reportedBy as any;
         let postImageUrl: string | undefined = undefined;
 
         // If imageName exists, fetch the S3 URL
         if (post && post.imageName) {
-          console.log("post ==> name",post.imageName);
-          
+          console.log("post ==> name", post);
+
           postImageUrl = await s3Operations.getObjectUrl({
-            bucket: process.env.C3_BUCKET_NAME,  // Make sure this environment variable is set
+            bucket: process.env.C3_BUCKET_NAME, // Make sure this environment variable is set
             key: post.imageName,
           });
+        }else{
+          console.log("post else =>",post)
         }
 
         // Return the report details with the fetched image URL
@@ -53,7 +54,7 @@ export const getReports = async (
         };
       })
     );
-    console.log("reportPostDetails =>",reportPostDetails)
+    console.log("reportPostDetails =>", reportPostDetails);
     return reportPostDetails;
   } catch (error) {
     console.error("Error fetching reports:", error);

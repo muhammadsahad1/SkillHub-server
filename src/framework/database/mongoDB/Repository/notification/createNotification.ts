@@ -39,11 +39,10 @@ export const createNotification = async (
       message,
       type,
       link,
-      read: false,
+      read: false,  
     };
 
     console.log("newNoti==>",newNotification);
-    
   
     const notification = await notificationModel.create(newNotification);
     const result = await notification.save();

@@ -14,8 +14,9 @@ export function adminRoute(route: Route): Route {
   route.post('/changeEventsStatus',isAdminAuthenticate,(req: Req, res: Res, next: Next) => adminController.changeEventStatus(req, res, next));
   route.get('/reports',isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.getReports(req, res, next));
   route.post('/action',isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.reportAction(req, res, next));
+  route.get('/dashboard',isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.dasboardData(req, res, next));
 
-  route.post("/logout",isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.logout(req, res, next));
+  route.post("/adminLogout",isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.logout(req, res, next));
 
   return route;
 }

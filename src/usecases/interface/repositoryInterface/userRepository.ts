@@ -266,7 +266,7 @@ export interface IuserRepository {
    * @param s3 - S3 service operations.
    * @returns A list of posts.
    */
-  fetchPosts(userSkill: string, s3: IS3Operations): Promise<Ipost[]>;
+  fetchPosts(userSkill: string,pageParam : number, s3: IS3Operations): Promise<Ipost[]>;
 
   /**
    * Fetches posts made by a specific user.

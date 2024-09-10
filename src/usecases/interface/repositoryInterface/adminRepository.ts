@@ -13,5 +13,6 @@ export interface IadminRepository {
   getEvents() : Promise<IEvent[] | void>
   getReports(s3Operations : IS3Operations) : Promise<IReportRequest[] | void>
   blockUser(id : string) : Promise<any>;
+  dashBoardData() : Promise<any>
   reportAction(reportId : string , status : string  ): Promise<{ success: boolean; message: string } | void>;
 }

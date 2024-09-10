@@ -15,12 +15,12 @@ export const createGroup = async (
       groupData;
     let groupImage = "";
 
-    //parsing the skill json object to array 
+    //parsing the skill json object to array
     let skills: string[] = [];
     try {
       skills = JSON.parse(selectedSkills);
-    } catch (error : any) {
-      console.error("Error parsing selectedSkills:",error.message);
+    } catch (error: any) {
+      console.error("Error parsing selectedSkills:", error.message);
       throw new Error("Invalid skills format");
     }
 
@@ -35,10 +35,11 @@ export const createGroup = async (
       description,
       creatorId,
       skills,
+      members: [{ userId: creatorId }],
       groupImage,
     };
 
- await groupModel.create(newGroup);
+    await groupModel.create(newGroup);
     return {
       success: true,
       message: "Group created successful",

@@ -10,6 +10,7 @@ import {
   getGroup,
   getGroups,
   joinGroup,
+  leaveGroup,
   messages,
   sendMessage,
   updateOnlineStatus,
@@ -80,10 +81,18 @@ export class GroupRepository implements IGroupRepository {
     );
   }
 
-  async updateOnlineStatus(groupId : string , userId : string , status : boolean) : Promise<{success : boolean , message : string} | void>{
-    console.log("vak");
-    
-    return await updateOnlineStatus(groupId,userId,status,this.groupModel)
+  async updateOnlineStatus(
+    groupId: string,
+    userId: string,
+    status: boolean
+  ): Promise<{ success: boolean; message: string } | void> {
+    return await updateOnlineStatus(groupId, userId, status, this.groupModel);
+  }
 
+  async leaveGroup(
+    groupId: string,
+    userId: string
+  ): Promise<{ success: boolean; message: string } | void> {
+    return await leaveGroup(groupId, userId, this.groupModel);
   }
 }

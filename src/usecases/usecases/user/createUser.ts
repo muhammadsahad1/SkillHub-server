@@ -51,10 +51,9 @@ export const createUser = async (
       password: hashedPassword,
     };
 
-    console.log("user ==> creating user", user);
     // Save user to the user collection DB
     const newUser = await userRepository.createUser(user);
-    const tokens = await jwt.createAccessAndRefreshToken(newUser?.id as string);
+    const tokens = await jwt.createAccessAndRefreshToken(newUser.id as string);
     console.log("tokens ===>", tokens);
     if (newUser) {
       return {

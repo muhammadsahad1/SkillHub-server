@@ -7,7 +7,7 @@ export const reportAction = async (
   status: string,
   adminRepository: IadminRepository,
   next: Next
-) => {
+): Promise<{ success: boolean; message: string } | void> => {
   try {
     const result = await adminRepository.reportAction(reportId, status);
     if (!result) {

@@ -307,8 +307,8 @@ export class UserRepository implements IuserRepository {
 
   // ===================================================================>
 
-  async fetchPosts(userSkill: string, s3: IS3Operations): Promise<any> {
-    return await fetchPosts(userSkill, s3, this.userModels, this.postModels);
+  async fetchPosts(userSkill: string,pageParam : number, s3: IS3Operations): Promise<any> {
+    return await fetchPosts(userSkill,pageParam, s3, this.userModels, this.postModels);
   }
 
   // ===================================================================>

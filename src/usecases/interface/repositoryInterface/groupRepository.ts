@@ -1,5 +1,6 @@
 import { IGroupCreationData } from "../../../commonEntities/entities/createGroup";
 import { IGroup, IMember } from "../../../commonEntities/entities/group";
+import { Next } from "../../../framework/types/serverPackageType";
 
 export interface IGroupRepository {
   createGroup(
@@ -8,19 +9,35 @@ export interface IGroupRepository {
     groupImageFile: Express.Multer.File | undefined
   ): Promise<{ success: boolean; message: string } | void>;
 
-  getGroups() :Promise<IGroup[] | void>
+  getGroups(): Promise<IGroup[] | void>;
 
-  joinGroup(groupId : string , joinUserId : string) :  Promise<{ success: boolean; message: string } | void>
+  joinGroup(
+    groupId: string,
+    joinUserId: string
+  ): Promise<{ success: boolean; message: string } | void>;
 
-  getGroup(groupId : string) : Promise<IGroup | void>
+  getGroup(groupId: string): Promise<IGroup | void>;
 
-  sendMessage(senderId : string,grouId : string , message : string) : Promise<{success : boolean , message : string} | void>
+  sendMessage(
+    senderId: string,
+    grouId: string,
+    message: string
+  ): Promise<{ success: boolean; message: string } | void>;
 
-   messages(groupId : string) :Promise<any>
+  messages(groupId: string): Promise<any>;
 
-   updateOnlineStatus(groupId : string , userId : string , status : boolean  ): Promise<{
+  updateOnlineStatus(
+    groupId: string,
+    userId: string,
+    status: boolean
+  ): Promise<{
     success: boolean;
     message: string;
     updatedMember?: IMember;
   } | void>;
+
+  leaveGroup(
+    groupId: string,
+    userId: string
+  ): Promise<{ success: boolean; message: string } | void>;
 }

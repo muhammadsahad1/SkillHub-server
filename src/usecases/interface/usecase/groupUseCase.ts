@@ -39,4 +39,13 @@ export interface IgroupUseCase {
     message: string;
     updatedMember?: IMember;
   } | void>;
+
+  leaveGroup(
+    groupId: string,
+    userId: string,
+    next: Next
+  ): Promise<{
+    success: boolean;
+    message: string;
+  } | void>;
 }

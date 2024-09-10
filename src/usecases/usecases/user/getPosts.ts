@@ -5,12 +5,13 @@ import { ErrorHandler } from "../../middlewares/errorMiddleware";
 
 export const getPosts = async (
   userSKill: string,
+  pageParam : number,
   s3: IS3Operations,
   userRepository: IuserRepository,
   next: Next
 ) => {
   try {
-    const result = await userRepository.fetchPosts(userSKill, s3);
+    const result = await userRepository.fetchPosts(userSKill,pageParam, s3);
     
     if (!result) {
       return next(new ErrorHandler(400, "Feed users post failed"));

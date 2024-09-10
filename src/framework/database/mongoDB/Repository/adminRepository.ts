@@ -2,7 +2,7 @@ import { Iuser } from "../../../../commonEntities/entities/user";
 import { IadminRepository } from "../../../../usecases/interface/repositoryInterface/adminRepository";
 import { findByEmail } from "./user";
 import userModel from "../model/userModel";
-import { blockUser, changeEventStatus, changeVerifyStatus, getEvents, getReports, getUsers, getVerificationRequests, reportAction } from "./admin/index";
+import { blockUser, changeEventStatus, changeVerifyStatus, dashBoardData, getEvents, getReports, getUsers, getVerificationRequests, reportAction } from "./admin/index";
 import { IVerificationRequest } from "../../../../commonEntities/entities/verificationRequest";
 import { VerificationRequestModal } from "../model/VerificationRequest";
 import { IEvent } from "../../../../commonEntities/entities/event";
@@ -12,6 +12,7 @@ import ReportModel from "../model/reportRequest";
 import { IS3Operations } from "../../../service/s3Bucket";
 import PostModel from "../model/postModel";
 import { NotificationModel } from "../model/notification";
+import { GroupModel } from "../model/groupModel";
 
 export class AdminRepository implements IadminRepository {
   constructor(
@@ -20,7 +21,8 @@ export class AdminRepository implements IadminRepository {
     private eventModel : typeof EventModel,
     private reportModel : typeof ReportModel, 
     private postModel : typeof PostModel,
-    private notifcationModel :typeof NotificationModel
+    private notifcationModel :typeof NotificationModel,
+    private groupModel : typeof GroupModel
   ) {}
 
 
@@ -58,5 +60,9 @@ export class AdminRepository implements IadminRepository {
 
   async reportAction(reportId: string, status: string): Promise<{ success: boolean; message: string; } | void> {
       return await reportAction(reportId,status,this.reportModel,this.postModel,this.notifcationModel)
+  }
+  
+  async dashBoardData() : Promise<any> {
+    return await dashBoardData(this.postModel,this.groupModel,this.eventModel,this.userModels)
   }
 }

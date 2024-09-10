@@ -8,6 +8,7 @@ import {
   getGroup,
   getGroups,
   joinGroup,
+  leaveGroup,
   messages,
   sendMessage,
   updateOnlineStatus,
@@ -71,11 +72,28 @@ export class GroupUseCase implements IgroupUseCase {
     groupId: string,
     userId: string,
     status: boolean,
-    next : Next
-  ): Promise<{ success: boolean; message: string ;updatedMember?: IMember } | void>{
+    next: Next
+  ): Promise<{
+    success: boolean;
+    message: string;
+    updatedMember?: IMember;
+  } | void> {
     console.log("usecaseil");
-    
-    return await updateOnlineStatus(groupId,userId ,status,this.groupRepository,next)
+
+    return await updateOnlineStatus(
+      groupId,
+      userId,
+      status,
+      this.groupRepository,
+      next
+    );
+  }
+
+  async leaveGroup(
+    groupId: string,
+    userId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string } | void> {
+    return await leaveGroup(groupId, userId, this.groupRepository, next);
   }
 }
-

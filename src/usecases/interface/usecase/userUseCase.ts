@@ -172,7 +172,7 @@ export interface IuserUseCase {
   // ===================================================================>
   fetchOthersPosts(userId: string, next: Next): Promise<any>;
 
-  fetchPosts(userSkill: string, next: Next): Promise<any>;
+  fetchPosts(userSkill: string,pageParam : number, next: Next): Promise<any>;
   // ===================================================================>
 
   fetchMyPosts(userId: string, next: Next): Promise<any>;

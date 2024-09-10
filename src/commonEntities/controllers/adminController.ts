@@ -18,6 +18,8 @@ export class AdminController {
       next
     );
 
+    console.log("ress =>", result);
+
     res.cookie(
       "admin_access_token",
       result.tokens?.accessToken,
@@ -69,15 +71,19 @@ export class AdminController {
   }
   // ======================================================>
   async changeEventStatus(req: Req, res: Res, next: Next) {
-    const { requestId  , action} = req.body;
-    const result = await this.adminUseCase.changeEventStatus(requestId,action, next);
+    const { requestId, action } = req.body;
+    const result = await this.adminUseCase.changeEventStatus(
+      requestId,
+      action,
+      next
+    );
     res.status(200).json(result);
   }
   // ======================================================>
   async logout(req: Req, res: Res, next: Next) {
     try {
       res.clearCookie("admin_access_token", accessTokenOption);
-      res.clearCookie("admin_refresh_token", refreshTokenOption);
+      // res.clearCookie("admin_refresh_token", refreshTokenOption);
       res.clearCookie("role", roleOptions);
       res.status(200).json({ message: "admin logout successfull" });
     } catch (error: any) {
@@ -85,26 +91,38 @@ export class AdminController {
     }
   }
   // ======================================================>
-  async getReports(req : Req , res : Res , next : Next) {
+  async getReports(req: Req, res: Res, next: Next) {
     try {
-      const result = await this.adminUseCase.getReports(next)
-      if(result){
-        res.status(200).json(result)
+      const result = await this.adminUseCase.getReports(next);
+      if (result) {
+        res.status(200).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
-// ======================================================>
-  async reportAction(req : Req , res : Res , next : Next) {
+  // ======================================================>
+  async reportAction(req: Req, res: Res, next: Next) {
     try {
-      const { reportId , status } = req.body as {reportId : string , status : string}
-      const result = await this.adminUseCase.reportAction(reportId,status)
-      if(result){
-        res.status(200).json(result)
+      const { reportId, status } = req.body as {
+        reportId: string;
+        status: string;
+      };
+      const result = await this.adminUseCase.reportAction(
+        reportId,
+        status,
+        next
+      );
+      if (result) {
+        res.status(200).json(result);
       }
-    } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+    } catch (error) {}
+  }
+  // ======================================================>
+  async dasboardData(req: Req, res: Res, next: Next) {
+    const result = await this.adminUseCase.dashBoardData(next);
+    if (result) {
+      res.status(200).json(result);
     }
   }
 }

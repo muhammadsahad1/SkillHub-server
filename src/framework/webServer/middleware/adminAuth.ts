@@ -8,13 +8,12 @@ import { RequestHandler } from "express";
 const jwt = new JWTtoken();
 
 export const isAdminAuthenticate: RequestHandler = async (req, res, next) => {
-  const customReq = req as CustomRequest;
-  const accessToken = customReq.cookies.accessToken;
-  const refreshToken = customReq.cookies. admin_refresh_token;
+  const customReq = req as Request;
+  const accessToken = customReq.cookies.admin_access_token;
+  const refreshToken = customReq.cookies.admin_refresh_token;
+  console.log("customReq.cookies", customReq.cookies);
   console.log("ass ==>", accessToken);
   console.log("ref ==>", refreshToken);
-
-  console.log("customReq.cookies " , customReq.cookies)
 
   // Check for access token
 
@@ -40,14 +39,14 @@ export const isAdminAuthenticate: RequestHandler = async (req, res, next) => {
       // return res.status(401).json({ message: "Not authorized, no access token" });
       if (refreshToken) {
         try {
-          console.log("keti")
+          console.log("keti");
           const reDecoded = await jwt.verifyJWT(
             refreshToken,
             process.env.JWT_REFRESH_KEY
           );
-          console.log("reDecoded ===>",reDecoded)
+          console.log("reDecoded ===>", reDecoded);
           const newTokens = await jwt.createAccessAndRefreshToken(reDecoded.id);
-          console.log("nweToek ==>",newTokens)
+          console.log("nweToek ==>", newTokens);
           // Set new access token and refresh token in cookie
           res.cookie(
             "admin_access_token",

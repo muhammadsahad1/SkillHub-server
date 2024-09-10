@@ -38,16 +38,16 @@ export interface Iuser {
   accountPrivacy?: boolean;
   profileImageUrl?: string;
   // profile?: Profile;
-  isProfessional: boolean;
-  experienceYears: number;
-  professionalBadge: boolean;
-  verificationBadge: boolean;
-  website: string;
-  isRequested : boolean;
-  verificationStatus: "Pending" | "Approved" | "Rejected";
-  proofLink: string;
+  isProfessional?: boolean;
+  experienceYears?: number;
+  professionalBadge?: boolean;
+  verificationBadge?: boolean;
+  website?: string;
+  isRequested ?: boolean;
+  verificationStatus?: "Pending" | "Approved" | "Rejected";
+  proofLink?: string;
 
-  groups : mongoose.Types.ObjectId[]
+  groups ?: mongoose.Types.ObjectId[]
 }
 
 export interface GetSkillRelatedUsersResponse {

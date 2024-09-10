@@ -1,3 +1,4 @@
+import { json } from "stream/consumers";
 import { Next, Req, Res } from "../../framework/types/serverPackageType";
 import { IgroupUseCase } from "../../usecases/interface/usecase/groupUseCase";
 import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
@@ -97,8 +98,7 @@ export class GroupController {
 
   async updateOnlineStatus(req: Req, res: Res, next: Next) {
     try {
-      
-      console.log("Controo")
+      console.log("Controo");
       const { groupId, userId, status } = req.body;
       const result = await this.groupUseCase.updateOnlineStatus(
         groupId,
@@ -106,6 +106,19 @@ export class GroupController {
         status,
         next
       );
+      if (result) {
+        res.status(200).json(result);
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.status, error.message));
+    }
+  }
+
+  async leaveGroup(req: Req, res: Res, next: Next) {
+    try {
+      const { groupId } = req.body as { groupId: string };
+      const userId = req.user?.id;
+      const result = await this.groupUseCase.leaveGroup(groupId, userId, next);
       if (result) {
         res.status(200).json(result);
       }

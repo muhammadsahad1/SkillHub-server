@@ -29,6 +29,8 @@ export interface IadminUseCase {
     reportId: string,
     status: string,
     next : Next
-  ): Promise<{ success: boolean; message: string }>;
+  ): Promise<{ success: boolean; message: string } | void>;
+
+  dashBoardData(next : Next):Promise<any>
 
 }

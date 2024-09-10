@@ -5,6 +5,7 @@ import { getGroup } from './getGroup'
 import { sendMessage } from './sendMessage'
 import { messages } from './messages'
 import { updateOnlineStatus } from './updateOnlineStatus'
+import {leaveGroup} from  './leaveGroup'
 
 export {
   createGroup,
@@ -13,5 +14,6 @@ export {
   getGroup,
   sendMessage,
   messages,
-  updateOnlineStatus
+  updateOnlineStatus,
+  leaveGroup
 }

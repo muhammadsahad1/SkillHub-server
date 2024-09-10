@@ -6,6 +6,8 @@ import { changeVerifyStatus } from "./changeVerifyStatus";
 import { getEvents } from './getEvents'
 import { changeEventsStatus } from './changeEventsStatus'
 import { getReports } from './getReports'
+import { reportAction } from './reportAction'
+import { dashBoardData } from './dashBoardData'
 
 export {
   adminLogin,
@@ -15,5 +17,7 @@ export {
   getEvents,
   changeEventsStatus,
   getReports,
+  reportAction,
+  dashBoardData,
   blockUser
 }

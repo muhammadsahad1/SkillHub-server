@@ -63,7 +63,10 @@ export class UserController {
       const result = await this.userUseCase.login(req.body, next);
       console.log("result Token ==>", result);
       if (result) {
-        const { accessToken, refreshToken } = result?.tokens as { accessToken: string; refreshToken: string };
+        const { accessToken, refreshToken } = result?.tokens as {
+          accessToken: string;
+          refreshToken: string;
+        };
         res.cookie("accessToken", accessToken, accessTokenOption);
         res.cookie("refreshToken", refreshToken, refreshTokenOption);
         res.cookie("role", "user", roleOptions);
@@ -422,6 +425,7 @@ export class UserController {
     try {
       const result = await this.userUseCase.fetchPosts(
         req.query?.skill as string,
+        req.query?.pageParam as number,
         next
       );
       if (result) {
@@ -640,7 +644,7 @@ export class UserController {
   async userLogout(req: Req, res: Res, next: Next) {
     try {
       res.clearCookie("accessToken", accessTokenOption);
-      res.clearCookie("refreshToken", refreshTokenOption);
+      // res.clearCookie("refreshToken", refreshTokenOption);
       res.clearCookie("role", roleOptions);
       res.status(200).json({ success: true, message: "successfully logouted" });
     } catch (error: any) {

@@ -6,6 +6,8 @@ import { getEvents } from './getEvents'
 import { changeEventStatus } from './changeEventStatus'
 import { getReports } from './getReports'
 import { reportAction } from './reportAction'
+import { dashBoardData } from './dashBoardData'
+import { getMonthlyData } from './getMonthlyData'
 
 export {
   getUsers,
@@ -15,5 +17,7 @@ export {
   changeEventStatus,
   blockUser,
   getReports,
-  reportAction
+  dashBoardData,
+  reportAction,
+  getMonthlyData
 }

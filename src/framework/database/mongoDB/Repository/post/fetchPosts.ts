@@ -1,21 +1,35 @@
 import { IS3Operations } from "../../../../service/s3Bucket";
 import PostModel from "../../model/postModel";
 import userModel from "../../model/userModel";
-import { User } from "aws-sdk/clients/budgets"; // Assuming this is the correct import
+
+const POSTS_PER_PAGE = 4; // Number of posts per page
 
 export const fetchPosts = async (
   userSkill: string,
+  pageParam: number, // This will represent the page number
   s3: IS3Operations,
   userModels: typeof userModel,
   postModels: typeof PostModel
 ) => {
   try {
-    const users: User[] = await userModels
+    // Fetch users by skill
+    const users = await userModels
       .find({ skill: userSkill })
       .select("_id profileImage name isProfessional")
       .exec();
     const usersIds = users.map((user) => user?._id);
-    const userPosts = await postModels.find({ userId: { $in: usersIds } });
+
+    // Fetch posts for the users, with pagination applied
+    const userPosts = await postModels
+      .find({ userId: { $in: usersIds } })
+      .skip((pageParam - 1) * POSTS_PER_PAGE) // Skip based on page number
+      .limit(POSTS_PER_PAGE) // Limit the number of posts
+      .exec();
+
+    // Fetch the total number of posts for pagination logic
+    const totalPosts = await postModels.countDocuments({
+      userId: { $in: usersIds },
+    });
 
     const postsWithPostUrl = await Promise.all(
       userPosts.map(async (post) => {
@@ -45,22 +59,22 @@ export const fetchPosts = async (
 
             const commentedUserProfileUrl = await s3.getObjectUrl({
               bucket: process.env.C3_BUCKET_NAME,
-              key: userImageName.profileImage,
+              key: userImageName.profileImage ? userImageName.profileImage : "",
             });
 
             return {
               ...comment.toObject(),
               commentedUserProfileUrl,
-            
             };
           })
         );
+
         return {
           ...post.toObject(),
           userImageUrl,
           postImageUrl,
           userName: user?.name || "",
-          isProfessional :user?.isProfessional ? true : false,
+          isProfessional: user?.isProfessional ? true : false,
           comments: commentedUserProfileUrls.filter(
             (comment: any) => comment !== null
           ),
@@ -72,6 +86,7 @@ export const fetchPosts = async (
       success: true,
       message: "Posts fetched successfully",
       posts: postsWithPostUrl.filter((post) => post !== null),
+      hasMore: pageParam * POSTS_PER_PAGE < totalPosts, // Check if there are more pages
     };
   } catch (error) {
     console.error("Error fetching posts:", error);

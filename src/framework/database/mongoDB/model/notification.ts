@@ -32,6 +32,7 @@ const NotificationSchema: Schema = new Schema({
       "comment",
       "verifyRequestAccepted",
       "verifyRequestRejected",
+      "ReportAction"
     ],
     require: true,
   },

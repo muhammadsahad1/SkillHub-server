@@ -60,11 +60,9 @@ import { Server } from "socket.io";
 import { InotificationRepository } from "../interface/repositoryInterface/notificationRepository";
 import { VerifyRequest } from "../../commonEntities/entities/verificationRequest";
 
-
 // ================================= User use cases ================================= \\
 
 export class UserUseCase implements IuserUseCase {
-
   constructor(
     private userRepostory: IuserRepository,
     private Jwt: Ijwt,
@@ -74,11 +72,10 @@ export class UserUseCase implements IuserUseCase {
     private sendEmail: IsendEmail,
     private s3: IS3Operations,
     private elasticSearchService: IElasticsearchService,
-    private io : Server,
-    private notification : InotificationRepository,
-  ) {
-  }
-  
+    private io: Server,
+    private notification: InotificationRepository
+  ) {}
+
   // ===================================================================>
   async userSignup(
     user: Iuser,
@@ -155,10 +152,12 @@ export class UserUseCase implements IuserUseCase {
   async forgotPassword(
     email: string,
     next: Next
-  ): Promise<
-  | void
-  | { success: boolean; token: string; user: Iuser; message: string }
-  > { 
+  ): Promise<void | {
+    success: boolean;
+    token: string;
+    user: Iuser;
+    message: string;
+  }> {
     const result = await forgotPassword(
       this.Jwt,
       this.userRepostory,
@@ -217,7 +216,7 @@ export class UserUseCase implements IuserUseCase {
     }
     return result;
   }
-  
+
   // ===================================================================>
   // Use Case
   async createProfile(
@@ -238,11 +237,11 @@ export class UserUseCase implements IuserUseCase {
         this.s3,
         next
       );
-      
+
       if (!result) {
         return next(new ErrorHandler(400, "Profile update failed"));
       }
-      
+
       return result;
     } catch (error) {
       console.error("Error in createProfile use case:", error);
@@ -250,11 +249,15 @@ export class UserUseCase implements IuserUseCase {
     }
   }
 
-  //verify requesting 
-  async verifyRequest(userId : string ,requestData : VerifyRequest,next : Next):Promise<{success : boolean } | void> {
-    return await verifyRequest(userId , requestData,this.userRepostory,next)
+  //verify requesting
+  async verifyRequest(
+    userId: string,
+    requestData: VerifyRequest,
+    next: Next
+  ): Promise<{ success: boolean } | void> {
+    return await verifyRequest(userId, requestData, this.userRepostory, next);
   }
-  
+
   // upload cover image
   async uploadCoverImage(
     userId: string,
@@ -271,13 +274,13 @@ export class UserUseCase implements IuserUseCase {
     if (!result) {
       return next(new ErrorHandler(400, "User is founded"));
     }
-    
+
     if (result) {
       console.log(" userCase ===>", result);
       return result;
     }
   }
-  
+
   // ===================================================================>
   async getProfileImage(
     userId: string,
@@ -352,7 +355,12 @@ export class UserUseCase implements IuserUseCase {
     userId: string,
     next: Next
   ): Promise<{ success: boolean; user: Iuser } | void> {
-    const result = await getUserDetails(userId, this.s3, this.userRepostory, next);
+    const result = await getUserDetails(
+      userId,
+      this.s3,
+      this.userRepostory,
+      next
+    );
     if (!result) {
       return next(new ErrorHandler(400, "fetch user failed"));
     }
@@ -367,7 +375,7 @@ export class UserUseCase implements IuserUseCase {
     fromFollowerId: string,
     next: Next
   ): Promise<void> {
-    await followUp(toFollowingId, fromFollowerId, this.userRepostory,next);
+    await followUp(toFollowingId, fromFollowerId, this.userRepostory, next);
   }
   // ===================================================================>
   async getMyFollowings(userId: string, next: Next): Promise<Iuser[]> {
@@ -377,7 +385,7 @@ export class UserUseCase implements IuserUseCase {
   async myFollowers(userId: string, next: Next): Promise<Iuser[]> {
     return await myFollowers(userId, this.s3, this.userRepostory, next);
   }
-  
+
   // ===================================================================>
   async unFollow(
     toUnfollowId: string,
@@ -405,7 +413,7 @@ export class UserUseCase implements IuserUseCase {
       next
     );
   }
-  
+
   async followBack(
     toFollowId: string,
     fromFollowingId: string,
@@ -418,7 +426,7 @@ export class UserUseCase implements IuserUseCase {
       next
     );
   }
-  
+
   async othersFollowers(
     userId: string,
     currentUserId: string,
@@ -432,7 +440,7 @@ export class UserUseCase implements IuserUseCase {
       next
     );
   }
-  
+
   async othersFollowings(
     userId: string,
     currentUserId: string,
@@ -446,7 +454,7 @@ export class UserUseCase implements IuserUseCase {
       next
     );
   }
-  
+
   async uploadPost(
     userId: string,
     imageUrl: Express.Multer.File,
@@ -462,22 +470,25 @@ export class UserUseCase implements IuserUseCase {
       this.userRepostory
     );
   }
-  
-  async uploadThoughts(userId: string,thoughts : string,next : Next): Promise<{ success: boolean; thoughtPost : Ipost } | void> {
-    return await uploadThoughts(userId ,thoughts ,this.userRepostory,next)
+
+  async uploadThoughts(
+    userId: string,
+    thoughts: string,
+    next: Next
+  ): Promise<{ success: boolean; thoughtPost: Ipost } | void> {
+    return await uploadThoughts(userId, thoughts, this.userRepostory, next);
   }
 
-
-  async fetchPosts(userSkill: string, next: Next): Promise<any> {
-    return await getPosts(userSkill, this.s3, this.userRepostory, next);
+  async fetchPosts(userSkill: string,pageParam : number, next: Next): Promise<any> {
+    return await getPosts(userSkill,pageParam, this.s3, this.userRepostory, next);
   }
 
   async fetchMyPosts(userId: string, next: Next): Promise<any> {
     return await fetchMyPosts(userId, this.userRepostory, this.s3, next);
   }
 
-  async postView(postId : string , next  : Next) :Promise<any> {
-    return await postView(postId,this.userRepostory,this.s3,next)
+  async postView(postId: string, next: Next): Promise<any> {
+    return await postView(postId, this.userRepostory, this.s3, next);
   }
 
   async fetchOthersPosts(userId: string, next: Next): Promise<any> {
@@ -497,7 +508,13 @@ export class UserUseCase implements IuserUseCase {
   }
 
   async postLike(userId: string, postId: string, next: Next): Promise<any> {
-    return await postLike(userId, postId, this.userRepostory,this.notification, next);
+    return await postLike(
+      userId,
+      postId,
+      this.userRepostory,
+      this.notification,
+      next
+    );
   }
 
   async addComment(
@@ -532,7 +549,6 @@ export class UserUseCase implements IuserUseCase {
     updateComment: string,
     next: Next
   ): Promise<any> {
-  
     return await editingComment(
       postId,
       commentId,
@@ -543,11 +559,19 @@ export class UserUseCase implements IuserUseCase {
     );
   }
 
-  async searchUsers(query: string, next: Next): Promise<{ success: boolean; message?: string; result: Iuser[] } | void> {
-      return await searchUsers(query,this.elasticSearchService,this.s3,next)
+  async searchUsers(
+    query: string,
+    next: Next
+  ): Promise<{ success: boolean; message?: string; result: Iuser[] } | void> {
+    return await searchUsers(query, this.elasticSearchService, this.s3, next);
   }
 
-  async reportPost(postId: string, reason: string, userId: string, next: Next): Promise<{ success: boolean; message: string; } | void> {
-    return await reportPost(postId, reason ,userId,this.userRepostory,next)
+  async reportPost(
+    postId: string,
+    reason: string,
+    userId: string,
+    next: Next
+  ): Promise<{ success: boolean; message: string } | void> {
+    return await reportPost(postId, reason, userId, this.userRepostory, next);
   }
 }

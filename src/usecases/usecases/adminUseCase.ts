@@ -5,7 +5,7 @@ import { IhashPassword } from "../interface/service/hashPassword";
 import { Ijwt } from "../interface/service/jwt";
 import { IsendEmail } from "../interface/service/sendEmail";
 import { IadminUseCase } from "../interface/usecase/adminUseCase";
-import { adminLogin, blockUser, changeEventsStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests , getReports } from "./admin/index";
+import { adminLogin, blockUser, changeEventsStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests , getReports, reportAction, dashBoardData } from "./admin/index";
 import { Next } from "../../framework/types/serverPackageType";
 import { IVerificationRequest } from "../../commonEntities/entities/verificationRequest";
 import { Server } from "socket.io";
@@ -70,8 +70,11 @@ export class AdminUseCase implements IadminUseCase {
     return await getReports(next,this.adminRepostory,this.s3)
   }
 
-  async reportAction(reportId: string, status: string): Promise<{ success: boolean; message: string; }> {
-      return await reportAc
+  async reportAction(reportId: string, status: string,next : Next): Promise<{ success: boolean; message: string; } | void> {
+      return await reportAction(reportId,status,this.adminRepostory,next)
   }
 
+  async dashBoardData(next: Next): Promise<any> {
+      return await dashBoardData(this.adminRepostory,next)
+  }
 }
