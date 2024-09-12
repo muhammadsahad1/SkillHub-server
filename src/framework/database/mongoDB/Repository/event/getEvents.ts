@@ -2,14 +2,21 @@ import { IEvent } from "../../../../../commonEntities/entities/event";
 import { IS3Operations } from "../../../../service/s3Bucket";
 import EventModel from "../../model/eventModel";
 
+const EVENT_PER_PAGE = 3;
+
 export const getEvents = async (
+  pageNumber: number,
   eventModel: typeof EventModel,
   s3: IS3Operations
-): Promise<IEvent[] | void> => {
+): Promise<IEvent[]> => {
   try {
+    const events = await eventModel
+      .find({ approvalStatus: "Approved" })
+      .skip((pageNumber - 1) * EVENT_PER_PAGE)
+      .limit(EVENT_PER_PAGE)
+      .sort({ createdAt: -1 })
+      .exec();
 
-    const events = await eventModel.find({ approvalStatus : "Approved"});
-    // retrive the events and banner image url
     const eventsWithBannerImage = await Promise.all(
       events.map(async (event) => {
         const bannerImageUrl = await s3.getObjectUrl({
@@ -19,7 +26,7 @@ export const getEvents = async (
 
         return {
           ...event.toObject(),
-          bannerImageUrl : bannerImageUrl,
+          bannerImageUrl: bannerImageUrl,
         };
       })
     );
@@ -27,6 +34,6 @@ export const getEvents = async (
     return eventsWithBannerImage;
   } catch (error) {
     console.error(error);
-    return undefined;
+    return [];
   }
 };

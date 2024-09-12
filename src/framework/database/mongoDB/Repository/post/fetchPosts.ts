@@ -2,7 +2,7 @@ import { IS3Operations } from "../../../../service/s3Bucket";
 import PostModel from "../../model/postModel";
 import userModel from "../../model/userModel";
 
-const POSTS_PER_PAGE = 4; // Number of posts per page
+const POSTS_PER_PAGE = 6; // Number of posts per page
 
 export const fetchPosts = async (
   userSkill: string,
@@ -19,11 +19,11 @@ export const fetchPosts = async (
       .exec();
     const usersIds = users.map((user) => user?._id);
 
-    // Fetch posts for the users, with pagination applied
     const userPosts = await postModels
       .find({ userId: { $in: usersIds } })
-      .skip((pageParam - 1) * POSTS_PER_PAGE) // Skip based on page number
-      .limit(POSTS_PER_PAGE) // Limit the number of posts
+      .skip((pageParam - 1) * POSTS_PER_PAGE)
+      .limit(POSTS_PER_PAGE)
+      .sort({ createdAt: -1 })
       .exec();
 
     // Fetch the total number of posts for pagination logic

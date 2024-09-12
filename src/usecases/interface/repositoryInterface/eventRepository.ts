@@ -11,7 +11,7 @@ export interface IEventRepository {
     s3Operations: IS3Operations
   ): Promise<{ success: boolean; message: string  } | void>
 
-  getEvents(s3Operations :IS3Operations) : Promise<IEvent[] | void>
+  getEvents(pogeNumber : number,s3Operations :IS3Operations) : Promise<IEvent[] | void>
 
   eventDetails(eventId : string ,s3Operations : IS3Operations) : Promise<IEvent | void | null> 
   

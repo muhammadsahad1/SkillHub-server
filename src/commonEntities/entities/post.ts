@@ -7,8 +7,9 @@ export interface Ipost {
   type: "image" | "video" | "thoughts";
   likes: mongoose.Types.ObjectId;
   comments: {
+    _id: any;
     userId: mongoose.Types.ObjectId[];
-    userName : string,
+    userName: string;
     comment: string;
     created_at: Date;
   }[];
@@ -19,7 +20,8 @@ export interface Ipost {
 }
 
 export interface IComment {
-  userId: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId[]; // Ensure this is a single ObjectId, not an array
   userName: string;
   comment: string;
   created_at: Date;

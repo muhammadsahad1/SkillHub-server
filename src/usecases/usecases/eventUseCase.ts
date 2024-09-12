@@ -29,7 +29,7 @@ export class EventUseCase implements IEventUseCase {
     data: ICreateEvent,
     bannerFile: Express.Multer.File | undefined,
     next: Next
-  ): Promise<{ success: boolean; message: string; joinLink: string } | void> {
+  ): Promise<{ success: boolean; message: string; }| void> {
     return await createEvent(
       userId,
       data,
@@ -40,8 +40,8 @@ export class EventUseCase implements IEventUseCase {
     );
   }
 
-  async getEvents(next: Next): Promise<IEvent[] | void> {
-    return await getEvents(next, this.eventRepository, this.s3Operations);
+  async getEvents(pageNumber : number,next: Next): Promise<IEvent[] | void> {
+    return await getEvents(pageNumber,next, this.eventRepository, this.s3Operations);
   }
 
   async eventDetails(

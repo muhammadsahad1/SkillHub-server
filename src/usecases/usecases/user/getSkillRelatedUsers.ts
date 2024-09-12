@@ -2,26 +2,29 @@ import { IuserRepository } from "../../interface/repositoryInterface/userReposit
 import { Next } from "../../../framework/types/serverPackageType";
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
+import { IUserWithImages } from "../../../commonEntities/entities/user";
 
 export const getSkillRelatedUsers = async (
-  userId : string,
-  skill : string ,
-  userRepository : IuserRepository,
-  s3 : IS3Operations,
-  next : Next
-) => {
+  userId: string,
+  skill: string,
+  userRepository: IuserRepository,
+  s3: IS3Operations,
+  next: Next
+): Promise<{
+  success: boolean;
+  userDetails: IUserWithImages[] | undefined;
+} | void> => {
   console.log("casil ketiiiiiiii");
-  const result = await userRepository.getSkillRelatedUsers(userId,skill,s3)
-  
-    console.log("result after repo ==>",result);
-    
+  const result = await userRepository.getSkillRelatedUsers(userId, skill, s3);
 
-  if(!result) {
-    return next(new ErrorHandler(401,"fetching skill related users failed"))
+  console.log("result after repo ==>", result);
+
+  if (!result) {
+    return next(new ErrorHandler(401, "fetching skill related users failed"));
   }
 
   return {
-    success : true,
-    userDetails : result
-  }
-}
+    success: true,
+    userDetails: result,
+  };
+};

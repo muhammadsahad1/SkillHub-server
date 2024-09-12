@@ -24,7 +24,7 @@ export const isAdminAuthenticate: RequestHandler = async (req, res, next) => {
       process.env.JWT_ACCESS_KEY
     );
     const user = await userModel.findById(decoded.id).select("-password");
-
+    console.log("user ==> in admin ->", user);
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }

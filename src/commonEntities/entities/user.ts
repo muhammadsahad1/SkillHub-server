@@ -37,17 +37,19 @@ export interface Iuser {
   passwordLastChanged?: Date;
   accountPrivacy?: boolean;
   profileImageUrl?: string;
+  _id: string;
+
   // profile?: Profile;
   isProfessional?: boolean;
   experienceYears?: number;
   professionalBadge?: boolean;
   verificationBadge?: boolean;
   website?: string;
-  isRequested ?: boolean;
+  isRequested?: boolean;
   verificationStatus?: "Pending" | "Approved" | "Rejected";
   proofLink?: string;
 
-  groups ?: mongoose.Types.ObjectId[]
+  groups?: mongoose.Types.ObjectId[];
 }
 
 export interface GetSkillRelatedUsersResponse {
@@ -58,20 +60,21 @@ export interface GetSkillRelatedUsersResponse {
 }
 
 export interface IUserWithImages {
-  userId: string;
-  userName: string;
+  _id : string,
+  userId?: string;
+  name: string;
   country: string;
   bio: string;
   skill: string;
   imageUrl?: string;
   coverImageUrl?: string;
+  isFollowingBack : boolean 
 }
 
 export interface FetchProfileImageResponse {
-  success: boolean;
-  imageUrls: {
-    profileUrl: string;
-    coverImageUrl: string;
-  };
-  message?: string;
+  imageUrl?: string;       // URL of the profile image, optional
+  coverImageUrl?: string;  // URL of the cover image, optional
+  followersCount?: number; // Number of followers, optional
+  followingsCount?: number; // Number of followings, optional
 }
+

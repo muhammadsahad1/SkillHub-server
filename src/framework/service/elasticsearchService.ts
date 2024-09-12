@@ -13,7 +13,7 @@ interface User {
 // interfaces/elasticsearchService.ts
 export interface IElasticsearchService {
   indexUser(user: User): Promise<any>;
-  searchUsers(query: string, s3: IS3Operations): Promise<Iuser[]>;
+  searchUsers(query: string, s3: IS3Operations): Promise<User[]>;
 }
 
 export const indexUser: IElasticsearchService["indexUser"] = async (
@@ -34,7 +34,7 @@ export const indexUser: IElasticsearchService["indexUser"] = async (
 export const searchUsers: IElasticsearchService["searchUsers"] = async (
   query: string,
   s3: IS3Operations
-): Promise<Iuser[]> => {
+): Promise<User[]> => {
   try {
     const result = await client.search({
       index: "users",
@@ -59,7 +59,7 @@ export const searchUsers: IElasticsearchService["searchUsers"] = async (
     });
 
     const users = await Promise.all(
-      result.hits.hits.map(async (hit) => {
+      result.hits.hits.map(async (hit: any) => {
         const profileImageName = hit._source?.profileImage;
         const profileImageUrl = profileImageName
           ? await s3.getObjectUrl({
@@ -68,7 +68,8 @@ export const searchUsers: IElasticsearchService["searchUsers"] = async (
             })
           : undefined;
 
-        const user: Iuser = {
+    
+        const user: User = {
           _id: hit._source?.id.toString(),
           name: hit._source?.name,
           bio: hit._source?.bio,

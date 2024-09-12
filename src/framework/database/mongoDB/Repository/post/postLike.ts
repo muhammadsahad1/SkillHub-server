@@ -6,28 +6,50 @@ export const postLike = async (
   userId: string,
   postId: string,
   postModels: typeof PostModel
-) => {
+): Promise<{
+  message: string;
+  postId: string | undefined;
+  postUserId: string | undefined;
+}> => {
   try {
-    const post = await postModels.findById(postId);
+    
+    const userIdObject = new mongoose.Types.ObjectId(userId);
+    // Check if the post exists
+    const post = await postModels.findById(postId).lean();
     if (!post) {
-      return { message: "Post not found" };
+      return {
+        message: "Post not found",
+        postId: undefined,
+        postUserId: undefined,
+      };
     }
 
-    const userIdObject = new mongoose.Types.ObjectId(userId);
-    // Check if the user has already liked the post
-    const alreadyLiked = post.likes.some((id) => id.equals(userIdObject));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    const likesArray = post.likes as unknown as mongoose.Types.ObjectId[];
+
+    const alreadyLiked = likesArray.some((id) => id.equals(userIdObject));
+
     if (alreadyLiked) {
       // Remove the user from the likes array
-      post.likes?.pull(userIdObject);
+      await postModels.findByIdAndUpdate(
+        postId,
+        { $pull: { likes: userIdObject } },
+        { new: true }
+      );
     } else {
       // Add the user to the likes array
-      post.likes?.push(userIdObject);
+      await postModels.findByIdAndUpdate(
+        postId,
+        { $push: { likes: userIdObject } },
+        { new: true }
+      );
     }
 
-    await post.save();
-
-    return { message: alreadyLiked ? "Post unliked" : "Post liked" ,postId : postId , postUserId : post.userId};
-  } catch (error : any) {
+    return {
+      message: alreadyLiked ? "Post unliked" : "Post liked",
+      postId: postId,
+      postUserId: post.userId ? post.userId.toString() : undefined, // Convert ObjectId to string if it exists
+    };
+  } catch (error: any) {
     throw new ErrorHandler(500, error.message);
   }
 };

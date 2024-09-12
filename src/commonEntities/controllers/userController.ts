@@ -61,7 +61,6 @@ export class UserController {
   async login(req: Req, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.login(req.body, next);
-      console.log("result Token ==>", result);
       if (result) {
         const { accessToken, refreshToken } = result?.tokens as {
           accessToken: string;
@@ -116,7 +115,7 @@ export class UserController {
 
   // ===================================================================>
   // Get skill Related Users
-  async getUsers(req: Req, res: Res, next: Next) {
+  async getUsers(req: CustomRequest, res: Res, next: Next) {
     try {
       const skill = req.query.skill as string;
 
@@ -158,7 +157,7 @@ export class UserController {
   }
   // ===================================================================>
   // create profile
-  async changePassword(req: Req, res: Res, next: Next) {
+  async changePassword(req: CustomRequest, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.changePassword(
         req.user?.id,
@@ -197,7 +196,7 @@ export class UserController {
   }
   // ===================================================================>
   // verify requesting for proffesional account
-  async verifyRequest(req: Req, res: Res, next: Next) {
+  async verifyRequest(req: CustomRequest, res: Res, next: Next) {
     const userId = req.user?.id;
     const result = await this.userUseCase.verifyRequest(userId, req.body, next);
     if (result) {
@@ -207,7 +206,7 @@ export class UserController {
 
   // ===================================================================>
   // upload Cover Image
-  async uploadCoverimage(req: Req, res: Res, next: Next) {
+  async uploadCoverimage(req: CustomRequest, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.uploadCoverImage(
         req.user?.id,
@@ -232,7 +231,7 @@ export class UserController {
 
   // ===================================================================>
   // getProfileImage
-  async getProfileImage(req: Req, res: Res, next: Next) {
+  async getProfileImage(req: CustomRequest, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.getProfileImage(req.user?.id, next);
       if (result) {
@@ -244,7 +243,7 @@ export class UserController {
     }
   }
 
-  async changePrivacy(req: Req, res: Res, next: Next) {
+  async changePrivacy(req: CustomRequest, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.changePrivacy(
         req.user?.id,
@@ -261,7 +260,7 @@ export class UserController {
   }
   // ===================================================================>
   // change notification settings
-  async showNotification(req: Req, res: Res, next: Next) {
+  async showNotification(req: CustomRequest, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.showNotification(
         req.user?.id,
@@ -305,7 +304,7 @@ export class UserController {
     }
   }
 
-  async getMyFollowings(req: Req, res: Res, next: Next) {
+  async getMyFollowings(req: CustomRequest, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.getMyFollowings(req.user?.id, next);
       if (result) {
@@ -317,7 +316,7 @@ export class UserController {
   }
   // ===================================================================>
   //myFollowers
-  async myFollowers(req: Req, res: Res, next: Next) {
+  async myFollowers(req: CustomRequest, res: Res, next: Next) {
     try {
       const userId = req.user?.id;
       const result = await this.userUseCase.myFollowers(userId, next);
@@ -346,7 +345,7 @@ export class UserController {
     }
   }
 
-  async removeFollower(req: Req, res: Res, next: Next) {
+  async removeFollower(req: CustomRequest, res: Res, next: Next) {
     try {
       const { toRemoveId } = req.body;
       const result = await this.userUseCase.removeFollower(
@@ -363,7 +362,7 @@ export class UserController {
   }
   // ===================================================================>
   // followBack
-  async followback(req: Req, res: Res, next: Next) {
+  async followback(req: CustomRequest, res: Res, next: Next) {
     try {
       const { toFollowId } = req.body;
       const result = await this.userUseCase.followBack(
@@ -381,7 +380,7 @@ export class UserController {
   }
   // ===================================================================>
   // Uploading post
-  async uploadPost(req: Req, res: Res, next: Next) {
+  async uploadPost(req: CustomRequest, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.uploadPost(
         req.user?.id,
@@ -400,7 +399,7 @@ export class UserController {
     }
   }
 
-  async uploadThoughts(req: Req, res: Res, next: Next) {
+  async uploadThoughts(req: CustomRequest, res: Res, next: Next) {
     try {
       console.log("body =>", req.body);
 
@@ -421,11 +420,12 @@ export class UserController {
 
   // ===================================================================>
   // fetching the posts
-  async fetchPosts(req: Req, res: Res, next: Next) {
+  async fetchPosts(req: CustomRequest, res: Res, next: Next) {
     try {
+      const pageParam = req.query?.pageParam ? Number(req.query.pageParam) : 1;
       const result = await this.userUseCase.fetchPosts(
         req.query?.skill as string,
-        req.query?.pageParam as number,
+        pageParam,
         next
       );
       if (result) {
@@ -482,7 +482,7 @@ export class UserController {
   }
   // ===================================================================>
   // Post like
-  async postLike(req: Req, res: Res, next: Next) {
+  async postLike(req: CustomRequest, res: Res, next: Next) {
     try {
       const { postId } = req.body;
       const result = await this.userUseCase.postLike(
@@ -499,7 +499,7 @@ export class UserController {
   }
   // ===================================================================>
   // Comment post
-  async addComment(req: Req, res: Res, next: Next) {
+  async addComment(req: CustomRequest, res: Res, next: Next) {
     try {
       const { postId, comment } = req.body;
       const result = await this.userUseCase.addComment(
@@ -536,7 +536,7 @@ export class UserController {
   }
 
   // Deleteing comment
-  async editingComment(req: Req, res: Res, next: Next) {
+  async editingComment(req: CustomRequest, res: Res, next: Next) {
     try {
       const { commentId, postId, updatedText } = req.body.data;
 
@@ -558,7 +558,7 @@ export class UserController {
 
   // ===================================================================>
   // Fetch my posts
-  async fetchMyPosts(req: Req, res: Res, next: Next) {
+  async fetchMyPosts(req: CustomRequest, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.fetchMyPosts(req.user?.id, next);
 
@@ -571,7 +571,7 @@ export class UserController {
   }
   // ===================================================================>
   // Fetch my posts
-  async fetchOtherFollowers(req: Req, res: Res, next: Next) {
+  async fetchOtherFollowers(req: CustomRequest, res: Res, next: Next) {
     try {
       const userId = req.query.userId;
 
@@ -591,7 +591,7 @@ export class UserController {
   }
   // ===================================================================>
   // Fetch my posts
-  async fetchOtherFollowings(req: Req, res: Res, next: Next) {
+  async fetchOtherFollowings(req: CustomRequest, res: Res, next: Next) {
     try {
       const userId = req.query.userId;
 
@@ -652,7 +652,7 @@ export class UserController {
     }
   }
 
-  async reportPost(req: Req, res: Res, next: Next) {
+  async reportPost(req: CustomRequest, res: Res, next: Next) {
     try {
       const { postId, reason } = req.body as {
         postId: string;

@@ -2,11 +2,12 @@ import { json } from "stream/consumers";
 import { Next, Req, Res } from "../../framework/types/serverPackageType";
 import { IgroupUseCase } from "../../usecases/interface/usecase/groupUseCase";
 import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
+import { CustomRequest } from "../../framework/webServer/middleware/request/customReq";
 
 //============================== Group Controller ================== \\
 export class GroupController {
   constructor(private groupUseCase: IgroupUseCase) {}
-  async createGroup(req: Req, res: Res, next: Next) {
+  async createGroup(req: CustomRequest, res: Res, next: Next) {
     try {
       const groupData = req.body;
       const creatorId = req.user?.id as string;
@@ -38,7 +39,7 @@ export class GroupController {
     }
   }
 
-  async joinGroup(req: Req, res: Res, next: Next) {
+  async joinGroup(req: CustomRequest, res: Res, next: Next) {
     try {
       const { groupId } = req.body;
       const userId = req.user?.id as string;
@@ -63,7 +64,7 @@ export class GroupController {
     }
   }
 
-  async sendMessage(req: Req, res: Res, next: Next) {
+  async sendMessage(req: CustomRequest, res: Res, next: Next) {
     try {
       const { groupId, message } = req.body as {
         groupId: string;
@@ -114,7 +115,7 @@ export class GroupController {
     }
   }
 
-  async leaveGroup(req: Req, res: Res, next: Next) {
+  async leaveGroup(req: CustomRequest, res: Res, next: Next) {
     try {
       const { groupId } = req.body as { groupId: string };
       const userId = req.user?.id;

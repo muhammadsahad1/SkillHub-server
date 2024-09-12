@@ -8,11 +8,11 @@ export interface IEventUseCase {
     eventDate: ICreateEvent,
     bannerFile: Express.Multer.File | undefined,
     next: Next
-  ):  Promise<{ success: boolean; message: string , joinLink : string } | void>;
+  ):  Promise<{ success: boolean; message: string} | void>;
 
   // ============================================================
 
-  getEvents(next: Next): Promise<IEvent[] | void>;
+  getEvents(pageNumber : number,next: Next): Promise<IEvent[] | void>;
 
   // ============================================================
 

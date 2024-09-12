@@ -1,13 +1,13 @@
+import { IUserWithImages } from "../../../../../commonEntities/entities/user";
 import { IS3Operations } from "../../../../service/s3Bucket";
 
 export const getUsersImageUrls = async (
   users: any[],
   followings: any[] = [],
   s3: IS3Operations
-) => {
+): Promise<IUserWithImages[] | undefined> => {
   try {
-    
-    const followingIds = followings.map((id) => id.toString())
+    const followingIds = followings.map((id) => id.toString());
     const userWithImages = await Promise.all(
       users.map(async (user) => {
         const {
@@ -28,7 +28,6 @@ export const getUsersImageUrls = async (
             bucket: process.env.C3_BUCKET_NAME,
             key: profileImage,
           });
-          
         }
 
         if (coverImage) {
@@ -37,7 +36,7 @@ export const getUsersImageUrls = async (
             key: coverImage,
           });
         }
-        
+
         let isFollowingBack = followingIds.includes(_id.toString());
 
         // returning the home page userSkillReleted data
@@ -54,7 +53,6 @@ export const getUsersImageUrls = async (
       })
     );
 
-    console.log("usersWithImages ===>", userWithImages);
     return userWithImages;
   } catch (error) {
     console.error("Error updating profile:", error);

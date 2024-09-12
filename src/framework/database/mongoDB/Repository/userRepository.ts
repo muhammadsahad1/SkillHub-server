@@ -132,7 +132,7 @@ export class UserRepository implements IuserRepository {
     userId: string,
     skill: string,
     s3Bucket: IS3Operations
-  ): Promise<IUserWithImages[]> {
+  ): Promise<IUserWithImages[] | undefined> {
     const users = await getSkillRelatedUsers(userId, skill, this.userModels);
     if (!users || users.length === 0) {
       return [];
@@ -148,14 +148,14 @@ export class UserRepository implements IuserRepository {
   async resetPasswordVerify(
     password: string,
     token: string
-  ): Promise<Iuser | void> {
+  ): Promise<Iuser | null | void> {
     return await resetPasswordVerify(this.userModels, password, token);
   }
   // ===================================================================>
   async fetchProfileImage(
     S3Operations: IS3Operations,
     userId: string
-  ): Promise<FetchProfileImageResponse> {
+  ): Promise<FetchProfileImageResponse | undefined> {
     return await fetchProfileImage(this.userModels, S3Operations, userId);
   }
   // cover image upload
@@ -170,7 +170,7 @@ export class UserRepository implements IuserRepository {
   async findByIdUpdateUpdateOne(
     userId: string,
     password: string
-  ): Promise<Iuser | void> {
+  ): Promise<Iuser | null | void> {
     return await changePassword(this.userModels, userId, password);
   }
   // ===================================================================>
@@ -192,7 +192,7 @@ export class UserRepository implements IuserRepository {
   async getMyFollowing(
     userId: string,
     S3Operations: IS3Operations
-  ): Promise<any> {
+  ): Promise<IUserWithImages[] | undefined> {
     const followingUsers = await getMyFollowing(
       userId,
       this.userModels,
@@ -215,14 +215,18 @@ export class UserRepository implements IuserRepository {
   }
 
   async myFollowers(userId: string, S3Operations: IS3Operations): Promise<any> {
-    const { followersUsers, following } = await myFollowers(
-      userId,
-      this.userModels
-    );
+    const result = await myFollowers(userId, this.userModels);
+
+    if (!result) {
+      return [];
+    }
+
+    const { followersUsers, following } = result;
 
     if (!followersUsers || followersUsers?.length === 0) {
       return [];
     }
+
     const followersUsersWithImage = await getUsersImageUrls(
       followersUsers,
       following,
@@ -307,8 +311,18 @@ export class UserRepository implements IuserRepository {
 
   // ===================================================================>
 
-  async fetchPosts(userSkill: string,pageParam : number, s3: IS3Operations): Promise<any> {
-    return await fetchPosts(userSkill,pageParam, s3, this.userModels, this.postModels);
+  async fetchPosts(
+    userSkill: string,
+    pageParam: number,
+    s3: IS3Operations
+  ): Promise<any> {
+    return await fetchPosts(
+      userSkill,
+      pageParam,
+      s3,
+      this.userModels,
+      this.postModels
+    );
   }
 
   // ===================================================================>
@@ -326,7 +340,11 @@ export class UserRepository implements IuserRepository {
   async postLike(
     userId: string,
     postId: string
-  ): Promise<{ message: string; postId: string }> {
+  ): Promise<{
+    message: string;
+    postId: string | undefined;
+    postUserId: string | undefined;
+  }> {
     return await postLike(userId, postId, this.postModels);
   }
 
@@ -400,7 +418,13 @@ export class UserRepository implements IuserRepository {
     reason: string,
     userId: string
   ): Promise<{ success: boolean; message: string } | void> {
-    return await reportPost(postId, reason, userId, this.postModels, this.requestModel);
+    return await reportPost(
+      postId,
+      reason,
+      userId,
+      this.postModels,
+      this.requestModel
+    );
   }
 
   getAllUsers(): Promise<string> {

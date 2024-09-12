@@ -8,7 +8,7 @@ import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
 export class EventController {
   constructor(private eventUseCase: IEventUseCase) {}
   // creating Event
-  async createEvent(req: Req, res: Res, next: Next) {
+  async createEvent(req: CustomRequest, res: Res, next: Next) {
     try {
       const data = req.body;
       const userId = req.user?.id as string;
@@ -29,7 +29,9 @@ export class EventController {
   // fetching the all events
   async getEvents(req: Req, res: Res, next: Next) {
     try {
-      const result = await this.eventUseCase.getEvents(next);
+      console.log("req.q ==>", req.query);
+      const pageNumber = parseInt(req.query.pageNumber as string, 10);
+      const result = await this.eventUseCase.getEvents(pageNumber, next);
       if (result) {
         res.status(200).json(result);
       }

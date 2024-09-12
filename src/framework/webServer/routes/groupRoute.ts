@@ -2,6 +2,7 @@ import { Route, Req, Res, Next } from "../../types/serverPackageType";
 import { groupController } from "../injections/injection";
 import { isAuthenticate } from "../middleware/auth";
 import upload from "../middleware/multer";
+import { CustomRequest } from "../middleware/request/customReq";
 
 export function groupRoute(route: Route): Route {
   route.post(
@@ -9,7 +10,7 @@ export function groupRoute(route: Route): Route {
     upload.single("groupImageFile"),
     isAuthenticate,
     (req: Req, res: Res, next: Next) =>
-      groupController.createGroup(req, res, next)
+      groupController.createGroup(req as CustomRequest, res, next)
   );
 
   route.get("/groups", isAuthenticate, (req: Req, res: Res, next: Next) =>
@@ -17,7 +18,7 @@ export function groupRoute(route: Route): Route {
   );
 
   route.post("/joinGroup", isAuthenticate, (req: Req, res: Res, next: Next) =>
-    groupController.joinGroup(req, res, next)
+    groupController.joinGroup(req as CustomRequest, res, next)
   );
 
   route.get("/group", isAuthenticate, (req: Req, res: Res, next: Next) =>
@@ -28,7 +29,7 @@ export function groupRoute(route: Route): Route {
     "/sendGroupMessage",
     isAuthenticate,
     (req: Req, res: Res, next: Next) =>
-      groupController.sendMessage(req, res, next)
+      groupController.sendMessage(req as CustomRequest, res, next)
   );
 
   route.get("/messages", isAuthenticate, (req: Req, res: Res, next: Next) =>
@@ -40,7 +41,7 @@ export function groupRoute(route: Route): Route {
   );
 
   route.post("/leave", isAuthenticate, (req: Req, res: Res, next: Next) =>
-    groupController.leaveGroup(req, res, next)
+    groupController.leaveGroup(req as CustomRequest, res, next)
   );
 
   return route;

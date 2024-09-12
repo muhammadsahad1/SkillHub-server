@@ -1,9 +1,8 @@
 import mongoose, { Schema, Model, Document } from "mongoose";
 import { Ipost } from "../../../../commonEntities/entities/post";
 
-
 const PostSchema: Schema<Ipost> = new mongoose.Schema(
-  { 
+  {
     userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     imageName: {
       type: String,
@@ -21,7 +20,7 @@ const PostSchema: Schema<Ipost> = new mongoose.Schema(
         return this.type !== "thoughts";
       },
     },
-    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     comments: [
       {
         userId: { type: Schema.Types.ObjectId, ref: "User" },

@@ -8,23 +8,22 @@ export const editComment = async (
   userId: string,
   updatedComment: string,
   postModels: typeof PostModel
-):Promise<Ipost | void>  => {
+): Promise<IComment | void> => {
   try {
+    const post = await postModels.findById(postId);
 
-    const post = await postModels.findById(postId)
+    if (post) {
+      const comment = post.comments.find(
+        (c) => c._id.toString() === commentId && c.userId.toString() === userId
+      );
 
-    if(post){
-      const comment = post.comments.find((c) => c._id.toString() === commentId && c.userId.toString() === userId)
-
-      if(comment){
-        comment.comment = updatedComment
-        comment.created_at = new Date()
-        await post.save()
-        return comment
+      if (comment) {
+        comment.comment = updatedComment;
+        comment.created_at = new Date();
+        await post.save();
+        return comment;
       }
-
     }
-
   } catch (error) {
     console.error("Error delete post:", error);
     return undefined;

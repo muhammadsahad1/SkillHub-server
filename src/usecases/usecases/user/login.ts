@@ -13,7 +13,10 @@ export const login = async (
   password: string, 
   picture: string | undefined,
   next: Next,
-):Promise<{ fetchUser?: Iuser | void; token : {accessToken : string ,refreshToken : string} }| void> => {
+): Promise<{
+  fetchUser?: Iuser | void;
+  tokens: { accessToken: string; refreshToken: string };
+} | void> => {
   try {
     let fetchUser = await userRepository.findByEmail(email);
     if (!fetchUser) {

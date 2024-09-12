@@ -15,7 +15,7 @@ export const addComment = async (
   comment: string,
   postModels: typeof PostModel,
   userModelS: typeof userModel
-) => {
+) : Promise<any> => {
   try {
     const user = await userModelS.findById(userId).select("name");
 

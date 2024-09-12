@@ -1,5 +1,6 @@
 import { Ipost } from "../../../commonEntities/entities/post";
 import {
+  FetchProfileImageResponse,
   GetSkillRelatedUsersResponse,
   Iuser,
   IUserWithImages,
@@ -19,7 +20,7 @@ export interface IuserUseCase {
     next: Next
   ): Promise<{
     fetchUser?: Iuser | void;
-    token: { accessToken: string; refreshToken: string };
+    tokens: { accessToken: string; refreshToken: string };
   } | void>;
   // ===================================================================>
   createUser(
@@ -54,8 +55,7 @@ export interface IuserUseCase {
     next: Next
   ): Promise<{
     success: boolean;
-    imageUrls: { profileUrl: string; coverImageUrl: string };
-    coverImage: string | void;
+    imageUrls: FetchProfileImageResponse | undefined;
     message?: string;
   } | void>;
   // ===================================================================>
@@ -68,11 +68,12 @@ export interface IuserUseCase {
   forgotPassword(
     email: string,
     next: Next
-  ): Promise<
-    | void
-    | Iuser
-    | { success: boolean; token: string; user: Iuser; message: string }
-  >;
+  ): Promise<void | {
+    success: boolean;
+    token: string;
+    user: Iuser;
+    message: string;
+  }>;
   // ===================================================================>
   resetPassword(
     password: string,
@@ -99,7 +100,10 @@ export interface IuserUseCase {
     userId: string,
     skill: string,
     next: Next
-  ): Promise<IUserWithImages>;
+  ): Promise<{
+    success: boolean;
+    userDetails: IUserWithImages[] | undefined;
+  } | void>;
 
   // ===================================================================>
   getUserDetails(
@@ -115,7 +119,7 @@ export interface IuserUseCase {
   ): Promise<void>;
 
   // ===================================================================>
-  getMyFollowings(userId: string, next: Next): Promise<Iuser[]>;
+  getMyFollowings(userId: string, next: Next): Promise<IUserWithImages[] | void>;
 
   // ===================================================================>
   myFollowers(userId: string, next: Next): Promise<Iuser[]>;
@@ -172,7 +176,7 @@ export interface IuserUseCase {
   // ===================================================================>
   fetchOthersPosts(userId: string, next: Next): Promise<any>;
 
-  fetchPosts(userSkill: string,pageParam : number, next: Next): Promise<any>;
+  fetchPosts(userSkill: string, pageParam: number, next: Next): Promise<any>;
   // ===================================================================>
 
   fetchMyPosts(userId: string, next: Next): Promise<any>;

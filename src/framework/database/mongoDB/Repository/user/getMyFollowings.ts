@@ -1,21 +1,19 @@
 import mongoose from "mongoose";
 import userModel from "../../model/userModel";
 import { IS3Operations } from "../../../../service/s3Bucket";
+import { Iuser } from "../../../../../commonEntities/entities/user";
 
 export const getMyFollowing = async (
   userId : string,
   userModels : typeof userModel,
   s3 : IS3Operations
-) => {
+): Promise<Iuser[] | undefined> => {
   try {
 
     const user = await userModels.findById(userId).lean()
+    const folllowings = user?.following as mongoose.Types.ObjectId[]
 
-    if(!user){
-      return "user is not found"
-    }
-
-    const followings = user?.following.filter(id => mongoose.Types.ObjectId.isValid(id));
+    const followings = folllowings.filter(id => mongoose.Types.ObjectId.isValid(id));
 
     const followingsUsers = await userModels.find({_id : {$in : followings}})
 

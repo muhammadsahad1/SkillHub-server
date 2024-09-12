@@ -15,7 +15,6 @@ export const adminLogin = async (
   const admin = await adminRepository.adminLogin(email);
   // ensure admin
   if (admin?.role === "user") {
-    console.log("is user");
     return next(new ErrorHandler(403, "Not authorized"));
   } else {
     // campare for ensure the admin password
@@ -29,12 +28,11 @@ export const adminLogin = async (
     }
     // generating token
     const Tokens = await jwt.createAccessAndRefreshToken(admin?.id as string);
-    console.log("Tokenssssss => admin ==>",Tokens)
     return {
       success: true,
       tokens: Tokens,
       message: "successfully authorized admin",
-      admin: {  
+      admin: {
         _id: admin?._id,
         email: admin?.email,
       },

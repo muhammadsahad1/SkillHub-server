@@ -41,7 +41,7 @@ export interface IuserRepository {
   findByIdUpdateUpdateOne(
     userId: string,
     password: string
-  ): Promise<Iuser | void>;
+  ): Promise<Iuser | null | void>;
 
   /**
    * Updates a user's email with a new value.
@@ -71,7 +71,10 @@ export interface IuserRepository {
    * @param token - The reset token.
    * @returns The updated user or undefined if verification fails.
    */
-  resetPasswordVerify(password: string, token: string): Promise<Iuser | void>;
+  resetPasswordVerify(
+    password: string,
+    token: string
+  ): Promise<Iuser | null | void>;
 
   /**
    * Creates a user profile with a file upload.
@@ -106,7 +109,7 @@ export interface IuserRepository {
   fetchProfileImage(
     s3upload: any,
     userId: string
-  ): Promise<FetchProfileImageResponse>;
+  ): Promise<FetchProfileImageResponse | undefined>;
 
   /**
    * Uploads a cover image for a user.
@@ -143,7 +146,7 @@ export interface IuserRepository {
     userId: string,
     skill: string,
     s3Bucket: IS3Operations
-  ): Promise<IUserWithImages[]>;
+  ): Promise<IUserWithImages[] | undefined>;
 
   /**
    * Gets details of a user by ID.
@@ -158,7 +161,7 @@ export interface IuserRepository {
    * @param S3Operations - S3 service operations.
    * @returns A list of users.
    */
-  getMyFollowing(userId: string, S3Operations: IS3Operations): Promise<any>;
+  getMyFollowing(userId: string, S3Operations: IS3Operations): Promise<IUserWithImages[] | undefined>;
 
   /**
    * Retrieves all users in the system.
@@ -266,7 +269,11 @@ export interface IuserRepository {
    * @param s3 - S3 service operations.
    * @returns A list of posts.
    */
-  fetchPosts(userSkill: string,pageParam : number, s3: IS3Operations): Promise<Ipost[]>;
+  fetchPosts(
+    userSkill: string,
+    pageParam: number,
+    s3: IS3Operations
+  ): Promise<Ipost[]>;
 
   /**
    * Fetches posts made by a specific user.
@@ -311,7 +318,11 @@ export interface IuserRepository {
   postLike(
     userId: string,
     postId: string
-  ): Promise<{ message: string; postId: string }>;
+  ): Promise<{
+    message: string;
+    postId: string | undefined;
+    postUserId: string | undefined;
+  }>;
 
   /**
    * Records a view of a post.

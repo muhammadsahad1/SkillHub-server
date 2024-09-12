@@ -125,7 +125,6 @@ export const initializeSocket = (server: http.Server) => {
         message: string;
         createAt: Date;
       } = data;
-      console.log("Processed data:", { _id: _id, media: null, sender, message, createAt });
       socket.to(`group_${_id}`).emit("receiveGroupMessage", {
         _id: _id,
         media: null,

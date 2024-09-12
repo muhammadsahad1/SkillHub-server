@@ -5,14 +5,14 @@ import { IEventRepository } from "../../interface/repositoryInterface/eventRepos
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
 
 export const getEvents = async (
+  pogeNumber : number,
   next: Next,
   eventRepository: IEventRepository,
   s3Operations: IS3Operations
 ): Promise<IEvent[] | void> => {
   try {
-    console.log("useCasil vannu");
-    
-    const result = await eventRepository.getEvents(s3Operations);
+
+    const result = await eventRepository.getEvents(pogeNumber,s3Operations);
     if (!result) {
       return next(new ErrorHandler(401, "failed to fetch the events"));
     }

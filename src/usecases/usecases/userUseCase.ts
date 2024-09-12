@@ -44,6 +44,7 @@ import { IotpRepository } from "../interface/repositoryInterface/otpRepository";
 import { IotpGenerate } from "../interface/service/otpGenerate";
 import { IhashPassword } from "../interface/service/hashPassword";
 import {
+  FetchProfileImageResponse,
   GetSkillRelatedUsersResponse,
   Iuser,
   IUserWithImages,
@@ -135,7 +136,7 @@ export class UserUseCase implements IuserUseCase {
     next: Next
   ): Promise<{
     fetchUser?: Iuser | void;
-    token: { accessToken: string; refreshToken: string };
+    tokens: { accessToken: string; refreshToken: string };
   } | void> {
     const tokens = await login(
       this.userRepostory,
@@ -287,8 +288,7 @@ export class UserUseCase implements IuserUseCase {
     next: Next
   ): Promise<{
     success: boolean;
-    imageUrls: { profileUrl: string; coverImageUrl: string };
-    coverImage: string | void;
+    imageUrls: FetchProfileImageResponse | undefined;
     message?: string;
   } | void> {
     const result = await getProfileImage(
@@ -341,7 +341,10 @@ export class UserUseCase implements IuserUseCase {
     userId: string,
     skill: string,
     next: Next
-  ): Promise<IUserWithImages> {
+  ): Promise<{
+    success: boolean;
+    userDetails: IUserWithImages[] | undefined;
+  } | void> {
     return await getSkillRelatedUsers(
       userId,
       skill,
@@ -378,7 +381,7 @@ export class UserUseCase implements IuserUseCase {
     await followUp(toFollowingId, fromFollowerId, this.userRepostory, next);
   }
   // ===================================================================>
-  async getMyFollowings(userId: string, next: Next): Promise<Iuser[]> {
+  async getMyFollowings(userId: string, next: Next): Promise<IUserWithImages[] | void> {
     return await getMyFollowings(userId, this.userRepostory, this.s3, next);
   }
   // ===================================================================>

@@ -1,11 +1,12 @@
 import userModel from "../../model/userModel";
 import { IS3Operations } from "../../../../service/s3Bucket";
+import { FetchProfileImageResponse } from "../../../../../commonEntities/entities/user";
 
 export const fetchProfileImage = async (
   userModels: typeof userModel,
   s3: IS3Operations,
   userId: string
-) => {
+) : Promise<FetchProfileImageResponse | undefined> => {
   try {
     // fetching user's profileImage Name for fetch from S31bucket
     const findUser = await userModels.findById({ _id: userId });
@@ -26,14 +27,14 @@ export const fetchProfileImage = async (
     }
 
     if (coverImageName) {
+      
       coverImageUrl = await s3.getObjectUrl({
         bucket: process.env.C3_BUCKET_NAME,
-        key: coverImageName,
+        key: coverImageName as string,
       });
-    } 
-    
+    }
+    console.log("called fetchImage");
     return { imageUrl, coverImageUrl, followersCount, followingsCount };
-
   } catch (error) {
     console.error("Error updating profile:", error);
     return undefined;

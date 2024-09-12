@@ -1,5 +1,6 @@
 import { InotificationUseCase } from "../../usecases/interface/usecase/notificationUseCase";
 import { Req, Res, Next } from "../../framework/types/serverPackageType";
+import { CustomRequest } from "../../framework/webServer/middleware/request/customReq";
 
 export class NotificationController {
   constructor(private notificationUseCase: InotificationUseCase) {}
@@ -10,7 +11,7 @@ export class NotificationController {
     res.status(201).json(result)
   }
 // get all notifications
-  async getNotifications(req: Req, res: Res, next: Next) {
+  async getNotifications(req: CustomRequest, res: Res, next: Next) {
     const userId = req.user?.id
     const result = await this.notificationUseCase.notifications(userId,next);
     res.status(201).json(result)
