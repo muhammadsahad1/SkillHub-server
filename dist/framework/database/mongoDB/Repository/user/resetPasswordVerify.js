@@ -7,7 +7,7 @@ export const resetPasswordVerify = async (userModels, password, token) => {
         const updatedUser = await userModels.findByIdAndUpdate({ _id: fetchedUser._id }, {
             $set: {
                 password: password,
-                resetPasswordToken: ''
+                resetPasswordToken: "",
             },
         }, { new: true });
         return updatedUser;

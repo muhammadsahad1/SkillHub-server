@@ -2,7 +2,7 @@ import { ErrorHandler } from "../../middlewares/errorMiddleware";
 // Creating user after user submits the OTP
 export const createUser = async (email, otp, jwt, otpRepository, userRepository, hashPassword, next) => {
     try {
-        // Fetch OTP 
+        // Fetch OTP
         const fetchedOtp = await otpRepository.findOtp(email);
         console.log("fetchedOTP", fetchedOtp);
         if (!fetchedOtp) {
@@ -19,13 +19,17 @@ export const createUser = async (email, otp, jwt, otpRepository, userRepository,
             email: fetchedOtp.email,
             password: hashedPassword,
         };
-        console.log("user ==> creating user", user);
         // Save user to the user collection DB
         const newUser = await userRepository.createUser(user);
-        const tokens = await jwt.createAccessAndRefreshToken(newUser?.id);
+        const tokens = await jwt.createAccessAndRefreshToken(newUser.id);
         console.log("tokens ===>", tokens);
         if (newUser) {
-            return { success: true, user: newUser, tokens: tokens, message: "successfully created user" };
+            return {
+                success: true,
+                user: newUser,
+                tokens: tokens,
+                message: "successfully created user",
+            };
         }
     }
     catch (error) {

@@ -1,5 +1,5 @@
 import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware";
-export const getCommentedUserImage = async (userId, s3, userModels, next) => {
+export const getCommentedUserImage = async (postOwnerId, userId, s3, userModels, next) => {
     try {
         const user = await userModels.findById(userId);
         // checking the user
@@ -18,7 +18,7 @@ export const getCommentedUserImage = async (userId, s3, userModels, next) => {
         if (!userWithImage) {
             return next(new ErrorHandler(500, "Error retrieving image from S3")); // Handle case where image retrieval fails
         }
-        return { userWithImage, userName: user.name };
+        return { postOwnerId: postOwnerId, userWithImage, userId: userId, userName: user.name };
     }
     catch (error) {
         console.error("Error delete post:", error);

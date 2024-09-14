@@ -3,8 +3,8 @@ export const changePassword = async (userModels, userId, password) => {
         console.log("updting ");
         const updateUser = await userModels.findOneAndUpdate({ _id: userId }, {
             $set: {
-                password: password
-            }
+                password: password,
+            },
         });
         return updateUser;
     }

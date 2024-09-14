@@ -1,4 +1,4 @@
-import { ErrorHandler } from '../../middlewares/errorMiddleware';
+import { ErrorHandler } from "../../middlewares/errorMiddleware";
 export const getProfileImage = async (userId, userRepository, s3, next) => {
     try {
         const ImageUrls = await userRepository.fetchProfileImage(s3, userId);

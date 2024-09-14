@@ -49,9 +49,8 @@ export class UserController {
     async login(req, res, next) {
         try {
             const result = await this.userUseCase.login(req.body, next);
-            console.log("result Token ==>", result);
             if (result) {
-                const { accessToken, refreshToken } = result.tokens;
+                const { accessToken, refreshToken } = result?.tokens;
                 res.cookie("accessToken", accessToken, accessTokenOption);
                 res.cookie("refreshToken", refreshToken, refreshTokenOption);
                 res.cookie("role", "user", roleOptions);
@@ -101,9 +100,7 @@ export class UserController {
     async getUsers(req, res, next) {
         try {
             const skill = req.query.skill;
-            console.log("keriiiiiiiiiiiiiiiiiiiiiiiiiii =============>", skill);
             const result = await this.userUseCase.getSkillRelatedUsers(req.user?.id, skill, next);
-            console.log("result in backend ======>", result);
             if (result) {
                 res.status(200).json(result);
             }
@@ -140,7 +137,7 @@ export class UserController {
     // create profile
     async changePassword(req, res, next) {
         try {
-            const result = await this.userUseCase.changePassword(req.user?.id, req.body.currentPassword, req.body.newPassword);
+            const result = await this.userUseCase.changePassword(req.user?.id, req.body.currentPassword, req.body.newPassword, next);
             res.status(200).json(result);
         }
         catch (error) { }
@@ -149,8 +146,6 @@ export class UserController {
     // create profile
     async createProfile(req, res, next) {
         try {
-            console.log("Request body:", req.body);
-            console.log("Request file:", req.file);
             const result = await this.userUseCase.createProfile(req.body, req.file, next);
             if (result) {
                 res.status(200).json({
@@ -166,6 +161,15 @@ export class UserController {
         }
         catch (error) {
             return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    // ===================================================================>
+    // verify requesting for proffesional account
+    async verifyRequest(req, res, next) {
+        const userId = req.user?.id;
+        const result = await this.userUseCase.verifyRequest(userId, req.body, next);
+        if (result) {
+            res.status(200).json(result);
         }
     }
     // ===================================================================>
@@ -318,9 +322,24 @@ export class UserController {
     // Uploading post
     async uploadPost(req, res, next) {
         try {
-            console.log("uploading post ===>", req.file);
-            const result = await this.userUseCase.uploadPost(req.user?.id, req.file, req.body.caption, req.body.type, next);
-            console.log("result ====>>>>>", result);
+            const result = await this.userUseCase.uploadPost(req.user?.id, req.file, req.body.caption, req.body.type);
+            if (result.success) {
+                res.status(200).json(result);
+            }
+            else {
+                res.status(400).json(result);
+            }
+        }
+        catch (error) {
+            return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    async uploadThoughts(req, res, next) {
+        try {
+            console.log("body =>", req.body);
+            const { thoughts } = req.body;
+            const userId = req.user?.id;
+            const result = await this.userUseCase.uploadThoughts(userId, thoughts, next);
             if (result) {
                 res.status(200).json(result);
             }
@@ -333,7 +352,8 @@ export class UserController {
     // fetching the posts
     async fetchPosts(req, res, next) {
         try {
-            const result = await this.userUseCase.fetchPosts(req.query?.skill, next);
+            const pageParam = req.query?.pageParam ? Number(req.query.pageParam) : 1;
+            const result = await this.userUseCase.fetchPosts(req.query?.skill, pageParam, next);
             if (result) {
                 res.status(200).json(result);
             }
@@ -350,6 +370,18 @@ export class UserController {
             if (result) {
                 res.status(200).json(result);
             }
+        }
+        catch (error) {
+            return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    // ===================================================================>
+    // One post
+    async postView(req, res, next) {
+        try {
+            const { postId } = req.query;
+            const result = await this.userUseCase.postView(postId, next);
+            res.status(200).json(result);
         }
         catch (error) {
             return next(new ErrorHandler(error.status, error.message));
@@ -384,12 +416,38 @@ export class UserController {
         }
     }
     // ===================================================================>
-    // Comment post 
+    // Comment post
     async addComment(req, res, next) {
         try {
-            console.log("req.body ====>", req.body);
             const { postId, comment } = req.body;
             const result = await this.userUseCase.addComment(postId, req.user?.id, comment, next);
+            if (result) {
+                res.status(200).json(result);
+            }
+        }
+        catch (error) {
+            return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    // ===================================================================>
+    // Deleteing comment
+    async deleteComment(req, res, next) {
+        try {
+            const { commentId, postId } = req.body;
+            const result = await this.userUseCase.delteComment(postId, commentId, next);
+            if (result) {
+                res.status(200).json(result);
+            }
+        }
+        catch (error) {
+            return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    // Deleteing comment
+    async editingComment(req, res, next) {
+        try {
+            const { commentId, postId, updatedText } = req.body.data;
+            const result = await this.userUseCase.editingComment(postId, commentId, req.user?.id, updatedText, next);
             if (result) {
                 res.status(200).json(result);
             }
@@ -433,9 +491,35 @@ export class UserController {
             const userId = req.query.userId;
             const result = await this.userUseCase.othersFollowings(userId, req.user?.id, next);
             if (result) {
-                console.log("result ===> ", result);
                 res.status(200).json(result);
             }
+        }
+        catch (error) {
+            return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    // ===================================================================>
+    // Fetch my posts
+    async fetchOthersPosts(req, res, next) {
+        try {
+            const { userId } = req.query;
+            const result = await this.userUseCase.fetchOthersPosts(userId, next);
+            if (result) {
+                res.status(200).json(result);
+            }
+        }
+        catch (error) {
+            return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    // ===================================================================>
+    // Search users with elastic searching
+    async searchUsers(req, res, next) {
+        try {
+            const query = req.query.query;
+            const result = await this.userUseCase.searchUsers(query, next);
+            console.log("Search result from backend:", result);
+            return res.status(200).json(result);
         }
         catch (error) {
             return next(new ErrorHandler(error.status, error.message));
@@ -446,9 +530,23 @@ export class UserController {
     async userLogout(req, res, next) {
         try {
             res.clearCookie("accessToken", accessTokenOption);
-            res.clearCookie("refreshToken", refreshTokenOption);
+            // res.clearCookie("refreshToken", refreshTokenOption);
             res.clearCookie("role", roleOptions);
             res.status(200).json({ success: true, message: "successfully logouted" });
+        }
+        catch (error) {
+            return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    async reportPost(req, res, next) {
+        try {
+            const { postId, reason } = req.body;
+            console.log("body ==>", req.body);
+            const userId = req.user?.id;
+            const result = await this.userUseCase.reportPost(postId, reason, userId, next);
+            if (result) {
+                res.status(200).json(result);
+            }
         }
         catch (error) {
             return next(new ErrorHandler(error.status, error.message));

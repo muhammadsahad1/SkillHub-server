@@ -1,5 +1,4 @@
 export const uploadPost = async (userId, file, caption, type, s3, userModels, postModels) => {
-    console.log("in repo ===>", file);
     try {
         let imageName = "";
         let signedUrl = "";
@@ -12,6 +11,7 @@ export const uploadPost = async (userId, file, caption, type, s3, userModels, po
                 buffer,
                 mimetype,
             };
+            // uploading the image to s3 bucket
             imageName = await s3.putObjectUrl(putObjectParams);
         }
         const newPost = {
@@ -33,13 +33,17 @@ export const uploadPost = async (userId, file, caption, type, s3, userModels, po
             ...createdPost.toObject(),
             signedUrl: signedUrl,
             skill: skill,
-            userId: currentUser?._id
+            userId: currentUser?._id,
         };
         // returning the created post and post url
         return postWithUrl;
     }
     catch (error) {
-        console.error("Error updating profile:", error);
-        return undefined; // Handle error as needed
+        console.error("Error uploading post:", error);
+        return {
+            success: false,
+            message: "Error uploading post",
+            error: error.message,
+        };
     }
 };

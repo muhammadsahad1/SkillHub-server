@@ -2,7 +2,11 @@ import { S3Client, PutObjectCommand, GetObjectCommand, } from "@aws-sdk/client-s
 import crypto from "crypto";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import NodeCache from "node-cache"; //using for cache machanisim
-const cache = new NodeCache({ stdTTL: 86400, checkperiod: 3600, maxKeys: 10000 });
+const cache = new NodeCache({
+    stdTTL: 86400,
+    checkperiod: 3600,
+    maxKeys: 10000,
+});
 export class S3Operations {
     s3Client;
     bucketName;
@@ -26,13 +30,10 @@ export class S3Operations {
             Body: buffer,
             ContentType: mimetype,
         };
-        console.log("s3 putil vannu ===> ");
-        console.log("paramss in put ==>", params);
+        // here the blob data uploading
         const command = new PutObjectCommand(params);
         try {
-            const data = await this.s3Client.send(command);
-            console.log(`Uploaded ${originalname} to S3 bucket ${this.bucketName}`);
-            console.log("Upload response:", data);
+            await this.s3Client.send(command);
             return imageName;
         }
         catch (error) {
@@ -41,15 +42,13 @@ export class S3Operations {
         }
     }
     //getImage from s3 Bucket
-    async getObjectUrl({ bucket, key }) {
+    async getObjectUrl({ bucket, key, }) {
         if (!key) {
             throw new Error("No value provided for input HTTP label: Key");
         }
         const cacheKey = `${bucket}/${key}`;
         let url = cache.get(cacheKey);
-        console.log(`url indellll ==> ${bucket}/${key} `, url);
         if (!url) {
-            console.log("illengill ----> url create aknnu");
             const params = {
                 Bucket: bucket,
                 Key: key,

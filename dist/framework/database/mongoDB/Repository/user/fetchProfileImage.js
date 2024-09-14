@@ -2,6 +2,8 @@ export const fetchProfileImage = async (userModels, s3, userId) => {
     try {
         // fetching user's profileImage Name for fetch from S31bucket
         const findUser = await userModels.findById({ _id: userId });
+        const followersCount = findUser?.followers?.length;
+        const followingsCount = findUser?.following?.length;
         const profileImgName = findUser?.profileImage;
         const coverImageName = findUser?.coverImage;
         // here we got the IMAGE URL
@@ -19,8 +21,8 @@ export const fetchProfileImage = async (userModels, s3, userId) => {
                 key: coverImageName,
             });
         }
-        console.log("url of coverImage ===>", coverImageUrl);
-        return { imageUrl, coverImageUrl };
+        console.log("called fetchImage");
+        return { imageUrl, coverImageUrl, followersCount, followingsCount };
     }
     catch (error) {
         console.error("Error updating profile:", error);

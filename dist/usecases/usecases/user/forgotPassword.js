@@ -1,9 +1,9 @@
-import { ErrorHandler } from '../../middlewares/errorMiddleware';
+import { ErrorHandler } from "../../middlewares/errorMiddleware";
 export const forgotPassword = async (jwt, userRepository, sendEmail, email, next) => {
     try {
         const user = await userRepository.findByEmail(email);
         if (!user) {
-            return { message: "User not found", success: false };
+            return next(new ErrorHandler(401, "User not found"));
         }
         // forgotToken generating FN
         const resetPassToken = await jwt.forgotPasswordToken(user?.id, user.email);
@@ -20,6 +20,5 @@ export const forgotPassword = async (jwt, userRepository, sendEmail, email, next
             message: "Resetpassord link has been sended",
         };
     }
-    catch (error) {
-    }
+    catch (error) { }
 };

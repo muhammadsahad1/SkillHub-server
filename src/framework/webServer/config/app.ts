@@ -16,11 +16,13 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://skill-hub-client-eight.vercel.app"];
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -36,16 +38,14 @@ const router = express.Router();
 router.use((req, res, next) => {
   console.log("request details", req.url, req.method);
   next();
-})
+});
 
 app.use("/user", userRoute(router));
 app.use("/admin", adminRoute(router));
-app.use("/chat",messageRoute(router))
-app.use("/event",eventRoute(router))
-app.use('/notification',notificationRoute(router))
-app.use('/group',groupRoute(router))
-
-
+app.use("/chat", messageRoute(router));
+app.use("/event", eventRoute(router));
+app.use("/notification", notificationRoute(router));
+app.use("/group", groupRoute(router));
 
 app.use(errorHandler);
 

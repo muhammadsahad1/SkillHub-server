@@ -1,7 +1,9 @@
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
-export const unFollow = async (toUnfollowId, fromFollowerId, userRepository, next) => {
+export const unFollow = async (toUnfollowId, fromFollowerId, userRepository, notification, next) => {
     try {
+        console.log("ethiiiiiyeee");
         await userRepository.unFollow(toUnfollowId, fromFollowerId);
+        await notification.removeNotification(toUnfollowId, "follow");
         return { success: true, message: "unFollowed successfull" };
     }
     catch (error) {

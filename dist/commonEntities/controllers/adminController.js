@@ -9,10 +9,10 @@ export class AdminController {
     // ======================================================>
     async adminLogin(req, res, next) {
         const result = await this.adminUseCase.adminLogin(req.body.email, req.body.password, next);
+        console.log("ress =>", result);
         res.cookie("admin_access_token", result.tokens?.accessToken, accessTokenOption);
         res.cookie("admin_refresh_token", result.tokens?.refreshToken, refreshTokenOption);
         res.cookie("role", "admin", roleOptions);
-        console.log("result ===>", result);
         if (result) {
             res.status(200).json(result);
         }
@@ -24,19 +24,71 @@ export class AdminController {
     }
     // ======================================================>
     async blockUser(req, res, next) {
-        console.log("block controller vann");
         const result = await this.adminUseCase.blockUser(req.body.id);
         res.status(200).json(result);
     }
+    // ======================================================>
+    async getVerificationRequests(req, res, next) {
+        const result = await this.adminUseCase.getVerificationRequests(next);
+        res.status(200).json(result);
+    }
+    // ======================================================>
+    async changeVerifyStatus(req, res, next) {
+        const { reqId, status } = req.body;
+        const result = await this.adminUseCase.changeVerifyStatus(reqId, status, next);
+        res.status(200).json(result);
+    }
+    // ======================================================>
+    async getEvents(req, res, next) {
+        const result = await this.adminUseCase.getEvents(next);
+        res.status(200).json(result);
+    }
+    // ======================================================>
+    async changeEventStatus(req, res, next) {
+        const { requestId, action } = req.body;
+        const result = await this.adminUseCase.changeEventStatus(requestId, action, next);
+        res.status(200).json(result);
+    }
+    // ======================================================>
     async logout(req, res, next) {
         try {
-            res.clearCookie('admin_access_token', accessTokenOption);
-            res.clearCookie("admin_refresh_token", refreshTokenOption);
+            res.clearCookie("admin_access_token", accessTokenOption);
+            // res.clearCookie("admin_refresh_token", refreshTokenOption);
             res.clearCookie("role", roleOptions);
             res.status(200).json({ message: "admin logout successfull" });
         }
         catch (error) {
             return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    // ======================================================>
+    async getReports(req, res, next) {
+        try {
+            const result = await this.adminUseCase.getReports(next);
+            if (result) {
+                res.status(200).json(result);
+            }
+        }
+        catch (error) {
+            return next(new ErrorHandler(error.status, error.message));
+        }
+    }
+    // ======================================================>
+    async reportAction(req, res, next) {
+        try {
+            const { reportId, status } = req.body;
+            const result = await this.adminUseCase.reportAction(reportId, status, next);
+            if (result) {
+                res.status(200).json(result);
+            }
+        }
+        catch (error) { }
+    }
+    // ======================================================>
+    async dasboardData(req, res, next) {
+        const result = await this.adminUseCase.dashBoardData(next);
+        if (result) {
+            res.status(200).json(result);
         }
     }
 }

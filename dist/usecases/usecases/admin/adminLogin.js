@@ -3,7 +3,6 @@ export const adminLogin = async (email, password, jwt, hashedPassword, adminRepo
     const admin = await adminRepository.adminLogin(email);
     // ensure admin
     if (admin?.role === "user") {
-        console.log("is user");
         return next(new ErrorHandler(403, "Not authorized"));
     }
     else {
@@ -14,13 +13,12 @@ export const adminLogin = async (email, password, jwt, hashedPassword, adminRepo
         }
         // generating token
         const Tokens = await jwt.createAccessAndRefreshToken(admin?.id);
-        console.log("Tokenssssss => admin ==>", Tokens);
         return {
             success: true,
             tokens: Tokens,
             message: "successfully authorized admin",
             admin: {
-                id: admin?.id,
+                _id: admin?._id,
                 email: admin?.email,
             },
         };

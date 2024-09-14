@@ -8,6 +8,6 @@ export const getSkillRelatedUsers = async (userId, skill, userRepository, s3, ne
     }
     return {
         success: true,
-        userDetails: result
+        userDetails: result,
     };
 };

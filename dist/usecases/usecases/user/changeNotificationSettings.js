@@ -3,10 +3,6 @@ export const changeShowNotification = async (userId, isShowNotification, userRep
     try {
         const result = await userRepository.changeShowNotification(userId, isShowNotification);
         console.log("result IN DB", result);
-        // if (!result) {
-        //   return next(
-        //     new ErrorHandler(400, "failed to change notification settings")
-        //   );
         return {
             success: true,
             status: result,

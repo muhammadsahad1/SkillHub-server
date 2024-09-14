@@ -9,6 +9,7 @@ export const removeFollower = async (
   next: Next
 ): Promise<{ success: boolean, message: string }> => {  
   try {
+
     await userRepository.removeFollower(fromRemoverId, toRemoveId);
     return { success: true, message: "Removed follower successfully" };
   } catch (error) {

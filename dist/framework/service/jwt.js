@@ -6,7 +6,7 @@ export class JWTtoken {
     JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY || "";
     JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || "";
     async createAccessAndRefreshToken(id) {
-        console.log("token fn invoked ");
+        console.log("token fn invoked admin id =>", id);
         const Payload = { id };
         const accessToken = await jwt.sign(Payload, process.env.JWT_ACCESS_KEY, {
             expiresIn: "5h",

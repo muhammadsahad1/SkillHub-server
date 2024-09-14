@@ -7,7 +7,6 @@ export const findByEmailUpdatePicture = async (userModels, email, picture) => {
                 picture: picture,
             },
         }, { new: true });
-        console.log("google kazhinj updated", updatedUser);
         return updatedUser;
     }
     catch (error) {

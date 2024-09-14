@@ -1,10 +1,11 @@
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
-export const postLike = async (userId, postId, userRepository, next) => {
+export const postLike = async (userId, postId, userRepository, notificationRepository, next) => {
     try {
         const result = await userRepository.postLike(userId, postId);
         if (!result) {
             return next(new ErrorHandler(400, "User does not exist"));
         }
+        await notificationRepository.removeNotification(result?.postUserId, "like");
         return result;
     }
     catch (error) {

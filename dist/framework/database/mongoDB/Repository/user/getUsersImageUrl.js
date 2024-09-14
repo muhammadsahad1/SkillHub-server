@@ -30,7 +30,6 @@ export const getUsersImageUrls = async (users, followings = [], s3) => {
                 isFollowingBack,
             };
         }));
-        console.log("usersWithImages ===>", userWithImages);
         return userWithImages;
     }
     catch (error) {

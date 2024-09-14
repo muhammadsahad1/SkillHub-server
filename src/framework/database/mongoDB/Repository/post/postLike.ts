@@ -12,7 +12,7 @@ export const postLike = async (
   postUserId: string | undefined;
 }> => {
   try {
-    
+
     const userIdObject = new mongoose.Types.ObjectId(userId);
     // Check if the post exists
     const post = await postModels.findById(postId).lean();
@@ -36,6 +36,7 @@ export const postLike = async (
         { new: true }
       );
     } else {
+
       // Add the user to the likes array
       await postModels.findByIdAndUpdate(
         postId,

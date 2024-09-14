@@ -1,3 +1,4 @@
+import client from "../../../../elasticsearch/elasticsearchClient";
 // Creatin profile with upload image to s3bucket
 export const createProfile = async (userProfile, file, S3Operations, userModels) => {
     try {
@@ -27,6 +28,20 @@ export const createProfile = async (userProfile, file, S3Operations, userModels)
                 profile: true,
             },
         }, { new: true });
+        // Index or update user in Elasticsearch
+        if (updatedUser) {
+            await client.index({
+                index: "users",
+                id: updatedUser._id.toString(),
+                document: {
+                    id: updatedUser._id.toString(),
+                    name: updatedUser.name,
+                    bio: updatedUser.bio,
+                    skill: updatedUser.skill,
+                    profileImage: updatedUser.profileImage,
+                },
+            });
+        }
         return updatedUser;
     }
     catch (error) {

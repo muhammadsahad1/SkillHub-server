@@ -11,6 +11,8 @@ export function userRoute(route) {
     route.post("/googleLogin", (req, res, next) => userController.googleLogin(req, res, next));
     route.post("/forgotPassword", (req, res, next) => userController.forgotPassword(req, res, next));
     route.post("/resetPassword", (req, res, next) => userController.resetPassword(req, res, next));
+    //verify requesting for proffessinal account
+    route.post('/verification-request', isAuthenticate, (req, res, next) => userController.verifyRequest(req, res, next));
     // Profile Routes
     route.post("/createProfile", upload.single("profileImage"), isAuthenticate, (req, res, next) => userController.createProfile(req, res, next));
     route.post("/changePassword", isAuthenticate, (req, res, next) => userController.changePassword(req, res, next));
@@ -30,6 +32,7 @@ export function userRoute(route) {
     route.post("/followBack", isAuthenticate, (req, res, next) => userController.followback(req, res, next));
     route.get('/othersFollowers', isAuthenticate, (req, res, next) => userController.fetchOtherFollowers(req, res, next));
     route.get('/othersFollowings', isAuthenticate, (req, res, next) => userController.fetchOtherFollowings(req, res, next));
+    route.get('/OthersPosts', isAuthenticate, (req, res, next) => userController.fetchOthersPosts(req, res, next));
     // UploadPost/
     route.post('/uploadPost', upload.single("postImage"), isAuthenticate, (req, res, next) => userController.uploadPost(req, res, next));
     route.get('/posts', isAuthenticate, (req, res, next) => userController.fetchPosts(req, res, next));
@@ -38,6 +41,13 @@ export function userRoute(route) {
     route.post('/postLike', isAuthenticate, (req, res, next) => userController.postLike(req, res, next));
     route.get('/myPosts', isAuthenticate, (req, res, next) => userController.fetchMyPosts(req, res, next));
     route.post('/addComment', isAuthenticate, (req, res, next) => userController.addComment(req, res, next));
+    route.delete('/deleteComment', isAuthenticate, (req, res, next) => userController.deleteComment(req, res, next));
+    route.put('/editComment', isAuthenticate, (req, res, next) => userController.editingComment(req, res, next));
+    route.get('/viewPost', isAuthenticate, (req, res, next) => userController.postView(req, res, next));
+    route.post('/postThoughts', isAuthenticate, (req, res, next) => userController.uploadThoughts(req, res, next));
+    route.post('/report', isAuthenticate, (req, res, next) => userController.reportPost(req, res, next));
+    // users search
+    route.get('/searchUser', isAuthenticate, (req, res, next) => userController.searchUsers(req, res, next));
     // Logout Route
     route.post("/logout", isAuthenticate, (req, res, next) => userController.userLogout(req, res, next));
     return route;

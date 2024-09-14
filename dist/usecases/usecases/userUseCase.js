@@ -1,25 +1,29 @@
-import { userSignup, createUser, login, createProfile, resetPassword, forgotPassword, getProfileImage, changePassword, getUser, coverImageUpload, changePrivacy, changeShowNotification, getSkillRelatedUsers, getUserDetails, followUp, getMyFollowings, unFollow, myFollowers, removeFollower, followBack, uploadPostandRetriveUrl, getPosts, deletePost, editPost, postLike, fetchMyPosts, othersFollowers, othersFollowings, addComment } from "./user/index";
+import { userSignup, createUser, login, createProfile, resetPassword, forgotPassword, getProfileImage, changePassword, getUser, coverImageUpload, changePrivacy, changeShowNotification, getSkillRelatedUsers, getUserDetails, followUp, getMyFollowings, unFollow, myFollowers, removeFollower, followBack, uploadPostandRetriveUrl, getPosts, deletePost, editPost, postLike, fetchMyPosts, othersFollowers, othersFollowings, addComment, deleteComment, editingComment, fetchOthersPosts, searchUsers, postView, uploadThoughts, verifyRequest, reportPost, } from "./user/index";
 import { resentOtp } from "./user/resentOtp";
 import { ErrorHandler } from "../middlewares/errorMiddleware";
-// ================================= User user cases ================================= \\
+// ================================= User use cases ================================= \\
 export class UserUseCase {
     userRepostory;
-    privacyRepository;
     Jwt;
     otpRepository;
     hashPassword;
     otpGenerate;
     sendEmail;
     s3;
-    constructor(userRepostory, privacyRepository, Jwt, otpRepository, hashPassword, otpGenerate, sendEmail, s3) {
+    elasticSearchService;
+    io;
+    notification;
+    constructor(userRepostory, Jwt, otpRepository, hashPassword, otpGenerate, sendEmail, s3, elasticSearchService, io, notification) {
         this.userRepostory = userRepostory;
-        this.privacyRepository = privacyRepository;
         this.Jwt = Jwt;
         this.otpRepository = otpRepository;
         this.hashPassword = hashPassword;
         this.otpGenerate = otpGenerate;
         this.sendEmail = sendEmail;
         this.s3 = s3;
+        this.elasticSearchService = elasticSearchService;
+        this.io = io;
+        this.notification = notification;
     }
     // ===================================================================>
     async userSignup(user, next) {
@@ -93,6 +97,10 @@ export class UserUseCase {
             return next(new ErrorHandler(500, "Internal Server Error"));
         }
     }
+    //verify requesting
+    async verifyRequest(userId, requestData, next) {
+        return await verifyRequest(userId, requestData, this.userRepostory, next);
+    }
     // upload cover image
     async uploadCoverImage(userId, file, next) {
         const result = await coverImageUpload(userId, file, this.s3, this.userRepostory, next);
@@ -115,7 +123,7 @@ export class UserUseCase {
     // ===================================================================>
     //change password
     async changePrivacy(userId, isPrivacy, next) {
-        const result = await changePrivacy(userId, isPrivacy, this.privacyRepository, next);
+        const result = await changePrivacy(userId, isPrivacy, this.userRepostory, next);
         if (!result) {
             return next(new ErrorHandler(400, "Change privacy failed"));
         }
@@ -134,7 +142,7 @@ export class UserUseCase {
     }
     // ===================================================================>
     async getUserDetails(userId, next) {
-        const result = await getUserDetails(userId, this.userRepostory, next);
+        const result = await getUserDetails(userId, this.s3, this.userRepostory, next);
         if (!result) {
             return next(new ErrorHandler(400, "fetch user failed"));
         }
@@ -157,7 +165,7 @@ export class UserUseCase {
     }
     // ===================================================================>
     async unFollow(toUnfollowId, fromFollowerId, next) {
-        return await unFollow(toUnfollowId, fromFollowerId, this.userRepostory, next);
+        return await unFollow(toUnfollowId, fromFollowerId, this.userRepostory, this.notification, next);
     }
     // ===================================================================>
     async removeFollower(fromRemoverId, toRemoveId, next) {
@@ -172,26 +180,46 @@ export class UserUseCase {
     async othersFollowings(userId, currentUserId, next) {
         return await othersFollowings(userId, currentUserId, this.userRepostory, this.s3, next);
     }
-    async uploadPost(userId, imageUrl, caption, type, next) {
-        return await uploadPostandRetriveUrl(userId, imageUrl, caption, type, this.s3, this.userRepostory, next);
+    async uploadPost(userId, imageUrl, caption, type) {
+        return await uploadPostandRetriveUrl(userId, imageUrl, caption, type, this.s3, this.userRepostory);
     }
-    async fetchPosts(userSkill, next) {
-        return await getPosts(userSkill, this.s3, this.userRepostory, next);
+    async uploadThoughts(userId, thoughts, next) {
+        return await uploadThoughts(userId, thoughts, this.userRepostory, next);
+    }
+    async fetchPosts(userSkill, pageParam, next) {
+        return await getPosts(userSkill, pageParam, this.s3, this.userRepostory, next);
     }
     async fetchMyPosts(userId, next) {
         return await fetchMyPosts(userId, this.userRepostory, this.s3, next);
     }
+    async postView(postId, next) {
+        return await postView(postId, this.userRepostory, this.s3, next);
+    }
+    async fetchOthersPosts(userId, next) {
+        return await fetchOthersPosts(userId, this.userRepostory, this.s3, next);
+    }
     async deletePost(postId, next) {
-        console.log("userUseCasil kerii");
         return await deletePost(postId, this.userRepostory, next);
     }
     async editPost(editedCaption, postId, next) {
         return await editPost(editedCaption, postId, this.userRepostory, next);
     }
     async postLike(userId, postId, next) {
-        return await postLike(userId, postId, this.userRepostory, next);
+        return await postLike(userId, postId, this.userRepostory, this.notification, next);
     }
     async addComment(postId, userId, comment, next) {
-        return await addComment(postId, userId, comment, this.userRepostory, this.s3, next);
+        return await addComment(postId, userId, comment, this.userRepostory, this.s3, this.io, next);
+    }
+    async delteComment(postId, commentId, next) {
+        return await deleteComment(postId, commentId, this.userRepostory, next);
+    }
+    async editingComment(postId, commentId, userId, updateComment, next) {
+        return await editingComment(postId, commentId, userId, updateComment, this.userRepostory, next);
+    }
+    async searchUsers(query, next) {
+        return await searchUsers(query, this.elasticSearchService, this.s3, next);
+    }
+    async reportPost(postId, reason, userId, next) {
+        return await reportPost(postId, reason, userId, this.userRepostory, next);
     }
 }

@@ -1,5 +1,6 @@
 export const removeFollower = async (fromRemoverId, toRemoveId, userModels) => {
     try {
+        console.log("toRemoveId =>", toRemoveId);
         await userModels.findByIdAndUpdate(toRemoveId, {
             $pull: { following: fromRemoverId },
         });

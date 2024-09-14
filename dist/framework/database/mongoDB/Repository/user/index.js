@@ -25,5 +25,6 @@ import { getOthersFollowers } from "./othersFollowers";
 import { getOthersFollowersImageUrls } from "./getOthersFollowerImageUrls";
 import { getOthersFollowings } from "./getOthersFollowings";
 import { getOthersFollowingsImageUrl } from "./getOthersFollowingsImageUrl";
+import { verifyRequest } from "./verifyRequest";
 // exporting each functions of manipulation to DB
-export { createUser, findByEmail, findByEmailUpdatePicture, createProfile, resetPasswordVerify, changePassword, showNotification, changePrivacy, getSkillRelatedUsers, getMyFollowing, getUserDetails, findUpdateResetToken, fetchProfileImage, followUp, unFollow, myFollowers, followBack, removeFollower, getUsersImageUrls, getOthersFollowers, uploadCoverImage, getOthersFollowersImageUrls, getOthersFollowings, getOthersFollowingsImageUrl, postLike, getUser, };
+export { createUser, findByEmail, findByEmailUpdatePicture, createProfile, resetPasswordVerify, changePassword, showNotification, changePrivacy, getSkillRelatedUsers, getMyFollowing, getUserDetails, findUpdateResetToken, fetchProfileImage, followUp, unFollow, myFollowers, followBack, removeFollower, getUsersImageUrls, getOthersFollowers, uploadCoverImage, getOthersFollowersImageUrls, getOthersFollowings, getOthersFollowingsImageUrl, postLike, getUser, verifyRequest, };
