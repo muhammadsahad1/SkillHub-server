@@ -40,7 +40,7 @@ export const userSignup = async (
         user.password,
         createdOtp
       );
-      console.log("responseCreateOtp", responseCreateOtp);
+    
       await sendEmail.sentEmailVerification(user.name, user.email, createdOtp);
       const password = await hashPassword.createHash(user.password as string);
       user.password = password;

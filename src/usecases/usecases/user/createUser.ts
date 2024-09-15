@@ -45,7 +45,7 @@ export const createUser = async (
       fetchedOtp.userPassword
     );
 
-    const user: Iuser = {
+    const user = {
       name: fetchedOtp.username,
       email: fetchedOtp.email,
       password: hashedPassword,

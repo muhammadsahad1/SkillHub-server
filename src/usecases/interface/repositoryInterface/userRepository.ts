@@ -14,12 +14,12 @@ export interface IuserRepository {
    * @param newUser - The user details to create.
    * @returns The created user or an object with a success flag and tokens.
    */
-  createUser(newUser: Iuser): Promise<
-    | Iuser
+  createUser(newUser: any): Promise<
+    | any
     | void
     | {
         success: boolean;
-        user?: Iuser;
+        user?: any;
         token: { accessToken: string; refreshToken: string };
         message?: string;
       }
