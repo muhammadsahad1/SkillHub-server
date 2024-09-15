@@ -18,11 +18,11 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://skill-hub-client-eight.vercel.app"];
+  "https://skill-hub-client-eight.vercel.app",];
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin:  "https://skill-hub-client-eight.vercel.app", // Allow your frontend UR
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
