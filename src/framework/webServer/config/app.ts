@@ -22,7 +22,7 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin:  ["https://skill-hub-client-eight.vercel.app","http://localhost:5173"], // Allow your frontend UR
+    origin:  "https://skill-hub-client-eight.vercel.app", 
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })

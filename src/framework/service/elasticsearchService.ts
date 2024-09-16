@@ -68,7 +68,7 @@ export const searchUsers: IElasticsearchService["searchUsers"] = async (
             })
           : undefined;
 
-    
+  
         const user: User = {
           _id: hit._source?.id.toString(),
           name: hit._source?.name,
