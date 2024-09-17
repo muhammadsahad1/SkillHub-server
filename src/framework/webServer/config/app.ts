@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -16,7 +16,6 @@ connectDB();
 
 const app = express();
 
-
 const allowedOrigins = [
   "http://localhost:5173",
   "https://skill-hub-client-eight.vercel.app",
@@ -28,7 +27,7 @@ app.use(
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error("Not allowed by CORS"));
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -47,7 +46,9 @@ router.use((req, res, next) => {
   console.log("request details", req.url, req.method);
   next();
 });
-
+app.get("/", (req: Request, res: Response) => {
+  res.json({ ee: "hes" });
+});
 app.use("/user", userRoute(router));
 app.use("/admin", adminRoute(router));
 app.use("/chat", messageRoute(router));

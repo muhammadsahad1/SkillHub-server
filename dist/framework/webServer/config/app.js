@@ -23,7 +23,7 @@ app.use(cors({
             callback(null, true);
         }
         else {
-            callback(new Error('Not allowed by CORS'));
+            callback(new Error("Not allowed by CORS"));
         }
     },
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -37,6 +37,9 @@ const router = express.Router();
 router.use((req, res, next) => {
     console.log("request details", req.url, req.method);
     next();
+});
+app.get("/", (req, res) => {
+    res.json({ ee: "hes" });
 });
 app.use("/user", userRoute(router));
 app.use("/admin", adminRoute(router));
