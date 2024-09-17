@@ -57,7 +57,7 @@ export function userRoute(route: Route): Route {
   // users search
   route.get('/searchUser',isAuthenticate,(req: Req, res: Res, next: Next) => userController.searchUsers(req,res,next));
   // Logout Route
-  route.post("/logout", isAuthenticate,(req: Req, res: Res, next: Next) => userController.userLogout(req, res, next));
+  route.post("/logout",(req: Req, res: Res, next: Next) => userController.userLogout(req, res, next));
 
   return route;
 }
