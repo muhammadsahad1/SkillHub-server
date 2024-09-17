@@ -13,7 +13,6 @@ export const userSignup = async (jwt, otpRepository, userRepostory, otpGenerate,
         else {
             const createdOtp = await otpGenerate.createOtp();
             const responseCreateOtp = await otpRepository.createOtp(user.name, user.email, user.password, createdOtp);
-            console.log("responseCreateOtp", responseCreateOtp);
             await sendEmail.sentEmailVerification(user.name, user.email, createdOtp);
             const password = await hashPassword.createHash(user.password);
             user.password = password;
