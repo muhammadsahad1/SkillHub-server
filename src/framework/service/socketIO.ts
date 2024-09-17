@@ -7,7 +7,8 @@ export const initializeSocket = (server: http.Server) => {
     cors: {
       origin: [
         "http://localhost:5173",
-        "https://skill-hub-client-eight.vercel.app",
+        "https://skill-hub-client-eight.vercel.app/socket.io/",
+      "https://skill-hub-client-eight.vercel.app",
       ],
       methods: ["GET", "POST", "PUT"],
       credentials: true,
