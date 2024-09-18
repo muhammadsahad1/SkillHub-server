@@ -1,6 +1,5 @@
 import { ICreateEvent } from "../../../commonEntities/entities/event";
 import { IS3Operations } from "../../../framework/service/s3Bucket";
-import { IZegoService } from "../../../framework/service/zegoService";
 import { Next } from "../../../framework/types/serverPackageType";
 import { IEventRepository } from "../../interface/repositoryInterface/eventRepository";
 import { ErrorHandler } from "../../middlewares/errorMiddleware";

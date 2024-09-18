@@ -11,7 +11,7 @@ interface ItokenOption {
   expires: Date;
   maxAge: number;
   httpOnly: boolean;
-  sameSite: "lax" | "strict" | "None" | undefined;
+  sameSite: "lax" | "strict" | "none" | undefined;
   secure?: boolean;
 }
 
@@ -21,7 +21,7 @@ export const accessTokenOption: ItokenOption = {
   expires: new Date(Date.now() + accessTokenExpire * 60 * 60 * 1000),
   maxAge: accessTokenExpire * 60 * 60 * 1000,
   httpOnly: true,
-  sameSite: "None",
+  sameSite: tokenProductionMode ? "none" : "lax", // Use lowercase 'none'
   secure: tokenProductionMode,
 };
 
@@ -29,7 +29,7 @@ export const refreshTokenOption: ItokenOption = {
   expires: new Date(Date.now() + refreshTokenExpire * 24 * 60 * 60 * 1000),
   maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
   httpOnly: true,
-  sameSite: "None",
+  sameSite: tokenProductionMode ? "none" : "lax",
   secure: tokenProductionMode,
 };
 
@@ -37,6 +37,6 @@ export const roleOptions: ItokenOption = {
   expires: new Date(Date.now() + refreshTokenExpire * 24 * 60 * 60 * 1000),
   maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
   httpOnly: true,
-  sameSite: "None",
+  sameSite: tokenProductionMode ? "none" : "lax",
   secure: tokenProductionMode,
 };

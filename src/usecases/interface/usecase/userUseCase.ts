@@ -1,7 +1,6 @@
 import { Ipost } from "../../../commonEntities/entities/post";
 import {
   FetchProfileImageResponse,
-  GetSkillRelatedUsersResponse,
   Iuser,
   IUserWithImages,
 } from "../../../commonEntities/entities/user";
