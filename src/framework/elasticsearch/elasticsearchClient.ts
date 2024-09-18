@@ -6,6 +6,9 @@ const client = new Client({
     username: "elastic",
     password: "YN8Bj5DK_Ud6xMDSJpq9", // Use the new password here
   },
+  tls: {
+    rejectUnauthorized: false, // This bypasses certificate validation
+  },
 });
 
 export default client;
