@@ -175,7 +175,7 @@ export class UserController {
   async createProfile(req: Req, res: Res, next: Next) {
     try {
       console.log("file ====== req ===>",req.file)
-      console.log("bodyy =>",req.body);
+      console.log("bodyy ====>",req.body);
       
       const result = await this.userUseCase.createProfile(
         req.body,
