@@ -7,7 +7,7 @@ export const createUser = async (
 ): Promise<Iuser | void> => {
   try {
     const user = await userModels.create(newUser);
-    console.log("user create avoo ....");
+
     return user;
   } catch (error) {
     console.error("Error updating profile:", error);
