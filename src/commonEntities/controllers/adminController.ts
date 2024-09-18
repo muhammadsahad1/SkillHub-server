@@ -18,8 +18,6 @@ export class AdminController {
       next
     );
 
-    console.log("ress =>", result);
-
     res.cookie(
       "admin_access_token",
       result.tokens?.accessToken,

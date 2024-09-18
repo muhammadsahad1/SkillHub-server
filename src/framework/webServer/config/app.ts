@@ -46,9 +46,7 @@ router.use((req, res, next) => {
   console.log("request details", req.url, req.method);
   next();
 });
-app.get("/", (req: Request, res: Response) => {
-  res.json({ ee: "hes" });
-});
+
 app.use("/user", userRoute(router));
 app.use("/admin", adminRoute(router));
 app.use("/chat", messageRoute(router));
