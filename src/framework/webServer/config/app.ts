@@ -37,9 +37,9 @@ app.use(
 
 app.options("*", cors());
 
-app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true, limit: '10mb' }))
+app.use(express.json({ limit: '50mb' })); // For JSON bodies
+app.use(express.urlencoded({ extended: true, limit: '50mb' })); 
 
 const router = express.Router();
 router.use((req, res, next) => {
