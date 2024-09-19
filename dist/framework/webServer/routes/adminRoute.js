@@ -1,5 +1,5 @@
-import { adminController } from "../../webServer/injections/injection";
-import { isAdminAuthenticate } from "../middleware/adminAuth";
+import { adminController } from "../../webServer/injections/injection.js";
+import { isAdminAuthenticate } from "../middleware/adminAuth.js";
 // >>>>>>>>>>>>>>>>>>>>>>>>>> Admin Route <<<<<<<<<<<<<<<<<<<<<<<<<
 export function adminRoute(route) {
     route.post("/adminLogin", isAdminAuthenticate, (req, res, next) => adminController.adminLogin(req, res, next));

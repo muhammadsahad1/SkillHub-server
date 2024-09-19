@@ -1,6 +1,6 @@
-import { groupController } from "../injections/injection";
-import { isAuthenticate } from "../middleware/auth";
-import upload from "../middleware/multer";
+import { groupController } from "../injections/injection.js";
+import { isAuthenticate } from "../middleware/auth.js";
+import upload from "../middleware/multer.js";
 export function groupRoute(route) {
     route.post("/createGroup", upload.single("groupImageFile"), isAuthenticate, (req, res, next) => groupController.createGroup(req, res, next));
     route.get("/groups", isAuthenticate, (req, res, next) => groupController.getGroups(req, res, next));

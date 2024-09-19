@@ -1,7 +1,7 @@
-import { messageController } from "../../webServer/injections/injection";
-import upload from "../middleware/multer";
+import { messageController } from "../../webServer/injections/injection.js";
+import upload from "../middleware/multer.js";
 // import upload from "../middleware/multer";
-import { isAuthenticate } from "../middleware/auth";
+import { isAuthenticate } from "../middleware/auth.js";
 // >>>>>>>>>>>>>>>>>>>>>>>>>> Message Route <<<<<<<<<<<<<<<<<<<<<<<<<
 export function messageRoute(route) {
     route.post('/sendChat', isAuthenticate, (req, res, next) => messageController.sendMessage(req, res, next));

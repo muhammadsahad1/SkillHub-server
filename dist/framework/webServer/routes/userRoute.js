@@ -1,6 +1,6 @@
-import { userController } from "../../webServer/injections/injection";
-import upload from "../middleware/multer";
-import { isAuthenticate } from "../middleware/auth";
+import { userController } from "../../webServer/injections/injection.js";
+import upload from "../middleware/multer.js";
+import { isAuthenticate } from "../middleware/auth.js";
 // >>>>>>>>>>>>>>>>>>>>>>>>>> User Route <<<<<<<<<<<<<<<<<<<<<<<<<
 export function userRoute(route) {
     // Authentication Routes

@@ -1,6 +1,6 @@
-import { eventController } from "../injections/injection";
-import upload from "../middleware/multer";
-import { isAuthenticate } from "../middleware/auth";
+import { eventController } from "../injections/injection.js";
+import upload from "../middleware/multer.js";
+import { isAuthenticate } from "../middleware/auth.js";
 // >>>>>>>>>>>>>>>>>>>>>>>>>> Events Route <<<<<<<<<<<<<<<<<<<<<<<<<
 export function eventRoute(route) {
     route.post('/createEvent', isAuthenticate, upload.single('bannerFile'), (req, res, next) => eventController.createEvent(req, res, next));
