@@ -16,7 +16,7 @@
 
     "dev": "tsx watch src/server.ts",
 
-    "build": "tsc"
+    "build": "npx tsc"
 
   },
 
