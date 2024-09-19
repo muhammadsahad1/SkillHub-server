@@ -333,7 +333,7 @@ export class UserRepository implements IuserRepository {
   async editPost(
     caption: string,
     postId: string
-  ): Promise<{ postId: string | undefined; caption: string | undefined }> {
+  ): Promise<any> {
     return await editPost(caption, postId, this.postModels);
   }
 

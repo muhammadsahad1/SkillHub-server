@@ -25,7 +25,7 @@ export class MessageUseCase implements ImessageUseCase{
       await markAsRead(conversationId,userId,this.messageRepository,next)
     }
 
-    async sendImage(senderId : string,receiverId : string,file: Express.Multer.File | undefined, next: Next):Promise<{success : boolean}> {
+    async sendImage(senderId : string,receiverId : string,file: Express.Multer.File | undefined, next: Next):Promise<{success : boolean} | any> {
       return await sendImage(senderId,receiverId,file,this.messageRepository,this.s3,next)
     }
     

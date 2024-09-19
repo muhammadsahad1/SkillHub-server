@@ -36,10 +36,10 @@ export const sendMessage = async (
     if (newMessage) {
       await newMessage.save();
       conversation.messages.push(
-        newMessage._id as mongoose.Types.ObjectId
+        newMessage._id as any
       );
 
-      conversation.lastMessage = newMessage._id
+      conversation.lastMessage = newMessage._id as any
 
       await conversation.save();
       return newMessage;

@@ -38,7 +38,7 @@ export const getOthersFollowingsImageUrl = async (
         if (coverImage) {
           coverImageUrl = await s3.getObjectUrl({
             bucket: process.env.C3_BUCKET_NAME,
-            key: coverImage,
+            key: coverImage as string,
           });
         }
 
