@@ -10,7 +10,7 @@ export const getReports = async (
   s3Operations: IS3Operations
 ): Promise<IReportRequest[] | void> => {
   try {
-    
+      
     const result = await adminRepository.getReports(s3Operations);
     if (!result) {
       return next(new ErrorHandler(401, "get Reports failed"));
