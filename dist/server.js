@@ -4,6 +4,7 @@ import initializeSocket from "./framework/service/socketIO.js";
 const PORT = process.env.PORT || 3002;
 const server = http.createServer(app);
 initializeSocket(server);
+console.log('helo')
 server.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
