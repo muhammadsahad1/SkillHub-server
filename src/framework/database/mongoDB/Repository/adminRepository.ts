@@ -1,8 +1,8 @@
 import { Iuser } from "../../../../commonEntities/entities/user.js";
 import { IadminRepository } from "../../../../usecases/interface/repositoryInterface/adminRepository.js";
-import { findByEmail } from "./user";
 import userModel from "../model/userModel.js";
 import {
+  findByEmail,
   blockUser,
   changeEventStatus,
   changeVerifyStatus,

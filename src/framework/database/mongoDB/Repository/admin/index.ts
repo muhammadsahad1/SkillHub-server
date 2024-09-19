@@ -8,9 +8,11 @@ import { getReports } from './getReports.js'
 import { reportAction } from './reportAction.js'
 import { dashBoardData } from './dashBoardData.js'
 import { getMonthlyData } from './getMonthlyData.js'
+import { findByEmail } from "../user/findbyEmail.js";
 
 export {
   getUsers,
+  findByEmail,
   getVerificationRequests,
   changeVerifyStatus,
   getEvents,
