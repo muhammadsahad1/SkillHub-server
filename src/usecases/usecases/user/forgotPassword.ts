@@ -20,7 +20,7 @@ export const forgotPassword = async (
     const user = await userRepository.findByEmail(email);
 
     if (!user) {
-      return next(new ErrorHandler(401,"User not found"))
+      return next(new ErrorHandler(401, "User not found"));
     }
     // forgotToken generating FN
     const resetPassToken = await jwt.forgotPasswordToken(user?.id, user.email);
@@ -40,6 +40,7 @@ export const forgotPassword = async (
       fetechedUser.email,
       resetPassToken
     );
+
     return {
       success: true,
       token: resetPassToken,

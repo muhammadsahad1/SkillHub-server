@@ -18,7 +18,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://skill-hub-client-eight.vercel.app",
+  "https://skill-hub-share-platform.vercel.app",
 ];
 
 app.use(

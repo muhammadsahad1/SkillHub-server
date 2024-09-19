@@ -15,7 +15,6 @@ export const resetPassword = async (
     const hashedPassword = await hashPassword.createHash(password)
 
       const result = await userRepository.resetPasswordVerify(hashedPassword,token)
-      console.log("result from db =>",result)
 
       if(result) {
         return {
