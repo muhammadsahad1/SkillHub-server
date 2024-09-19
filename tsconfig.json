@@ -6,9 +6,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "allowImportingTsExtensions": true,
     "outDir": "./dist",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
