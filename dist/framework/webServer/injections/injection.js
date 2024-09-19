@@ -26,7 +26,7 @@ import { NotificationRepository } from "../../database/mongoDB/Repository/notifi
 import { NotificationModel } from "../../database/mongoDB/model/notification";
 import { NotificationUseCase } from "../../../usecases/usecases/notificationUseCase";
 import { NotificationController } from "../../../commonEntities/controllers/notificationController";
-import { initializeSocket } from "../../service/socketIO";
+import initializeSocket from "../../service/socketIO";
 import http from 'http';
 import { EventRepository } from "../../database/mongoDB/Repository/eventRepository";
 import EventModel from "../../database/mongoDB/model/eventModel";

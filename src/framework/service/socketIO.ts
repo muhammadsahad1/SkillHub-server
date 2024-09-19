@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 import http from "http";
 
 // initializeSocke for wrapp to server
-export const initializeSocket = (server: http.Server) => {
+ const initializeSocket = (server: http.Server) => {
   const io = new Server(server, {
     cors: {
       
@@ -141,3 +141,5 @@ export const initializeSocket = (server: http.Server) => {
 
   return io;
 };
+
+export default initializeSocket

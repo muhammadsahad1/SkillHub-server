@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 // initializeSocke for wrapp to server
-export const initializeSocket = (server) => {
+const initializeSocket = (server) => {
     const io = new Server(server, {
         cors: {
             origin: "https://skill-hub-share-platform.vercel.app",
@@ -108,3 +108,4 @@ export const initializeSocket = (server) => {
     });
     return io;
 };
+export default initializeSocket;
