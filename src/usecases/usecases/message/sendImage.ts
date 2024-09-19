@@ -9,7 +9,7 @@ export const sendImage = async (
   messageRepository: ImessageRepository,
   s3Operations : IS3Operations,
   next: Next
-):Promise<{success : boolean}> => {
+):Promise<{success : boolean} | undefined> => {
   try {
     console.log("useCasilKeti");
     

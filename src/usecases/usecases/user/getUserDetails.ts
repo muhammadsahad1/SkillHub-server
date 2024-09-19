@@ -14,7 +14,7 @@ export const getUserDetails = async (
     const user = await userRepository.getUserDetails(userId)
     const profileImageUrl = await s3.getObjectUrl({
       bucket : process.env.C3_BUCKET_NAME,
-      key : user.profileImage
+      key : user.profileImage as string
     })
     if(!user){
       return next(new ErrorHandler(400,"User is not found"))

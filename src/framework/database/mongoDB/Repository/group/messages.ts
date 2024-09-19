@@ -34,8 +34,8 @@ export const messages = async (
     }
 
     // Process and return the messages with user data and media
-    const messagesWithUsers: IMessageWithUser[] = await Promise.all(
-      groupMessages.map(async (message) => {
+    const messagesWithUsers: any[] = await Promise.all(
+      groupMessages.map(async (message : any) => {
         let profileImageUrl = "";
 
         const profileImageName = message.senderId.profileImage || "";
@@ -65,7 +65,7 @@ export const messages = async (
         };
       })
     );
-    console.log("Message Users ==> ====>>>>>", messagesWithUsers);
+
     return messagesWithUsers;
   } catch (error: any) {
     console.error("Error fetching group messages:", error);

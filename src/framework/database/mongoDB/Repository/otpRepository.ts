@@ -28,11 +28,6 @@ export class OtpRepository implements IotpRepository {
     }
   
   }
-  findAndDeleteUser(email: string): Promise<Boolean> {
-    
-  }
-  resendOtp(email: string, otp: string): Promise<void> {
-    
-  }
+
   
 }

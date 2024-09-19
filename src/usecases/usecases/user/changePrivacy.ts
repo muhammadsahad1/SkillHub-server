@@ -1,5 +1,4 @@
 import { Next } from "../../../framework/types/serverPackageType";
-import { IprivacyRepository } from "../../interface/repositoryInterface/privacyRepository";
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
 

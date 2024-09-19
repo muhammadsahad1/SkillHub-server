@@ -7,7 +7,7 @@ export const editPost = async (
   postId : string,
   userRepository: IuserRepository,
   next: Next
-): Promise<{ success: boolean; message: string; }> => {
+): Promise<any> => {
   try {
     const result = await userRepository.editPost(caption,postId)
     if(!result){

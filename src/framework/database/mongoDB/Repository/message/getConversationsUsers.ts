@@ -29,7 +29,7 @@ export const getConversationsUsers = async (
 
     // Here fetching the otherUsers to lists in chat with imageUrl
     const chatList = await Promise.all(
-      conversations.map(async (conversation) => {
+      conversations.map(async (conversation : any) => {
         console.log("conversation =>", conversation);
         const otherUser = conversation.participants[0];
         const lastMessage = conversation.lastMessage;

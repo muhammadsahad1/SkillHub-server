@@ -9,6 +9,7 @@ export interface IAttendee {
 }
 
 export interface IEvent {
+  paymentStatus: string;
   title: string;
   description: string;
   date: Date;

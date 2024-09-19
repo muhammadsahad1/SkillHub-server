@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+
 import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket";
 import ConversationModel from "../../model/conversation";
 import MessageModel from "../../model/message";
@@ -38,7 +38,6 @@ export const sendImage = async (
 
       imageName = await s3Operations.putObjectUrl(putObjectUrl)
     }
-    console.log("balc");
     
     const newMessage = new messageModel({
       senderId,
@@ -53,7 +52,7 @@ export const sendImage = async (
     console.log("status ==>",status);
     
       conversation.messages.push(
-        newMessage._id as mongoose.Types.ObjectId 
+        newMessage._id as any
       )
       await conversation.save()
       console.log("newMessage ==>",newMessage);

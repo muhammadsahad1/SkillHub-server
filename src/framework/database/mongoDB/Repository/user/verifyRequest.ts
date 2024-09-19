@@ -18,7 +18,7 @@ export const verifyRequest = async (
       }
     }
     const { fullName, profession, company, website, proofLink } =
-      requestData?.formData;
+      requestData?.formData ;
     // creating the newObject for newRequest
     const newRequest = {
       userId,

@@ -1,4 +1,4 @@
-import { IZoomService } from "../../../framework/service/zoomService";
+
 import { Next } from "../../../framework/types/serverPackageType";
 import { ErrorHandler } from "../../middlewares/errorMiddleware";
 
@@ -15,7 +15,7 @@ export const getJoinLink = async (
   time: string,
   duration: string,
   next: Next,
-  zoomService: IZoomService
+  zoomService: any
 ): Promise<string | void> => {
   try {
     // Get Zoom access token

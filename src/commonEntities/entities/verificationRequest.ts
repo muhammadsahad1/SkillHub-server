@@ -15,10 +15,12 @@ export interface IVerificationRequest extends Document {
 }
 
 export interface VerifyRequest {
-  fullName: string;
-  profession: string;
-  company?: string;
-  website?: string;
-  linkedin?: string;
-  proofLink: string;
+  formData: {
+    fullName: string;
+    profession: string;
+    company?: string;
+    website?: string;
+    linkedin?: string;
+    proofLink: string;
+  };
 }

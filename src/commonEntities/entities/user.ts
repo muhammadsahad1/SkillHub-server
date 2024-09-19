@@ -3,7 +3,7 @@
 import mongoose from "mongoose";
 
 // Define the main User interface
-export interface Iuser {
+export interface  Iuser {
   id?: string;
   role?: string;
   name: string;

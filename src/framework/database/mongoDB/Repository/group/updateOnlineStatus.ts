@@ -18,7 +18,7 @@ export const updateOnlineStatus = async (
     const userID = new mongoose.Types.ObjectId(userId);
 
     // Update the online status
-    const updateGrp = await groupModel.findOneAndUpdate(
+    const updateGrp = await groupModel.updateOne(
       {
         _id: groupID,
         "members.userId": userID,
@@ -27,7 +27,12 @@ export const updateOnlineStatus = async (
       { new: true, projection: { members: 1 } }
     );
 
-    console.log("updated grp ==>", updateGrp);
+    if(!updateGrp){
+      return {
+        success: false,
+        message: "Group not found",
+      }; 
+    }
     // Check if any document was matched and modified
     if (updateGrp.matchedCount === 0) {
       return {

@@ -10,7 +10,7 @@ export const searchUsers = async (
   elasticsearch: IElasticsearchService,
   s3: IS3Operations,
   next: Next
-): Promise<{ success: boolean; message?: string; result: Iuser[] } | void> => {
+): Promise<{ success: boolean; message?: string; result: any[] } | void> => {
   try {
     const result = await elasticsearch.searchUsers(query, s3);
 

@@ -10,7 +10,7 @@ export const getChat = async (
   userModels: typeof userModel,
   s3: IS3Operations,
   conversationModel: typeof ConversationModel
-): Promise<ChatResponse | void> => {
+): Promise<any | void> => {
   try {
     console.log("userTOchjat ==>", userToChatId);
 
@@ -39,6 +39,7 @@ export const getChat = async (
       };
       
       const result = {
+        messages: [],
         userWithProfileImage,
       };
 
@@ -46,7 +47,7 @@ export const getChat = async (
     }
 
     const messageWithAllData = await Promise.all(
-      conversation?.messages.map(async (msg) => {
+      conversation?.messages.map(async (msg : any) => {
         const media = msg?.media
         if(media){
           const mediaImgUrl = await s3.getObjectUrl({

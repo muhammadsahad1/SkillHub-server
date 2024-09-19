@@ -4,7 +4,7 @@ export const editPost = async (
   caption: string,
   postId: string,
   postModels: typeof PostModel
-): Promise<{ postId: string | undefined; caption: string | undefined }> => {
+): Promise<{ postId: string | undefined; caption: string | undefined } | void> => {
   try {
     const editedPost = await postModels.findByIdAndUpdate(
       { _id: postId },
@@ -21,6 +21,6 @@ export const editPost = async (
     };
   } catch (error) {
     console.error("Error delete post:", error);
-    return undefined;
+  
   }
 };

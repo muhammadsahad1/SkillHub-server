@@ -7,17 +7,12 @@ export const joinGroup = async (
   groupModel: typeof GroupModel
 ): Promise<{ success: boolean; message: string }> => {
   try {
-    console.log("grId ==>", groupId, "usreId ==>", joinUserId);
     const group = await groupModel.findById(groupId);
     const userId = new mongoose.Types.ObjectId(joinUserId);
-    console.log("G==>", group);
 
     if (group) {
-      const isMember = group.members.some((member: mongoose.Types.ObjectId) =>
-        member.userId.equals(userId)
-      );
-
-      console.log("isMember ==>",isMember)
+      const isMember = group.members.some((member: any) =>
+        member.userId.equals(userId));
 
       if (!isMember) {
         await group.updateOne({ $push: { members: { userId: userId } } });
