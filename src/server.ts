@@ -5,7 +5,6 @@ import { initializeSocket } from "./framework/service/socketIO";
 const PORT = process.env.PORT || 3002;
 
 const server = http.createServer(app);
-
 initializeSocket(server);
 
 server.listen(PORT, () => {
