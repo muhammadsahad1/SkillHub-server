@@ -31,8 +31,8 @@ app.use(cors({
 }));
 app.options("*", cors());
 app.use(cookieParser());
-app.use(express.json({ limit: '50mb' })); // For JSON bodies
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: "50mb" })); // For JSON bodies
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 const router = express.Router();
 router.use((req, res, next) => {
     console.log("request details", req.url, req.method);
@@ -45,4 +45,4 @@ app.use("/event", eventRoute(router));
 app.use("/notification", notificationRoute(router));
 app.use("/group", groupRoute(router));
 app.use(errorHandler);
-export { app, allowedOrigins };
+export default app;
