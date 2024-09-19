@@ -8,7 +8,7 @@
 
   "type": "module",
 
-  "main": "dist/server.js",
+  "main": "dist/index.js",
 
   "scripts": {
 
