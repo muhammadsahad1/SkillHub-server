@@ -1,6 +1,6 @@
-import { JWTtoken } from "../../service/jwt";
-import userModel from "../../database/mongoDB/model/userModel";
-import { refreshTokenOption, accessTokenOption } from "./jwt";
+import { JWTtoken } from "../../service/jwt.js ";
+import userModel from "../../database/mongoDB/model/userModel.js";
+import { refreshTokenOption, accessTokenOption } from "./jwt.js";
 const jwt = new JWTtoken();
 export const isAuthenticate = async (req, res, next) => {
     const customReq = req;
@@ -8,9 +8,6 @@ export const isAuthenticate = async (req, res, next) => {
     const refreshToken = customReq.cookies.refreshToken;
     console.log("access TOken ==>", accessToken);
     console.log("refreashToken ===>", refreshToken);
-    // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-    //   .eyJpZCI6IjY2Yjc3ZTVmNTRiYTIxNWM4Mjg1MzExYSIsImlhdCI6MTcyNTYzMTA0OCwiZXhwIjoxNzI1NjQ5MDQ4fQ
-    //   .Ie6SFpCwbYaWAlerYTRQWHp1zw90AyeLdjMBjuuZ8WM;
     // Check for access token
     try {
         // Verify access token
