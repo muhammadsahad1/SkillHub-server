@@ -1,8 +1,8 @@
-import { IhashPassword } from "../../interface/service/hashPassword";
-import { IadminRepository } from "../../interface/repositoryInterface/adminRepository";
-import { Ijwt } from "../../interface/service/jwt";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
-import { Next } from "../../../framework/types/serverPackageType";
+import { IhashPassword } from "../../interface/service/hashPassword.js";
+import { IadminRepository } from "../../interface/repositoryInterface/adminRepository.js";
+import { Ijwt } from "../../interface/service/jwt.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
 
 export const adminLogin = async (
   email: string,

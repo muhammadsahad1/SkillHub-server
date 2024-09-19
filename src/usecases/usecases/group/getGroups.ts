@@ -1,7 +1,7 @@
-import { IGroup } from "../../../commonEntities/entities/group";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IGroupRepository } from "../../interface/repositoryInterface/groupRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { IGroup } from "../../../commonEntities/entities/group.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IGroupRepository } from "../../interface/repositoryInterface/groupRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const getGroups = async (
   next : Next,

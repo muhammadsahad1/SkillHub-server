@@ -1,16 +1,16 @@
 // interfaces
-import { IS3Operations } from "../../framework/service/s3Bucket";
-import { IadminRepository } from "../interface/repositoryInterface/adminRepository";
-import { IhashPassword } from "../interface/service/hashPassword";
-import { Ijwt } from "../interface/service/jwt";
-import { IsendEmail } from "../interface/service/sendEmail";
-import { IadminUseCase } from "../interface/usecase/adminUseCase";
-import { adminLogin, blockUser, changeEventsStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests , getReports, reportAction, dashBoardData } from "./admin/index";
-import { Next } from "../../framework/types/serverPackageType";
-import { IVerificationRequest } from "../../commonEntities/entities/verificationRequest";
+import { IS3Operations } from "../../framework/service/s3Bucket.js";
+import { IadminRepository } from "../interface/repositoryInterface/adminRepository.js";
+import { IhashPassword } from "../interface/service/hashPassword.js";
+import { Ijwt } from "../interface/service/jwt.js";
+import { IsendEmail } from "../interface/service/sendEmail.js";
+import { IadminUseCase } from "../interface/usecase/adminUseCase.js";
+import { adminLogin, blockUser, changeEventsStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests , getReports, reportAction, dashBoardData } from "./admin/index.js";
+import { Next } from "../../framework/types/serverPackageType.js";
+import { IVerificationRequest } from "../../commonEntities/entities/verificationRequest.js";
 import { Server } from "socket.io";
-import { IEvent } from "../../commonEntities/entities/event";
-import { IReportRequest } from "../../commonEntities/entities/reportRequests";
+import { IEvent } from "../../commonEntities/entities/event.js";
+import { IReportRequest } from "../../commonEntities/entities/reportRequests.js";
 
 // ================================= Admin user cases ================================= \\
 

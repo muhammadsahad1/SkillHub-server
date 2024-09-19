@@ -1,8 +1,8 @@
-import { IEventRegister } from "../../../commonEntities/entities/eventRegister";
-import { IStripeService } from "../../../framework/service/stripService";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IEventRepository } from "../../interface/repositoryInterface/eventRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { IEventRegister } from "../../../commonEntities/entities/eventRegister.js";
+import { IStripeService } from "../../../framework/service/stripService.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IEventRepository } from "../../interface/repositoryInterface/eventRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const eventRegister = async (
   stripService : IStripeService,

@@ -1,8 +1,8 @@
-import { IEvent } from "../../../commonEntities/entities/event";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IadminRepository } from "../../interface/repositoryInterface/adminRepository";
-import { IEventRepository } from "../../interface/repositoryInterface/eventRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { IEvent } from "../../../commonEntities/entities/event.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IadminRepository } from "../../interface/repositoryInterface/adminRepository.js";
+import { IEventRepository } from "../../interface/repositoryInterface/eventRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const getEvents = async (
   next: Next,

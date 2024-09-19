@@ -36,30 +36,30 @@ import {
   uploadThoughts,
   verifyRequest,
   reportPost,
-} from "./user/index";
-import { IuserUseCase } from "../interface/usecase/userUseCase";
-import { IuserRepository } from "../interface/repositoryInterface/userRepository";
-import { Ijwt, IToken } from "../interface/service/jwt";
-import { IotpRepository } from "../interface/repositoryInterface/otpRepository";
-import { IotpGenerate } from "../interface/service/otpGenerate";
-import { IhashPassword } from "../interface/service/hashPassword";
+} from "./user/index.js";
+import { IuserUseCase } from "../interface/usecase/userUseCase.js";
+import { IuserRepository } from "../interface/repositoryInterface/userRepository.js";
+import { Ijwt, IToken } from "../interface/service/jwt.js";
+import { IotpRepository } from "../interface/repositoryInterface/otpRepository.js";
+import { IotpGenerate } from "../interface/service/otpGenerate.js";
+import { IhashPassword } from "../interface/service/hashPassword.js";
 import {
   FetchProfileImageResponse,
   GetSkillRelatedUsersResponse,
   Iuser,
   IUserWithImages,
-} from "../../commonEntities/entities/user";
-import { IsendEmail } from "../interface/service/sendEmail";
-import { Next } from "../../framework/types/serverPackageType";
-import { resentOtp } from "./user/resentOtp";
-import { ErrorHandler } from "../middlewares/errorMiddleware";
-import { IS3Operations } from "../../framework/service/s3Bucket";
-import { IElasticsearchService } from "../../framework/service/elasticsearchService";
+} from "../../commonEntities/entities/user.js";
+import { IsendEmail } from "../interface/service/sendEmail.js";
+import { Next } from "../../framework/types/serverPackageType.js";
+import { resentOtp } from "./user/resentOtp.js";
+import { ErrorHandler } from "../middlewares/errorMiddleware.js";
+import { IS3Operations } from "../../framework/service/s3Bucket.js";
+import { IElasticsearchService } from "../../framework/service/elasticsearchService.js";
 import { NextFunction } from "express";
-import { Ipost } from "../../commonEntities/entities/post";
+import { Ipost } from "../../commonEntities/entities/post.js";
 import { Server } from "socket.io";
-import { InotificationRepository } from "../interface/repositoryInterface/notificationRepository";
-import { VerifyRequest } from "../../commonEntities/entities/verificationRequest";
+import { InotificationRepository } from "../interface/repositoryInterface/notificationRepository.js";
+import { VerifyRequest } from "../../commonEntities/entities/verificationRequest.js";
 
 // ================================= User use cases ================================= \\
 

@@ -1,8 +1,8 @@
-import { ICreateEvent } from "../../../commonEntities/entities/event";
-import { IS3Operations } from "../../../framework/service/s3Bucket";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IEventRepository } from "../../interface/repositoryInterface/eventRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ICreateEvent } from "../../../commonEntities/entities/event.js";
+import { IS3Operations } from "../../../framework/service/s3Bucket.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IEventRepository } from "../../interface/repositoryInterface/eventRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const createEvent = async (
   userId: string,

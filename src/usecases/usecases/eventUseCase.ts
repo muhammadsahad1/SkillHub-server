@@ -1,9 +1,9 @@
-import { ICreateEvent, IEvent } from "../../commonEntities/entities/event";
-import { IEventRegister } from "../../commonEntities/entities/eventRegister";
-import { IS3Operations } from "../../framework/service/s3Bucket";
-import { Next } from "../../framework/types/serverPackageType";
-import { IEventRepository } from "../../usecases/interface/repositoryInterface/eventRepository";
-import { IEventUseCase } from "../interface/usecase/eventUseCase";
+import { ICreateEvent, IEvent } from "../../commonEntities/entities/event.js";
+import { IEventRegister } from "../../commonEntities/entities/eventRegister.js";
+import { IS3Operations } from "../../framework/service/s3Bucket.js";
+import { Next } from "../../framework/types/serverPackageType.js";
+import { IEventRepository } from "../../usecases/interface/repositoryInterface/eventRepository.js";
+import { IEventUseCase } from "../interface/usecase/eventUseCase.js";
 import {
   changeStatus,
   createEvent,
@@ -13,8 +13,8 @@ import {
   getEvents,
   getJoinLink,
   makePayment,
-} from "../usecases/event/index";
-import { IStripeService } from "../../framework/service/stripService";
+} from "../usecases/event/index.js";
+import { IStripeService } from "../../framework/service/stripService.js";
 import Stripe from "stripe";
 
 export class EventUseCase implements IEventUseCase {

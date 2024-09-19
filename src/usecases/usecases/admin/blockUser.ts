@@ -1,4 +1,4 @@
-import { IadminRepository } from "../../interface/repositoryInterface/adminRepository";
+import { IadminRepository } from "../../interface/repositoryInterface/adminRepository.js";
 
 export const blockUser = async (
   id: string,

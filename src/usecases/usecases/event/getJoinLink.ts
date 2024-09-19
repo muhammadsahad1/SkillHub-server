@@ -1,6 +1,6 @@
 
-import { Next } from "../../../framework/types/serverPackageType";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 // Convert the date and time to ISO 8601 format
 function convertToISO(date: string, time: string): string {

@@ -1,8 +1,8 @@
-import { IGroup } from "../../../commonEntities/entities/group";
-import { IS3Operations } from "../../../framework/service/s3Bucket";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IGroupRepository } from "../../interface/repositoryInterface/groupRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { IGroup } from "../../../commonEntities/entities/group.js";
+import { IS3Operations } from "../../../framework/service/s3Bucket.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IGroupRepository } from "../../interface/repositoryInterface/groupRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const getGroup = async (
   groupId: string,

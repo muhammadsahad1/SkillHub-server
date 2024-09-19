@@ -1,7 +1,7 @@
-import { IS3Operations } from "../../../framework/service/s3Bucket";
-import { Next } from "../../../framework/types/serverPackageType";
-import { ImessageRepository } from "../../interface/repositoryInterface/messageRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { IS3Operations } from "../../../framework/service/s3Bucket.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { ImessageRepository } from "../../interface/repositoryInterface/messageRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const getChat = async (
   userToChatId: string,

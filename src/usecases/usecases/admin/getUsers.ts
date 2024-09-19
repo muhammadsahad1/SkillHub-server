@@ -1,6 +1,6 @@
-import { IadminRepository } from "../../interface/repositoryInterface/adminRepository";
-import { Next } from "../../../framework/types/serverPackageType";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { IadminRepository } from "../../interface/repositoryInterface/adminRepository.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const getUsers = async (
   adminRepository: IadminRepository,

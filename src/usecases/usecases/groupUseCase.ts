@@ -1,8 +1,8 @@
-import { IGroupCreationData } from "../../commonEntities/entities/createGroup";
-import { IGroup, IMember } from "../../commonEntities/entities/group";
-import { Next } from "../../framework/types/serverPackageType";
-import { IGroupRepository } from "../interface/repositoryInterface/groupRepository";
-import { IgroupUseCase } from "../interface/usecase/groupUseCase";
+import { IGroupCreationData } from "../../commonEntities/entities/createGroup.js";
+import { IGroup, IMember } from "../../commonEntities/entities/group.js";
+import { Next } from "../../framework/types/serverPackageType.js";
+import { IGroupRepository } from "../interface/repositoryInterface/groupRepository.js";
+import { IgroupUseCase } from "../interface/usecase/groupUseCase.js";
 import {
   createGroup,
   getGroup,
@@ -12,7 +12,7 @@ import {
   messages,
   sendMessage,
   updateOnlineStatus,
-} from "./group/index";
+} from "./group/index.js";
 
 // ================================ GroupUseCase =========================== \\
 export class GroupUseCase implements IgroupUseCase {

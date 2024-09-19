@@ -1,9 +1,9 @@
 
-import { INotification, NotificationModel ,NotificationType } from "../../framework/database/mongoDB/model/notification";
-import { InotificationUseCase } from "../interface/usecase/notificationUseCase";
-import { createNotification , markAsRead, notifications } from './notification/index'
-import { Next } from "../../framework/types/serverPackageType";
-import { InotificationRepository } from "../interface/repositoryInterface/notificationRepository";
+import { INotification, NotificationModel ,NotificationType } from "../../framework/database/mongoDB/model/notification.js";
+import { InotificationUseCase } from "../interface/usecase/notificationUseCase.js";
+import { createNotification , markAsRead, notifications } from './notification/index.js'
+import { Next } from "../../framework/types/serverPackageType.js";
+import { InotificationRepository } from "../interface/repositoryInterface/notificationRepository.js";
 import { Server } from 'socket.io'
 
 // ================================= Notificantion use cases ================================= \\

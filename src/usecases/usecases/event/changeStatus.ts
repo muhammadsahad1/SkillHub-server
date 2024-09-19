@@ -1,6 +1,6 @@
-import { Next } from "../../../framework/types/serverPackageType"
-import { IEventRepository } from "../../interface/repositoryInterface/eventRepository"
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { Next } from "../../../framework/types/serverPackageType.js"
+import { IEventRepository } from "../../interface/repositoryInterface/eventRepository.js"
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const changeStatus = async (
   eventId : string,

@@ -1,6 +1,6 @@
-import { Next } from "../../../framework/types/serverPackageType";
-import { IGroupRepository } from "../../interface/repositoryInterface/groupRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IGroupRepository } from "../../interface/repositoryInterface/groupRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const messages = async (
   groupId: string,

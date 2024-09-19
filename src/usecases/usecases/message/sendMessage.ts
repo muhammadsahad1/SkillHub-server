@@ -1,6 +1,6 @@
-import { Next } from "../../../framework/types/serverPackageType"
-import { ImessageRepository } from "../../interface/repositoryInterface/messageRepository"
-import { ErrorHandler } from "../../middlewares/errorMiddleware"
+import { Next } from "../../../framework/types/serverPackageType.js"
+import { ImessageRepository } from "../../interface/repositoryInterface/messageRepository.js"
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js"
 
 export const sendMessage = async (
   senderId : string,

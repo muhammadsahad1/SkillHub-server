@@ -1,8 +1,8 @@
-import { IS3Operations } from "../../framework/service/s3Bucket";
-import { Next } from "../../framework/types/serverPackageType";
-import { ImessageRepository } from "../interface/repositoryInterface/messageRepository";
-import { ImessageUseCase } from "../interface/usecase/messageUseCase";
-import { getChat, sendMessage , getConversationsUsers, markAsRead, sendImage} from './message/index'
+import { IS3Operations } from "../../framework/service/s3Bucket.js";
+import { Next } from "../../framework/types/serverPackageType.js";
+import { ImessageRepository } from "../interface/repositoryInterface/messageRepository.js";
+import { ImessageUseCase } from "../interface/usecase/messageUseCase.js";
+import { getChat, sendMessage , getConversationsUsers, markAsRead, sendImage} from './message/index.js'
 
 export class MessageUseCase implements ImessageUseCase{
   constructor(private messageRepository : ImessageRepository, 

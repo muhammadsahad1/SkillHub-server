@@ -1,7 +1,7 @@
-import { DashboardData } from "../../../commonEntities/entities/dashBoardData";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IadminRepository } from "../../interface/repositoryInterface/adminRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { DashboardData } from "../../../commonEntities/entities/dashBoardData.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IadminRepository } from "../../interface/repositoryInterface/adminRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const dashBoardData = async (
   adminRepository: IadminRepository,

@@ -1,6 +1,6 @@
-import { Next } from "../../../framework/types/serverPackageType";
-import { InotificationRepository } from "../../interface/repositoryInterface/notificationRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { InotificationRepository } from "../../interface/repositoryInterface/notificationRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const markAsRead = async (
   notificationId: string,

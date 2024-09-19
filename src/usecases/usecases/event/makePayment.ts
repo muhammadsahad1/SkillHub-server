@@ -1,6 +1,6 @@
-import { IStripeService } from "../../../framework/service/stripService";
-import { Next } from "../../../framework/types/serverPackageType";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { IStripeService } from "../../../framework/service/stripService.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const makePayment = async (
   stripService : IStripeService,

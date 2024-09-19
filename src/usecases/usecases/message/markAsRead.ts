@@ -1,5 +1,5 @@
-import { Next } from "../../../framework/types/serverPackageType";
-import { ImessageRepository } from "../../interface/repositoryInterface/messageRepository";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { ImessageRepository } from "../../interface/repositoryInterface/messageRepository.js";
 
 export const markAsRead = async (
   conversationId : string,
