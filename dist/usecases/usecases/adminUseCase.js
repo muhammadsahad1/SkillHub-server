@@ -1,4 +1,4 @@
-import { adminLogin, blockUser, changeEventsStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests, getReports, reportAction, dashBoardData } from "./admin/index";
+import { adminLogin, blockUser, changeEventsStatus, changeVerifyStatus, getEvents, getUsers, getVerificationRequests, getReports, reportAction, dashBoardData } from "./admin/index.js";
 // ================================= Admin user cases ================================= \\
 export class AdminUseCase {
     adminRepostory;

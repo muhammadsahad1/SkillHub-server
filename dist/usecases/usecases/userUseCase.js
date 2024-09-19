@@ -1,6 +1,6 @@
 import { userSignup, createUser, login, createProfile, resetPassword, forgotPassword, getProfileImage, changePassword, getUser, coverImageUpload, changePrivacy, changeShowNotification, getSkillRelatedUsers, getUserDetails, followUp, getMyFollowings, unFollow, myFollowers, removeFollower, followBack, uploadPostandRetriveUrl, getPosts, deletePost, editPost, postLike, fetchMyPosts, othersFollowers, othersFollowings, addComment, deleteComment, editingComment, fetchOthersPosts, searchUsers, postView, uploadThoughts, verifyRequest, reportPost, } from "./user/index";
-import { resentOtp } from "./user/resentOtp";
-import { ErrorHandler } from "../middlewares/errorMiddleware";
+import { resentOtp } from "./user/resentOtp.js";
+import { ErrorHandler } from "../middlewares/errorMiddleware.js";
 // ================================= User use cases ================================= \\
 export class UserUseCase {
     userRepostory;

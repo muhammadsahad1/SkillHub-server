@@ -1,4 +1,4 @@
-import { createNotification, markAsRead, notifications } from './notification/index';
+import { createNotification, markAsRead, notifications } from './notification/index.js';
 // ================================= Notificantion use cases ================================= \\
 export class NotificationUseCase {
     notificationRepository;

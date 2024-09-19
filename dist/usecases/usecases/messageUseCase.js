@@ -1,4 +1,4 @@
-import { getChat, sendMessage, getConversationsUsers, markAsRead, sendImage } from './message/index';
+import { getChat, sendMessage, getConversationsUsers, markAsRead, sendImage } from './message/index.js';
 export class MessageUseCase {
     messageRepository;
     s3;

@@ -1,4 +1,4 @@
-import { changeStatus, createEvent, eventDetails, eventRegister, getEvent, getEvents, makePayment, } from "../usecases/event/index";
+import { changeStatus, createEvent, eventDetails, eventRegister, getEvent, getEvents, makePayment, } from "../usecases/event/index.js";
 export class EventUseCase {
     eventRepository;
     s3Operations;
