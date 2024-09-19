@@ -1,4 +1,4 @@
-import client from "../elasticsearch/elasticsearchClient";
+import client from "../elasticsearch/elasticsearchClient.js";
 export const indexUser = async (user) => {
     try {
         const response = await client.index({

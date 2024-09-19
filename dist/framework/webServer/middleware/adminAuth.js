@@ -1,6 +1,6 @@
-import { JWTtoken } from "../../service/jwt";
-import userModel from "../../database/mongoDB/model/userModel";
-import { refreshTokenOption, accessTokenOption } from "./jwt";
+import { JWTtoken } from "../../service/jwt.js";
+import userModel from "../../database/mongoDB/model/userModel.js";
+import { refreshTokenOption, accessTokenOption } from "./jwt.js";
 const jwt = new JWTtoken();
 export const isAdminAuthenticate = async (req, res, next) => {
     const customReq = req;
