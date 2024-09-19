@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
+import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware.js";
 //============================== Group Controller ================== \\
 export class GroupController {
     groupUseCase;

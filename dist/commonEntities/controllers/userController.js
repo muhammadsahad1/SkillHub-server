@@ -1,5 +1,5 @@
-import { accessTokenOption, refreshTokenOption, roleOptions, } from "../../framework/webServer/middleware/jwt";
-import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
+import { accessTokenOption, refreshTokenOption, roleOptions, } from "../../framework/webServer/middleware/jwt.js";
+import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware.js";
 // ===================================== User Controller ================================= //
 export class UserController {
     userUseCase;
