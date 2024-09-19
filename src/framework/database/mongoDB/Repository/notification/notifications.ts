@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { INotification, NotificationModel } from "../../model/notification";
+import { INotification, NotificationModel } from "../../model/notification.js";
 
 export const notifications = async (
   userId :  string,

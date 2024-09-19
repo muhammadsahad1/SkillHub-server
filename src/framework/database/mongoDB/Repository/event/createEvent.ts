@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { ICreateEvent } from "../../../../../commonEntities/entities/event";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import EventModel from "../../model/eventModel";
+import { ICreateEvent } from "../../../../../commonEntities/entities/event.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import EventModel from "../../model/eventModel.js";
 
 const generateRandomString = (length = 10) => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import ConversationModel from "../../model/conversation";
-import MessageModel from "../../model/message";
+import ConversationModel from "../../model/conversation.js";
+import MessageModel from "../../model/message.js";
 
 // here while user sending message that time conversation is creating
 export const sendMessage = async (

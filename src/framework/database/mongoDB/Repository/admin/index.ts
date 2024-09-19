@@ -1,13 +1,13 @@
-import { getUsers } from "./getUsers";
-import { blockUser } from "./blockUser";
-import { getVerificationRequests } from "./getVerificationRequests";
-import { changeVerifyStatus } from "./changeVerifyStatus";
-import { getEvents } from './getEvents'
-import { changeEventStatus } from './changeEventStatus'
-import { getReports } from './getReports'
-import { reportAction } from './reportAction'
-import { dashBoardData } from './dashBoardData'
-import { getMonthlyData } from './getMonthlyData'
+import { getUsers } from "./getUsers.js";
+import { blockUser } from "./blockUser.js";
+import { getVerificationRequests } from "./getVerificationRequests.js";
+import { changeVerifyStatus } from "./changeVerifyStatus.js";
+import { getEvents } from './getEvents.js'
+import { changeEventStatus } from './changeEventStatus.js'
+import { getReports } from './getReports.js'
+import { reportAction } from './reportAction.js'
+import { dashBoardData } from './dashBoardData.js'
+import { getMonthlyData } from './getMonthlyData.js'
 
 export {
   getUsers,

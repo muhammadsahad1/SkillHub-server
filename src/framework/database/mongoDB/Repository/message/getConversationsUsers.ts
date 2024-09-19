@@ -1,6 +1,6 @@
-import { IS3Operations } from "../../../../service/s3Bucket";
-import ConversationModel from "../../model/conversation";
-import MessageModel from "../../model/message";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import ConversationModel from "../../model/conversation.js";
+import MessageModel from "../../model/message.js";
 
 
 export const getConversationsUsers = async (

@@ -1,5 +1,5 @@
-import { Ipost } from "../../../../../commonEntities/entities/post";
-import PostModel from "../../model/postModel";
+import { Ipost } from "../../../../../commonEntities/entities/post.js";
+import PostModel from "../../model/postModel.js";
 
 export const uploadThoughts = async (
   userId: string,

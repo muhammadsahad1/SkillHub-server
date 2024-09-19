@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { GroupModel } from "../../model/groupModel";
+import { GroupModel } from "../../model/groupModel.js";
 
 export const joinGroup = async (
   groupId: string,

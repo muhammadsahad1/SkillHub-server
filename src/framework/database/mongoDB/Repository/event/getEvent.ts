@@ -1,5 +1,5 @@
-import { IEvent } from "../../../../../commonEntities/entities/event";
-import EventModel from "../../model/eventModel";
+import { IEvent } from "../../../../../commonEntities/entities/event.js";
+import EventModel from "../../model/eventModel.js";
 
 export const getEvent = async (
   eventId: string,

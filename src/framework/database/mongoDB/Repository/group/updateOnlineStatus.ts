@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { GroupModel } from "../../model/groupModel";
-import { IMember } from "../../../../../commonEntities/entities/group";
+import { GroupModel } from "../../model/groupModel.js";
+import { IMember } from "../../../../../commonEntities/entities/group.js";
 
 export const updateOnlineStatus = async (
   groupId: string,

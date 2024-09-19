@@ -1,16 +1,16 @@
-import { uploadPost } from "./uploadPost";
-import { fetchPosts } from "./fetchPosts";
-import { deletePost } from "./deletePost";
-import { editPost } from "./editPost";
-import { fetchMyPosts } from "./fetchMyPosts";
-import { addComment } from "./addComment";
-import { getCommentedUserImage } from "./getCommentedUserImage";
-import { deleteComment } from "./deleteComment";
-import { editComment } from "./editComment";
-import { fetchOthersPosts } from "./fetchOthersPosts";
-import { postView } from "./postView";
-import { uploadThoughts } from './uploadThoughts'
-import { reportPost } from './reportPost'
+import { uploadPost } from "./uploadPost.js";
+import { fetchPosts } from "./fetchPosts.js";
+import { deletePost } from "./deletePost.js";
+import { editPost } from "./editPost.js";
+import { fetchMyPosts } from "./fetchMyPosts.js";
+import { addComment } from "./addComment.js";
+import { getCommentedUserImage } from "./getCommentedUserImage.js";
+import { deleteComment } from "./deleteComment.js";
+import { editComment } from "./editComment.js";
+import { fetchOthersPosts } from "./fetchOthersPosts.js";
+import { postView } from "./postView.js";
+import { uploadThoughts } from './uploadThoughts.js'
+import { reportPost } from './reportPost.js'
 
 export{
   uploadPost,

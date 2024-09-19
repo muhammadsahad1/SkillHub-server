@@ -1,7 +1,7 @@
-import { IEvent } from "../../../../../commonEntities/entities/event";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import { GroupModel } from "../../model/groupModel";
-import { IGroupCreationData } from "../../../../../commonEntities/entities/createGroup";
+import { IEvent } from "../../../../../commonEntities/entities/event.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import { GroupModel } from "../../model/groupModel.js";
+import { IGroupCreationData } from "../../../../../commonEntities/entities/createGroup.js";
 
 export const createGroup = async (
   groupData: IGroupCreationData,

@@ -1,9 +1,9 @@
-import { DashboardData } from "../../../../../commonEntities/entities/dashBoardData";
-import EventModel from "../../model/eventModel";
-import { GroupModel } from "../../model/groupModel";
-import PostModel from "../../model/postModel";
-import userModel from "../../model/userModel";
-import { getMonthlyData } from "./getMonthlyData";
+import { DashboardData } from "../../../../../commonEntities/entities/dashBoardData.js";
+import EventModel from "../../model/eventModel.js";
+import { GroupModel } from "../../model/groupModel.js";
+import PostModel from "../../model/postModel.js";
+import userModel from "../../model/userModel.js";
+import { getMonthlyData } from "./getMonthlyData.js";
 
 
 export const dashBoardData = async (

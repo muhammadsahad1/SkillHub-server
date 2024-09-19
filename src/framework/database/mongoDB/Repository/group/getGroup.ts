@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { IGroup } from "../../../../../commonEntities/entities/group";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import { GroupModel } from "../../model/groupModel";
-import userModel from "../../model/userModel";
+import { IGroup } from "../../../../../commonEntities/entities/group.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import { GroupModel } from "../../model/groupModel.js";
+import userModel from "../../model/userModel.js";
 
 export const getGroup = async (
   groupId: string,

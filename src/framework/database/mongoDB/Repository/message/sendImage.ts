@@ -1,7 +1,7 @@
 
-import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket";
-import ConversationModel from "../../model/conversation";
-import MessageModel from "../../model/message";
+import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket.js";
+import ConversationModel from "../../model/conversation.js";
+import MessageModel from "../../model/message.js";
 
 export const sendImage = async (
   senderId: string,

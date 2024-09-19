@@ -1,4 +1,4 @@
-import { VerificationRequestModal } from "../../model/VerificationRequest";
+import { VerificationRequestModal } from "../../model/VerificationRequest.js";
 
 export const getVerificationRequests = async (
   verificationRequestsModel: typeof VerificationRequestModal

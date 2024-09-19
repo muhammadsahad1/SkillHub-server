@@ -1,5 +1,5 @@
-import { IS3Operations } from "../../../../service/s3Bucket";
-import PostModel from "../../model/postModel";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import PostModel from "../../model/postModel.js";
 
 export const fetchMyPosts = async (
   userId: string,

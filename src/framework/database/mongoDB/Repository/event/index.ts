@@ -1,9 +1,9 @@
-import { createOrUpdateEvent } from "./createEvent";
-import { getEvents } from "./getEvents";
-import { eventDetails } from "./eventDetails";
-import { eventRegister } from "./eventRegister";
-import { getEvent } from "./getEvent";
-import { changeStatus } from "./changeStatus";
+import { createOrUpdateEvent } from "./createEvent.js";
+import { getEvents } from "./getEvents.js";
+import { eventDetails } from "./eventDetails.js";
+import { eventRegister } from "./eventRegister.js";
+import { getEvent } from "./getEvent.js";
+import { changeStatus } from "./changeStatus.js";
 
 export {
   createOrUpdateEvent,

@@ -1,10 +1,10 @@
-import userModel from "../model/userModel";
+import userModel from "../model/userModel.js";
 import {
   FetchProfileImageResponse,
   Iuser,
   IUserWithImages,
-} from "../../../../commonEntities/entities/user";
-import { IuserRepository } from "../../../../usecases/interface/repositoryInterface/userRepository";
+} from "../../../../commonEntities/entities/user.js";
+import { IuserRepository } from "../../../../usecases/interface/repositoryInterface/userRepository.js";
 import {
   createUser,
   findByEmail,
@@ -33,7 +33,7 @@ import {
   getOthersFollowingsImageUrl,
   changePrivacy,
   verifyRequest,
-} from "./user/index";
+} from "./user/index.js";
 import {
   uploadPost,
   fetchPosts,
@@ -48,14 +48,14 @@ import {
   postView,
   uploadThoughts,
   reportPost,
-} from "./post/index";
-import { IS3Operations } from "../../../service/s3Bucket";
-import PostModel from "../model/postModel";
-import { Next } from "../../../types/serverPackageType";
-import { IComment, Ipost } from "../../../../commonEntities/entities/post";
-import { VerificationRequestModal } from "../model/VerificationRequest";
-import { VerifyRequest } from "../../../../commonEntities/entities/verificationRequest";
-import ReportModel from "../model/reportRequest";
+} from "./post/index.js";
+import { IS3Operations } from "../../../service/s3Bucket.js";
+import PostModel from "../model/postModel.js";
+import { Next } from "../../../types/serverPackageType.js";
+import { IComment, Ipost } from "../../../../commonEntities/entities/post.js";
+import { VerificationRequestModal } from "../model/VerificationRequest.js";
+import { VerifyRequest } from "../../../../commonEntities/entities/verificationRequest.js";
+import ReportModel from "../model/reportRequest.js";
 
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository implements IuserRepository {

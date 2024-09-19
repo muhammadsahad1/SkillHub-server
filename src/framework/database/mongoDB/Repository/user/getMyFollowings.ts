@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import userModel from "../../model/userModel";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import { Iuser } from "../../../../../commonEntities/entities/user";
+import userModel from "../../model/userModel.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import { Iuser } from "../../../../../commonEntities/entities/user.js";
 
 export const getMyFollowing = async (
   userId : string,

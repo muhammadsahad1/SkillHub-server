@@ -1,6 +1,6 @@
-import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket";
-import PostModel from "../../model/postModel";
-import userModel from "../../model/userModel";
+import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket.js";
+import PostModel from "../../model/postModel.js";
+import userModel from "../../model/userModel.js";
 
 export const uploadPost = async (
   userId: string,

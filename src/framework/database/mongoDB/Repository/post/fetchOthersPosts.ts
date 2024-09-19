@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import PostModel from "../../model/postModel";
-import userModel from "../../model/userModel";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import PostModel from "../../model/postModel.js";
+import userModel from "../../model/userModel.js";
 
 export const fetchOthersPosts = async (
   userId: string,

@@ -1,6 +1,6 @@
-import { IEvent } from "../../../../../commonEntities/entities/event";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import EventModel from "../../model/eventModel";
+import { IEvent } from "../../../../../commonEntities/entities/event.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import EventModel from "../../model/eventModel.js";
 
 export const eventDetails = async (
   eventId: string,

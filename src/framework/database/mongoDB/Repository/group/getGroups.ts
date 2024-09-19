@@ -1,6 +1,6 @@
-import { IGroup } from "../../../../../commonEntities/entities/group";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import { GroupModel } from "../../model/groupModel";
+import { IGroup } from "../../../../../commonEntities/entities/group.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import { GroupModel } from "../../model/groupModel.js";
 
 export const getGroups = async (
   groupModel: typeof GroupModel,

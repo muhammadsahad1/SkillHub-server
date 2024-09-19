@@ -1,8 +1,8 @@
-import { Iconversation } from "../../../../../commonEntities/entities/conversation";
-import { ChatResponse,} from "../../../../../commonEntities/entities/message";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import ConversationModel from "../../model/conversation";
-import userModel from "../../model/userModel";
+import { Iconversation } from "../../../../../commonEntities/entities/conversation.js";
+import { ChatResponse,} from "../../../../../commonEntities/entities/message.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import ConversationModel from "../../model/conversation.js";
+import userModel from "../../model/userModel.js";
 
 export const getChat = async (
   userToChatId: string,

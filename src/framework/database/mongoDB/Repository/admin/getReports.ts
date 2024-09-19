@@ -1,7 +1,7 @@
-import { IReportRequest } from "../../../../../commonEntities/entities/reportRequests";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import PostModel from "../../model/postModel";
-import ReportModel, { IReport } from "../../model/reportRequest";
+import { IReportRequest } from "../../../../../commonEntities/entities/reportRequests.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import PostModel from "../../model/postModel.js";
+import ReportModel, { IReport } from "../../model/reportRequest.js";
 
 export const getReports = async (
   reportModel: typeof ReportModel,

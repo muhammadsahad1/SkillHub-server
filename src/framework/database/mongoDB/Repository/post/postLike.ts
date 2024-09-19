@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware";
-import PostModel from "../../model/postModel";
+import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware.js";
+import PostModel from "../../model/postModel.js";
 
 export const postLike = async (
   userId: string,

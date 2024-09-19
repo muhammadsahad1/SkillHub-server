@@ -1,4 +1,4 @@
-import { NotificationModel } from "../../model/notification";
+import { NotificationModel } from "../../model/notification.js";
 
 export const removeNotification = async (
   receiverId: string,

@@ -1,4 +1,4 @@
-import PostModel from "../../model/postModel";
+import PostModel from "../../model/postModel.js";
 
 export const deleteComment = async (
   postId: string,

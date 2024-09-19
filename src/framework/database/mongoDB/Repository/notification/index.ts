@@ -1,7 +1,7 @@
-import { createNotification } from './createNotification'
-import { notifications } from './notifications'
-import { markAsRead } from './markAsRead'
-import { removeNotification } from './removeNotification'
+import { createNotification } from './createNotification.js'
+import { notifications } from './notifications.js'
+import { markAsRead } from './markAsRead.js'
+import { removeNotification } from './removeNotification.js'
 
 export {
   createNotification,

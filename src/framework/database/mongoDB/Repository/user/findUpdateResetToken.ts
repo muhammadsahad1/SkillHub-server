@@ -1,5 +1,5 @@
-import userModel from "../../model/userModel";
-import { Iuser } from "../../../../../commonEntities/entities/user";
+import userModel from "../../model/userModel.js";
+import { Iuser } from "../../../../../commonEntities/entities/user.js";
 
 // updating user for attaching resetToken
 export const findUpdateResetToken = async (

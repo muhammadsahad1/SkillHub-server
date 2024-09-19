@@ -1,10 +1,10 @@
-import { IGroupCreationData } from "../../../../commonEntities/entities/createGroup";
-import { IGroup } from "../../../../commonEntities/entities/group";
-import { IGroupRepository } from "../../../../usecases/interface/repositoryInterface/groupRepository";
-import { IS3Operations } from "../../../service/s3Bucket";
-import GroupMessageModel from "../model/groupMessageModel";
-import { GroupModel } from "../model/groupModel";
-import userModel from "../model/userModel";
+import { IGroupCreationData } from "../../../../commonEntities/entities/createGroup.js";
+import { IGroup } from "../../../../commonEntities/entities/group.js";
+import { IGroupRepository } from "../../../../usecases/interface/repositoryInterface/groupRepository.js";
+import { IS3Operations } from "../../../service/s3Bucket.js";
+import GroupMessageModel from "../model/groupMessageModel.js";
+import { GroupModel } from "../model/groupModel.js";
+import userModel from "../model/userModel.js";
 import {
   createGroup,
   getGroup,
@@ -14,7 +14,7 @@ import {
   messages,
   sendMessage,
   updateOnlineStatus,
-} from "./group/index";
+} from "./group/index.js";
 
 export class GroupRepository implements IGroupRepository {
   constructor(

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import PostModel from "../../model/postModel";
-import { IComment, Ipost } from "../../../../../commonEntities/entities/post";
+import PostModel from "../../model/postModel.js";
+import { IComment, Ipost } from "../../../../../commonEntities/entities/post.js";
 
 export const editComment = async (
   postId: string,

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import userModel from "../../model/userModel";
+import userModel from "../../model/userModel.js";
 
 export const myFollowers = async (
   userId: string,

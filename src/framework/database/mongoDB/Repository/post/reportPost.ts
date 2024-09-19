@@ -1,5 +1,5 @@
-import PostModel from "../../model/postModel";
-import ReportModel from "../../model/reportRequest";
+import PostModel from "../../model/postModel.js";
+import ReportModel from "../../model/reportRequest.js";
 
 export const reportPost = async (
   postId: string,

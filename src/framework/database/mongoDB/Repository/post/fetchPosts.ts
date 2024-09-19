@@ -1,6 +1,6 @@
-import { IS3Operations } from "../../../../service/s3Bucket";
-import PostModel from "../../model/postModel";
-import userModel from "../../model/userModel";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import PostModel from "../../model/postModel.js";
+import userModel from "../../model/userModel.js";
 
 const POSTS_PER_PAGE = 6; // Number of posts per page
 

@@ -1,4 +1,4 @@
-import EventModel from "../../model/eventModel";
+import EventModel from "../../model/eventModel.js";
 
 export const changeStatus = async (eventId : string,status: string, eventModel: typeof EventModel) => {
   try {

@@ -1,6 +1,6 @@
-import userModel from "../../model/userModel";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import { FetchProfileImageResponse } from "../../../../../commonEntities/entities/user";
+import userModel from "../../model/userModel.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import { FetchProfileImageResponse } from "../../../../../commonEntities/entities/user.js";
 
 export const fetchProfileImage = async (
   userModels: typeof userModel,

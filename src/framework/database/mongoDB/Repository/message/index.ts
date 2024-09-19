@@ -1,7 +1,7 @@
-import { getChat } from "./getMessages";
-import { sendMessage } from "./sendMessage";
-import { getConversationsUsers } from "./getConversationsUsers";
-import {markMessagesAsRead} from './markMessagesAsRead '
-import { sendImage } from "./sendImage";
+import { getChat } from "./getMessages.js";
+import { sendMessage } from "./sendMessage.js";
+import { getConversationsUsers } from "./getConversationsUsers.js";
+import {markMessagesAsRead} from './markMessagesAsRead .js'
+import { sendImage } from "./sendImage.js";
 
 export { sendImage,sendMessage, getChat, getConversationsUsers,markMessagesAsRead };

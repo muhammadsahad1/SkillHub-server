@@ -1,6 +1,6 @@
-import userModel from "../../model/userModel";
-import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket";
-import { Iuser } from "../../../../../commonEntities/entities/user";
+import userModel from "../../model/userModel.js";
+import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket.js";
+import { Iuser } from "../../../../../commonEntities/entities/user.js";
 
 export const uploadCoverImage = async (
   userModels: typeof userModel,

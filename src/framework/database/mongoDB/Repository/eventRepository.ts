@@ -1,15 +1,15 @@
 import {
   ICreateEvent,
   IEvent,
-} from "../../../../commonEntities/entities/event";
-import { IEventRegister } from "../../../../commonEntities/entities/eventRegister";
-import { IEventRepository } from "../../../../usecases/interface/repositoryInterface/eventRepository";
+} from "../../../../commonEntities/entities/event.js";
+import { IEventRegister } from "../../../../commonEntities/entities/eventRegister.js";
+import { IEventRepository } from "../../../../usecases/interface/repositoryInterface/eventRepository.js";
 
-import { IS3Operations } from "../../../service/s3Bucket";
-import { IStripeService } from "../../../service/stripService";
-import EventModel from "../model/eventModel";
-import { EventPaymentModel } from "../model/eventPaymentModel";
-import userModel from "../model/userModel";
+import { IS3Operations } from "../../../service/s3Bucket.js";
+import { IStripeService } from "../../../service/stripService.js";
+import EventModel from "../model/eventModel.js";
+import { EventPaymentModel } from "../model/eventPaymentModel.js";
+import userModel from "../model/userModel.js";
 import {
   changeStatus,
   createOrUpdateEvent,
@@ -17,7 +17,7 @@ import {
   eventRegister,
   getEvent,
   getEvents,
-} from "./event/index";
+} from "./event/index.js";
 
 export class EventRepository implements IEventRepository {
   constructor(

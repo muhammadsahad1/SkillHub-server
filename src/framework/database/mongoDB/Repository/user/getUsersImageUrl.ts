@@ -1,5 +1,5 @@
-import { IUserWithImages } from "../../../../../commonEntities/entities/user";
-import { IS3Operations } from "../../../../service/s3Bucket";
+import { IUserWithImages } from "../../../../../commonEntities/entities/user.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
 
 export const getUsersImageUrls = async (
   users: any[],

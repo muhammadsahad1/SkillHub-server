@@ -1,5 +1,5 @@
-import userModel from "../../model/userModel";
-import { VerificationRequestModal } from "../../model/VerificationRequest";
+import userModel from "../../model/userModel.js";
+import { VerificationRequestModal } from "../../model/VerificationRequest.js";
 
 export const changeVerifyStatus = async (
   requestId: string,

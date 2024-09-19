@@ -1,5 +1,5 @@
-import ConversationModel from "../../model/conversation";
-import MessageModel from "../../model/message";
+import ConversationModel from "../../model/conversation.js";
+import MessageModel from "../../model/message.js";
 
 export const markMessagesAsRead = async (
   conversationId: string,

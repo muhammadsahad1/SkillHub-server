@@ -1,6 +1,6 @@
-import { VerifyRequest } from "../../../../../commonEntities/entities/verificationRequest";
-import userModel from "../../model/userModel";
-import { VerificationRequestModal } from "../../model/VerificationRequest";
+import { VerifyRequest } from "../../../../../commonEntities/entities/verificationRequest.js";
+import userModel from "../../model/userModel.js";
+import { VerificationRequestModal } from "../../model/VerificationRequest.js";
 
 export const verifyRequest = async (
   userId: string,

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import GroupMessageModel from "../../model/groupMessageModel";
+import GroupMessageModel from "../../model/groupMessageModel.js";
 
 export const sendMessage = async (
   senderId: string,

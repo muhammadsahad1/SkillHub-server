@@ -1,5 +1,5 @@
-import { IS3Operations } from "../../../../service/s3Bucket";
-import userModel from "../../model/userModel";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import userModel from "../../model/userModel.js";
 
 // Define the type for userModel to ensure type safety
 type UserModelType = typeof userModel;

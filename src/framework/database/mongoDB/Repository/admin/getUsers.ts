@@ -1,5 +1,5 @@
-import { Iuser } from "../../../../../commonEntities/entities/user";
-import userModel from "../../model/userModel";
+import { Iuser } from "../../../../../commonEntities/entities/user.js";
+import userModel from "../../model/userModel.js";
 
 export const getUsers = async (userModels: typeof userModel) => {
   try {

@@ -1,7 +1,7 @@
 
-import { InotificationRepository } from "../../../../usecases/interface/repositoryInterface/notificationRepository";
-import { INotification, NotificationModel,NotificationType } from "../model/notification";
-import { createNotification, markAsRead, notifications, removeNotification} from './notification/index'
+import { InotificationRepository } from "../../../../usecases/interface/repositoryInterface/notificationRepository.js";
+import { INotification, NotificationModel,NotificationType } from "../model/notification.js";
+import { createNotification, markAsRead, notifications, removeNotification} from './notification/index.js'
 
 export class NotificationRepository implements InotificationRepository{
   constructor(private notificationModel : typeof NotificationModel){}

@@ -1,7 +1,7 @@
-import { Iuser } from "../../../../../commonEntities/entities/user";
-import userModel from "../../model/userModel";
-import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket";
-import client from "../../../../elasticsearch/elasticsearchClient";
+import { Iuser } from "../../../../../commonEntities/entities/user.js";
+import userModel from "../../model/userModel.js";
+import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket.js";
+import client from "../../../../elasticsearch/elasticsearchClient.js";
 
 // Creatin profile with upload image to s3bucket
 export const createProfile = async (

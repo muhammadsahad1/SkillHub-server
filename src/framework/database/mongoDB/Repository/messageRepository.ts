@@ -1,10 +1,10 @@
-import { ChatResponse  } from "../../../../commonEntities/entities/message";
-import { ImessageRepository } from "../../../../usecases/interface/repositoryInterface/messageRepository";
-import { IS3Operations } from "../../../service/s3Bucket";
-import ConversationModel from "../model/conversation";
-import MessageModel from "../model/message";
-import userModel from "../model/userModel";
-import { getChat, getConversationsUsers, markMessagesAsRead, sendMessage , sendImage} from './message/index'
+import { ChatResponse  } from "../../../../commonEntities/entities/message.js";
+import { ImessageRepository } from "../../../../usecases/interface/repositoryInterface/messageRepository.js";
+import { IS3Operations } from "../../../service/s3Bucket.js";
+import ConversationModel from "../model/conversation.js";
+import MessageModel from "../model/message.js";
+import userModel from "../model/userModel.js";
+import { getChat, getConversationsUsers, markMessagesAsRead, sendMessage , sendImage} from './message/index.js'
 
 export class MessageRepository implements ImessageRepository{
   constructor(

@@ -1,7 +1,7 @@
 import mongoose, { mongo } from "mongoose";
-import { NotificationModel } from "../../model/notification";
-import PostModel from "../../model/postModel";
-import ReportModel from "../../model/reportRequest";
+import { NotificationModel } from "../../model/notification.js";
+import PostModel from "../../model/postModel.js";
+import ReportModel from "../../model/reportRequest.js";
 
 export const reportAction = async (
   reportId: string,

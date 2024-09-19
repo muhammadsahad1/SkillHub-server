@@ -1,6 +1,6 @@
-import { IEvent } from "../../../../../commonEntities/entities/event";
-import EventModel from "../../model/eventModel";
-import userModel from "../../model/userModel";
+import { IEvent } from "../../../../../commonEntities/entities/event.js";
+import EventModel from "../../model/eventModel.js";
+import userModel from "../../model/userModel.js";
 
 export const getEvents = async (
   eventModel: typeof EventModel,

@@ -1,6 +1,6 @@
-import { Iotp } from "../../../../commonEntities/entities/otp";
-import otpModel from "../model/otpModel";
-import { IotpRepository } from "../../../../usecases/interface/repositoryInterface/otpRepository";
+import { Iotp } from "../../../../commonEntities/entities/otp.js";
+import otpModel from "../model/otpModel.js";
+import { IotpRepository } from "../../../../usecases/interface/repositoryInterface/otpRepository.js";
 
 export class OtpRepository implements IotpRepository {
   resendOtp(email: string, otp: string): Promise<void> {

@@ -1,4 +1,4 @@
-import userModel from "../../model/userModel";
+import userModel from "../../model/userModel.js";
 
 export const blockUser = async (id: string, userModels: typeof userModel) => {
   try {

@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { IEventRegister } from "../../../../../commonEntities/entities/eventRegister";
-import EventModel from "../../model/eventModel";
-import { EventPaymentModel } from "../../model/eventPaymentModel";
-import userModel from "../../model/userModel";
+import { IEventRegister } from "../../../../../commonEntities/entities/eventRegister.js";
+import EventModel from "../../model/eventModel.js";
+import { EventPaymentModel } from "../../model/eventPaymentModel.js";
+import userModel from "../../model/userModel.js";
 
 //generate the token
 const generateJoinToken = (length = 20) => {

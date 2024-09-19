@@ -3,7 +3,7 @@ import {
   INotification,
   NotificationModel,
   NotificationType,
-} from "../../model/notification";
+} from "../../model/notification.js";
 
 interface NewNotificationData {
   senderId: mongoose.Types.ObjectId;

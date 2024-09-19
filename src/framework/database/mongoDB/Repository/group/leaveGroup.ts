@@ -1,4 +1,4 @@
-import { GroupModel } from "../../model/groupModel";
+import { GroupModel } from "../../model/groupModel.js";
 
 export const leaveGroup = async (
   groupId: string,

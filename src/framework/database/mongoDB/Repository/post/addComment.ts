@@ -1,6 +1,6 @@
-import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware";
-import PostModel from "../../model/postModel";
-import userModel from "../../model/userModel";
+import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware.js";
+import PostModel from "../../model/postModel.js";
+import userModel from "../../model/userModel.js";
 
 interface Comment {
   userId: string;

@@ -1,7 +1,7 @@
-import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware";
-import { IS3Operations } from "../../../../service/s3Bucket";
-import { Next } from "../../../../types/serverPackageType";
-import userModel from "../../model/userModel";
+import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware.js";
+import { IS3Operations } from "../../../../service/s3Bucket.js";
+import { Next } from "../../../../types/serverPackageType.js";
+import userModel from "../../model/userModel.js";
 
 export const getCommentedUserImage = async (
   postOwnerId : string,
