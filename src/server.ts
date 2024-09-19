@@ -1,7 +1,7 @@
 import http from "http";
 
-import app from "./framework/webServer/config/app.ts";
-import initializeSocket from "./framework/service/socketIO.ts";
+import app from "./framework/webServer/config/app";
+import initializeSocket from "./framework/service/socketIO";
 
 const PORT = process.env.PORT || 3002;
 
