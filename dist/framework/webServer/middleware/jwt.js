@@ -5,20 +5,20 @@ export const accessTokenOption = {
     expires: new Date(Date.now() + accessTokenExpire * 60 * 60 * 1000),
     maxAge: accessTokenExpire * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "none",
+    sameSite: tokenProductionMode ? "none" : "lax", // Use lowercase 'none'
     secure: tokenProductionMode,
 };
 export const refreshTokenOption = {
     expires: new Date(Date.now() + refreshTokenExpire * 24 * 60 * 60 * 1000),
     maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "none",
+    sameSite: tokenProductionMode ? "none" : "lax",
     secure: tokenProductionMode,
 };
 export const roleOptions = {
     expires: new Date(Date.now() + refreshTokenExpire * 24 * 60 * 60 * 1000),
     maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "none",
+    sameSite: tokenProductionMode ? "none" : "lax",
     secure: tokenProductionMode,
 };

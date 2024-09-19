@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 export const initializeSocket = (server) => {
     const io = new Server(server, {
         cors: {
-            origin: "https://skill-hub-client-eight.vercel.app",
+            origin: "https://skill-hub-share-platform.vercel.app",
             methods: ["GET", "POST", "PUT"],
             credentials: true,
         },

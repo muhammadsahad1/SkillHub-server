@@ -134,7 +134,7 @@ export class UserController {
         }
     }
     // ===================================================================>
-    // create profile
+    // chang password
     async changePassword(req, res, next) {
         try {
             const result = await this.userUseCase.changePassword(req.user?.id, req.body.currentPassword, req.body.newPassword, next);
@@ -146,6 +146,8 @@ export class UserController {
     // create profile
     async createProfile(req, res, next) {
         try {
+            console.log("file ====== req ===>", req.file);
+            console.log("bodyy ====>", req.body);
             const result = await this.userUseCase.createProfile(req.body, req.file, next);
             if (result) {
                 res.status(200).json({

@@ -3,7 +3,6 @@ export const resetPassword = async (password, token, userRepository, hashPasswor
     try {
         const hashedPassword = await hashPassword.createHash(password);
         const result = await userRepository.resetPasswordVerify(hashedPassword, token);
-        console.log("result from db =>", result);
         if (result) {
             return {
                 success: true,
