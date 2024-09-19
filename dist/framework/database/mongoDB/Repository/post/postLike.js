@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware";
+import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware.js";
 export const postLike = async (userId, postId, postModels) => {
     try {
         const userIdObject = new mongoose.Types.ObjectId(userId);

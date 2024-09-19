@@ -1,5 +1,5 @@
-import { findByEmail } from "./user";
-import { blockUser, changeEventStatus, changeVerifyStatus, dashBoardData, getEvents, getReports, getUsers, getVerificationRequests, reportAction } from "./admin/index";
+import { findByEmail } from "./user.js";
+import { blockUser, changeEventStatus, changeVerifyStatus, dashBoardData, getEvents, getReports, getUsers, getVerificationRequests, reportAction } from "./admin/index.js";
 export class AdminRepository {
     userModels;
     verificationRequestsModel;

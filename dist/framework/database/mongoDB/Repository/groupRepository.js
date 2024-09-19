@@ -1,4 +1,4 @@
-import { createGroup, getGroup, getGroups, joinGroup, leaveGroup, messages, sendMessage, updateOnlineStatus, } from "./group/index";
+import { createGroup, getGroup, getGroups, joinGroup, leaveGroup, messages, sendMessage, updateOnlineStatus, } from "./group/index.js";
 export class GroupRepository {
     groupModel;
     s3Operations;

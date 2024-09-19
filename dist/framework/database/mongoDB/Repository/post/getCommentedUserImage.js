@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware";
+import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware.js";
 export const getCommentedUserImage = async (postOwnerId, userId, s3, userModels, next) => {
     try {
         const user = await userModels.findById(userId);

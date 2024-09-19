@@ -1,4 +1,4 @@
-import otpModel from "../model/otpModel";
+import otpModel from "../model/otpModel.js";
 export class OtpRepository {
     resendOtp(email, otp) {
         throw new Error("Method not implemented.");

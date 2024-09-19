@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware";
+import { ErrorHandler } from "../../../../../usecases/middlewares/errorMiddleware.js";
 export const addComment = async (postId, userId, comment, postModels, userModelS) => {
     try {
         const user = await userModelS.findById(userId).select("name");

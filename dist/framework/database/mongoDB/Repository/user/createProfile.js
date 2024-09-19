@@ -1,4 +1,4 @@
-import client from "../../../../elasticsearch/elasticsearchClient";
+import client from "../../../../elasticsearch/elasticsearchClient.js";
 // Creatin profile with upload image to s3bucket
 export const createProfile = async (userProfile, file, S3Operations, userModels) => {
     try {

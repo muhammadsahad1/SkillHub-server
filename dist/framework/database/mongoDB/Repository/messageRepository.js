@@ -1,4 +1,4 @@
-import { getChat, getConversationsUsers, markMessagesAsRead, sendMessage, sendImage } from './message/index';
+import { getChat, getConversationsUsers, markMessagesAsRead, sendMessage, sendImage } from './message/index.js';
 export class MessageRepository {
     conversationModal;
     messageModal;

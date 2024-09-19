@@ -1,4 +1,4 @@
-import { createNotification, markAsRead, notifications, removeNotification } from './notification/index';
+import { createNotification, markAsRead, notifications, removeNotification } from './notification/index.js';
 export class NotificationRepository {
     notificationModel;
     constructor(notificationModel) {

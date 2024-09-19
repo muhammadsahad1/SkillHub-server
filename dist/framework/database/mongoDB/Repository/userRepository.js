@@ -1,5 +1,5 @@
-import { createUser, findByEmail, createProfile, findByEmailUpdatePicture, resetPasswordVerify, getUser, changePassword, findUpdateResetToken, fetchProfileImage, uploadCoverImage, showNotification, getSkillRelatedUsers, getUsersImageUrls, getUserDetails, followUp, getMyFollowing, unFollow, myFollowers, removeFollower, followBack, postLike, getOthersFollowers, getOthersFollowersImageUrls, getOthersFollowings, getOthersFollowingsImageUrl, changePrivacy, verifyRequest, } from "./user/index";
-import { uploadPost, fetchPosts, deletePost, editPost, fetchMyPosts, addComment, getCommentedUserImage, deleteComment, editComment, fetchOthersPosts, postView, uploadThoughts, reportPost, } from "./post/index";
+import { createUser, findByEmail, createProfile, findByEmailUpdatePicture, resetPasswordVerify, getUser, changePassword, findUpdateResetToken, fetchProfileImage, uploadCoverImage, showNotification, getSkillRelatedUsers, getUsersImageUrls, getUserDetails, followUp, getMyFollowing, unFollow, myFollowers, removeFollower, followBack, postLike, getOthersFollowers, getOthersFollowersImageUrls, getOthersFollowings, getOthersFollowingsImageUrl, changePrivacy, verifyRequest, } from "./user/index.js";
+import { uploadPost, fetchPosts, deletePost, editPost, fetchMyPosts, addComment, getCommentedUserImage, deleteComment, editComment, fetchOthersPosts, postView, uploadThoughts, reportPost, } from "./post/index.js";
 //Passing the user properties to DB intraction function with userModel/schema
 export class UserRepository {
     userModels;

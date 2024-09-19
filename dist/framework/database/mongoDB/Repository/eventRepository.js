@@ -1,4 +1,4 @@
-import { changeStatus, createOrUpdateEvent, eventDetails, eventRegister, getEvent, getEvents, } from "./event/index";
+import { changeStatus, createOrUpdateEvent, eventDetails, eventRegister, getEvent, getEvents, } from "./event/index.js";
 export class EventRepository {
     eventModel;
     eventPaymentModel;
