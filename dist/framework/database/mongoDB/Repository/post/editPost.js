@@ -12,6 +12,5 @@ export const editPost = async (caption, postId, postModels) => {
     }
     catch (error) {
         console.error("Error delete post:", error);
-        return undefined;
     }
 };

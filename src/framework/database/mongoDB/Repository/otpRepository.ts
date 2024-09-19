@@ -3,6 +3,9 @@ import otpModel from "../model/otpModel";
 import { IotpRepository } from "../../../../usecases/interface/repositoryInterface/otpRepository";
 
 export class OtpRepository implements IotpRepository {
+  resendOtp(email: string, otp: string): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 
   // creating opt document for particular time (1m) 
   async createOtp(username:string,email: string,userPassword:string, otp: string): Promise<Iotp> {

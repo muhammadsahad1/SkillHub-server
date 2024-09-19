@@ -7,7 +7,7 @@ export const getReports = async (
   reportModel: typeof ReportModel,
   postModel: typeof PostModel,
   s3Operations: IS3Operations
-): Promise<IReportRequest[] | void> => {
+): Promise<IReportRequest[] | void | any> => {
   try {
     // Fetch reports and populate postId and reportedBy
     const reports = await reportModel

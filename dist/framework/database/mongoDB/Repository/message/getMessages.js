@@ -22,6 +22,7 @@ export const getChat = async (userToChatId, senderId, userModels, s3, conversati
                 profileImageUrl: profileImageUrl,
             };
             const result = {
+                messages: [],
                 userWithProfileImage,
             };
             return result;

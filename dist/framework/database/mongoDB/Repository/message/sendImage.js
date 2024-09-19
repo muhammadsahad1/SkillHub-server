@@ -22,7 +22,6 @@ export const sendImage = async (senderId, receiverId, file, s3Operations, messag
             };
             imageName = await s3Operations.putObjectUrl(putObjectUrl);
         }
-        console.log("balc");
         const newMessage = new messageModel({
             senderId,
             receiverId,

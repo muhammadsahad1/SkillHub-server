@@ -45,7 +45,6 @@ export const messages = async (groupId, groupMessageModel, groupModel, userModel
                 readBy: message.readBy,
             };
         }));
-        console.log("Message Users ==> ====>>>>>", messagesWithUsers);
         return messagesWithUsers;
     }
     catch (error) {

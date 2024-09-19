@@ -1,5 +1,8 @@
 import otpModel from "../model/otpModel";
 export class OtpRepository {
+    resendOtp(email, otp) {
+        throw new Error("Method not implemented.");
+    }
     // creating opt document for particular time (1m) 
     async createOtp(username, email, userPassword, otp) {
         try {
@@ -22,9 +25,5 @@ export class OtpRepository {
             console.log(error);
             return null;
         }
-    }
-    findAndDeleteUser(email) {
-    }
-    resendOtp(email, otp) {
     }
 }

@@ -1,13 +1,10 @@
 import mongoose from "mongoose";
 export const joinGroup = async (groupId, joinUserId, groupModel) => {
     try {
-        console.log("grId ==>", groupId, "usreId ==>", joinUserId);
         const group = await groupModel.findById(groupId);
         const userId = new mongoose.Types.ObjectId(joinUserId);
-        console.log("G==>", group);
         if (group) {
             const isMember = group.members.some((member) => member.userId.equals(userId));
-            console.log("isMember ==>", isMember);
             if (!isMember) {
                 await group.updateOne({ $push: { members: { userId: userId } } });
                 return {
