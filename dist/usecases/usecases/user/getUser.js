@@ -1,4 +1,4 @@
-import { ErrorHandler } from '../../middlewares/errorMiddleware';
+import { ErrorHandler } from '../../middlewares/errorMiddleware.js';
 export const getUser = async (userId, userRepository, next) => {
     try {
         const user = await userRepository.getUser(userId);

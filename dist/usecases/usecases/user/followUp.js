@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const followUp = async (toFollowingId, fromFollowerId, userRepository, next) => {
     try {
         await userRepository.followUp(toFollowingId, fromFollowerId);

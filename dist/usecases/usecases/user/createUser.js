@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 // Creating user after user submits the OTP
 export const createUser = async (email, otp, jwt, otpRepository, userRepository, hashPassword, next) => {
     try {

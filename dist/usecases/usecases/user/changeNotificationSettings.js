@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const changeShowNotification = async (userId, isShowNotification, userRepository, next) => {
     try {
         const result = await userRepository.changeShowNotification(userId, isShowNotification);

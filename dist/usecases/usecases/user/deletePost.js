@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const deletePost = async (postId, userRepository, next) => {
     try {
         await userRepository.deletePost(postId);

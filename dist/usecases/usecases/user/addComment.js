@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const addComment = async (postId, userId, comment, userRepository, s3, io, next) => {
     try {
         const retriveComment = await userRepository.addComment(postId, userId, comment, s3, next);

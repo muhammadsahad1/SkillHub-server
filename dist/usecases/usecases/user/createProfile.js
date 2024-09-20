@@ -1,4 +1,4 @@
-import { ErrorHandler } from '../../middlewares/errorMiddleware';
+import { ErrorHandler } from '../../middlewares/errorMiddleware.js';
 export const createProfile = async (user, file, userRepository, S3Operations, next) => {
     try {
         const updatedUser = await userRepository.createProfile(user, file, S3Operations);

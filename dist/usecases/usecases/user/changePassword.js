@@ -1,4 +1,4 @@
-import { ErrorHandler } from '../../middlewares/errorMiddleware';
+import { ErrorHandler } from '../../middlewares/errorMiddleware.js';
 export const changePassword = async (userId, currentPassword, newPassword, hashPassword, userRepository, next) => {
     try {
         console.log("kerii");

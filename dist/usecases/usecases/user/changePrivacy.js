@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const changePrivacy = async (userId, isPrivacy, userRepository, next) => {
     try {
         const result = await userRepository.changePrivacy(userId, isPrivacy);

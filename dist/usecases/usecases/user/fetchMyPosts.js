@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const fetchMyPosts = async (userId, userRepository, s3, next) => {
     try {
         const result = await userRepository.fetchMyPosts(userId, s3);

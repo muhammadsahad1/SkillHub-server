@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const forgotPassword = async (jwt, userRepository, sendEmail, email, next) => {
     try {
         const user = await userRepository.findByEmail(email);

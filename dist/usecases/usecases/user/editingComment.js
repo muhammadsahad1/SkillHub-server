@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const editingComment = async (postId, commentId, userId, updatedComment, userRepository, next) => {
     try {
         const result = await userRepository.editComment(postId, commentId, userId, updatedComment);

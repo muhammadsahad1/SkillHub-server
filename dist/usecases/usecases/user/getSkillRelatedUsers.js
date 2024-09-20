@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const getSkillRelatedUsers = async (userId, skill, userRepository, s3, next) => {
     console.log("casil ketiiiiiiii");
     const result = await userRepository.getSkillRelatedUsers(userId, skill, s3);
