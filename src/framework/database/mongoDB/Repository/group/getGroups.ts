@@ -7,7 +7,7 @@ export const getGroups = async (
   s3Operations: IS3Operations
 ): Promise<IGroup[] | void> => {
   try {
-    const groups = await groupModel.find({}).sort({ createdAt: -1 });
+    const groups = await groupModel.find({}).sort({ createdAt: 1 })
 
     const groupsWithImageUrl = await Promise.all(
       groups.map(async (grp) => {
