@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware.sj";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const getConversationsUsers = async (userId, messageRepository, s3, next) => {
     try {
         const result = await messageRepository.getConversationsUsers(userId, s3);
