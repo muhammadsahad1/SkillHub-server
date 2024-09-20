@@ -9,8 +9,8 @@ const jwt = new JWTtoken();
 
 export const isAdminAuthenticate: RequestHandler = async (req, res, next) => {
   const customReq = req as Request;
-  const accessToken = customReq.cookies.accessToken;
-  const refreshToken = customReq.cookies.refreshToken;
+  const accessToken = customReq.cookies.admin_access_token;
+  const refreshToken = customReq.cookies.admin_refresh_token;
   console.log("customReq.cookies", customReq.cookies);
   console.log("ass ==>", accessToken);
   console.log("ref ==>", refreshToken);

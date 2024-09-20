@@ -5,7 +5,7 @@ import { isAdminAuthenticate } from "../middleware/adminAuth";
 // >>>>>>>>>>>>>>>>>>>>>>>>>> Admin Route <<<<<<<<<<<<<<<<<<<<<<<<<
 
 export function adminRoute(route: Route): Route {
-  route.post("/adminLogin",isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.adminLogin(req, res, next));
+  route.post("/adminLogin", (req: Req, res: Res, next: Next) => adminController.adminLogin(req, res, next));
   route.get("/users", isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.getUsers(req, res, next));
   route.post("/blockUser",isAdminAuthenticate, (req: Req, res: Res, next: Next) => adminController.blockUser(req, res, next));
   route.get('/verification-request',isAdminAuthenticate,(req : Req, res : Res ,next : Next) => adminController.getVerificationRequests(req,res,next))

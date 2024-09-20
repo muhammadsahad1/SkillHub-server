@@ -13,6 +13,7 @@ export const adminLogin = async (
   next: Next
 ) => {
   const admin = await adminRepository.adminLogin(email);
+  console.log("admin ={>>>",admin)
   // ensure admin
   if (admin?.role === "user") {
     return next(new ErrorHandler(403, "Not authorized"));
@@ -27,7 +28,7 @@ export const adminLogin = async (
       return next(new ErrorHandler(401, "Invalid email or password"));
     }
     // generating token
-    const Tokens = await jwt.createAccessAndRefreshToken(admin?.id as string);
+    const Tokens = await jwt.createAccessAndRefreshToken(admin?._id as string);
     return {
       success: true,
       tokens: Tokens,
