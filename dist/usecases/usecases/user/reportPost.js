@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const reportPost = async (postId, reason, userId, userRepository, next) => {
     try {
         const result = await userRepository.reportPost(postId, reason, userId);

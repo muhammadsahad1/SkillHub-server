@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const userSignup = async (jwt, otpRepository, userRepostory, otpGenerate, hashPassword, user, sendEmail, next) => {
     try {
         const existUser = await userRepostory.findByEmail(user.email);

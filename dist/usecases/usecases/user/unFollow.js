@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const unFollow = async (toUnfollowId, fromFollowerId, userRepository, notification, next) => {
     try {
         console.log("ethiiiiiyeee");

@@ -1,4 +1,4 @@
-import { ErrorHandler } from '../../middlewares/errorMiddleware';
+import { ErrorHandler } from '../../middlewares/errorMiddleware.js';
 export const resetPassword = async (password, token, userRepository, hashPassword, next) => {
     try {
         const hashedPassword = await hashPassword.createHash(password);

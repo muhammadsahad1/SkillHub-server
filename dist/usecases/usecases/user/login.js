@@ -1,4 +1,4 @@
-import { ErrorHandler } from '../../middlewares/errorMiddleware';
+import { ErrorHandler } from '../../middlewares/errorMiddleware.js';
 export const login = async (userRepository, jwt, hashedPassword, email, password, picture, next) => {
     try {
         let fetchUser = await userRepository.findByEmail(email);

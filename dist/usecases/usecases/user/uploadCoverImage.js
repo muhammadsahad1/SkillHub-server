@@ -1,4 +1,4 @@
-import { ErrorHandler } from '../../middlewares/errorMiddleware';
+import { ErrorHandler } from '../../middlewares/errorMiddleware.js';
 export const coverImageUpload = async (userId, file, s3, userRepository, next) => {
     try {
         const result = await userRepository.uploadeCoverImage(userId, file, s3);

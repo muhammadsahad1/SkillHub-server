@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const searchUsers = async (query, elasticsearch, s3, next) => {
     try {
         const result = await elasticsearch.searchUsers(query, s3);

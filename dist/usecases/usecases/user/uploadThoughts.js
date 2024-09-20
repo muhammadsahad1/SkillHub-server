@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const uploadThoughts = async (userId, thoughts, userRepository, next) => {
     try {
         console.log("userId =>", userId);

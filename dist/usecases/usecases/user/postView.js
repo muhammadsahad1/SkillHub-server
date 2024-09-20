@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const postView = async (postId, userRepository, s3, next) => {
     try {
         const result = await userRepository.postView(postId);

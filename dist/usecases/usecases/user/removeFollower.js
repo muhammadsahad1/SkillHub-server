@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const removeFollower = async (fromRemoverId, toRemoveId, userRepository, next) => {
     try {
         await userRepository.removeFollower(fromRemoverId, toRemoveId);
