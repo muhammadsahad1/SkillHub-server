@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const adminLogin = async (email, password, jwt, hashedPassword, adminRepository, next) => {
     const admin = await adminRepository.adminLogin(email);
     // ensure admin

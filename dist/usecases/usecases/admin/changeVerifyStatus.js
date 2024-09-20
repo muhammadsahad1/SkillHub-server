@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const changeVerifyStatus = async (requestId, status, adminRepostory, io, next) => {
     try {
         const result = await adminRepostory.changeVerifyStatus(requestId, status);

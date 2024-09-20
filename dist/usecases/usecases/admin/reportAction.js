@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const reportAction = async (reportId, status, adminRepository, next) => {
     try {
         const result = await adminRepository.reportAction(reportId, status);

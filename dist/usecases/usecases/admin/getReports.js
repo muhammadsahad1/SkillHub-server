@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const getReports = async (next, adminRepository, s3Operations) => {
     try {
         const result = await adminRepository.getReports(s3Operations);
