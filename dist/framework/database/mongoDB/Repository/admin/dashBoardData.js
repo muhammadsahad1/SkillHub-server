@@ -1,4 +1,4 @@
-import { getMonthlyData } from "./getMonthlyData";
+import { getMonthlyData } from "./getMonthlyData.js";
 export const dashBoardData = async (postModel, groupModel, eventModel, usersModel) => {
     try {
         // Fetch counts for each model
