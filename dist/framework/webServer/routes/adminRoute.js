@@ -2,7 +2,7 @@ import { adminController } from "../../webServer/injections/injection.js";
 import { isAdminAuthenticate } from "../middleware/adminAuth.js";
 // >>>>>>>>>>>>>>>>>>>>>>>>>> Admin Route <<<<<<<<<<<<<<<<<<<<<<<<<
 export function adminRoute(route) {
-    route.post("/adminLogin", (req, res, next) => adminController.adminLogin(req, res, next));
+    route.post("/adminLogin", isAdminAuthenticate, (req, res, next) => adminController.adminLogin(req, res, next));
     route.get("/users", isAdminAuthenticate, (req, res, next) => adminController.getUsers(req, res, next));
     route.post("/blockUser", isAdminAuthenticate, (req, res, next) => adminController.blockUser(req, res, next));
     route.get('/verification-request', isAdminAuthenticate, (req, res, next) => adminController.getVerificationRequests(req, res, next));
