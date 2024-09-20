@@ -33,6 +33,7 @@ export class AdminController {
     );
 
     res.cookie("role", "admin", roleOptions);
+    
     if (result) {
       res.status(200).json(result);
     }
