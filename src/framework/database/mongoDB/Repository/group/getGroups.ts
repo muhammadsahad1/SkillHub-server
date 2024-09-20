@@ -7,7 +7,7 @@ export const getGroups = async (
   s3Operations: IS3Operations
 ): Promise<IGroup[] | void> => {
   try {
-    const groups = await groupModel.find({});
+    const groups = await groupModel.find({}).sort({ createdAt: -1 });
 
     const groupsWithImageUrl = await Promise.all(
       groups.map(async (grp) => {
@@ -30,7 +30,6 @@ export const getGroups = async (
 
     console.log("groups =>", groupsWithImageUrl);
     return groupsWithImageUrl as IGroup[];
-    
   } catch (error) {
     console.error("Error fetching groups:", error);
     return undefined;
