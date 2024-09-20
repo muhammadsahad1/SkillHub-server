@@ -1,7 +1,7 @@
-import { VerifyRequest } from "../../../commonEntities/entities/verificationRequest";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { VerifyRequest } from "../../../commonEntities/entities/verificationRequest.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IuserRepository } from "../../interface/repositoryInterface/userRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const verifyRequest = async (
   userId: string,

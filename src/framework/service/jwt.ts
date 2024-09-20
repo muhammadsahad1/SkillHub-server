@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { Ijwt, IToken } from "../../usecases/interface/service/jwt";
-import { Iuser } from "../../commonEntities/entities/user";
+import { Ijwt, IToken } from "../../usecases/interface/service/jwt.js";
+import { Iuser } from "../../commonEntities/entities/user.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -14,7 +14,7 @@ export class JWTtoken implements Ijwt {
   JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || "";
 
   async createAccessAndRefreshToken(id: string): Promise<IToken> {
-    console.log("token fn invoked admin id =>",id);
+    console.log("token fn invoked admin id =>", id);
 
     const Payload = { id };
     const accessToken = await jwt.sign(Payload, process.env.JWT_ACCESS_KEY, {
@@ -24,7 +24,7 @@ export class JWTtoken implements Ijwt {
     const refreshToken = await jwt.sign(Payload, process.env.JWT_REFRESH_KEY, {
       expiresIn: "3d",
     });
-    
+
     return { accessToken, refreshToken, role: "" };
   }
 
@@ -37,7 +37,7 @@ export class JWTtoken implements Ijwt {
     const Payload = { id };
     const resetPasswordToken = await jwt.sign(Payload, process.env.JWT_SECRET, {
       expiresIn: "20m",
-    }); 
+    });
     return resetPasswordToken;
   }
 }

@@ -1,9 +1,9 @@
-import { Iuser } from "../../../commonEntities/entities/user";
-import { IElasticsearchService } from "../../../framework/service/elasticsearchService";
-import { IS3Operations } from "../../../framework/service/s3Bucket";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { Iuser } from "../../../commonEntities/entities/user.js";
+import { IElasticsearchService } from "../../../framework/service/elasticsearchService.js";
+import { IS3Operations } from "../../../framework/service/s3Bucket.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IuserRepository } from "../../interface/repositoryInterface/userRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const searchUsers = async (
   query: string,

@@ -1,9 +1,9 @@
-import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import { IToken, Ijwt } from "../../interface/service/jwt";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IhashPassword } from "../../interface/service/hashPassword";
-import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
-import { Iuser } from "../../../commonEntities/entities/user";
+import { IuserRepository } from "../../interface/repositoryInterface/userRepository.js";
+import { IToken, Ijwt } from "../../interface/service/jwt.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IhashPassword } from "../../interface/service/hashPassword.js";
+import { ErrorHandler } from '../../middlewares/errorMiddleware.js' ;
+import { Iuser } from "../../../commonEntities/entities/user.js";
 
 export const login = async (
   userRepository: IuserRepository,

@@ -1,6 +1,6 @@
-import { Next } from "../../../framework/types/serverPackageType";
-import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IuserRepository } from "../../interface/repositoryInterface/userRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const removeFollower = async (
   fromRemoverId: string,

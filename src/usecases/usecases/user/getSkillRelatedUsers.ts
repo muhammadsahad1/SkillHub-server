@@ -1,8 +1,8 @@
 import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import { Next } from "../../../framework/types/serverPackageType";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
-import { IS3Operations } from "../../../framework/service/s3Bucket";
-import { IUserWithImages } from "../../../commonEntities/entities/user";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
+import { IS3Operations } from "../../../framework/service/s3Bucket.js";
+import { IUserWithImages } from "../../../commonEntities/entities/user.js";
 
 export const getSkillRelatedUsers = async (
   userId: string,

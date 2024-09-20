@@ -1,4 +1,4 @@
-import { Iuser } from "../entities/user";
+import { Iuser } from "../entities/user.js";
 import { Req, Res, Next } from "../../framework/types/serverPackageType";
 import { IuserUseCase } from "../../usecases/interface/usecase/userUseCase";
 import {

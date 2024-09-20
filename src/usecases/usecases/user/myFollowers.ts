@@ -1,7 +1,7 @@
-import { IS3Operations } from "../../../framework/service/s3Bucket";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { IS3Operations } from "../../../framework/service/s3Bucket.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IuserRepository } from "../../interface/repositoryInterface/userRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 
 export const myFollowers = async (

@@ -1,7 +1,7 @@
-import { Next } from "../../../framework/types/serverPackageType";
-import { InotificationRepository } from "../../interface/repositoryInterface/notificationRepository";
-import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { InotificationRepository } from "../../interface/repositoryInterface/notificationRepository.js";
+import { IuserRepository } from "../../interface/repositoryInterface/userRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const unFollow = async (
   toUnfollowId: string,

@@ -1,7 +1,7 @@
-import { Ipost } from "../../../commonEntities/entities/post";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { Ipost } from "../../../commonEntities/entities/post.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IuserRepository } from "../../interface/repositoryInterface/userRepository.js";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 
 export const uploadThoughts = async (
   userId: string,

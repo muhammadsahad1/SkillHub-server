@@ -1,8 +1,8 @@
-import { Iuser } from "../../../commonEntities/entities/user";
-import { Next } from "../../../framework/types/serverPackageType";
-import { IS3Operations } from "../../../framework/service/s3Bucket";
-import { IuserRepository } from "../../interface/repositoryInterface/userRepository";
-import { ErrorHandler } from '../../middlewares/errorMiddleware' ;
+import { Iuser } from "../../../commonEntities/entities/user.js";
+import { Next } from "../../../framework/types/serverPackageType.js";
+import { IS3Operations } from "../../../framework/service/s3Bucket.js";
+import { IuserRepository } from "../../interface/repositoryInterface/userRepository.js";
+import { ErrorHandler } from '../../middlewares/errorMiddleware.js' ;
 
 export const coverImageUpload = async (
   userId : string,
