@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const notifications = async (userId, notificationRepository, next) => {
     try {
         const notifications = await notificationRepository.notifications(userId);

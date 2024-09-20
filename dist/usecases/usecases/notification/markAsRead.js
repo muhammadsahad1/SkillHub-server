@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const markAsRead = async (notificationId, notificationRepository, next) => {
     try {
         await notificationRepository.markAsReadNotification(notificationId);

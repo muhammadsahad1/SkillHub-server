@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const createNotification = async (senderId, receiverId, message, type, link, notificationRepository, io, next) => {
     try {
         // Create a new notification entry in the database
