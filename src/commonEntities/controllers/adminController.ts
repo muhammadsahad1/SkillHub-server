@@ -18,6 +18,8 @@ export class AdminController {
       next
     );
 
+    console.log("admin loging called")
+
     console.log("ress =>", result);
 
     res.cookie(
