@@ -1,7 +1,7 @@
 import { Client } from "@elastic/elasticsearch";
 
 const client = new Client({
-  node: "https://localhost:9200",
+  node: "http://localhost:9201",
   auth: {
     username: "elastic",
     password: "YN8Bj5DK_Ud6xMDSJpq9",
