@@ -1,4 +1,4 @@
-import ConversationModel from "../../model/conversation";
+import ConversationModel from "../../model/conversation.js";
 export const sendImage = async (senderId, receiverId, file, s3Operations, messageModel, conversationModal) => {
     try {
         console.log("its come in repo ");
