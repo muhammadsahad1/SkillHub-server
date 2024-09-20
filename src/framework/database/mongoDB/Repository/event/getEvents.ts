@@ -18,6 +18,7 @@ export const getEvents = async (
       .sort({ date: 1, createdAt: -1 })
       .exec();
 
+      
     const eventsWithBannerImage = await Promise.all(
       events.map(async (event) => {
         const bannerImageUrl = await s3.getObjectUrl({
