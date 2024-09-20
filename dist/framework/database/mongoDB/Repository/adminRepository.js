@@ -1,4 +1,4 @@
-import { findByEmail } from "./user.js";
+import { findByEmail } from '../Repository/user/findbyEmail.js'
 import { blockUser, changeEventStatus, changeVerifyStatus, dashBoardData, getEvents, getReports, getUsers, getVerificationRequests, reportAction } from "./admin/index.js";
 export class AdminRepository {
     userModels;

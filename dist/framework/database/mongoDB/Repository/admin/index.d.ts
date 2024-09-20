@@ -8,4 +8,5 @@ import { getReports } from './getReports';
 import { reportAction } from './reportAction';
 import { dashBoardData } from './dashBoardData';
 import { getMonthlyData } from './getMonthlyData';
+import { findByEmail } from "../user";
 export { getUsers, getVerificationRequests, changeVerifyStatus, getEvents, changeEventStatus, blockUser, getReports, dashBoardData, reportAction, getMonthlyData };
