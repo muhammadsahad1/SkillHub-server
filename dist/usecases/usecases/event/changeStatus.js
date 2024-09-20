@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const changeStatus = async (eventId, status, eventRepository, next) => {
     try {
         const result = await eventRepository.changeStatus(eventId, status);

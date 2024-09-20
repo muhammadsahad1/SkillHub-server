@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const getEvents = async (pogeNumber, next, eventRepository, s3Operations) => {
     try {
         const result = await eventRepository.getEvents(pogeNumber, s3Operations);

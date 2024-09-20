@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const getChat = async (userToChatId, senderId, s3, messageRepository, next) => {
     try {
         const result = await messageRepository.getChat(userToChatId, senderId, s3);

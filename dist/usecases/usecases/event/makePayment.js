@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const makePayment = async (stripService, eventPrice, eventId, userId, next) => {
     try {
         const price = Number(eventPrice);

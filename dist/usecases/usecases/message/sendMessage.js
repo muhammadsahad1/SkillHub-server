@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const sendMessage = async (senderId, receiverId, message, messageRepository, next) => {
     try {
         const result = await messageRepository.sendMessage(senderId, receiverId, message);

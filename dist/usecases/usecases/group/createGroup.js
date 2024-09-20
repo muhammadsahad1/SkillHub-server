@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const createGroup = async (groupData, creatorId, groupImageFile, groupRepository, next) => {
     try {
         const result = await groupRepository.createGroup(groupData, creatorId, groupImageFile);

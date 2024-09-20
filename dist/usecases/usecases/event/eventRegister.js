@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const eventRegister = async (stripService, eventRegisterData, eventRepository, next) => {
     try {
         const result = await eventRepository.eventRegister(stripService, eventRegisterData);

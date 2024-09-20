@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 // Convert the date and time to ISO 8601 format
 function convertToISO(date, time) {
     console.log("date ==>", date, "time ===>", time);

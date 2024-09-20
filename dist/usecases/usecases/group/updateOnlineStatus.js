@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const updateOnlineStatus = async (groupId, userId, status, groupRepository, next) => {
     try {
         console.log("ethi");

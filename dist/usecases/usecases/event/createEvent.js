@@ -1,4 +1,4 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware";
+import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
 export const createEvent = async (userId, data, bannerFile, eventRepository, s3Operations, next) => {
     try {
         const result = await eventRepository.createEvent(userId, data, bannerFile, s3Operations);
