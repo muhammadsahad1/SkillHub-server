@@ -1,6 +1,5 @@
 export const getConversationsUsers = async (userId, s3, messageModel, conversationModal) => {
     try {
-        console.log("userId : ==>", userId);
         // finding the conversation of with userId and
         //populating the participants where exlude current userId
         const conversations = await conversationModal
