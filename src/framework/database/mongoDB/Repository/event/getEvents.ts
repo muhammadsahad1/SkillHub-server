@@ -10,11 +10,12 @@ export const getEvents = async (
   s3: IS3Operations
 ): Promise<IEvent[]> => {
   try {
+
     const events = await eventModel
       .find({ approvalStatus: "Approved" })
       .skip((pageNumber - 1) * EVENT_PER_PAGE)
       .limit(EVENT_PER_PAGE)
-      .sort({ createdAt: -1 })
+      .sort({ date: 1, createdAt: -1 })
       .exec();
 
     const eventsWithBannerImage = await Promise.all(
