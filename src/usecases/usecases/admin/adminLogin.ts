@@ -13,7 +13,6 @@ export const adminLogin = async (
   next: Next
 ) => {
   const admin = await adminRepository.adminLogin(email);
-  console.log("admin ={>>>",admin)
   // ensure admin
   if (admin?.role === "user") {
     return next(new ErrorHandler(403, "Not authorized"));
