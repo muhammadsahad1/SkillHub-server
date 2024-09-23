@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Ijwt, IToken } from "../../usecases/interface/service/jwt.js";
-import { Iuser } from "../../commonEntities/entities/user.js";
+import { Iuser } from "../../commonEntities/entities/user.js";  
 import dotenv from "dotenv";
 dotenv.config();
 
