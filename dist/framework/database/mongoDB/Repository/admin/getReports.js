@@ -12,10 +12,9 @@ export const getReports = async (reportModel, postModel, s3Operations) => {
         select: "name email _id",
       })
       .sort({ createdAt: -1 });
-      
+
     const reportPostDetails = await Promise.all(
       reports.map(async (repo) => {
-        console.log("repoo ==>", repo);
         const post = repo.postId;
         const reportedBy = repo.reportedBy;
         let postImageUrl = undefined;
