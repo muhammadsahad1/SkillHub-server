@@ -51,7 +51,6 @@ export class AdminController {
     const result = await this.adminUseCase.blockUser(req.body.id);
     res.status(200).json(result);
   }
-
   // ======================================================>
   async getVerificationRequests(req: Req, res: Res, next: Next) {
     const result = await this.adminUseCase.getVerificationRequests(next);
