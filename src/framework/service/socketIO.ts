@@ -2,11 +2,13 @@ import { Server } from "socket.io";
 import http from "http";
 
 // initializeSocke for wrapp to server
- const initializeSocket = (server: http.Server) => {
+const initializeSocket = (server: http.Server) => {
   const io = new Server(server, {
     cors: {
-      
-      origin: "https://skill-hub-share-platform.vercel.app",
+      origin: [
+        "https://skill-hub-share-platform.vercel.app",
+        "http://localhost:5173/",
+      ],
       methods: ["GET", "POST", "PUT"],
       credentials: true,
     },
@@ -142,4 +144,4 @@ import http from "http";
   return io;
 };
 
-export default initializeSocket
+export default initializeSocket;
