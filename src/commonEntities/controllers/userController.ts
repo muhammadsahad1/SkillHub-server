@@ -1,27 +1,34 @@
-import { Iuser } from "../entities/user.js";
 import { Req, Res, Next } from "../../framework/types/serverPackageType";
 import { IuserUseCase } from "../../usecases/interface/usecase/userUseCase";
 import {
   accessTokenOption,
-refreshTokenOption,
+  refreshTokenOption,
   roleOptions,
 } from "../../framework/webServer/middleware/jwt";
 import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
 import { CustomRequest } from "../../framework/webServer/middleware/request/customReq";
+import httpStatus from "../status/httpStatus";
 
 // ===================================== User Controller ================================= //
 export class UserController {
   constructor(private userUseCase: IuserUseCase) {}
+
   // ===================================================================>
   // User signup
   async userSignup(req: Req, res: Res, next: Next) {
     try {
       const response = await this.userUseCase.userSignup(req.body, next);
-      res.json(response); // Send response back to client
+      res.status(httpStatus.OK).json(response); // Use httpStatus.OK (200)
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
     }
   }
+
   // ===================================================================>
   // Creating user
   async createUser(req: Req, res: Res, next: Next) {
@@ -31,32 +38,46 @@ export class UserController {
         req.body.verifyCode,
         next
       );
-
       const { accessToken, refreshToken } = result?.tokens as {
         accessToken: string;
         refreshToken: string;
       };
+
       res.cookie("accessToken", accessToken, accessTokenOption);
       res.cookie("refreshToken", refreshToken, refreshTokenOption);
       res.cookie("role", "user", roleOptions);
-      res.status(200).json(result);
+      res.status(httpStatus.CREATED).json(result); // Use httpStatus.CREATED (201)
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
     }
   }
+
   // ===================================================================>
-  // resentOtp
+  // Resent OTP
   async resentOtp(req: Req, res: Res, next: Next) {
     try {
       const { email } = req.body;
       await this.userUseCase.resendOtp(email, next);
-      res.json({ success: true, message: "Resented Otp in your Email" });
+      res
+        .status(httpStatus.OK)
+        .json({ success: true, message: "Resent OTP to your email" }); // Use httpStatus.OK
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
     }
   }
+
   // ===================================================================>
-  // login and created&stored JWT Token
+  // Login and JWT token creation
   async login(req: Req, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.login(req.body, next);
@@ -68,34 +89,46 @@ export class UserController {
         res.cookie("accessToken", accessToken, accessTokenOption);
         res.cookie("refreshToken", refreshToken, refreshTokenOption);
         res.cookie("role", "user", roleOptions);
-        res.json({
+        res.status(httpStatus.OK).json({
           user: result.fetchUser,
-          message: "User Logged successfully",
+          message: "User logged in successfully",
           success: true,
           role: "user",
-          accessToken: accessToken,
-          refreshToken: refreshToken,
+          accessToken,
+          refreshToken,
         });
       }
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
     }
   }
+
   // ===================================================================>
-  // forgetPassword update
+  // Forgot password update
   async forgotPassword(req: Req, res: Res, next: Next) {
     try {
       const { email } = req.body;
       const result = await this.userUseCase.forgotPassword(email, next);
       if (result) {
-        res.json(result);
+        res.status(httpStatus.OK).json(result); // Use httpStatus.OK
       }
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
     }
   }
+
   // ===================================================================>
-  // reset Password
+  // Reset password
   async resetPassword(req: Req, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.resetPassword(
@@ -103,36 +136,44 @@ export class UserController {
         req.body.resetToken,
         next
       );
-
       if (result) {
-        res.json(result);
+        res.status(httpStatus.OK).json(result); // Use httpStatus.OK
       }
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
     }
   }
 
   // ===================================================================>
-  // Get skill Related Users
+  // Get skill-related users
   async getUsers(req: CustomRequest, res: Res, next: Next) {
     try {
       const skill = req.query.skill as string;
-
       const result = await this.userUseCase.getSkillRelatedUsers(
         req.user?.id,
         skill,
         next
       );
-
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result); // Use httpStatus.OK
       }
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
     }
   }
+
   // ===================================================================>
-  // googleLogin
+  // Google login
   async googleLogin(req: Req, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.login(req.body, next);
@@ -141,21 +182,27 @@ export class UserController {
         res.cookie("accessToken", accessToken, accessTokenOption);
         res.cookie("refreshToken", refreshToken, refreshTokenOption);
         res.cookie("role", "user", roleOptions);
-        res.json({
+        res.status(httpStatus.OK).json({
           user: result.fetchUser,
-          message: "User Logged successfully",
+          message: "User logged in successfully",
           success: true,
           role: "user",
-          accessToken: accessToken,
-          refreshToken: refreshToken,
+          accessToken,
+          refreshToken,
         });
       }
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
     }
   }
+
   // ===================================================================>
-  // chang password
+  // Change password
   async changePassword(req: CustomRequest, res: Res, next: Next) {
     try {
       const result = await this.userUseCase.changePassword(
@@ -164,48 +211,70 @@ export class UserController {
         req.body.newPassword,
         next
       );
-
-      res.status(200).json(result);
-    } catch (error) {}
+      res.status(httpStatus.OK).json(result); // Use httpStatus.OK
+    } catch (error: any) {
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
+    }
   }
 
   // ===================================================================>
-  // create profile
+  // Create profile
   async createProfile(req: Req, res: Res, next: Next) {
     try {
-      console.log("file ====== req ===>",req.file)
-      console.log("bodyy ====>",req.body);
-      
       const result = await this.userUseCase.createProfile(
         req.body,
         req.file,
         next
       );
-
       if (result) {
-        res.status(200).json({
+        res.status(httpStatus.CREATED).json({
           user: result.user,
           message: "Profile created successfully",
           success: true,
           role: "user",
         });
       } else {
-        return next(new ErrorHandler(400, "Profile creation failed"));
+        return next(
+          new ErrorHandler(httpStatus.BAD_REQUEST, "Profile creation failed")
+        );
       }
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
-    }
-  }
-  // ===================================================================>
-  // verify requesting for proffesional account
-  async verifyRequest(req: CustomRequest, res: Res, next: Next) {
-    const userId = req.user?.id;
-    const result = await this.userUseCase.verifyRequest(userId, req.body, next);
-    if (result) {
-      res.status(200).json(result);
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
     }
   }
 
+  // ===================================================================>
+  // Verify request for professional account
+  async verifyRequest(req: CustomRequest, res: Res, next: Next) {
+    try {
+      const userId = req.user?.id;
+      const result = await this.userUseCase.verifyRequest(
+        userId,
+        req.body,
+        next
+      );
+      if (result) {
+        res.status(httpStatus.OK).json(result); // Use httpStatus.OK
+      }
+    } catch (error: any) {
+      return next(
+        new ErrorHandler(
+          error.status || httpStatus.INTERNAL_SERVER_ERROR,
+          error.message
+        )
+      );
+    }
+  }
   // ===================================================================>
   // upload Cover Image
   async uploadCoverimage(req: CustomRequest, res: Res, next: Next) {
@@ -216,12 +285,12 @@ export class UserController {
         next
       );
       if (!result) {
-        console.log("rsult is not come");
+        console.log("result did not come");
       }
       console.log("sfkjdfjsdkljsdljs");
-      console.log("result from userUserCase =>", result);
+      console.log("result from userUseCase =>", result);
 
-      res.status(200).json({
+      res.status(httpStatus.OK).json({
         success: true,
         message: "Cover image uploaded successfully",
         user: result,
@@ -237,7 +306,7 @@ export class UserController {
     try {
       const result = await this.userUseCase.getProfileImage(req.user?.id, next);
       if (result) {
-        res.json(result);
+        res.status(httpStatus.OK).json(result);
       }
       console.log("this result is going", result);
     } catch (error: any) {
@@ -254,12 +323,13 @@ export class UserController {
       );
 
       if (result) {
-        res.status(201).json(result);
+        res.status(httpStatus.CREATED).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
   // change notification settings
   async showNotification(req: CustomRequest, res: Res, next: Next) {
@@ -270,12 +340,13 @@ export class UserController {
         next
       );
       if (result) {
-        res.status(201).json(result);
+        res.status(httpStatus.CREATED).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
   async getUserDetails(req: Req, res: Res, next: Next) {
     try {
@@ -284,7 +355,7 @@ export class UserController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -298,10 +369,12 @@ export class UserController {
         req.body.fromFollowerId,
         next
       );
-      res.status(200).json({ success: "successfully update the following" });
+      res
+        .status(httpStatus.OK)
+        .json({ success: "successfully updated the following" });
     } catch (error) {
       res
-        .status(500)
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({ success: false, message: "Failed to follow user" });
     }
   }
@@ -310,25 +383,27 @@ export class UserController {
     try {
       const result = await this.userUseCase.getMyFollowings(req.user?.id, next);
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
-  //myFollowers
+  // myFollowers
   async myFollowers(req: CustomRequest, res: Res, next: Next) {
     try {
       const userId = req.user?.id;
       const result = await this.userUseCase.myFollowers(userId, next);
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // Unfollow
   async unFollow(req: Req, res: Res, next: Next) {
     try {
@@ -340,7 +415,7 @@ export class UserController {
       );
       console.log("result of unfollow user =>", result);
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -356,12 +431,13 @@ export class UserController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
   // followBack
   async followback(req: CustomRequest, res: Res, next: Next) {
@@ -374,12 +450,13 @@ export class UserController {
       );
 
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
   // Uploading post
   async uploadPost(req: CustomRequest, res: Res, next: Next) {
@@ -392,9 +469,9 @@ export class UserController {
       );
 
       if (result.success) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       } else {
-        res.status(400).json(result);
+        res.status(httpStatus.BAD_REQUEST).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -413,13 +490,12 @@ export class UserController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
-
   // ===================================================================>
   // fetching the posts
   async fetchPosts(req: CustomRequest, res: Res, next: Next) {
@@ -431,12 +507,13 @@ export class UserController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
   // Delete post
   async deletePost(req: Req, res: Res, next: Next) {
@@ -446,23 +523,25 @@ export class UserController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
   // One post
   async postView(req: Req, res: Res, next: Next) {
     try {
       const { postId } = req.query;
       const result = await this.userUseCase.postView(postId as string, next);
-      res.status(200).json(result);
+      res.status(httpStatus.OK).json(result);
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
   // Post edit
   async editPost(req: Req, res: Res, next: Next) {
@@ -475,12 +554,13 @@ export class UserController {
       );
 
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
   // Post like
   async postLike(req: CustomRequest, res: Res, next: Next) {
@@ -492,12 +572,13 @@ export class UserController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
   // Comment post
   async addComment(req: CustomRequest, res: Res, next: Next) {
@@ -511,14 +592,15 @@ export class UserController {
       );
 
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
-  // Deleteing comment
+  // Deleting comment
   async deleteComment(req: Req, res: Res, next: Next) {
     try {
       const { commentId, postId } = req.body;
@@ -529,14 +611,15 @@ export class UserController {
       );
 
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
 
-  // Deleteing comment
+  // ===================================================================>
+  // Editing comment
   async editingComment(req: CustomRequest, res: Res, next: Next) {
     try {
       const { commentId, postId, updatedText } = req.body.data;
@@ -550,7 +633,7 @@ export class UserController {
       );
 
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -564,14 +647,15 @@ export class UserController {
       const result = await this.userUseCase.fetchMyPosts(req.user?.id, next);
 
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
-  // Fetch my posts
+  // Fetch other followers
   async fetchOtherFollowers(req: CustomRequest, res: Res, next: Next) {
     try {
       const userId = req.query.userId;
@@ -583,15 +667,15 @@ export class UserController {
       );
 
       if (result) {
-        console.log("result ===> ", result);
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
-  // Fetch my posts
+  // Fetch other followings
   async fetchOtherFollowings(req: CustomRequest, res: Res, next: Next) {
     try {
       const userId = req.query.userId;
@@ -603,14 +687,15 @@ export class UserController {
       );
 
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
-  // Fetch my posts
+  // Fetch others posts
   async fetchOthersPosts(req: Req, res: Res, next: Next) {
     try {
       const { userId } = req.query;
@@ -620,47 +705,45 @@ export class UserController {
       );
 
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
+
   // ===================================================================>
-  // Search users with elastic searching
+  // Search users with elastic search
   async searchUsers(req: Req, res: Res, next: Next) {
     try {
       const query = req.query.query as string;
       const result = await this.userUseCase.searchUsers(query, next);
 
-      console.log("Search result from backend:", result);
-      return res.status(200).json(result);
+      res.status(httpStatus.OK).json(result);
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
 
   // ===================================================================>
-  // logout User
+  // Logout User
   async userLogout(req: Req, res: Res, next: Next) {
     try {
       res.clearCookie("accessToken", accessTokenOption);
-      // res.clearCookie("refreshToken", refreshTokenOption);
       res.clearCookie("role", roleOptions);
-      res.status(200).json({ success: true, message: "successfully logouted" });
+      res
+        .status(httpStatus.OK)
+        .json({ success: true, message: "Successfully logged out" });
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
     }
   }
 
+  // ===================================================================>
+  // Report post
   async reportPost(req: CustomRequest, res: Res, next: Next) {
     try {
-      const { postId, reason } = req.body as {
-        postId: string;
-        userId: string;
-        reason: string;
-      };
-      console.log("body ==>", req.body);
+      const { postId, reason } = req.body as { postId: string; reason: string };
       const userId = req.user?.id as string;
       const result = await this.userUseCase.reportPost(
         postId,
@@ -669,7 +752,7 @@ export class UserController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));

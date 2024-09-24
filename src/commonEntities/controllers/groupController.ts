@@ -3,10 +3,13 @@ import { Next, Req, Res } from "../../framework/types/serverPackageType";
 import { IgroupUseCase } from "../../usecases/interface/usecase/groupUseCase";
 import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
 import { CustomRequest } from "../../framework/webServer/middleware/request/customReq";
+import httpStatus from "../status/httpStatus";
 
 //============================== Group Controller ================== \\
+
 export class GroupController {
   constructor(private groupUseCase: IgroupUseCase) {}
+
   async createGroup(req: CustomRequest, res: Res, next: Next) {
     try {
       const groupData = req.body;
@@ -18,7 +21,7 @@ export class GroupController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.CREATED).json(result); // Use CREATED status
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -29,7 +32,7 @@ export class GroupController {
     try {
       const result = await this.groupUseCase.getGroups(next);
       if (result) {
-        res.status(200).json({
+        res.status(httpStatus.OK).json({
           success: true,
           result,
         });
@@ -45,7 +48,7 @@ export class GroupController {
       const userId = req.user?.id as string;
       const result = await this.groupUseCase.joinGroup(groupId, userId, next);
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -57,7 +60,7 @@ export class GroupController {
       const { groupId } = req.query as { groupId: string };
       const result = await this.groupUseCase.getGroup(groupId, next);
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -77,8 +80,8 @@ export class GroupController {
         message,
         next
       );
-      if (!result) {
-        res.status(200).json(result);
+      if (result) {
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -90,7 +93,7 @@ export class GroupController {
       const { groupId } = req.query as { groupId: string };
       const result = await this.groupUseCase.messages(groupId, next);
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -99,7 +102,6 @@ export class GroupController {
 
   async updateOnlineStatus(req: Req, res: Res, next: Next) {
     try {
-      console.log("Controo");
       const { groupId, userId, status } = req.body;
       const result = await this.groupUseCase.updateOnlineStatus(
         groupId,
@@ -108,7 +110,7 @@ export class GroupController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
@@ -121,7 +123,7 @@ export class GroupController {
       const userId = req.user?.id;
       const result = await this.groupUseCase.leaveGroup(groupId, userId, next);
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
       }
     } catch (error: any) {
       return next(new ErrorHandler(error.status, error.message));
