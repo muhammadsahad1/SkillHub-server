@@ -39,7 +39,7 @@ function userRoute(route) {
     route.get('/othersFollowers', auth_1.isAuthenticate, (req, res, next) => injection_1.userController.fetchOtherFollowers(req, res, next));
     route.get('/othersFollowings', auth_1.isAuthenticate, (req, res, next) => injection_1.userController.fetchOtherFollowings(req, res, next));
     route.get('/OthersPosts', auth_1.isAuthenticate, (req, res, next) => injection_1.userController.fetchOthersPosts(req, res, next));
-    // UploadPost/
+    // UploadPost
     route.post('/uploadPost', multer_1.default.single("postImage"), auth_1.isAuthenticate, (req, res, next) => injection_1.userController.uploadPost(req, res, next));
     route.get('/posts', auth_1.isAuthenticate, (req, res, next) => injection_1.userController.fetchPosts(req, res, next));
     route.delete('/posts', auth_1.isAuthenticate, (req, res, next) => injection_1.userController.deletePost(req, res, next));
