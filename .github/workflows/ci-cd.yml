@@ -43,7 +43,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             cd /home/ubuntu/SkillHub-server
-            git pull origin my_new
+            git pull server my_new
             # Ensure correct Node.js version
             if [ "$(node -v)" != "v${{ env.NODE_VERSION }}" ]; then
               echo "Updating Node.js to version ${{ env.NODE_VERSION }}"
