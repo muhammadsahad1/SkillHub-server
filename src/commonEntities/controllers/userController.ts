@@ -10,7 +10,6 @@ import { ErrorHandler } from "../../usecases/middlewares/errorMiddleware";
 import { CustomRequest } from "../../framework/webServer/middleware/request/customReq";
 
 // ===================================== User Controller ================================= //
-
 export class UserController {
   constructor(private userUseCase: IuserUseCase) {}
   // ===================================================================>
