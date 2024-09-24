@@ -1,9 +1,21 @@
-import { ErrorHandler } from "../../middlewares/errorMiddleware.js";
-export const changePrivacy = async (userId, isPrivacy, userRepository, next) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.changePrivacy = void 0;
+const errorMiddleware_1 = require("../../middlewares/errorMiddleware");
+const changePrivacy = (userId, isPrivacy, userRepository, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = await userRepository.changePrivacy(userId, isPrivacy);
+        const result = yield userRepository.changePrivacy(userId, isPrivacy);
         if (!result) {
-            return next(new ErrorHandler(400, 'failed to changePrivacy'));
+            return next(new errorMiddleware_1.ErrorHandler(400, 'failed to changePrivacy'));
         }
         return {
             updatedPrivacySettings: result,
@@ -11,6 +23,7 @@ export const changePrivacy = async (userId, isPrivacy, userRepository, next) => 
         };
     }
     catch (error) {
-        return next(new ErrorHandler(500, "Internal Server Error"));
+        return next(new errorMiddleware_1.ErrorHandler(500, "Internal Server Error"));
     }
-};
+});
+exports.changePrivacy = changePrivacy;

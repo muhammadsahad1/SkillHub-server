@@ -1,30 +1,54 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
-export class JWTtoken {
-    JWT_VERICATION_KEY = process.env.JWT_VERIFICATION_KEY || "";
-    JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY || "";
-    JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || "";
-    async createAccessAndRefreshToken(id) {
-        console.log("token fn invoked admin id =>", id);
-        const Payload = { id };
-        const accessToken = await jwt.sign(Payload, process.env.JWT_ACCESS_KEY, {
-            expiresIn: "5h",
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.JWTtoken = void 0;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+class JWTtoken {
+    constructor() {
+        this.JWT_VERICATION_KEY = process.env.JWT_VERIFICATION_KEY || "";
+        this.JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY || "";
+        this.JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || "";
+    }
+    createAccessAndRefreshToken(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("token fn invoked admin id =>", id);
+            const Payload = { id };
+            const accessToken = yield jsonwebtoken_1.default.sign(Payload, process.env.JWT_ACCESS_KEY, {
+                expiresIn: "5h",
+            });
+            const refreshToken = yield jsonwebtoken_1.default.sign(Payload, process.env.JWT_REFRESH_KEY, {
+                expiresIn: "3d",
+            });
+            return { accessToken, refreshToken, role: "" };
         });
-        const refreshToken = await jwt.sign(Payload, process.env.JWT_REFRESH_KEY, {
-            expiresIn: "3d",
-        });
-        return { accessToken, refreshToken, role: "" };
     }
     // Verifying the Token of users
-    async verifyJWT(token, secret) {
-        return (await jwt.verify(token, secret));
-    }
-    async forgotPasswordToken(id, email) {
-        const Payload = { id };
-        const resetPasswordToken = await jwt.sign(Payload, process.env.JWT_SECRET, {
-            expiresIn: "20m",
+    verifyJWT(token, secret) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return (yield jsonwebtoken_1.default.verify(token, secret));
         });
-        return resetPasswordToken;
+    }
+    forgotPasswordToken(id, email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const Payload = { id };
+            const resetPasswordToken = yield jsonwebtoken_1.default.sign(Payload, process.env.JWT_SECRET, {
+                expiresIn: "20m",
+            });
+            return resetPasswordToken;
+        });
     }
 }
+exports.JWTtoken = JWTtoken;

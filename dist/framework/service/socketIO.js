@@ -1,7 +1,18 @@
-import { Server } from "socket.io";
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const socket_io_1 = require("socket.io");
 // initializeSocke for wrapp to server
 const initializeSocket = (server) => {
-    const io = new Server(server, {
+    const io = new socket_io_1.Server(server, {
         cors: {
             origin: "https://skill-hub-share-platform.vercel.app",
             methods: ["GET", "POST", "PUT"],
@@ -26,22 +37,22 @@ const initializeSocket = (server) => {
             socket.to(roomName).emit("receiveData", data);
         });
         // to handle the follow event
-        socket.on("follow", async (data) => {
+        socket.on("follow", (data) => __awaiter(void 0, void 0, void 0, function* () {
             const { senderId, receiverId, message, type, link } = data;
             io.to(`user_${receiverId}`).emit("notification", { message, type, link });
-        });
+        }));
         // to handle the like of post notification
-        socket.on("postLiked", async (data) => {
+        socket.on("postLiked", (data) => __awaiter(void 0, void 0, void 0, function* () {
             const { senderId, receiverId, type, message, link } = data;
             io.to(`user_${receiverId}`).emit("notification", { message, type, link });
-        });
+        }));
         // to handle the comment event
-        socket.on("comment", async (data) => {
+        socket.on("comment", (data) => __awaiter(void 0, void 0, void 0, function* () {
             const { senderId, receiverId, message, type, link } = data;
             io.to(`user_${receiverId}`).emit("notification", { message, type, link });
-        });
+        }));
         // to handle the chat event notification
-        socket.on("chat", async (data) => {
+        socket.on("chat", (data) => __awaiter(void 0, void 0, void 0, function* () {
             console.log("data in chat noti", data);
             const { senderId, receiverId, type, message, link } = data;
             io.to(`user_${receiverId}`).emit("notification", {
@@ -50,7 +61,7 @@ const initializeSocket = (server) => {
                 link,
                 receiverId,
             });
-        });
+        }));
         // handleMessagRecieve
         socket.on("messageRead", ({ conversationId, senderId, receiverId }) => {
             const roomName = [senderId, receiverId].sort().join("-");
@@ -75,7 +86,7 @@ const initializeSocket = (server) => {
             console.log("User disconnected");
         });
         // FOR ADMIN action in verify Requests
-        socket.on("verifyRequest", async (data) => {
+        socket.on("verifyRequest", (data) => __awaiter(void 0, void 0, void 0, function* () {
             const { senderId, receiverId, type, message, link } = data;
             io.to(`user_${receiverId}`).emit("notification", {
                 senderId,
@@ -84,7 +95,7 @@ const initializeSocket = (server) => {
                 message,
                 link,
             });
-        });
+        }));
         // ====================> Group Events <======================= \\
         socket.on("joinGroup", (data) => {
             const { groupId, senderId } = data;
@@ -108,4 +119,4 @@ const initializeSocket = (server) => {
     });
     return io;
 };
-export default initializeSocket;
+exports.default = initializeSocket;

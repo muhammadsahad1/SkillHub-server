@@ -1,21 +1,30 @@
-export const eventDetails = async (eventId, eventModel, s3Operations) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.eventDetails = void 0;
+const eventDetails = (eventId, eventModel, s3Operations) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const event = await eventModel.findById(eventId);
+        const event = yield eventModel.findById(eventId);
         if (!event) {
             return null; // Return null if the event does not exist
         }
         // retrive the bannerImageUrl
-        const bannerImageUrl = await s3Operations.getObjectUrl({
+        const bannerImageUrl = yield s3Operations.getObjectUrl({
             bucket: process.env.C3_BUCKET_NAME,
-            key: event?.bannerName,
+            key: event === null || event === void 0 ? void 0 : event.bannerName,
         });
         if (!bannerImageUrl) {
             return null;
         }
-        const eventDetails = {
-            ...event?.toObject(),
-            bannerImageUrl,
-        };
+        const eventDetails = Object.assign(Object.assign({}, event === null || event === void 0 ? void 0 : event.toObject()), { bannerImageUrl });
         console.log("eveDetails =>", eventDetails);
         return eventDetails;
     }
@@ -23,4 +32,5 @@ export const eventDetails = async (eventId, eventModel, s3Operations) => {
         console.error(error);
         return undefined;
     }
-};
+});
+exports.eventDetails = eventDetails;

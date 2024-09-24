@@ -1,5 +1,10 @@
-import mongoose from "mongoose";
-const otpSchema = new mongoose.Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
+const otpSchema = new mongoose_1.default.Schema({
     username: {
         type: String,
         require: true
@@ -29,5 +34,5 @@ const otpSchema = new mongoose.Schema({
 });
 // impliment ttl index
 otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
-const otpModel = mongoose.model("Otp", otpSchema);
-export default otpModel;
+const otpModel = mongoose_1.default.model("Otp", otpSchema);
+exports.default = otpModel;

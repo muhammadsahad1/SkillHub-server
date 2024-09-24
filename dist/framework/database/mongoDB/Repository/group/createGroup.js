@@ -1,4 +1,16 @@
-export const createGroup = async (groupData, creatorId, groupImageFile, s3Operations, groupModel) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createGroup = void 0;
+const createGroup = (groupData, creatorId, groupImageFile, s3Operations, groupModel) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { groupName, description, selectedSkills } = groupData;
         let groupImage = "";
@@ -14,7 +26,7 @@ export const createGroup = async (groupData, creatorId, groupImageFile, s3Operat
         if (groupImageFile) {
             const { buffer, mimetype, originalname } = groupImageFile;
             const putObjectUrl = { originalname, buffer, mimetype };
-            groupImage = await s3Operations.putObjectUrl(putObjectUrl);
+            groupImage = yield s3Operations.putObjectUrl(putObjectUrl);
         }
         const newGroup = {
             groupName,
@@ -24,7 +36,7 @@ export const createGroup = async (groupData, creatorId, groupImageFile, s3Operat
             members: [{ userId: creatorId }],
             groupImage,
         };
-        await groupModel.create(newGroup);
+        yield groupModel.create(newGroup);
         return {
             success: true,
             message: "Group created successful",
@@ -34,4 +46,5 @@ export const createGroup = async (groupData, creatorId, groupImageFile, s3Operat
         console.error("Error creating group:", error);
         throw error;
     }
-};
+});
+exports.createGroup = createGroup;

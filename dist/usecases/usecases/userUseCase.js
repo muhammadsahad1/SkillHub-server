@@ -1,18 +1,20 @@
-import { userSignup, createUser, login, createProfile, resetPassword, forgotPassword, getProfileImage, changePassword, getUser, coverImageUpload, changePrivacy, changeShowNotification, getSkillRelatedUsers, getUserDetails, followUp, getMyFollowings, unFollow, myFollowers, removeFollower, followBack, uploadPostandRetriveUrl, getPosts, deletePost, editPost, postLike, fetchMyPosts, othersFollowers, othersFollowings, addComment, deleteComment, editingComment, fetchOthersPosts, searchUsers, postView, uploadThoughts, verifyRequest, reportPost, } from "./user/index.js";
-import { resentOtp } from "./user/resentOtp.js";
-import { ErrorHandler } from "../middlewares/errorMiddleware.js";
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserUseCase = void 0;
+const index_js_1 = require("./user/index.js");
+const resentOtp_js_1 = require("./user/resentOtp.js");
+const errorMiddleware_js_1 = require("../middlewares/errorMiddleware.js");
 // ================================= User use cases ================================= \\
-export class UserUseCase {
-    userRepostory;
-    Jwt;
-    otpRepository;
-    hashPassword;
-    otpGenerate;
-    sendEmail;
-    s3;
-    elasticSearchService;
-    io;
-    notification;
+class UserUseCase {
     constructor(userRepostory, Jwt, otpRepository, hashPassword, otpGenerate, sendEmail, s3, elasticSearchService, io, notification) {
         this.userRepostory = userRepostory;
         this.Jwt = Jwt;
@@ -26,200 +28,277 @@ export class UserUseCase {
         this.notification = notification;
     }
     // ===================================================================>
-    async userSignup(user, next) {
-        try {
-            let token = await userSignup(this.Jwt, this.otpRepository, this.userRepostory, this.otpGenerate, this.hashPassword, user, this.sendEmail, next);
-            return token;
-        }
-        catch (error) {
-            console.log(error);
-        }
+    userSignup(user, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let token = yield (0, index_js_1.userSignup)(this.Jwt, this.otpRepository, this.userRepostory, this.otpGenerate, this.hashPassword, user, this.sendEmail, next);
+                return token;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
     // ===================================================================>
-    async createUser(email, otp, next) {
-        const newuser = await createUser(email, otp, this.Jwt, this.otpRepository, this.userRepostory, this.hashPassword, next);
-        return newuser;
+    createUser(email, otp, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const newuser = yield (0, index_js_1.createUser)(email, otp, this.Jwt, this.otpRepository, this.userRepostory, this.hashPassword, next);
+            return newuser;
+        });
     }
     // ===================================================================>
-    async resendOtp(email, next) {
-        await resentOtp(this.otpGenerate, this.otpRepository, this.sendEmail, email, next);
+    resendOtp(email, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0, resentOtp_js_1.resentOtp)(this.otpGenerate, this.otpRepository, this.sendEmail, email, next);
+        });
     }
     // ===================================================================>
-    async login(user, next) {
-        const tokens = await login(this.userRepostory, this.Jwt, this.hashPassword, user.email, user.password, user.picture, next);
-        return tokens;
+    login(user, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const tokens = yield (0, index_js_1.login)(this.userRepostory, this.Jwt, this.hashPassword, user.email, user.password, user.picture, next);
+            return tokens;
+        });
     }
     // ===================================================================>
-    async forgotPassword(email, next) {
-        const result = await forgotPassword(this.Jwt, this.userRepostory, this.sendEmail, email, next);
-        if (!result) {
-            return next(new ErrorHandler(400, "user reset password updated failed"));
-        }
-        return result;
+    forgotPassword(email, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.forgotPassword)(this.Jwt, this.userRepostory, this.sendEmail, email, next);
+            if (!result) {
+                return next(new errorMiddleware_js_1.ErrorHandler(400, "user reset password updated failed"));
+            }
+            return result;
+        });
     }
     // ===================================================================>
-    async resetPassword(password, resetToken, next) {
-        const result = await resetPassword(password, resetToken, this.userRepostory, this.hashPassword, next);
-        if (!result) {
-            return next(new ErrorHandler(400, "User is founded"));
-        }
-        return result;
+    resetPassword(password, resetToken, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.resetPassword)(password, resetToken, this.userRepostory, this.hashPassword, next);
+            if (!result) {
+                return next(new errorMiddleware_js_1.ErrorHandler(400, "User is founded"));
+            }
+            return result;
+        });
     }
     // ===================================================================>
-    async getUser(userId, next) {
-        const result = await getUser(userId, this.userRepostory, next);
-        if (!result) {
-            return next(new ErrorHandler(400, "User is founded"));
-        }
-        return result;
+    getUser(userId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.getUser)(userId, this.userRepostory, next);
+            if (!result) {
+                return next(new errorMiddleware_js_1.ErrorHandler(400, "User is founded"));
+            }
+            return result;
+        });
     }
     // ===================================================================>
-    async changePassword(userId, currentPassword, newPassword, next) {
-        const result = await changePassword(userId, currentPassword, newPassword, this.hashPassword, this.userRepostory, next);
-        if (!result) {
-            return next(new ErrorHandler(400, "User is founded"));
-        }
-        return result;
+    changePassword(userId, currentPassword, newPassword, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.changePassword)(userId, currentPassword, newPassword, this.hashPassword, this.userRepostory, next);
+            if (!result) {
+                return next(new errorMiddleware_js_1.ErrorHandler(400, "User is founded"));
+            }
+            return result;
+        });
     }
     // ===================================================================>
     // Use Case
-    async createProfile(user, file, next) {
-        try {
-            console.log("File data in use case:", file);
-            const result = await createProfile(user, file, this.userRepostory, this.s3, next);
-            if (!result) {
-                return next(new ErrorHandler(400, "Profile update failed"));
+    createProfile(user, file, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log("File data in use case:", file);
+                const result = yield (0, index_js_1.createProfile)(user, file, this.userRepostory, this.s3, next);
+                if (!result) {
+                    return next(new errorMiddleware_js_1.ErrorHandler(400, "Profile update failed"));
+                }
+                return result;
             }
-            return result;
-        }
-        catch (error) {
-            console.error("Error in createProfile use case:", error);
-            return next(new ErrorHandler(500, "Internal Server Error"));
-        }
+            catch (error) {
+                console.error("Error in createProfile use case:", error);
+                return next(new errorMiddleware_js_1.ErrorHandler(500, "Internal Server Error"));
+            }
+        });
     }
     //verify requesting
-    async verifyRequest(userId, requestData, next) {
-        return await verifyRequest(userId, requestData, this.userRepostory, next);
+    verifyRequest(userId, requestData, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.verifyRequest)(userId, requestData, this.userRepostory, next);
+        });
     }
     // upload cover image
-    async uploadCoverImage(userId, file, next) {
-        const result = await coverImageUpload(userId, file, this.s3, this.userRepostory, next);
-        if (!result) {
-            return next(new ErrorHandler(400, "User is founded"));
-        }
-        if (result) {
-            console.log(" userCase ===>", result);
+    uploadCoverImage(userId, file, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.coverImageUpload)(userId, file, this.s3, this.userRepostory, next);
+            if (!result) {
+                return next(new errorMiddleware_js_1.ErrorHandler(400, "User is founded"));
+            }
+            if (result) {
+                console.log(" userCase ===>", result);
+                return result;
+            }
+        });
+    }
+    // ===================================================================>
+    getProfileImage(userId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.getProfileImage)(userId, this.userRepostory, this.s3, next);
+            if (!result) {
+                return next(new errorMiddleware_js_1.ErrorHandler(400, "User is founded"));
+            }
             return result;
-        }
-    }
-    // ===================================================================>
-    async getProfileImage(userId, next) {
-        const result = await getProfileImage(userId, this.userRepostory, this.s3, next);
-        if (!result) {
-            return next(new ErrorHandler(400, "User is founded"));
-        }
-        return result;
+        });
     }
     // ===================================================================>
     //change password
-    async changePrivacy(userId, isPrivacy, next) {
-        const result = await changePrivacy(userId, isPrivacy, this.userRepostory, next);
-        if (!result) {
-            return next(new ErrorHandler(400, "Change privacy failed"));
-        }
-        return result;
+    changePrivacy(userId, isPrivacy, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.changePrivacy)(userId, isPrivacy, this.userRepostory, next);
+            if (!result) {
+                return next(new errorMiddleware_js_1.ErrorHandler(400, "Change privacy failed"));
+            }
+            return result;
+        });
     }
     // ===================================================================>
     //change password
-    async showNotification(userId, isShowNotification, next) {
-        const result = await changeShowNotification(userId, isShowNotification, this.userRepostory, next);
-        console.log("resss=>", result);
-        return result;
+    showNotification(userId, isShowNotification, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.changeShowNotification)(userId, isShowNotification, this.userRepostory, next);
+            console.log("resss=>", result);
+            return result;
+        });
     }
     // ===================================================================>
-    async getSkillRelatedUsers(userId, skill, next) {
-        return await getSkillRelatedUsers(userId, skill, this.userRepostory, this.s3, next);
+    getSkillRelatedUsers(userId, skill, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.getSkillRelatedUsers)(userId, skill, this.userRepostory, this.s3, next);
+        });
     }
     // ===================================================================>
-    async getUserDetails(userId, next) {
-        const result = await getUserDetails(userId, this.s3, this.userRepostory, next);
-        if (!result) {
-            return next(new ErrorHandler(400, "fetch user failed"));
-        }
-        return {
-            success: true,
-            user: result,
-        };
+    getUserDetails(userId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.getUserDetails)(userId, this.s3, this.userRepostory, next);
+            if (!result) {
+                return next(new errorMiddleware_js_1.ErrorHandler(400, "fetch user failed"));
+            }
+            return {
+                success: true,
+                user: result,
+            };
+        });
     }
     // ===================================================================>
-    async userFollowUp(toFollowingId, fromFollowerId, next) {
-        await followUp(toFollowingId, fromFollowerId, this.userRepostory, next);
+    userFollowUp(toFollowingId, fromFollowerId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0, index_js_1.followUp)(toFollowingId, fromFollowerId, this.userRepostory, next);
+        });
     }
     // ===================================================================>
-    async getMyFollowings(userId, next) {
-        return await getMyFollowings(userId, this.userRepostory, this.s3, next);
+    getMyFollowings(userId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.getMyFollowings)(userId, this.userRepostory, this.s3, next);
+        });
     }
     // ===================================================================>
-    async myFollowers(userId, next) {
-        return await myFollowers(userId, this.s3, this.userRepostory, next);
+    myFollowers(userId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.myFollowers)(userId, this.s3, this.userRepostory, next);
+        });
     }
     // ===================================================================>
-    async unFollow(toUnfollowId, fromFollowerId, next) {
-        return await unFollow(toUnfollowId, fromFollowerId, this.userRepostory, this.notification, next);
+    unFollow(toUnfollowId, fromFollowerId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.unFollow)(toUnfollowId, fromFollowerId, this.userRepostory, this.notification, next);
+        });
     }
     // ===================================================================>
-    async removeFollower(fromRemoverId, toRemoveId, next) {
-        return await removeFollower(fromRemoverId, toRemoveId, this.userRepostory, next);
+    removeFollower(fromRemoverId, toRemoveId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.removeFollower)(fromRemoverId, toRemoveId, this.userRepostory, next);
+        });
     }
-    async followBack(toFollowId, fromFollowingId, next) {
-        return await followBack(toFollowId, fromFollowingId, this.userRepostory, next);
+    followBack(toFollowId, fromFollowingId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.followBack)(toFollowId, fromFollowingId, this.userRepostory, next);
+        });
     }
-    async othersFollowers(userId, currentUserId, next) {
-        return await othersFollowers(userId, currentUserId, this.userRepostory, this.s3, next);
+    othersFollowers(userId, currentUserId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.othersFollowers)(userId, currentUserId, this.userRepostory, this.s3, next);
+        });
     }
-    async othersFollowings(userId, currentUserId, next) {
-        return await othersFollowings(userId, currentUserId, this.userRepostory, this.s3, next);
+    othersFollowings(userId, currentUserId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.othersFollowings)(userId, currentUserId, this.userRepostory, this.s3, next);
+        });
     }
-    async uploadPost(userId, imageUrl, caption, type) {
-        return await uploadPostandRetriveUrl(userId, imageUrl, caption, type, this.s3, this.userRepostory);
+    uploadPost(userId, imageUrl, caption, type) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.uploadPostandRetriveUrl)(userId, imageUrl, caption, type, this.s3, this.userRepostory);
+        });
     }
-    async uploadThoughts(userId, thoughts, next) {
-        return await uploadThoughts(userId, thoughts, this.userRepostory, next);
+    uploadThoughts(userId, thoughts, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.uploadThoughts)(userId, thoughts, this.userRepostory, next);
+        });
     }
-    async fetchPosts(userSkill, pageParam, next) {
-        return await getPosts(userSkill, pageParam, this.s3, this.userRepostory, next);
+    fetchPosts(userSkill, pageParam, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.getPosts)(userSkill, pageParam, this.s3, this.userRepostory, next);
+        });
     }
-    async fetchMyPosts(userId, next) {
-        return await fetchMyPosts(userId, this.userRepostory, this.s3, next);
+    fetchMyPosts(userId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.fetchMyPosts)(userId, this.userRepostory, this.s3, next);
+        });
     }
-    async postView(postId, next) {
-        return await postView(postId, this.userRepostory, this.s3, next);
+    postView(postId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.postView)(postId, this.userRepostory, this.s3, next);
+        });
     }
-    async fetchOthersPosts(userId, next) {
-        return await fetchOthersPosts(userId, this.userRepostory, this.s3, next);
+    fetchOthersPosts(userId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.fetchOthersPosts)(userId, this.userRepostory, this.s3, next);
+        });
     }
-    async deletePost(postId, next) {
-        return await deletePost(postId, this.userRepostory, next);
+    deletePost(postId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.deletePost)(postId, this.userRepostory, next);
+        });
     }
-    async editPost(editedCaption, postId, next) {
-        return await editPost(editedCaption, postId, this.userRepostory, next);
+    editPost(editedCaption, postId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.editPost)(editedCaption, postId, this.userRepostory, next);
+        });
     }
-    async postLike(userId, postId, next) {
-        return await postLike(userId, postId, this.userRepostory, this.notification, next);
+    postLike(userId, postId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.postLike)(userId, postId, this.userRepostory, this.notification, next);
+        });
     }
-    async addComment(postId, userId, comment, next) {
-        return await addComment(postId, userId, comment, this.userRepostory, this.s3, this.io, next);
+    addComment(postId, userId, comment, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.addComment)(postId, userId, comment, this.userRepostory, this.s3, this.io, next);
+        });
     }
-    async delteComment(postId, commentId, next) {
-        return await deleteComment(postId, commentId, this.userRepostory, next);
+    delteComment(postId, commentId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.deleteComment)(postId, commentId, this.userRepostory, next);
+        });
     }
-    async editingComment(postId, commentId, userId, updateComment, next) {
-        return await editingComment(postId, commentId, userId, updateComment, this.userRepostory, next);
+    editingComment(postId, commentId, userId, updateComment, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.editingComment)(postId, commentId, userId, updateComment, this.userRepostory, next);
+        });
     }
-    async searchUsers(query, next) {
-        return await searchUsers(query, this.elasticSearchService, this.s3, next);
+    searchUsers(query, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.searchUsers)(query, this.elasticSearchService, this.s3, next);
+        });
     }
-    async reportPost(postId, reason, userId, next) {
-        return await reportPost(postId, reason, userId, this.userRepostory, next);
+    reportPost(postId, reason, userId, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.reportPost)(postId, reason, userId, this.userRepostory, next);
+        });
     }
 }
+exports.UserUseCase = UserUseCase;

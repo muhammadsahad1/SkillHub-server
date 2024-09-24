@@ -1,4 +1,7 @@
-export const catchError = (error, next) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.catchError = void 0;
+const catchError = (error, next) => {
     let message;
     if (error instanceof Error) {
         message = error.message;
@@ -14,3 +17,4 @@ export const catchError = (error, next) => {
     }
     return next(error);
 };
+exports.catchError = catchError;

@@ -1,13 +1,17 @@
-import { findByEmail } from '../Repository/user/findbyEmail.js'
-import { blockUser, changeEventStatus, changeVerifyStatus, dashBoardData, getEvents, getReports, getUsers, getVerificationRequests, reportAction } from "./admin/index.js";
-export class AdminRepository {
-    userModels;
-    verificationRequestsModel;
-    eventModel;
-    reportModel;
-    postModel;
-    notifcationModel;
-    groupModel;
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AdminRepository = void 0;
+const index_js_1 = require("./admin/index.js");
+class AdminRepository {
     constructor(userModels, verificationRequestsModel, eventModel, reportModel, postModel, notifcationModel, groupModel) {
         this.userModels = userModels;
         this.verificationRequestsModel = verificationRequestsModel;
@@ -17,34 +21,55 @@ export class AdminRepository {
         this.notifcationModel = notifcationModel;
         this.groupModel = groupModel;
     }
-    async adminLogin(email) {
-        return await findByEmail(this.userModels, email);
+    adminLogin(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.findByEmail)(this.userModels, email);
+        });
     }
-    async getUsers() {
-        return await getUsers(this.userModels);
+    getUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.getUsers)(this.userModels);
+        });
     }
-    async getVerificationRequests() {
-        return await getVerificationRequests(this.verificationRequestsModel);
+    getVerificationRequests() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.getVerificationRequests)(this.verificationRequestsModel);
+        });
     }
-    async changeVerifyStatus(requesId, status) {
-        return await changeVerifyStatus(requesId, status, this.userModels, this.verificationRequestsModel);
+    changeVerifyStatus(requesId, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.changeVerifyStatus)(requesId, status, this.userModels, this.verificationRequestsModel);
+        });
     }
-    async getEvents() {
-        return await getEvents(this.eventModel, this.userModels);
+    getEvents() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.getEvents)(this.eventModel, this.userModels);
+        });
     }
-    async changeEventStatus(requestId, status) {
-        return await changeEventStatus(requestId, status, this.eventModel);
+    changeEventStatus(requestId, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.changeEventStatus)(requestId, status, this.eventModel);
+        });
     }
-    async getReports(s3Operations) {
-        return await getReports(this.reportModel, this.postModel, s3Operations);
+    getReports(s3Operations) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.getReports)(this.reportModel, this.postModel, s3Operations);
+        });
     }
-    async blockUser(id) {
-        return await blockUser(id, this.userModels);
+    blockUser(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.blockUser)(id, this.userModels);
+        });
     }
-    async reportAction(reportId, status) {
-        return await reportAction(reportId, status, this.reportModel, this.postModel, this.notifcationModel);
+    reportAction(reportId, status) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.reportAction)(reportId, status, this.reportModel, this.postModel, this.notifcationModel);
+        });
     }
-    async dashBoardData() {
-        return await dashBoardData(this.postModel, this.groupModel, this.eventModel, this.userModels);
+    dashBoardData() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.dashBoardData)(this.postModel, this.groupModel, this.eventModel, this.userModels);
+        });
     }
 }
+exports.AdminRepository = AdminRepository;

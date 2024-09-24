@@ -1,14 +1,30 @@
-import mongoose from "mongoose";
-export const getMyFollowing = async (userId, userModels, s3) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getMyFollowing = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
+const getMyFollowing = (userId, userModels, s3) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = await userModels.findById(userId).lean();
-        const folllowings = user?.following;
-        const followings = folllowings.filter(id => mongoose.Types.ObjectId.isValid(id));
-        const followingsUsers = await userModels.find({ _id: { $in: followings } });
+        const user = yield userModels.findById(userId).lean();
+        const folllowings = user === null || user === void 0 ? void 0 : user.following;
+        const followings = folllowings.filter(id => mongoose_1.default.Types.ObjectId.isValid(id));
+        const followingsUsers = yield userModels.find({ _id: { $in: followings } });
         return followingsUsers;
     }
     catch (error) {
         console.error("Error updating profile:", error);
         return undefined;
     }
-};
+});
+exports.getMyFollowing = getMyFollowing;

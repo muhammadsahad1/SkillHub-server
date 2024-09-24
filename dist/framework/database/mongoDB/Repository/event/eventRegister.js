@@ -1,4 +1,19 @@
-import mongoose from "mongoose";
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.eventRegister = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 //generate the token
 const generateJoinToken = (length = 20) => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -8,18 +23,18 @@ const generateJoinToken = (length = 20) => {
     }
     return result;
 };
-export const eventRegister = async (eventRegisterData, eventModel, eventPaymentModel, userModels) => {
+const eventRegister = (eventRegisterData, eventModel, eventPaymentModel, userModels) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId, eventId, name, email, phone, paymentId } = eventRegisterData;
-        const eventID = new mongoose.Types.ObjectId(eventId);
-        const event = await eventModel.findById(eventID);
+        const eventID = new mongoose_1.default.Types.ObjectId(eventId);
+        const event = yield eventModel.findById(eventID);
         if (!event) {
             return {
                 success: false,
                 message: "Event not found",
             };
         }
-        const isAttendee = event.attendees.some((attend) => attend?.userId.toString() === userId);
+        const isAttendee = event.attendees.some((attend) => (attend === null || attend === void 0 ? void 0 : attend.userId.toString()) === userId);
         if (isAttendee) {
             return {
                 success: false,
@@ -33,7 +48,7 @@ export const eventRegister = async (eventRegisterData, eventModel, eventPaymentM
                     message: "Payment is required for this event",
                 };
             }
-            const payment = await eventPaymentModel.create({
+            const payment = yield eventPaymentModel.create({
                 eventId: event._id,
                 userId,
                 paymentId,
@@ -41,11 +56,11 @@ export const eventRegister = async (eventRegisterData, eventModel, eventPaymentM
                 currency: "usd",
                 status: "succeeded",
             });
-            const result = await payment.save();
+            const result = yield payment.save();
             // getting the token
             const joinToken = generateJoinToken();
             //  updating the attendes payment event usr
-            await eventModel.findByIdAndUpdate(eventID, {
+            yield eventModel.findByIdAndUpdate(eventID, {
                 $push: {
                     attendees: {
                         userId,
@@ -63,7 +78,7 @@ export const eventRegister = async (eventRegisterData, eventModel, eventPaymentM
         else {
             const joinToken = generateJoinToken();
             // updating the attendes free event user
-            const regiEvnt = await eventModel.findByIdAndUpdate(eventID, {
+            const regiEvnt = yield eventModel.findByIdAndUpdate(eventID, {
                 $push: {
                     attendees: {
                         userId,
@@ -87,4 +102,5 @@ export const eventRegister = async (eventRegisterData, eventModel, eventPaymentM
             message: "An error occurred during registration",
         };
     }
-};
+});
+exports.eventRegister = eventRegister;

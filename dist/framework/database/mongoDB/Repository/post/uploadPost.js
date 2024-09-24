@@ -1,4 +1,16 @@
-export const uploadPost = async (userId, file, caption, type, s3, userModels, postModels) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.uploadPost = void 0;
+const uploadPost = (userId, file, caption, type, s3, userModels, postModels) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let imageName = "";
         let signedUrl = "";
@@ -12,7 +24,7 @@ export const uploadPost = async (userId, file, caption, type, s3, userModels, po
                 mimetype,
             };
             // uploading the image to s3 bucket
-            imageName = await s3.putObjectUrl(putObjectParams);
+            imageName = yield s3.putObjectUrl(putObjectParams);
         }
         const newPost = {
             userId: userId,
@@ -21,20 +33,15 @@ export const uploadPost = async (userId, file, caption, type, s3, userModels, po
             type: type,
         };
         // here creating post
-        const createdPost = await postModels.create(newPost);
+        const createdPost = yield postModels.create(newPost);
         // retrive the image url in s3
-        signedUrl = await s3.getObjectUrl({
+        signedUrl = yield s3.getObjectUrl({
             bucket: process.env.C3_BUCKET_NAME,
             key: imageName,
         });
-        const currentUser = await userModels.findById(userId);
-        const skill = currentUser?.skill;
-        const postWithUrl = {
-            ...createdPost.toObject(),
-            signedUrl: signedUrl,
-            skill: skill,
-            userId: currentUser?._id,
-        };
+        const currentUser = yield userModels.findById(userId);
+        const skill = currentUser === null || currentUser === void 0 ? void 0 : currentUser.skill;
+        const postWithUrl = Object.assign(Object.assign({}, createdPost.toObject()), { signedUrl: signedUrl, skill: skill, userId: currentUser === null || currentUser === void 0 ? void 0 : currentUser._id });
         // returning the created post and post url
         return postWithUrl;
     }
@@ -46,4 +53,5 @@ export const uploadPost = async (userId, file, caption, type, s3, userModels, po
             error: error.message,
         };
     }
-};
+});
+exports.uploadPost = uploadPost;

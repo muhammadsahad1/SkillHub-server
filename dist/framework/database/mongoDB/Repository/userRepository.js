@@ -1,11 +1,19 @@
-import { createUser, findByEmail, createProfile, findByEmailUpdatePicture, resetPasswordVerify, getUser, changePassword, findUpdateResetToken, fetchProfileImage, uploadCoverImage, showNotification, getSkillRelatedUsers, getUsersImageUrls, getUserDetails, followUp, getMyFollowing, unFollow, myFollowers, removeFollower, followBack, postLike, getOthersFollowers, getOthersFollowersImageUrls, getOthersFollowings, getOthersFollowingsImageUrl, changePrivacy, verifyRequest, } from "./user/index.js";
-import { uploadPost, fetchPosts, deletePost, editPost, fetchMyPosts, addComment, getCommentedUserImage, deleteComment, editComment, fetchOthersPosts, postView, uploadThoughts, reportPost, } from "./post/index.js";
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserRepository = void 0;
+const index_js_1 = require("./user/index.js");
+const index_js_2 = require("./post/index.js");
 //Passing the user properties to DB intraction function with userModel/schema
-export class UserRepository {
-    userModels;
-    postModels;
-    verificationRequestModal;
-    requestModel;
+class UserRepository {
     constructor(userModels, postModels, verificationRequestModal, requestModel) {
         this.userModels = userModels;
         this.postModels = postModels;
@@ -13,169 +21,241 @@ export class UserRepository {
         this.requestModel = requestModel;
     }
     // ===================================================================>
-    async createProfile(userProfile, file, S3Operations) {
-        return await createProfile(userProfile, file, S3Operations, this.userModels);
+    createProfile(userProfile, file, S3Operations) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.createProfile)(userProfile, file, S3Operations, this.userModels);
+        });
     }
     // ===================================================================>
-    async verifyRequest(userId, requestData) {
-        return await verifyRequest(userId, requestData, this.verificationRequestModal, this.userModels);
+    verifyRequest(userId, requestData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.verifyRequest)(userId, requestData, this.verificationRequestModal, this.userModels);
+        });
     }
     // ===================================================================>
-    async createUser(newUser) {
-        return await createUser(newUser, this.userModels);
+    createUser(newUser) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.createUser)(newUser, this.userModels);
+        });
     }
     // ===================================================================>
-    async findByEmail(email) {
-        return await findByEmail(this.userModels, email);
+    findByEmail(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.findByEmail)(this.userModels, email);
+        });
     }
     // ===================================================================>
-    async findByEmailUpdateOne(email, picture) {
-        return await findByEmailUpdatePicture(this.userModels, email, picture);
+    findByEmailUpdateOne(email, picture) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.findByEmailUpdatePicture)(this.userModels, email, picture);
+        });
     }
     // ===================================================================>
-    async findOneUpdateResetToken(email, resetToken) {
-        const resInfisrt = await findUpdateResetToken(this.userModels, email, resetToken);
-        return resInfisrt;
+    findOneUpdateResetToken(email, resetToken) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const resInfisrt = yield (0, index_js_1.findUpdateResetToken)(this.userModels, email, resetToken);
+            return resInfisrt;
+        });
     }
     // ===================================================================>
-    async getSkillRelatedUsers(userId, skill, s3Bucket) {
-        const users = await getSkillRelatedUsers(userId, skill, this.userModels);
-        if (!users || users.length === 0) {
-            return [];
-        }
-        const res = await getUsersImageUrls(users, [], s3Bucket);
-        return res;
+    getSkillRelatedUsers(userId, skill, s3Bucket) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const users = yield (0, index_js_1.getSkillRelatedUsers)(userId, skill, this.userModels);
+            if (!users || users.length === 0) {
+                return [];
+            }
+            const res = yield (0, index_js_1.getUsersImageUrls)(users, [], s3Bucket);
+            return res;
+        });
     }
     // ===================================================================>
-    async getUserDetails(userId) {
-        return await getUserDetails(userId, this.userModels);
+    getUserDetails(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.getUserDetails)(userId, this.userModels);
+        });
     }
     // ===================================================================>
-    async resetPasswordVerify(password, token) {
-        return await resetPasswordVerify(this.userModels, password, token);
+    resetPasswordVerify(password, token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.resetPasswordVerify)(this.userModels, password, token);
+        });
     }
     // ===================================================================>
-    async fetchProfileImage(S3Operations, userId) {
-        return await fetchProfileImage(this.userModels, S3Operations, userId);
+    fetchProfileImage(S3Operations, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.fetchProfileImage)(this.userModels, S3Operations, userId);
+        });
     }
     // cover image upload
-    async uploadeCoverImage(userId, file, S3Operations) {
-        return await uploadCoverImage(this.userModels, userId, file, S3Operations);
+    uploadeCoverImage(userId, file, S3Operations) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.uploadCoverImage)(this.userModels, userId, file, S3Operations);
+        });
     }
     // ===================================================================>
-    async findByIdUpdateUpdateOne(userId, password) {
-        return await changePassword(this.userModels, userId, password);
+    findByIdUpdateUpdateOne(userId, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.changePassword)(this.userModels, userId, password);
+        });
     }
     // ===================================================================>
-    async changeShowNotification(userId, isShowNotification) {
-        return await showNotification(userId, isShowNotification, this.userModels);
+    changeShowNotification(userId, isShowNotification) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.showNotification)(userId, isShowNotification, this.userModels);
+        });
     }
     // ===================================================================>
-    async followUp(toFollowingId, fromFollowerId) {
-        await followUp(toFollowingId, fromFollowerId, this.userModels);
+    followUp(toFollowingId, fromFollowerId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0, index_js_1.followUp)(toFollowingId, fromFollowerId, this.userModels);
+        });
     }
     // ===================================================================>
-    async getUser(userId) {
-        return await getUser(this.userModels, userId);
+    getUser(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.getUser)(this.userModels, userId);
+        });
     }
-    async getMyFollowing(userId, S3Operations) {
-        const followingUsers = await getMyFollowing(userId, this.userModels, S3Operations);
-        if (!followingUsers || followingUsers.length === 0) {
-            return [];
-        }
-        const followingUsersWithImage = await getUsersImageUrls(followingUsers, [], S3Operations);
-        return followingUsersWithImage;
-    }
-    // ===================================================================>
-    async unFollow(toUnFollowId, fromFollowerId) {
-        return await unFollow(toUnFollowId, fromFollowerId, this.userModels);
-    }
-    async myFollowers(userId, S3Operations) {
-        const result = await myFollowers(userId, this.userModels);
-        if (!result) {
-            return [];
-        }
-        const { followersUsers, following } = result;
-        if (!followersUsers || followersUsers?.length === 0) {
-            return [];
-        }
-        const followersUsersWithImage = await getUsersImageUrls(followersUsers, following, S3Operations);
-        return followersUsersWithImage;
+    getMyFollowing(userId, S3Operations) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const followingUsers = yield (0, index_js_1.getMyFollowing)(userId, this.userModels, S3Operations);
+            if (!followingUsers || followingUsers.length === 0) {
+                return [];
+            }
+            const followingUsersWithImage = yield (0, index_js_1.getUsersImageUrls)(followingUsers, [], S3Operations);
+            return followingUsersWithImage;
+        });
     }
     // ===================================================================>
-    async removeFollower(fromRemoverId, toRemoveId) {
-        return await removeFollower(fromRemoverId, toRemoveId, this.userModels);
+    unFollow(toUnFollowId, fromFollowerId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.unFollow)(toUnFollowId, fromFollowerId, this.userModels);
+        });
+    }
+    myFollowers(userId, S3Operations) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield (0, index_js_1.myFollowers)(userId, this.userModels);
+            if (!result) {
+                return [];
+            }
+            const { followersUsers, following } = result;
+            if (!followersUsers || (followersUsers === null || followersUsers === void 0 ? void 0 : followersUsers.length) === 0) {
+                return [];
+            }
+            const followersUsersWithImage = yield (0, index_js_1.getUsersImageUrls)(followersUsers, following, S3Operations);
+            return followersUsersWithImage;
+        });
     }
     // ===================================================================>
-    async followBack(fromFollowingId, toFollowId) {
-        return await followBack(fromFollowingId, toFollowId, this.userModels);
+    removeFollower(fromRemoverId, toRemoveId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.removeFollower)(fromRemoverId, toRemoveId, this.userModels);
+        });
     }
     // ===================================================================>
-    async othersFollowers(userId, currentUserId, S3Operations) {
-        const followers = await getOthersFollowers(userId, this.userModels);
-        if (!followers || followers?.length === 0) {
-            return [];
-        }
-        return await getOthersFollowersImageUrls(followers, currentUserId, this.userModels, S3Operations);
-    }
-    async othersFollowings(userId, currentUserId, s3) {
-        const followings = await getOthersFollowings(userId, this.userModels);
-        if (!followings || followings?.length === 0) {
-            return [];
-        }
-        return await getOthersFollowingsImageUrl(followings, currentUserId, this.userModels, s3);
-    }
-    async uploadPostRetriveImageUrl(userId, file, caption, type, s3) {
-        return await uploadPost(userId, file, caption, type, s3, this.userModels, this.postModels);
+    followBack(fromFollowingId, toFollowId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.followBack)(fromFollowingId, toFollowId, this.userModels);
+        });
     }
     // ===================================================================>
-    async uploadThoughts(userId, thoughts) {
-        return await uploadThoughts(userId, thoughts, this.postModels);
+    othersFollowers(userId, currentUserId, S3Operations) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const followers = yield (0, index_js_1.getOthersFollowers)(userId, this.userModels);
+            if (!followers || (followers === null || followers === void 0 ? void 0 : followers.length) === 0) {
+                return [];
+            }
+            return yield (0, index_js_1.getOthersFollowersImageUrls)(followers, currentUserId, this.userModels, S3Operations);
+        });
+    }
+    othersFollowings(userId, currentUserId, s3) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const followings = yield (0, index_js_1.getOthersFollowings)(userId, this.userModels);
+            if (!followings || (followings === null || followings === void 0 ? void 0 : followings.length) === 0) {
+                return [];
+            }
+            return yield (0, index_js_1.getOthersFollowingsImageUrl)(followings, currentUserId, this.userModels, s3);
+        });
+    }
+    uploadPostRetriveImageUrl(userId, file, caption, type, s3) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.uploadPost)(userId, file, caption, type, s3, this.userModels, this.postModels);
+        });
     }
     // ===================================================================>
-    async fetchPosts(userSkill, pageParam, s3) {
-        return await fetchPosts(userSkill, pageParam, s3, this.userModels, this.postModels);
+    uploadThoughts(userId, thoughts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.uploadThoughts)(userId, thoughts, this.postModels);
+        });
     }
     // ===================================================================>
-    async deletePost(postId) {
-        return await deletePost(postId, this.postModels);
+    fetchPosts(userSkill, pageParam, s3) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.fetchPosts)(userSkill, pageParam, s3, this.userModels, this.postModels);
+        });
     }
-    async editPost(caption, postId) {
-        return await editPost(caption, postId, this.postModels);
+    // ===================================================================>
+    deletePost(postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.deletePost)(postId, this.postModels);
+        });
     }
-    async postLike(userId, postId) {
-        return await postLike(userId, postId, this.postModels);
+    editPost(caption, postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.editPost)(caption, postId, this.postModels);
+        });
     }
-    async addComment(postId, userId, comment, s3, next) {
-        const newComment = await addComment(postId, userId, comment, this.postModels, this.userModels);
-        if (!newComment) {
-            return [];
-        }
-        const newFirstComment = newComment?.comments[0];
-        const userIdToFetch = newFirstComment.userId.toString();
-        const postOwnerId = newComment?.postOwnerId;
-        return await getCommentedUserImage(postOwnerId, userIdToFetch, s3, this.userModels, next);
+    postLike(userId, postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.postLike)(userId, postId, this.postModels);
+        });
     }
-    async fetchMyPosts(userId, s3) {
-        return await fetchMyPosts(userId, s3, this.postModels);
+    addComment(postId, userId, comment, s3, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const newComment = yield (0, index_js_2.addComment)(postId, userId, comment, this.postModels, this.userModels);
+            if (!newComment) {
+                return [];
+            }
+            const newFirstComment = newComment === null || newComment === void 0 ? void 0 : newComment.comments[0];
+            const userIdToFetch = newFirstComment.userId.toString();
+            const postOwnerId = newComment === null || newComment === void 0 ? void 0 : newComment.postOwnerId;
+            return yield (0, index_js_2.getCommentedUserImage)(postOwnerId, userIdToFetch, s3, this.userModels, next);
+        });
     }
-    async fetchOthersPosts(userId, s3) {
-        return await fetchOthersPosts(userId, s3, this.postModels, this.userModels);
+    fetchMyPosts(userId, s3) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.fetchMyPosts)(userId, s3, this.postModels);
+        });
     }
-    async postView(postId) {
-        return await postView(postId, this.postModels);
+    fetchOthersPosts(userId, s3) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.fetchOthersPosts)(userId, s3, this.postModels, this.userModels);
+        });
     }
-    async editComment(postId, commentId, userId, updatedComment) {
-        return await editComment(postId, commentId, userId, updatedComment, this.postModels);
+    postView(postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.postView)(postId, this.postModels);
+        });
     }
-    async deleteComment(postId, commentId) {
-        return await deleteComment(postId, commentId, this.postModels);
+    editComment(postId, commentId, userId, updatedComment) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.editComment)(postId, commentId, userId, updatedComment, this.postModels);
+        });
     }
-    async changePrivacy(userId, isPrivacy) {
-        return await changePrivacy(userId, isPrivacy, this.userModels);
+    deleteComment(postId, commentId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.deleteComment)(postId, commentId, this.postModels);
+        });
     }
-    async reportPost(postId, reason, userId) {
-        return await reportPost(postId, reason, userId, this.postModels, this.requestModel);
+    changePrivacy(userId, isPrivacy) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_1.changePrivacy)(userId, isPrivacy, this.userModels);
+        });
+    }
+    reportPost(postId, reason, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, index_js_2.reportPost)(postId, reason, userId, this.postModels, this.requestModel);
+        });
     }
     getAllUsers() {
         throw new Error("Method not implemented.");
@@ -185,3 +265,4 @@ export class UserRepository {
         throw new Error("Method not implemented.");
     }
 }
+exports.UserRepository = UserRepository;

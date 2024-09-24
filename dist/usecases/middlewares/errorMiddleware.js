@@ -1,11 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.errorHandler = exports.ErrorHandler = void 0;
 class ErrorHandler extends Error {
-    statusCode;
     constructor(statusCode, message) {
         super(message);
         this.statusCode = statusCode;
         Error.captureStackTrace(this, this.constructor);
     }
 }
+exports.ErrorHandler = ErrorHandler;
 const errorHandler = (err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server Error';
@@ -18,4 +21,4 @@ const errorHandler = (err, req, res, next) => {
         message: message,
     });
 };
-export { ErrorHandler, errorHandler };
+exports.errorHandler = errorHandler;

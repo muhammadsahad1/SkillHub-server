@@ -1,16 +1,22 @@
-import mongoose from "mongoose";
-const groupSchema = new mongoose.Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GroupModel = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
+const groupSchema = new mongoose_1.default.Schema({
     groupName: { type: String, required: true },
     description: { type: String, required: true },
     creatorId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "User",
         required: true,
     },
     members: [
         {
             userId: {
-                type: mongoose.Schema.Types.ObjectId,
+                type: mongoose_1.default.Schema.Types.ObjectId,
                 ref: "User",
                 required: true,
             },
@@ -25,4 +31,4 @@ const groupSchema = new mongoose.Schema({
 }, {
     timestamps: true,
 });
-export const GroupModel = mongoose.model("Group", groupSchema);
+exports.GroupModel = mongoose_1.default.model("Group", groupSchema);

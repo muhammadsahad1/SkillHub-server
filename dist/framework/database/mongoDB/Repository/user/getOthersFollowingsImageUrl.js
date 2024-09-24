@@ -1,13 +1,26 @@
-export const getOthersFollowingsImageUrl = async (followings = [], myUserId, userModels, s3) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getOthersFollowingsImageUrl = void 0;
+const getOthersFollowingsImageUrl = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (followings = [], myUserId, userModels, s3) {
+    var _a, _b;
     try {
-        const myUser = await userModels.findById(myUserId);
+        const myUser = yield userModels.findById(myUserId);
         if (!myUser) {
             throw new Error("Current user not found");
         }
-        const followersIds = myUser.followers?.map((id) => id.toString()) || [];
-        const followingIds = myUser.following?.map((id) => id.toString()) || [];
-        const followingsWithImage = await Promise.all(followings.map(async (followingId) => {
-            const user = await userModels.findById(followingId);
+        const followersIds = ((_a = myUser.followers) === null || _a === void 0 ? void 0 : _a.map((id) => id.toString())) || [];
+        const followingIds = ((_b = myUser.following) === null || _b === void 0 ? void 0 : _b.map((id) => id.toString())) || [];
+        const followingsWithImage = yield Promise.all(followings.map((followingId) => __awaiter(void 0, void 0, void 0, function* () {
+            const user = yield userModels.findById(followingId);
             if (!user) {
                 return null;
             }
@@ -15,13 +28,13 @@ export const getOthersFollowingsImageUrl = async (followings = [], myUserId, use
             let imageUrl = "";
             let coverImageUrl = "";
             if (profileImage) {
-                imageUrl = await s3.getObjectUrl({
+                imageUrl = yield s3.getObjectUrl({
                     bucket: process.env.C3_BUCKET_NAME,
                     key: profileImage,
                 });
             }
             if (coverImage) {
-                coverImageUrl = await s3.getObjectUrl({
+                coverImageUrl = yield s3.getObjectUrl({
                     bucket: process.env.C3_BUCKET_NAME,
                     key: coverImage,
                 });
@@ -49,7 +62,7 @@ export const getOthersFollowingsImageUrl = async (followings = [], myUserId, use
                 isFollowingBack,
                 relationship,
             };
-        }));
+        })));
         console.log("followingsWithImage ======>", followingsWithImage);
         return followingsWithImage.filter((item) => item !== null);
     }
@@ -57,4 +70,5 @@ export const getOthersFollowingsImageUrl = async (followings = [], myUserId, use
         console.error("Error fetching followings' images:", error);
         return undefined;
     }
-};
+});
+exports.getOthersFollowingsImageUrl = getOthersFollowingsImageUrl;

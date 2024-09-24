@@ -1,33 +1,58 @@
-export class MessageController {
-    messageUseCase;
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MessageController = void 0;
+class MessageController {
     constructor(messageUseCase) {
         this.messageUseCase = messageUseCase;
     }
-    async sendMessage(req, res, next) {
-        const { receiverId, messages } = req.body;
-        const senderId = req.user?.id;
-        const result = await this.messageUseCase.sendMessage(senderId, receiverId, messages, next);
-        res.status(201).json(result);
+    sendMessage(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const { receiverId, messages } = req.body;
+            const senderId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+            const result = yield this.messageUseCase.sendMessage(senderId, receiverId, messages, next);
+            res.status(201).json(result);
+        });
     }
-    async getChat(req, res, next) {
-        const { senderId, userToChatId } = req.query;
-        const result = await this.messageUseCase.getChat(userToChatId, senderId, next);
-        res.status(200).json(result);
+    getChat(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { senderId, userToChatId } = req.query;
+            const result = yield this.messageUseCase.getChat(userToChatId, senderId, next);
+            res.status(200).json(result);
+        });
     }
-    async chatUsers(req, res, next) {
-        const userId = req.user?.id;
-        const result = await this.messageUseCase.getConversationsUsers(userId, next);
-        res.status(200).json(result);
+    chatUsers(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+            const result = yield this.messageUseCase.getConversationsUsers(userId, next);
+            res.status(200).json(result);
+        });
     }
-    async markAsRead(req, res, next) {
-        const { conversationId } = req.body;
-        const userId = req.user?.id;
-        await this.messageUseCase.markAsRead(conversationId, userId, next);
+    markAsRead(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const { conversationId } = req.body;
+            const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+            yield this.messageUseCase.markAsRead(conversationId, userId, next);
+        });
     }
-    async uploadImage(req, res, next) {
-        const { senderId, receiverId } = req.body;
-        const result = await this.messageUseCase.sendImage(senderId, receiverId, req.file, next);
-        res.status(200).json(result);
-        return result;
+    uploadImage(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { senderId, receiverId } = req.body;
+            const result = yield this.messageUseCase.sendImage(senderId, receiverId, req.file, next);
+            res.status(200).json(result);
+            return result;
+        });
     }
 }
+exports.MessageController = MessageController;

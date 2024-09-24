@@ -1,12 +1,17 @@
-import mongoose from "mongoose";
-const groupMessageSchema = new mongoose.Schema({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
+const groupMessageSchema = new mongoose_1.default.Schema({
     groupId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "Group",
         required: true,
     },
     senderId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "User",
         required: true,
     },
@@ -19,11 +24,11 @@ const groupMessageSchema = new mongoose.Schema({
     },
     readBy: [
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose_1.default.Schema.Types.ObjectId,
             ref: "User",
         },
     ],
 }, { timestamps: true });
 groupMessageSchema.index({ senderId: 1 });
-const GroupMessageModel = mongoose.model("GroupMessage", groupMessageSchema);
-export default GroupMessageModel;
+const GroupMessageModel = mongoose_1.default.model("GroupMessage", groupMessageSchema);
+exports.default = GroupMessageModel;

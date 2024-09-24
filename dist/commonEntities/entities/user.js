@@ -1,2 +1,3 @@
+"use strict";
 // import mongoose, { Schema, model } from 'mongoose';
-export {};
+Object.defineProperty(exports, "__esModule", { value: true });

@@ -1,12 +1,24 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendMessage = void 0;
 // here while user sending message that time conversation is creating
-export const sendMessage = async (senderId, receiverId, message, messageModel, conversationModel) => {
+const sendMessage = (senderId, receiverId, message, messageModel, conversationModel) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let conversation = await conversationModel.findOne({
+        let conversation = yield conversationModel.findOne({
             participants: { $all: [senderId, receiverId] },
         });
         // creating conversation if the converstion not exists
         if (!conversation) {
-            conversation = await conversationModel.create({
+            conversation = yield conversationModel.create({
                 participants: [senderId, receiverId], lastMessage: null
             });
         }
@@ -18,10 +30,10 @@ export const sendMessage = async (senderId, receiverId, message, messageModel, c
         });
         console.log("neww=>", newMessage);
         if (newMessage) {
-            await newMessage.save();
+            yield newMessage.save();
             conversation.messages.push(newMessage._id);
             conversation.lastMessage = newMessage._id;
-            await conversation.save();
+            yield conversation.save();
             return newMessage;
         }
     }
@@ -29,4 +41,5 @@ export const sendMessage = async (senderId, receiverId, message, messageModel, c
         console.error("Error in create conversation:", error);
         return undefined;
     }
-};
+});
+exports.sendMessage = sendMessage;

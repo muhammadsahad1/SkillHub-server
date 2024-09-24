@@ -1,12 +1,24 @@
-export const changeEventStatus = async (requestId, status, eventModel) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.changeEventStatus = void 0;
+const changeEventStatus = (requestId, status, eventModel) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log(requestId);
-        const event = await eventModel.findById(requestId);
+        const event = yield eventModel.findById(requestId);
         if (!event) {
             throw new Error("event is not founded");
         }
         event.approvalStatus = status;
-        await event.save();
+        yield event.save();
         return {
             success: true,
         };
@@ -15,4 +27,5 @@ export const changeEventStatus = async (requestId, status, eventModel) => {
         console.log("error ->", error);
         return undefined;
     }
-};
+});
+exports.changeEventStatus = changeEventStatus;

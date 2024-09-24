@@ -1,10 +1,23 @@
-export const resentOtp = async (otpGenerate, otpRepository, sendEmail, email, next) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.resentOtp = void 0;
+const resentOtp = (otpGenerate, otpRepository, sendEmail, email, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const otp = await otpGenerate.createOtp();
-        await otpRepository.resendOtp(email, otp);
-        await sendEmail.sentEmailVerification("user", email, otp);
+        const otp = yield otpGenerate.createOtp();
+        yield otpRepository.resendOtp(email, otp);
+        yield sendEmail.sentEmailVerification("user", email, otp);
     }
     catch (error) {
         throw error;
     }
-};
+});
+exports.resentOtp = resentOtp;

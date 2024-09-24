@@ -6,7 +6,6 @@
 
   "description": "",
 
-  "type": "module",
 
   "main": "dist/index.js",
 

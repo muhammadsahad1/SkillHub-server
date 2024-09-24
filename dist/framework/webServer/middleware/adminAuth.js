@@ -1,8 +1,23 @@
-import { JWTtoken } from "../../service/jwt.js";
-import userModel from "../../database/mongoDB/model/userModel.js";
-import { refreshTokenOption, accessTokenOption } from "./jwt.js";
-const jwt = new JWTtoken();
-export const isAdminAuthenticate = async (req, res, next) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isAdminAuthenticate = void 0;
+const jwt_1 = require("../../service/jwt");
+const userModel_1 = __importDefault(require("../../database/mongoDB/model/userModel"));
+const jwt_2 = require("./jwt");
+const jwt = new jwt_1.JWTtoken();
+const isAdminAuthenticate = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const customReq = req;
     const accessToken = customReq.cookies.admin_access_token;
     const refreshToken = customReq.cookies.admin_refresh_token;
@@ -12,8 +27,8 @@ export const isAdminAuthenticate = async (req, res, next) => {
     // Check for access token
     try {
         // Verify access token
-        const decoded = await jwt.verifyJWT(accessToken, process.env.JWT_ACCESS_KEY);
-        const user = await userModel.findById(decoded.id).select("-password");
+        const decoded = yield jwt.verifyJWT(accessToken, process.env.JWT_ACCESS_KEY);
+        const user = yield userModel_1.default.findById(decoded.id).select("-password");
         console.log("user ==> in admin ->", user);
         if (!user) {
             return res.status(401).json({ message: "User not found" });
@@ -29,14 +44,14 @@ export const isAdminAuthenticate = async (req, res, next) => {
             if (refreshToken) {
                 try {
                     console.log("keti");
-                    const reDecoded = await jwt.verifyJWT(refreshToken, process.env.JWT_REFRESH_KEY);
+                    const reDecoded = yield jwt.verifyJWT(refreshToken, process.env.JWT_REFRESH_KEY);
                     console.log("reDecoded ===>", reDecoded);
-                    const newTokens = await jwt.createAccessAndRefreshToken(reDecoded.id);
+                    const newTokens = yield jwt.createAccessAndRefreshToken(reDecoded.id);
                     console.log("nweToek ==>", newTokens);
                     // Set new access token and refresh token in cookie
-                    res.cookie("admin_access_token", newTokens.accessToken, accessTokenOption);
-                    res.cookie("admin_refresh_token", newTokens.refreshToken, refreshTokenOption);
-                    const user = await userModel
+                    res.cookie("admin_access_token", newTokens.accessToken, jwt_2.accessTokenOption);
+                    res.cookie("admin_refresh_token", newTokens.refreshToken, jwt_2.refreshTokenOption);
+                    const user = yield userModel_1.default
                         .findById(reDecoded.id)
                         .select("-password");
                     if (!user) {
@@ -59,4 +74,5 @@ export const isAdminAuthenticate = async (req, res, next) => {
             }
         }
     }
-};
+});
+exports.isAdminAuthenticate = isAdminAuthenticate;

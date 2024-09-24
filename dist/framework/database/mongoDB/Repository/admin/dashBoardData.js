@@ -1,16 +1,28 @@
-import { getMonthlyData } from "./getMonthlyData.js";
-export const dashBoardData = async (postModel, groupModel, eventModel, usersModel) => {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dashBoardData = void 0;
+const getMonthlyData_js_1 = require("./getMonthlyData.js");
+const dashBoardData = (postModel, groupModel, eventModel, usersModel) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Fetch counts for each model
-        const postsCount = await postModel.countDocuments();
-        const groupsCount = await groupModel.countDocuments();
-        const eventsCount = await eventModel.countDocuments();
-        const usersCount = await usersModel.countDocuments();
+        const postsCount = yield postModel.countDocuments();
+        const groupsCount = yield groupModel.countDocuments();
+        const eventsCount = yield eventModel.countDocuments();
+        const usersCount = yield usersModel.countDocuments();
         // Fetch analytics data for each model
-        const postData = await getMonthlyData(postModel);
-        const groupData = await getMonthlyData(groupModel);
-        const eventData = await getMonthlyData(eventModel);
-        const userData = await getMonthlyData(usersModel);
+        const postData = yield (0, getMonthlyData_js_1.getMonthlyData)(postModel);
+        const groupData = yield (0, getMonthlyData_js_1.getMonthlyData)(groupModel);
+        const eventData = yield (0, getMonthlyData_js_1.getMonthlyData)(eventModel);
+        const userData = yield (0, getMonthlyData_js_1.getMonthlyData)(usersModel);
         console.log("postDat ==>", postData);
         console.log("groupData ==>", groupData);
         console.log("eventData ==>", eventData);
@@ -35,4 +47,5 @@ export const dashBoardData = async (postModel, groupModel, eventModel, usersMode
         console.error("Error fetching dashboard data:", error.message);
         throw new Error(`Error fetching dashboard data: ${error.message}`);
     }
-};
+});
+exports.dashBoardData = dashBoardData;
