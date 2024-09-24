@@ -6,7 +6,7 @@ import http from "http";
   const io = new Server(server, {
     cors: {
       
-      origin: ["https://skill-hub-share-platform.vercel.app"],
+      origin: "https://skill-hub-share-platform.vercel.app",
       methods: ["GET", "POST", "PUT"],
       credentials: true,
     },
