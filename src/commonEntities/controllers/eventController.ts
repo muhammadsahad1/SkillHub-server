@@ -92,7 +92,7 @@ export class EventController {
         userId,
         next
       );
-      console.log("resu ==>", result);
+
       if (result) {
         res.status(httpStatus.OK).json(result);
       }
