@@ -41,7 +41,7 @@ export function userRoute(route: Route): Route {
   route.get('/othersFollowings',isAuthenticate,(req: Req, res: Res, next: Next) => userController.fetchOtherFollowings(req as CustomRequest, res, next));
   route.get('/OthersPosts', isAuthenticate, (req: Req, res: Res, next: Next) => userController.fetchOthersPosts(req, res, next));
   
-  // UploadPost/
+  // UploadPost
   route.post('/uploadPost',upload.single("postImage"),isAuthenticate,(req: Req, res: Res, next: Next) => userController.uploadPost(req as CustomRequest,res,next));
   route.get('/posts',isAuthenticate,(req: Req, res: Res, next: Next) => userController.fetchPosts(req as CustomRequest,res,next));
   route.delete('/posts',isAuthenticate,(req: Req, res: Res, next: Next) => userController.deletePost(req,res,next));

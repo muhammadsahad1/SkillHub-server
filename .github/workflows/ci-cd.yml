@@ -2,46 +2,56 @@ name: Backend CI/CD
 
 on:
   push:
-    branches: [ my_new ]  # Change this if your main branch has a different name
+    branches: [my_new]
+  pull_request:
+    branches: [my_new]
+
+env:
+  NODE_VERSION: "18.19.1" # Set the Node.js version to match your server
 
 jobs:
-  build-and-deploy:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm test
 
-    - name: Install Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'  # Change this to match your Node.js version
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Run tests
-      run: npm test  # Adjust this command if you use a different test script
-
-    - name: Create deployment package
-      run: |
-        zip -r deploy.zip . -x "*.git*"  # Exclude unnecessary files
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: backend-artifact
-        path: deploy.zip
-
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@v0.1.1
-      with:
-        host: ${{ secrets.EC2_HOST }}       # Your EC2 public IP
-        username: ${{ secrets.EC2_USER }}    # Typically 'ubuntu' for Ubuntu EC2
-        key: ${{ secrets.EC2_KEY }}          # Private SSH key stored in GitHub secrets
-        port: 22
-        script: |
-          cd /home/ubuntu/SkillHub-server  # Navigate to the project folder on EC2
-          sudo git pull origin my_new   # Pull latest code from main branch
-          npm install                 # Install dependencies
-          pm2 restart my-app  # Restart the app with PM2
+  build-and-deploy:
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd /home/ubuntu/SkillHub-server
+            git pull origin my_new
+            # Ensure correct Node.js version
+            if [ "$(node -v)" != "v${{ env.NODE_VERSION }}" ]; then
+              echo "Updating Node.js to version ${{ env.NODE_VERSION }}"
+              curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+              node -v
+            fi
+            npm ci
+            npm run build
+            # Generic PM2 restart command
+            pm2 restart all --update-env
