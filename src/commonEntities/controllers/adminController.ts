@@ -42,6 +42,7 @@ export class AdminController {
       res.status(httpStatus.UNAUTHORIZED).json({ message: "Login failed" });
     }
   }
+
   // ======================================================>
   async getUsers(req: Req, res: Res, next: Next) {
     const result = await this.adminUseCase.getUsers(next);
@@ -57,11 +58,13 @@ export class AdminController {
       res.status(httpStatus.BAD_REQUEST).json({ message: "User not found" });
     }
   }
+
   // ======================================================>
   async getVerificationRequests(req: Req, res: Res, next: Next) {
     const result = await this.adminUseCase.getVerificationRequests(next);
     res.status(httpStatus.OK).json(result);
   }
+
   // ======================================================>
   async changeVerifyStatus(req: Req, res: Res, next: Next) {
     const { reqId, status } = req.body;
