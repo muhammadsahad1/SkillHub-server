@@ -104,8 +104,7 @@ export class EventController {
   async changeStatus(req: Req, res: Res, next: Next) {
     const { eventId, status } = req.body;
     const result = await this.eventUseCase.changeStatus(eventId, status, next);
-    if (result) {
-      res.status(httpStatus.OK).json(status); // Assuming status is the response
+    if (result) { 
     }
   }
 }

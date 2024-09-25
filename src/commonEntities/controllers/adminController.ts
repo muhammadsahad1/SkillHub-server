@@ -19,7 +19,7 @@ export class AdminController {
       next
     );
 
-    console.log("admin loging called")
+    console.log("admin loging called");
     console.log("ress =>", result);
 
     res.cookie(
@@ -37,24 +37,30 @@ export class AdminController {
     res.cookie("role", "admin", roleOptions);
 
     if (result) {
-      res.status(200).json(result);
+      res.status(httpStatus.OK).json(result);
+    } else {
+      res.status(httpStatus.UNAUTHORIZED).json({ message: "Login failed" });
     }
   }
   // ======================================================>
   async getUsers(req: Req, res: Res, next: Next) {
     const result = await this.adminUseCase.getUsers(next);
-    res.status(200).json(result);
+    res.status(httpStatus.OK).json(result);
   }
 
   // ======================================================>
   async blockUser(req: Req, res: Res, next: Next) {
     const result = await this.adminUseCase.blockUser(req.body.id);
-    res.status(200).json(result);
+    if (result) {
+      res.status(httpStatus.OK).json(result);
+    } else {
+      res.status(httpStatus.BAD_REQUEST).json({ message: "User not found" });
+    }
   }
   // ======================================================>
   async getVerificationRequests(req: Req, res: Res, next: Next) {
     const result = await this.adminUseCase.getVerificationRequests(next);
-    res.status(200).json(result);
+    res.status(httpStatus.OK).json(result);
   }
   // ======================================================>
   async changeVerifyStatus(req: Req, res: Res, next: Next) {
@@ -64,12 +70,18 @@ export class AdminController {
       status,
       next
     );
-    res.status(200).json(result);
+    if (result) {
+      res.status(httpStatus.OK).json(result);
+    } else {
+      res
+        .status(httpStatus.BAD_REQUEST)
+        .json({ message: "Invalid request ID" });
+    }
   }
   // ======================================================>
   async getEvents(req: Req, res: Res, next: Next) {
     const result = await this.adminUseCase.getEvents(next);
-    res.status(200).json(result);
+    res.status(httpStatus.OK).json(result);
   }
   // ======================================================>
   async changeEventStatus(req: Req, res: Res, next: Next) {
@@ -79,17 +91,22 @@ export class AdminController {
       action,
       next
     );
-    res.status(200).json(result);
+    if (result) {
+      res.status(httpStatus.OK).json(result);
+    } else {
+      res.status(httpStatus.BAD_REQUEST).json({ message: "Invalid event ID" });
+    }
   }
   // ======================================================>
   async logout(req: Req, res: Res, next: Next) {
     try {
       res.clearCookie("admin_access_token", accessTokenOption);
-      // res.clearCookie("admin_refresh_token", refreshTokenOption);
       res.clearCookie("role", roleOptions);
-      res.status(200).json({ message: "admin logout successfull" });
+      res.status(httpStatus.OK).json({ message: "Admin logout successful" });
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(httpStatus.INTERNAL_SERVER_ERROR, error.message)
+      );
     }
   }
   // ======================================================>
@@ -97,10 +114,14 @@ export class AdminController {
     try {
       const result = await this.adminUseCase.getReports(next);
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
+      } else {
+        res.status(httpStatus.NO_CONTENT).json({ message: "No reports found" });
       }
     } catch (error: any) {
-      return next(new ErrorHandler(error.status, error.message));
+      return next(
+        new ErrorHandler(httpStatus.INTERNAL_SERVER_ERROR, error.message)
+      );
     }
   }
   // ======================================================>
@@ -116,15 +137,30 @@ export class AdminController {
         next
       );
       if (result) {
-        res.status(200).json(result);
+        res.status(httpStatus.OK).json(result);
+      } else {
+        res
+          .status(httpStatus.BAD_REQUEST)
+          .json({ message: "Invalid report ID" });
       }
-    } catch (error) {}
+    } catch (error) {
+      return next(
+        new ErrorHandler(
+          httpStatus.INTERNAL_SERVER_ERROR,
+          "Report action failed"
+        )
+      );
+    }
   }
   // ======================================================>
   async dasboardData(req: Req, res: Res, next: Next) {
     const result = await this.adminUseCase.dashBoardData(next);
     if (result) {
-      res.status(200).json(result);
+      res.status(httpStatus.OK).json(result);
+    } else {
+      res
+        .status(httpStatus.NO_CONTENT)
+        .json({ message: "No dashboard data available" });
     }
   }
 }

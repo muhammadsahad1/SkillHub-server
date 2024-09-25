@@ -18,7 +18,7 @@ export class UserController {
   async userSignup(req: Req, res: Res, next: Next) {
     try {
       const response = await this.userUseCase.userSignup(req.body, next);
-      res.status(httpStatus.OK).json(response); // Use httpStatus.OK (200)
+      res.status(httpStatus.OK).json(response);
     } catch (error: any) {
       return next(
         new ErrorHandler(
@@ -86,6 +86,7 @@ export class UserController {
           accessToken: string;
           refreshToken: string;
         };
+
         res.cookie("accessToken", accessToken, accessTokenOption);
         res.cookie("refreshToken", refreshToken, refreshTokenOption);
         res.cookie("role", "user", roleOptions);

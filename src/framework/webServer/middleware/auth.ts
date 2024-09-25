@@ -34,7 +34,7 @@ export const isAuthenticate: RequestHandler = async (req, res, next) => {
       return res.status(401).json({ message: "User not found" });
     }
 
-    req.user = { id: user.id };
+    req.user = { id: user._id };
     // Attach user to request
     return next();
   } catch (error: any) {

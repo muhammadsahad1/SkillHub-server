@@ -23,13 +23,14 @@ export const isAdminAuthenticate: RequestHandler = async (req, res, next) => {
       accessToken,
       process.env.JWT_ACCESS_KEY
     );
+    console.log("decoded admin ==>", decoded, "ide ==>", decoded.id);
     const user = await userModel.findById(decoded.id).select("-password");
     console.log("user ==> in admin ->", user);
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
 
-    req.user = { id: user.id }; // Attach user to request
+    req.user = { id: user._id }; 
     return next();
   } catch (error: any) {
     console.log("Access token verification failed:", error.message);
@@ -65,7 +66,7 @@ export const isAdminAuthenticate: RequestHandler = async (req, res, next) => {
             return res.status(401).json({ message: "User not found" });
           }
 
-          req.user = { id: user.id };
+          req.user = { id: user._id };
           return next();
         } catch (refreshError: any) {
           console.log(
