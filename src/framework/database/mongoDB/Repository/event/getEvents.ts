@@ -15,7 +15,7 @@ export const getEvents = async (
       .find({ approvalStatus: "Approved" })
       .skip((pageNumber - 1) * EVENT_PER_PAGE)
       .limit(EVENT_PER_PAGE)
-      .sort({ date: 1, createdAt: -1 })
+      .sort({ createdAt: -1 })
       .exec();
 
       
