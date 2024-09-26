@@ -1,3 +1,64 @@
+# name: Backend CI/CD
+
+# on:
+#   push:
+#     branches: [my_new]
+#   pull_request:
+#     branches: [my_new]
+
+# env:
+#   NODE_VERSION: "18.19.1" # Set the Node.js version to match your server
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Use Node.js ${{ env.NODE_VERSION }}
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{ env.NODE_VERSION }}
+#           cache: "npm"
+#       - run: npm ci
+#       - run: npm test
+
+#   build-and-deploy:
+#     needs: test
+#     if: github.event_name == 'push'
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Use Node.js ${{ env.NODE_VERSION }}
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{ env.NODE_VERSION }}
+#           cache: "npm"
+#       - run: npm ci
+#       - run: npm run build
+#       - name: Deploy to EC2
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: ${{ secrets.EC2_HOST }}
+#           username: ${{ secrets.EC2_USER }}
+#           key: ${{ secrets.EC2_KEY }}
+#           script: |
+#             cd /home/ubuntu/SkillHub-server
+#             git pull origin my_new
+#             # Ensure correct Node.js version
+#             if [ "$(node -v)" != "v${{ env.NODE_VERSION }}" ]; then
+#               echo "Updating Node.js to version ${{ env.NODE_VERSION }}"
+#               curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+#               sudo apt-get install -y nodejs
+#               node -v
+#             fi
+#             npm ci
+#             npm run build
+#             # Generic PM2 restart command
+#             pm2 restart all --update-env
+
+
+
+
 name: Backend CI/CD
 
 on:
@@ -42,26 +103,16 @@ jobs:
           USER: ${{ secrets.EC2_USER }}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -vvv -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} '
-            set -e
-            echo "Connected to EC2 instance"
-            cd /home/ubuntu/SkillHub-server || exit 1
-            echo "Changed directory to SkillHub-server"
-            git fetch origin my_new || exit 1
-            echo "Fetched latest changes"
-            git reset --hard origin/my_new || exit 1
-            echo "Reset to latest commit"
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm use ${{ env.NODE_VERSION }} || exit 1
-            echo "Switched to Node.js ${{ env.NODE_VERSION }}"
-            npm ci --production || exit 1
-            echo "Installed production dependencies"
-            npm run build || exit 1
-            echo "Built the project"
-            pm2 reload all --update-env || exit 1
-            echo "Reloaded PM2 processes"
-            sudo systemctl reload nginx || exit 1
-            echo "Reloaded Nginx"
-            echo "Deployment completed successfully"
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} '
+            cd /home/ubuntu/SkillHub-server &&
+            git pull origin my_new &&
+            if [ "$(node -v)" != "v${{ env.NODE_VERSION }}" ]; then
+              echo "Updating Node.js to version ${{ env.NODE_VERSION }}"
+              curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+              node -v
+            fi &&
+            npm ci &&
+            npm run build &&
+            pm2 restart all --update-env
           '
