@@ -1,0 +1,20 @@
+ssh-keygen -t rsa
+
+
+ubuntu@ip-172-31-22-134:~$ cd .ssh/ 
+
+ubuntu@ip-172-31-22-134:~/.ssh$ ls
+
+authorized_keys  id_rsa  id_rsa.pub
+
+ubuntu@ip-172-31-22-134:~/.ssh$ 
+
+ubuntu@ip-172-31-22-134:~/.ssh$ cat id_rsa
+
+ubuntu@ip-172-31-22-134:~/.ssh$ cat authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCDf/hD3WPG8q+srYvRNQzIaYQrroxdb5yytxvIRVt19RCs/WKaErXyAmwCEW0ObCD1WK9mA1uEFOs/kUerBGJpEHUHWUVOCxp+SiamFhihlrWw/MSBraP7G2SROGXWaxu5xT4DW0lcYxy8YE4a3etIoR++hfacMYW1Byn+1OdqBpn5Mbnk70BaZ0eJcw/qMe1vD36ww/nOwZVAah6g+11//dpFAC2ZpAk6FwVyJg8TwEHAWzOjDuckNtugbEhRDa/uQkpmSpvTo6GM3LA0ptsXkH+iJrNk5fQprPb3zTF9b+f0fnsTrzCGgvO7mn5oqzwPLOnt67g1p2Z5Cf+g4r/H sahaddd
+ubuntu@ip-172-31-22-134:~/.ssh$ cd id_rsa.pub authorized_keys
+-bash: cd: too many arguments
+ubuntu@ip-172-31-22-134:~/.ssh$ cp id_rsa.pub authorized_keys
+ubuntu@ip-172-31-22-134:~/.ssh$ cat authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDO/kYkKDqowk043qf3h16Gwhz4a/8Z7pW4Ic+z1TYc8ZoWbddDlB9Q6j3tteXQY6sbkS0wGs+Z+s35WTdwJsG699GyYMQTdUTKAiffxL52EGjQylxIAfAiz+TbMlr3rLtYclbjEWD1AlQ9OvGvKkxGjOTAHsBwlj2VNErhJAMOyR9LD/0eZLqh14wBH1I89GJPGTAATRvNTW+N68rYtK3we4G34+vhLwKq6NaSfRZK6RG17nTCZLIMWyPIcMs/7cHj7ERO5NyGA0mSHowF5yMxsk5XW6GAXnAti74TB8CH44rJdHDFEd8FDBgj+OPTTh+HC9O/a1PDug7WVcsvtyH2Is9BstkQ+MflGJI3BHgRumBNY5uJUOclozplDgOn8IIyAhaN1L+DCT9XIugIk2UIcwk4nNzBBRf3MUhGaN0ZmLhk5QSLIZjsF6MLhEOMsJwgesWz5Ej0PiHFBG00UHPuBSLF8AnRX40mcvpRU2lKNka87N0m5ZW5S9a3eDXnio0= ubuntu@ip-172-31-22-134
