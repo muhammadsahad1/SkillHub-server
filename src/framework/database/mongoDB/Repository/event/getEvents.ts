@@ -11,23 +11,11 @@ export const getEvents = async (
 ): Promise<IEvent[]> => {
   try {
 
-    const statusOrder = {
-      "Upcoming": 1,
-      "Ongoing": 2,
-      "Completed": 3,
-    };
-    
-    // Sort based on the custom status order
     const events = await eventModel
       .find({ approvalStatus: "Approved" })
       .skip((pageNumber - 1) * EVENT_PER_PAGE)
       .limit(EVENT_PER_PAGE)
-      .sort({
-        eventStatus: {
-          $meta: statusOrder // Incorrect; simply sort using the status order
-        },
-        createdAt: -1
-      })
+      .sort({ createdAt: -1 })
       .exec();
       
     const eventsWithBannerImage = await Promise.all(
