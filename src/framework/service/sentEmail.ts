@@ -70,7 +70,7 @@ The SkillHub Team`,
 
         We received a request to reset your password. You can reset your password by clicking the link below:
         
-      https://skill-hub-share-platform.vercel.app/auth/resetpassword?resetToken=${encodeURIComponent(resetToken)}
+      https://skill-hub-share-platform.vercel.app/auth/resetPassword?resetToken=${encodeURIComponent(resetToken)}
         
         If you did not request this change, you can safely ignore this email. The link will expire in 24 hours for security reasons.
         
