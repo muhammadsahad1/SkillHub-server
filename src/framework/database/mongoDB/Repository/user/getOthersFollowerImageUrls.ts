@@ -74,7 +74,7 @@ export const getOthersFollowersImageUrls = async (
         };
       })
     );
-    
+
     return followersWithImages.filter((item) => item !== null);
   } catch (error) {
     console.error("Error updating profile:", error);

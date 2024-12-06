@@ -12,7 +12,7 @@ export const getChat = async (
   conversationModel: typeof ConversationModel
 ): Promise<any | void> => {
   try {
-    console.log("userTOchjat ==>", userToChatId);
+
 
     const conversation = await conversationModel
       .findOne({

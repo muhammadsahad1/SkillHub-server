@@ -34,7 +34,7 @@ export class StripeService implements IStripeService {
       ],
       mode: 'payment',
       success_url: `https://skill-hub-share-platform.vercel.app/auth/event/registered/success?session_id={CHECKOUT_SESSION_ID}&event_id=${eventId}&userId=${userId}`,
-      cancel_url: 'https://localhost:5173/auth/event/cancel',
+      cancel_url: 'https://skill-hub-share-platform.vercel.app/auth/event/cancel',
     });
     console.log('sesion ==>',session);
     

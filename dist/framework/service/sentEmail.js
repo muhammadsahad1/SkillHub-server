@@ -77,7 +77,7 @@ The SkillHub Team`,
 
         We received a request to reset your password. You can reset your password by clicking the link below:
         
-        https://localhost:5173  /auth/resetpassword?resetToken=${encodeURIComponent(resetToken)}
+        https://skill-hub-share-platform.vercel.app/auth/resetpassword?resetToken=${encodeURIComponent(resetToken)}
         
         If you did not request this change, you can safely ignore this email. The link will expire in 24 hours for security reasons.
         
@@ -85,7 +85,7 @@ The SkillHub Team`,
         The SkillHub Team`
                     };
                     yield transpoter.sendMail(mailOptions);
-                    console.log(`url =>",http://localhost:5173/auth/resetpassword?resetToken=${encodeURIComponent(resetToken)}`);
+                    
                 }
                 catch (error) {
                     console.log("ERROR in sending mail", error);

@@ -19,10 +19,10 @@ const messageSchema = new mongoose.Schema<Message>(
     media: {
       type: String,
     },
-    readBy : [
+    readBy: [
       {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
       }
     ]
   },

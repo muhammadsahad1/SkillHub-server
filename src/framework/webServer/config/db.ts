@@ -9,7 +9,7 @@ if (!mongoURL) {
   console.error('MongoDB URL is not defined. Check your .env file.');
   process.exit(1);
 }
-
+  
 const connectDB = async () => {
   try {
     await mongoose.connect(mongoURL);

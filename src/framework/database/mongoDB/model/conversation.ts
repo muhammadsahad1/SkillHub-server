@@ -16,7 +16,7 @@ const conversationSchema = new mongoose.Schema<Iconversation>(
       },
     ],
     lastMessage: {
-      type: mongoose.Types.ObjectId, // Single ObjectId
+      type: mongoose.Types.ObjectId,
       ref: "Message",
     },
   },
