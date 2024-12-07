@@ -5,10 +5,14 @@ import http from "http";
 const initializeSocket = (server: http.Server) => {
   const io = new Server(server, {
     cors: {
-      origin: "https://skill-hub-share-platform.vercel.app",
+      origin: [
+        "https://skill-hub-share-platform.vercel.app",
+        "https://skillhubsocial.justingeorge.site" // Add your backend domain if needed
+      ],
       methods: ["GET", "POST", "PUT"],
       credentials: true,
-    },
+      allowedHeaders: ["*"] // This can help with broader CORS permissions
+    }
   });
 
   io.on("connection", (socket) => {
