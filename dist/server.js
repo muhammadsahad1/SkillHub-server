@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const http_1 = __importDefault(require("http"));
 const app_1 = __importDefault(require("./framework/webServer/config/app"));
 const socketIO_1 = __importDefault(require("./framework/service/socketIO"));
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT;
 const server = http_1.default.createServer(app_1.default);
 (0, socketIO_1.default)(server);
 server.listen(PORT, () => {

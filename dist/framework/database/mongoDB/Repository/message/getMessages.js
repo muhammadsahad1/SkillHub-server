@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getChat = void 0;
 const getChat = (userToChatId, senderId, userModels, s3, conversationModel) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("userTOchjat ==>", userToChatId);
         const conversation = yield conversationModel
             .findOne({
             participants: { $all: [senderId, userToChatId] },

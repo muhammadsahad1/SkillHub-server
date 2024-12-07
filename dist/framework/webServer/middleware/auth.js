@@ -34,7 +34,7 @@ const isAuthenticate = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         if (!user) {
             return res.status(401).json({ message: "User not found" });
         }
-        req.user = { id: user.id };
+        req.user = { id: user._id };
         // Attach user to request
         return next();
     }

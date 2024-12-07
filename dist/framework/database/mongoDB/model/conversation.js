@@ -19,7 +19,7 @@ const conversationSchema = new mongoose_1.default.Schema({
         },
     ],
     lastMessage: {
-        type: mongoose_1.default.Types.ObjectId, // Single ObjectId
+        type: mongoose_1.default.Types.ObjectId,
         ref: "Message",
     },
 }, { timestamps: true });

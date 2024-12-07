@@ -17,7 +17,7 @@ const getEvents = (pageNumber, eventModel, s3) => __awaiter(void 0, void 0, void
             .find({ approvalStatus: "Approved" })
             .skip((pageNumber - 1) * EVENT_PER_PAGE)
             .limit(EVENT_PER_PAGE)
-            .sort({ date: 1, createdAt: -1 })
+            .sort({ createdAt: -1 })
             .exec();
         const eventsWithBannerImage = yield Promise.all(events.map((event) => __awaiter(void 0, void 0, void 0, function* () {
             const bannerImageUrl = yield s3.getObjectUrl({

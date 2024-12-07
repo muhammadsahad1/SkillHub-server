@@ -14,10 +14,14 @@ const socket_io_1 = require("socket.io");
 const initializeSocket = (server) => {
     const io = new socket_io_1.Server(server, {
         cors: {
-            origin: "https://skill-hub-share-platform.vercel.app",
+            origin: [
+                "https://skill-hub-share-platform.vercel.app",
+                "https://skillhubsocial.justingeorge.site" // Add your backend domain if needed
+            ],
             methods: ["GET", "POST", "PUT"],
             credentials: true,
-        },
+            allowedHeaders: ["*"] // This can help with broader CORS permissions
+        }
     });
     io.on("connection", (socket) => {
         console.log("Server con nected with socket ID:", socket.id);

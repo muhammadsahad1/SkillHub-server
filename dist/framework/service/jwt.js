@@ -24,7 +24,6 @@ class JWTtoken {
     }
     createAccessAndRefreshToken(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("token fn invoked admin id =>", id);
             const Payload = { id };
             const accessToken = yield jsonwebtoken_1.default.sign(Payload, process.env.JWT_ACCESS_KEY, {
                 expiresIn: "5h",
