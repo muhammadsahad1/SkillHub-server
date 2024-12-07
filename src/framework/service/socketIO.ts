@@ -5,7 +5,7 @@ import http from "http";
 const initializeSocket = (server: http.Server) => {
   const io = new Server(server, {
     cors: {
-      origin: "https://skill-hub-share-platform.vercel.app",
+      origin: "*",
       methods: ["GET", "POST", "PUT"],
       credentials: true,
     },
