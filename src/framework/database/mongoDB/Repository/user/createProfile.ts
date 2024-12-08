@@ -11,6 +11,7 @@ export const createProfile = async (
   userModels: typeof userModel
 ): Promise<Iuser | undefined | any> => {
   try {
+    
     let imageName = "";
 
     if (file) {
@@ -60,7 +61,7 @@ export const createProfile = async (
           profileImage: updatedUser.profileImage,
         },
       });
-      
+
     } else {
       console.log("Elasticsearch server is not reachable. Skipping indexing.");
     }
