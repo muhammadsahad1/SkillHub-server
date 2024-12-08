@@ -60,6 +60,7 @@ export const createProfile = async (
           profileImage: updatedUser.profileImage,
         },
       });
+      
     } else {
       console.log("Elasticsearch server is not reachable. Skipping indexing.");
     }
