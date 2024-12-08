@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventController = void 0;
 const errorMiddleware_1 = require("../../usecases/middlewares/errorMiddleware");
+const httpStatus_1 = __importDefault(require("../status/httpStatus"));
 // [=============================== Event Controller =============================]
 class EventController {
     constructor(eventUseCase) {
@@ -25,7 +29,7 @@ class EventController {
                 const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
                 const result = yield ((_b = this.eventUseCase) === null || _b === void 0 ? void 0 : _b.createEvent(userId, data, req.file, next));
                 if (result) {
-                    res.status(200).json(result);
+                    res.status(httpStatus_1.default.CREATED).json(result); // Use CREATED status
                 }
             }
             catch (error) {
@@ -33,7 +37,7 @@ class EventController {
             }
         });
     }
-    // fetching the all events
+    // fetching all events
     getEvents(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -41,7 +45,7 @@ class EventController {
                 const pageNumber = parseInt(req.query.pageNumber, 10);
                 const result = yield this.eventUseCase.getEvents(pageNumber, next);
                 if (result) {
-                    res.status(200).json(result);
+                    res.status(httpStatus_1.default.OK).json(result);
                 }
             }
             catch (error) {
@@ -55,7 +59,7 @@ class EventController {
                 const eventId = req.query.eventId;
                 const result = yield this.eventUseCase.eventDetails(eventId, next);
                 if (result) {
-                    res.status(200).json(result);
+                    res.status(httpStatus_1.default.OK).json(result);
                 }
             }
             catch (error) {
@@ -69,7 +73,7 @@ class EventController {
                 const { registerData } = req.body;
                 const result = yield this.eventUseCase.eventRegister(registerData, next);
                 if (result) {
-                    res.status(200).json(result);
+                    res.status(httpStatus_1.default.OK).json(result);
                 }
             }
             catch (error) {
@@ -83,7 +87,7 @@ class EventController {
                 const { eventId } = req.query;
                 const result = yield this.eventUseCase.getEvent(eventId, next);
                 if (result) {
-                    res.status(200).json(result);
+                    res.status(httpStatus_1.default.OK).json(result);
                 }
             }
             catch (error) {
@@ -95,11 +99,9 @@ class EventController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { eventPrice, eventId, userId } = req.body;
-                console.log("bodyy ==>", req.body);
                 const result = yield this.eventUseCase.makePayment(eventPrice, eventId, userId, next);
-                console.log("resu ==>", result);
                 if (result) {
-                    res.status(200).json(result);
+                    res.status(httpStatus_1.default.OK).json(result);
                 }
             }
             catch (error) {
@@ -112,7 +114,6 @@ class EventController {
             const { eventId, status } = req.body;
             const result = yield this.eventUseCase.changeStatus(eventId, status, next);
             if (result) {
-                res.status(200).json(status);
             }
         });
     }

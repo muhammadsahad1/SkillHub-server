@@ -28,12 +28,13 @@ const isAdminAuthenticate = (req, res, next) => __awaiter(void 0, void 0, void 0
     try {
         // Verify access token
         const decoded = yield jwt.verifyJWT(accessToken, process.env.JWT_ACCESS_KEY);
+        console.log("decoded admin ==>", decoded, "ide ==>", decoded.id);
         const user = yield userModel_1.default.findById(decoded.id).select("-password");
         console.log("user ==> in admin ->", user);
         if (!user) {
             return res.status(401).json({ message: "User not found" });
         }
-        req.user = { id: user.id }; // Attach user to request
+        req.user = { id: user._id };
         return next();
     }
     catch (error) {
@@ -57,7 +58,7 @@ const isAdminAuthenticate = (req, res, next) => __awaiter(void 0, void 0, void 0
                     if (!user) {
                         return res.status(401).json({ message: "User not found" });
                     }
-                    req.user = { id: user.id };
+                    req.user = { id: user._id };
                     return next();
                 }
                 catch (refreshError) {

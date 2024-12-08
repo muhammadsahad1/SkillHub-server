@@ -5,6 +5,7 @@ const injection_1 = require("../../webServer/injections/injection");
 const adminAuth_1 = require("../middleware/adminAuth");
 // >>>>>>>>>>>>>>>>>>>>>>>>>> Admin Route <<<<<<<<<<<<<<<<<<<<<<<<<
 function adminRoute(route) {
+    // checking here
     route.post("/adminLogin", (req, res, next) => injection_1.adminController.adminLogin(req, res, next));
     route.get("/users", adminAuth_1.isAdminAuthenticate, (req, res, next) => injection_1.adminController.getUsers(req, res, next));
     route.post("/blockUser", adminAuth_1.isAdminAuthenticate, (req, res, next) => injection_1.adminController.blockUser(req, res, next));
