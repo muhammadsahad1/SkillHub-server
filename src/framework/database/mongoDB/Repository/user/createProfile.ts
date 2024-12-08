@@ -11,9 +11,8 @@ export const createProfile = async (
   userModels: typeof userModel
 ): Promise<Iuser | undefined | any> => {
   try {
-    
-    let imageName = "";
 
+    let imageName = "";
     if (file) {
       const buffer = file.buffer;
       const mimetype = file.mimetype;

@@ -96,6 +96,8 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm run build
+      - name: Install PM2
+        run: npm install -g pm2  # Ensure PM2 is installed on the server
       - name: Deploy to EC2
         env:
           PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
