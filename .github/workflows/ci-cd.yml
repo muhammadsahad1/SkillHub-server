@@ -114,5 +114,6 @@ jobs:
             fi &&
             npm ci &&
             npm run build &&
+            npm install -g pm2 &&  # Ensure PM2 is installed on the EC2 instance
             pm2 restart all --update-env
           '
