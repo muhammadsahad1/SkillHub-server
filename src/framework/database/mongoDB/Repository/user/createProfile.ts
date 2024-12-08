@@ -1,7 +1,7 @@
 import { Iuser } from "../../../../../commonEntities/entities/user.js";
 import userModel from "../../model/userModel.js";
 import { IS3Operations, PutObjectParams } from "../../../../service/s3Bucket.js";
-import client from "../../../../elasticsearch/elasticsearchClient.js";
+import client, { checkElasticsearchConnection } from "../../../../elasticsearch/elasticsearchClient.js";
 
 // Creatin profile with upload image to s3bucket
 export const createProfile = async (
@@ -45,10 +45,11 @@ export const createProfile = async (
       { new: true }
     );
 
-    
     // Index or update user in Elasticsearch
-    if (updatedUser) {
-     await client.index({
+    const isConnected = await checkElasticsearchConnection()
+
+    if (isConnected && updatedUser) {
+      await client.index({
         index: "users",
         id: updatedUser._id.toString(),
         document: {
@@ -59,11 +60,13 @@ export const createProfile = async (
           profileImage: updatedUser.profileImage,
         },
       });
+    } else {
+      console.log("Elasticsearch server is not reachable. Skipping indexing.");
     }
 
     return updatedUser;
-  } catch (error) {
-    console.error("Error updating profile:", error);  
-    return undefined; // Handle error as needed
+  } catch (error: any) {
+    console.error("Error updating profile:", error);
+    throw new Error(`Error updating profile: ${error.message}`);
   }
 };

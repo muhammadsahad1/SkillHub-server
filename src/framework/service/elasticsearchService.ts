@@ -1,6 +1,7 @@
-import client from "../elasticsearch/elasticsearchClient";
+import client, { checkElasticsearchConnection } from "../elasticsearch/elasticsearchClient";
 import { Iuser } from "../../commonEntities/entities/user";
 import { IS3Operations } from "./s3Bucket";
+
 
 interface User {
   _id: string;
@@ -19,6 +20,13 @@ export interface IElasticsearchService {
 export const indexUser: IElasticsearchService["indexUser"] = async (
   user: User
 ) => {
+  // Check if Elasticsearch is connected
+  const isConnected = await checkElasticsearchConnection();
+  if (!isConnected) {
+    console.log("Skipping Elasticsearch indexing as server is not reachable");
+    return;
+  }
+
   try {
     const response = await client.index({
       index: "users",
@@ -35,6 +43,13 @@ export const searchUsers: IElasticsearchService["searchUsers"] = async (
   query: string,
   s3: IS3Operations
 ): Promise<User[]> => {
+  // Check if Elasticsearch is connected
+  const isConnected = await checkElasticsearchConnection();
+  if (!isConnected) {
+    console.log("Skipping Elasticsearch search as server is not reachable");
+    return [];
+  }
+
   try {
     const result = await client.search({
       index: "users",
@@ -63,12 +78,12 @@ export const searchUsers: IElasticsearchService["searchUsers"] = async (
         const profileImageName = hit._source?.profileImage;
         const profileImageUrl = profileImageName
           ? await s3.getObjectUrl({
-              bucket: process.env.C3_BUCKET_NAME,
-              key: profileImageName,
-            })
+            bucket: process.env.C3_BUCKET_NAME,
+            key: profileImageName,
+          })
           : undefined;
 
-  
+
         const user: User = {
           _id: hit._source?.id.toString(),
           name: hit._source?.name,
